@@ -1,7 +1,7 @@
 ---
 name: User Story Template
 about: US -
-title: US- Nb description
+title: NB -US- Description
 labels: User Story
 assignees: ''
 
@@ -25,7 +25,7 @@ As a _, I want to _ so that _ .
 
 ---
 
-##TASK BREAKDOWN
+## TASK BREAKDOWN
 
 - [ ] task2 Reference_to_Issue
 - [ ] task3 Reference_to_Issue
