@@ -1,7 +1,7 @@
 ---
 name: Acceptance Test Template
 about: 'AT - User_Story_Nb '
-title: 'AT - '
+title: 'NB -AT- Title '
 labels: AT
 assignees: ''
 
