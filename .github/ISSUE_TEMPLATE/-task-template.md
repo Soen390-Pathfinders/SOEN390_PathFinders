@@ -1,7 +1,7 @@
 ---
 name: " TASK Template"
 about: TASK template
-title: 'TASK - '
+title: 'NB -TSK- Title '
 labels: TASK
 assignees: ''
 
