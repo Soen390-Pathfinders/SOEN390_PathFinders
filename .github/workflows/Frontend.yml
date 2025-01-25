@@ -2,12 +2,14 @@ name: Frontend CI
 
 on:
   push:
-  #This CI/CD pipleine runs on the Frontend branch
+  #This CI/CD pipleine runs on the Frontend branch and all the frontend branches
     branches:
-      - frontend/main
+      - frontend
+      - frontend/*
   pull_request:
     branches:
-      - frontend/main
+      - frontend
+      - frontend/*
 
 jobs:
   build-and-test:
