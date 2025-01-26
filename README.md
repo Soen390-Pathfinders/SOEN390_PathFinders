@@ -27,7 +27,12 @@ This project aims to simplify campus navigation, reduce confusion for newcomers,
 
 ## Installation
 
-TBD
+### Prerequisites
+Before you can run the project, make sure you have installed **Docker** and all required dependencies
+
+### Step 1: Clone the Repository 
+```bash
+git clone https://github.com/your-username/your-repo.git
 
 ---
 
