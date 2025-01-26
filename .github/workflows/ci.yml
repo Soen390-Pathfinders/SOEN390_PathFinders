@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - Marc # Run on push to the 'Marc' branch
   pull_request:
     branches:
       - main # Run on pull request to the main branch
