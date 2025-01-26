@@ -33,8 +33,21 @@ Before you can run the project, make sure you have installed **Docker** and all 
 ### Step 1: Clone the Repository 
 You can use the following command to clone the repo:
 ```bash
-git clone 
+git clone https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025.git
 ```
+
+### Step 2: Run the Backend 
+Once Docker is launched on your device, type the following command in the project's root directory:
+```bash
+docker compose up --build
+```
+
+### Step 3: Start the Frontend
+Navigate to the frontend folder and type the following command:
+```bash
+npm start
+```
+The final step should launch the app on a mobile device emulator.
 
 ---
 
