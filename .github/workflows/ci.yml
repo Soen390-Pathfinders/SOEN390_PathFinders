@@ -54,6 +54,7 @@ jobs:
 
       - name: Install Frontend Dependencies
         run: |
+          cd frontend # Navigate to the frontend directory
           npm install # Install frontend dependencies for React Native (directly on the CI runner)
 
       - name: Run Jest Tests for Frontend
