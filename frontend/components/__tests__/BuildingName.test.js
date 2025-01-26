@@ -10,11 +10,3 @@ test("it renders the welcome text", () => {
   const welcomeText = getByText("Welcome!");
   expect(welcomeText).toBeTruthy();
 });
-
-test("it renders the sdsd text", () => {
-  const { getByText } = render(<HomeScreen />);
-
-  // Check if the text "Welcome!" is rendered
-  const welcomeText = getByText("Weldsdscome!");
-  expect(welcomeText).toBeTruthy();
-});
