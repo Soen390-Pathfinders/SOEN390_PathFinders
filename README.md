@@ -1,5 +1,4 @@
-# Concordia Campus Navigation App
-
+# Concordia Campus Navigation App [![.github/workflows/ci.yml](https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025/actions/workflows/ci.yml/badge.svg)](https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025/actions/workflows/ci.yml)
 ## Project Overview
 
 The **Concordia Campus Guide** is a mobile application designed to help Concordia's students, faculty, and visitors navigate through campus buildings and rooms efficiently. Inspired by Google Maps, this app provides a user-friendly interface for locating your current position on campus and finding the shortest path to any desired location.
