@@ -60,7 +60,8 @@ jobs:
       - name: Run Jest Tests for Frontend
         run: |
           cd frontend # Navigate to the frontend directory
-          npm test -- --ci --coverage # Run Jest tests for React Native
+          npm test -- --coverage # Run Jest tests for React Native
+          q
 
       - name: Run Backend Tests
         run: docker compose exec web pytest # Run backend tests (optional, if you're using pytest)
