@@ -59,6 +59,7 @@ jobs:
 
       - name: Run Jest Tests for Frontend
         run: |
+          cd frontend # Navigate to the frontend directory
           npm test -- --coverage # Run Jest tests directly on the CI runner for React Native
 
       - name: Run Backend Tests
