@@ -28,7 +28,7 @@ This project aims to simplify campus navigation, reduce confusion for newcomers,
 ## Installation
 
 ### Prerequisites
-Before you can run the project, make sure you have installed **Docker** and all required dependencies
+Before you can run the project, make sure you have installed **Docker**, PostgreSQL and all required dependencies
 
 ### Step 1: Clone the Repository 
 You can use the following command to clone the repo:
