@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15
+    container_name: db_container
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: campus_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    container_name: backend_container
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgres://admin:password@db:5432/campus_db
+      - DJANGO_SETTINGS_MODULE=backend.settings
+    ports:
+      - "8000:8000"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+volumes:
+  postgres_data:
