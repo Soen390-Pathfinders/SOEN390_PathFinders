@@ -1,6 +1,6 @@
 import pytest
 from django.urls import reverse
-from ..models import Building
+from app.models import Building
 
 
 @pytest.mark.django_db  # This is a marker that tells pytest to use the database for the test
