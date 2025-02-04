@@ -1,4 +1,4 @@
-import MapView,{ Marker } from 'react-native-maps';
+import MapView,{ Marker, Polygon} from 'react-native-maps';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
 import {StyleSheet, Text, View, TextInput } from "react-native";
 
@@ -31,6 +31,18 @@ export default function OutdoorMap(){
           longitudeDelta: 0.0421,
         }}
       >
+        {/*Add polygon to highlight buildings */}
+      {/*   <Polygon coordinates={
+                    [{latitude:45.521805,longitude:-73.555084},
+                     {latitude:45.531805,longitude:-73.575084},
+                     {latitude:45.551805,longitude:-73.585084},
+
+                    ]}
+                    fillColor="#27f"
+                    strokeColor="#27f"
+                    strokeWidth={2}
+                    tappable={true}
+                    onPress={()=> console.log("Pressed")} />*/}
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
