@@ -4,9 +4,9 @@ import {StyleSheet, Text, View, TextInput } from "react-native";
 
 
 export default function OutdoorMap(){
-  const api_key = process.env.REACT_APP_MAPS_API_KEY;  // remove this if it ends up not working
+
     //Declare the array of markers
-    const markers = [
+    const concordiaBuildings = [
         {
           id: 1,
           latitude: 45.521805,
@@ -21,7 +21,7 @@ export default function OutdoorMap(){
       <View style={{flex:1}}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        apiKey= api_key //Expo seemes to have problem with his , tbc ///TODO: let the backend supply the api key 
+        apiKey= ' API KEY HERE'
         style={styles.map}
         showsUserLocation={true}
         initialRegion={{
@@ -32,7 +32,7 @@ export default function OutdoorMap(){
         }}
       >
         {/* Render markers */}
-        {markers.map((marker) => (
+        {concordiaBuildings.map((marker) => (
           <Marker
             key={marker.id}
             coordinate={{
