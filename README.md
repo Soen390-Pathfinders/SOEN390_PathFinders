@@ -57,8 +57,3 @@ The final step should launch the app on a mobile device emulator.
 - **Backend Development**: Mathieu Phan, Marchelino Habchi, Zineb Alaoui Aziz, Alexandro Coccimiglio
 
 ---
-- **Team Leader**: Haifa Janoudi
-- **Frontend Development**: Dominique Proulx, Ryan Rebbas, Aman Singh, Hawa-Afnane Said, Hazem Mohamed
-- **Backend Development**: Mathieu Phan, Marchelino Habchi, Zineb Alaoui Aziz, Alexandro Coccimiglio
-
----
