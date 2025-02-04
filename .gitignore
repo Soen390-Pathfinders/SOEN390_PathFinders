@@ -1,3 +1,6 @@
 #Ignore the README
+.env
 README.md
+node_modules/
+
 
