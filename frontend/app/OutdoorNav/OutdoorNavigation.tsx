@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image } from "react-native";
 import OutdoorMap from "../components/maps/OutdoorMap";
 import { StatusBar } from "expo-status-bar";
+import AppLogo from "../components/AppLogo";
 
-export default function HomeScreen() {
+export default function OutdoorNav() {
   return (
     <View style={styles.container}>
       {/* Adding the status bar on top of the screen */}
@@ -10,17 +11,17 @@ export default function HomeScreen() {
         <StatusBar style="dark" />
       </View>
       <View style={styles.iconRow}>
-        <View>
-          {/*Place holder for Hamburger menu*/}
-          <Text>Hamburger</Text>
+        <View style={styles.iconRowView}>
+          <AppLogo />
         </View>
         <View>
-          {/*Place holder for app Title menu*/}
-          <Text style={styles.appTitle}>Campus Pilot Logo</Text>
+          <Text style={(styles.iconRowView, styles.logo)}>Campus Pilot</Text>
         </View>
-        <View>
-          {/*Place holder for Dark Button menu*/}
-          <Text>DarkButton</Text>
+        <View style={styles.iconRowView}>
+          <Image
+            style={styles.brightLogo}
+            source={require("../../assets/images/brightness.png")}
+          />
         </View>
       </View>
 
@@ -51,15 +52,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  brightLogo: {
+    width: 40,
+    height: 40,
+  },
   searchBar: {
     /* position: 'absolute', top: 10, width: '100%' */
-    borderRadius: 10,
+    borderRadius: 30,
     margin: 10,
-    width: "60%",
+    width: "95%",
     color: "#000",
     borderColor: "#666",
-    backgroundColor: "#FFF",
-    borderWidth: 1,
+    backgroundColor: "#EFF2F4",
+    borderWidth: 0,
     flex: 1,
     paddingHorizontal: 10,
     fontSize: 18,
@@ -67,16 +72,26 @@ const styles = StyleSheet.create({
   iconRow: {
     width: "100%",
     flex: 1,
-    borderWidth: 2,
-    borderColor: "red",
-    borderRadius: 10,
+    /*borderRadius: 10,*/
     flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+    alignContent: "space-around",
+    padding: 20,
+  },
+  iconRowView: {
+    flex: 1,
   },
   mapContainer: {
-    flex: 6,
+    flex: 10,
     width: "100%",
-    borderWidth: 2,
-    borderColor: "red",
     borderRadius: 10,
+  },
+  logo: {
+    fontSize: 30,
+    fontWeight: "bold",
+    justifyContent: "space-around",
+    padding: 10,
+    alignItems: "center",
   },
 });
