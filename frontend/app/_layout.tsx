@@ -3,6 +3,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { Image, StyleSheet } from "react-native";
 import AppLogo from "./components/appLogo";
+import CustomDrawerContent from "./components/CustomDrawerContent";
 
 export default function RootLayout() {
   return (
@@ -14,6 +15,7 @@ export default function RootLayout() {
             padding: 10,
           },
         }}
+        drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen
           name="OutdoorNav/OutdoorNavigation"
