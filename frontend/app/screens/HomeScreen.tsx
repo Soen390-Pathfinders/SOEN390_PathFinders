@@ -16,7 +16,7 @@ export default function HomeScreen() {
         </View>
         <View>
           {/*Place holder for app Title menu*/}
-          <Text>Campus Pilot Logo</Text>
+          <Text style={styles.appTitle}>Campus Pilot Logo</Text>
         </View>
         <View>
           {/*Place holder for Dark Button menu*/}
@@ -39,6 +39,10 @@ export default function HomeScreen() {
   /*Styles for the views*/
 }
 const styles = StyleSheet.create({
+  appTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+  },
   container: {
     flex: 1,
     flexDirection: "column",
