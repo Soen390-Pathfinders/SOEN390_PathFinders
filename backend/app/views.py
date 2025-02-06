@@ -22,3 +22,17 @@ def hello(request):
     except Exception as e:
         return JsonResponse({'message': str(e)}, status=500)
 
+def get_building(request, building_name):
+    pass
+
+def create_building(request):
+    pass
+
+def delete_building(request, building_name):
+    pass
+
+def update_building(request, building_name):
+    pass
+
+def get_building_coordinates(request, building_name):
+    pass
