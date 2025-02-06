@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "noImplicitAny": false,
     "strict": true,
     "paths": {
       "@/*": [
@@ -13,5 +14,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/OutdoorNav/CampusMaptsx"  ]
+, "app/OutdoorNav/CampusMaptsx", "app/components/ThemeToggle.tsx", "app/styles.tsx"  ]
 }

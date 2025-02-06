@@ -6,46 +6,50 @@ import { Drawer } from "expo-router/drawer";
 import { Image, StyleSheet } from "react-native";
 import CustomDrawerContent from "./components/CustomDrawerContent";
 import CampusMap from "./OutdoorNav/CampusMap";
+import { ThemeProvider } from "./components/context/ThemeContext";
+import { getStyles } from "./styles";
 
 export default function RootLayout() {
+  /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Drawer
-        screenOptions={{
-          drawerLabelStyle: {
-            marginLeft: -10,
-            padding: 10,
-          },
-        }}
-        drawerContent={CustomDrawerContent}
-      >
-        <Drawer.Screen
-          name="OutdoorNav/CampusMap"
-          options={{
-            drawerLabel: "Campus Map",
-            title: "Campus Map",
-            drawerIcon: () => (
-              <Image
-                style={styles.navLogo}
-                source={require("../assets/images/map.png")}
-              />
-            ),
+    <ThemeProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <Drawer
+          screenOptions={{
+            drawerLabelStyle: {
+              marginLeft: -10,
+              padding: 10,
+            },
           }}
-        />
-        <Drawer.Screen
-          name="index" /*Must be changed to another screen*/
-          options={{
-            drawerLabel: "Outdoor Directions",
-            title: "Outdoor Navigations",
-            drawerIcon: () => (
-              <Image
-                style={styles.navLogo}
-                source={require("../assets/images/sign-post.png")}
-              />
-            ),
-          }}
-        />
-        {/*Add the next menu items here when the screen is created
+          drawerContent={CustomDrawerContent}
+        >
+          <Drawer.Screen
+            name="OutdoorNav/CampusMap"
+            options={{
+              drawerLabel: "Campus Map",
+              title: "Campus Map",
+              drawerIcon: () => (
+                <Image
+                  style={styles.navLogo}
+                  source={require("../assets/images/map.png")}
+                />
+              ),
+            }}
+          />
+          <Drawer.Screen
+            name="index" /*Must be changed to another screen*/
+            options={{
+              drawerLabel: "Outdoor Directions",
+              title: "Outdoor Navigations",
+              drawerIcon: () => (
+                <Image
+                  style={styles.navLogo}
+                  source={require("../assets/images/sign-post.png")}
+                />
+              ),
+            }}
+          />
+          {/*Add the next menu items here when the screen is created
         <Drawer.Screen
           name="nameOfScreen"
           options={{
@@ -99,8 +103,9 @@ export default function RootLayout() {
           }}
         />
         */}
-      </Drawer>
-    </GestureHandlerRootView>
+        </Drawer>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 }
 const styles = StyleSheet.create({

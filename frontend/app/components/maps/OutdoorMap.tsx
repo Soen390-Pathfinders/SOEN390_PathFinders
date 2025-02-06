@@ -20,7 +20,7 @@ export default function OutdoorMap() {
     <View style={{ flex: 1 }}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        /* apiKey=" API KEY HERE"*/
+        /* apiKey=" API KEY HERE"*/ //GOOGLE API KEY GOES HERE
         style={styles.map}
         showsUserLocation={true}
         initialRegion={{
@@ -30,7 +30,8 @@ export default function OutdoorMap() {
           longitudeDelta: 0.0421,
         }}
       >
-        {/*Add polygon to highlight buildings */}
+        {/*Add polygon to highlight buildings //TODO: fetch the coordinate from backend*/}
+
         <Polygon
           coordinates={[
             { latitude: 45.521805, longitude: -73.555084 },

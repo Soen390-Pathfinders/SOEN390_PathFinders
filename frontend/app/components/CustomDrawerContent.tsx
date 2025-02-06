@@ -9,6 +9,7 @@ import {
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import Fontisto from "@expo/vector-icons/Fontisto";
+import AppLogo from "./AppLogo";
 
 export default function CustomDrawerContent(props: any) {
   const navigation = useNavigation();
@@ -20,10 +21,16 @@ export default function CustomDrawerContent(props: any) {
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props}>
         <View style={{ padding: 20, alignContent: "center" }}>
+          {/* Adding the close icon and function to close the menu drawer*/}
           <Pressable onPress={closeDrawer}>
             <Fontisto name="close" size={24} color="black" />
           </Pressable>
+          <View style={{ paddingTop: 20, paddingBottom: 10 }}>
+            <AppLogo />
+            <Text>Campus Pilot</Text>
+          </View>
         </View>
+        {/* The navigation drawer list */}
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
     </View>
