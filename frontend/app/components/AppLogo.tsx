@@ -1,3 +1,5 @@
+//App logo component
+//Renders the Campus Pilot logo
 import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
 

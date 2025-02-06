@@ -1,9 +1,10 @@
+//Campus Map Screen
 import { StyleSheet, Text, View, TextInput, Image } from "react-native";
 import OutdoorMap from "../components/maps/OutdoorMap";
 import { StatusBar } from "expo-status-bar";
 import AppLogo from "../components/AppLogo";
 
-export default function OutdoorNav() {
+export default function CampusMap() {
   return (
     <View style={styles.container}>
       {/* Adding the status bar on top of the screen */}

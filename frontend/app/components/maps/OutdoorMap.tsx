@@ -1,3 +1,4 @@
+//Renders the google map through react-native-maps api
 import MapView, { Marker, Polygon } from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Text, View, TextInput } from "react-native";

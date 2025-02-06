@@ -1,3 +1,5 @@
+//Navigation component
+//This component allows use to add custom components to the navigation drawer(hamburger menu)
 import { View, Text, Pressable, Image } from "react-native";
 import React from "react";
 import {

@@ -1,9 +1,11 @@
+//Root layout and
+//  top navigation drawer(For the hamburger menu)
 import React from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Drawer } from "expo-router/drawer";
 import { Image, StyleSheet } from "react-native";
-import AppLogo from "./components/appLogo";
 import CustomDrawerContent from "./components/CustomDrawerContent";
+import CampusMap from "./OutdoorNav/CampusMap";
 
 export default function RootLayout() {
   return (
@@ -18,7 +20,7 @@ export default function RootLayout() {
         drawerContent={CustomDrawerContent}
       >
         <Drawer.Screen
-          name="OutdoorNav/OutdoorNavigation"
+          name="OutdoorNav/CampusMap"
           options={{
             drawerLabel: "Campus Map",
             title: "Campus Map",
