@@ -6,7 +6,6 @@ import json
 # Define the URL route for your view
 urlpatterns = [
     
-
     #Building
     path('building_get/', building.building_list, name = "building_list"),
     path('building_get/<str:building_name>/', building.building_get, name = "building_get"),
@@ -43,5 +42,6 @@ urlpatterns = [
     path('user_create/', user.user_create, name='user_create'),
     path('user_delete/<int:pk>/', user.user_delete, name='user_delete'),
     path('user_update/<int:pk>/', user.user_update, name='user_update'),
+    
    # path('get_building_coordinates/<str:building_name>/', views.get_building_coordinates, name="get_building_coordinates"),
 ]
