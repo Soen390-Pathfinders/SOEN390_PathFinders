@@ -5,12 +5,12 @@ from django.core import serializers
 import json
 
 
-def get_building(request, name):
+def building_get(request, name):
     building = get_object_or_404(Building, name=name)
     building_data = serializers.serialize("json", [building])
     return JsonResponse(building_data, safe=False)
 
-def create_building(request):
+def building_create(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -19,3 +19,14 @@ def create_building(request):
         
     else:
         return JsonResponse({"error" : "only post requests allowed for create_building"}, status=405)
+    
+def building_delete(request, building_name):
+    pass
+
+def building_update(request, building_name):
+    pass
+
+
+
+def building_get_coordinates(request, building_name):
+    pass
