@@ -1,9 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { useContext } from "react";
-import ThemeContext from "./context/ThemeContext";
-import { getStyles } from "../styles";
-import useTheme from "../hooks/useTheme";
+import ThemeContext from "../context/ThemeContext";
+import { getStyles } from "../../styles";
+import useTheme from "../../hooks/useTheme";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme(); // Use the custom hook
@@ -23,8 +23,8 @@ export default function ThemeToggle() {
             style={{ height: 40, width: 40 }}
             source={
               theme === "dark"
-                ? require("../../assets/images/brightness.png")
-                : require("../../assets/images/sleep-mode.png")
+                ? require("../../../assets/images/brightness.png")
+                : require("../../../assets/images/sleep-mode.png")
             }
             tintColor={theme === "dark" ? "#000" : "#fff"} // Invert the color based on theme
           />

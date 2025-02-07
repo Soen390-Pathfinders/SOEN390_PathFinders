@@ -1,20 +1,21 @@
 //Root layout and
-//  top navigation drawer(For the hamburger menu)
+// Top navigation drawer
 import React from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { Drawer } from "expo-router/drawer";
-import { Image, StyleSheet } from "react-native";
-import CustomDrawerContent from "./components/CustomDrawerContent";
-import CampusMap from "./OutdoorNav/CampusMap";
 import { ThemeProvider } from "./components/context/ThemeContext";
-import { getStyles } from "./styles";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { NavigationContainer } from "@react-navigation/native";
+import CustomDrawerContent from "./drawer/CustomDrawerContent";
+import { Image, StyleSheet } from "react-native";
+import CampusMap from "./screens/CampusMap";
+const Drawer = createDrawerNavigator();
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
   return (
     <ThemeProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <Drawer
+        <Drawer.Navigator
           screenOptions={{
             drawerLabelStyle: {
               marginLeft: -10,
@@ -24,7 +25,8 @@ export default function RootLayout() {
           drawerContent={CustomDrawerContent}
         >
           <Drawer.Screen
-            name="OutdoorNav/CampusMap"
+            name="(screens)/CampusMap"
+            component={CampusMap}
             options={{
               drawerLabel: "Campus Map",
               title: "Campus Map",
@@ -38,9 +40,10 @@ export default function RootLayout() {
           />
           <Drawer.Screen
             name="index" /*Must be changed to another screen*/
+            component={CampusMap}
             options={{
               drawerLabel: "Outdoor Directions",
-              title: "Outdoor Navigations",
+              title: "Outdoor Directions",
               drawerIcon: () => (
                 <Image
                   style={styles.navLogo}
@@ -49,61 +52,7 @@ export default function RootLayout() {
               ),
             }}
           />
-          {/*Add the next menu items here when the screen is created
-        <Drawer.Screen
-          name="nameOfScreen"
-          options={{
-            drawerLabel: "Directions to next class",
-            title: "DirectionClass ",
-            drawerIcon: () => (
-              <Image
-                style={styles.navLogo}
-                source={require("../assets/images/class.png")}
-              />
-            ),
-          }}
-        />
-        Drawer.Screen
-          name="nameOfScreen"
-          options={{
-            drawerLabel: "Indoor Directions",
-            title: "Indoor Directions",
-            drawerIcon: () => (
-              <Image
-                style={styles.navLogo}
-                source={require("../assets/images/direction.png")}
-              />
-            ),
-          }}
-        />
-         Drawer.Screen
-          name="nameOfScreen"
-          options={{
-            drawerLabel: "Point of interest",
-            title: "Point of interest",
-            drawerIcon: () => (
-              <Image
-                style={styles.navLogo}
-                source={require("../assets/images/point-of-interest.png")}
-              />
-            ),
-          }}
-        />
-         Drawer.Screen
-          name="nameOfScreen"
-          options={{
-            drawerLabel: "Smart Planner",
-            title: "Smart planner",
-            drawerIcon: () => (
-              <Image
-                style={styles.navLogo}
-                source={require("../assets/images/planner.png")}
-              />
-            ),
-          }}
-        />
-        */}
-        </Drawer>
+        </Drawer.Navigator>
       </GestureHandlerRootView>
     </ThemeProvider>
   );

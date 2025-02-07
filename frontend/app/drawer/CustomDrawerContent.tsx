@@ -9,7 +9,7 @@ import {
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import Fontisto from "@expo/vector-icons/Fontisto";
-import AppLogo from "./AppLogo";
+import AppLogo from "../components/ui/AppLogo";
 
 export default function CustomDrawerContent(props: any) {
   const navigation = useNavigation();

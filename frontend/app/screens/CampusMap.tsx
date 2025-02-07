@@ -1,10 +1,11 @@
 //Campus Map Screen
 import { StyleSheet, Text, View, TextInput, Image } from "react-native";
+
 import OutdoorMap from "../components/maps/OutdoorMap";
 import { StatusBar } from "expo-status-bar";
-import AppLogo from "../components/AppLogo";
+import AppLogo from "../components/ui/AppLogo";
 import { ThemeProvider } from "../components/context/ThemeContext";
-import ThemeToggle from "../components/ThemeToggle";
+import ThemeToggle from "../components/ui/ThemeToggle";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 
