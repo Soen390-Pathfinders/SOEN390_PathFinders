@@ -1,17 +1,30 @@
 //Root layout and
-// Top navigation drawer
-import React from "react";
-import { ThemeProvider } from "./components/context/ThemeContext";
+//  top navigation drawer(For the hamburger menu)
+import React, { useState, useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 import CustomDrawerContent from "./drawer/CustomDrawerContent";
 import { Image, StyleSheet } from "react-native";
-import CampusMap from "./screens/CampusMap";
 const Drawer = createDrawerNavigator();
+import LoadingScreen from "./screens/LoadingScreen";
+import { ThemeProvider } from "./components/context/ThemeContext";
+import CampusMap from "./screens/CampusMap";
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen onFinish={() => setIsLoading(false)} />;
+  }
+
   return (
     <ThemeProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
