@@ -1,5 +1,6 @@
 //Root layout and
 //  top navigation drawer(For the hamburger menu)
+import 'react-native-get-random-values';
 import React, { useState, useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -10,6 +11,7 @@ const Drawer = createDrawerNavigator();
 import LoadingScreen from "./screens/LoadingScreen";
 import { ThemeProvider } from "./components/context/ThemeContext";
 import CampusMap from "./screens/CampusMap";
+import OutdoorDirections from "./screens/OutdoorDirections";
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
@@ -52,8 +54,8 @@ export default function RootLayout() {
             }}
           />
           <Drawer.Screen
-            name="index" /*Must be changed to another screen*/
-            component={CampusMap}
+            name="index" 
+            component={OutdoorDirections}
             options={{
               drawerLabel: "Outdoor Directions",
               title: "Outdoor Directions",

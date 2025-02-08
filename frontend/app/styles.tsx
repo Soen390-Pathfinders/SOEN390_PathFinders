@@ -34,6 +34,11 @@ export const getStyles = (theme) =>
       width: 40,
       height: 40,
     },
+
+    placeholderText: {
+      color: '#666',
+      fontSize: 16,
+    },
     searchBar: {
       /* position: 'absolute', top: 10, width: '100%' */
       borderRadius: 30,
