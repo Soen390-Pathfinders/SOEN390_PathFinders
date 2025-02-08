@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.core import serializers
 import json
 
+def building_list(request): 
+    pass
 
 def building_get(request, name):
     building = get_object_or_404(Building, name=name)
