@@ -7,7 +7,7 @@ import json
 urlpatterns = [
     
     #Building
-    path('building_get/', building.building_list, name = "building_list"),
+    path('building/', building.building_list, name = "building_list"),
     path('building_get/<str:building_name>/', building.building_get, name = "building_get"),
     path('building_create/', building.building_create, name="building_create"),
     path('building_delete/<str:building_name>/', building.building_delete, name="building_delete"),

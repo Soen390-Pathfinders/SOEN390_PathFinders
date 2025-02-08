@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.core import serializers
 import json
 
-def building_list(request): 
+def building_list(request):
     pass
 
 def building_get(request, name):
@@ -27,8 +27,6 @@ def building_delete(request, building_name):
 
 def building_update(request, building_name):
     pass
-
-
 
 def building_get_coordinates(request, building_name):
     pass
