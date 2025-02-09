@@ -5,6 +5,8 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
 import outlines from "./building_outlines";
+import geolib from "geolib";
+import { useEffect } from "react";
 
 export default function OutdoorMap() {
   let origin = { latitude: 45.521805, longitude: -73.555084 };
@@ -41,17 +43,22 @@ export default function OutdoorMap() {
         {/* Render multiple polygons */}
         {outlines.map((outline) => (
           <Polygon
-          key={outline.id}
-          coordinates={outline.coordinates}
-          fillColor={outline.campus === "SGW" 
-            ? "rgba(145, 35, 55, 0.57)"  // Red for SGW
-            : "rgba(0, 0, 255, 0.57)"}   // Blue for LOY
-          strokeColor={outline.campus === "SGW"
-            ? "rgba(145, 35, 55, 0.99)"  
-            : "rgba(0, 0, 255, 0.99)"}   
-          strokeWidth={2}
+            key={outline.id}
+            coordinates={outline.coordinates}
+            fillColor={
+              outline.campus === "SGW"
+                ? "rgba(145, 35, 55, 0.57)" // Red for SGW
+                : "rgba(0, 0, 255, 0.57)"
+            } // Blue for LOY
+            strokeColor={
+              outline.campus === "SGW"
+                ? "rgba(145, 35, 55, 0.99)"
+                : "rgba(0, 0, 255, 0.99)"
+            }
+            strokeWidth={2}
           />
         ))}
+
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker

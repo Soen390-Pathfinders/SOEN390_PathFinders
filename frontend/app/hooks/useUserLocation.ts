@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import * as Location from "expo-location";
 import { useLocation } from "../components/context/userLocationContext";
 
-
 const useUserLocation = () => {
   const { updateUserLocation } = useLocation(); //Get the current user location
 
@@ -30,14 +29,23 @@ const useUserLocation = () => {
       }
     };
 
-    getUserLocation(); // Call function
+    getUserLocation(); // Call function on mount
 
     return () => {
       isMounted = false;
     };
   }, []); // Empty dependency array to ensure it runs only once
 
-  return null; // No need to return anything
+  const setLocation = async () => {
+    const userlocation = await Location.getCurrentPositionAsync({}); //Get the current user location
+    console.log(userlocation);
+    const userlatitude = userlocation.coords.latitude;
+    const userlongitude = userlocation.coords.longitude;
+
+    updateUserLocation(userlatitude, userlongitude); //Update the user location
+  };
+
+  return { setLocation }; // Return the setLocation function
 };
 
 export default useUserLocation;
