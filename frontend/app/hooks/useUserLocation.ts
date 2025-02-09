@@ -4,7 +4,7 @@ import * as Location from "expo-location";
 import { useLocation } from "../components/context/userLocationContext";
 
 const useUserLocation = () => {
-  const { updateUserLocation } = useLocation(); //Get the current user location
+  const { updateUserLocation, userLocation } = useLocation(); // Retrieve the user location from context
 
   useEffect(() => {
     let isMounted = true;
@@ -45,7 +45,7 @@ const useUserLocation = () => {
     updateUserLocation(userlatitude, userlongitude); //Update the user location
   };
 
-  return { setLocation }; // Return the setLocation function
+  return { setLocation, userLocation }; // Return the user location along with setLocation function
 };
 
 export default useUserLocation;

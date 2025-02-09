@@ -13,7 +13,7 @@ export default function CampusPilotHeader() {
 
   return (
     /* Adding the status bar on top of the screen */
-    <View style={{ flex: 0.6 }}>
+    <View style={{ flex: 0.5 }}>
       <View>
         <StatusBar style="dark" />
       </View>

@@ -7,10 +7,13 @@ import { GOOGLE_MAPS_APIKEY } from "../../constants";
 import outlines from "./building_outlines";
 import geolib from "geolib";
 import { useEffect } from "react";
+import { useLocation } from "../context/userLocationContext";
+import PolygonRender from "./PolygonRender";
 
 export default function OutdoorMap() {
   let origin = { latitude: 45.521805, longitude: -73.555084 };
   let destination = { latitude: 45.528805, longitude: -73.555084 };
+  const { userLocation } = useLocation(); // Get location from context
 
   //Declare the array of markers
   const concordiaBuildings = [
@@ -38,27 +41,7 @@ export default function OutdoorMap() {
           longitudeDelta: 0.0221,
         }}
       >
-        {/*Add polygon to highlight buildings */}
-
-        {/* Render multiple polygons */}
-        {outlines.map((outline) => (
-          <Polygon
-            key={outline.id}
-            coordinates={outline.coordinates}
-            fillColor={
-              outline.campus === "SGW"
-                ? "rgba(145, 35, 55, 0.57)" // Red for SGW
-                : "rgba(0, 0, 255, 0.57)"
-            } // Blue for LOY
-            strokeColor={
-              outline.campus === "SGW"
-                ? "rgba(145, 35, 55, 0.99)"
-                : "rgba(0, 0, 255, 0.99)"
-            }
-            strokeWidth={2}
-          />
-        ))}
-
+        <PolygonRender />
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
@@ -71,7 +54,6 @@ export default function OutdoorMap() {
             description={marker.description}
           />
         ))}
-
         {/* Render MapViewDirections only if both origin and destination are set */}
         {origin && destination && (
           <MapViewDirections
