@@ -36,7 +36,7 @@ export const getStyles = (theme) =>
     },
 
     placeholderText: {
-      color: '#666',
+      color: "#666",
       fontSize: 16,
     },
     searchBar: {
