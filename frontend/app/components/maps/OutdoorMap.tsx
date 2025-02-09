@@ -2,20 +2,20 @@
 import MapView, { Marker, Polygon } from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Text, View, TextInput } from "react-native";
-import MapViewDirections from 'react-native-maps-directions';
-import { GOOGLE_MAPS_APIKEY } from "../../constants"
+import MapViewDirections from "react-native-maps-directions";
+import { GOOGLE_MAPS_APIKEY } from "../../constants";
+import outlines from "./building_outlines";
 
 export default function OutdoorMap() {
-
-  let origin = {latitude: 45.521805, longitude: -73.555084};
-  let destination = {latitude: 45.528805, longitude: -73.555084};
+  let origin = { latitude: 45.521805, longitude: -73.555084 };
+  let destination = { latitude: 45.528805, longitude: -73.555084 };
 
   //Declare the array of markers
   const concordiaBuildings = [
     {
       id: 1,
-      latitude: 45.521805,
-      longitude: -73.555084,
+      latitude: 45.49745011600138,
+      longitude: -73.57894297258392,
       title: "Hall Building",
       description: "H Building Concordia University",
     },
@@ -30,27 +30,25 @@ export default function OutdoorMap() {
         style={styles.map}
         showsUserLocation={true}
         initialRegion={{
-          latitude: 45.521805,
-          longitude: -73.555084,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitude: 45.49745011600138,
+          longitude: -73.57894297258392,
+          latitudeDelta: 0.0322,
+          longitudeDelta: 0.0221,
         }}
       >
-        {/*Add polygon to highlight buildings //TODO: fetch the coordinate from backend*/}
+        {/*Add polygon to highlight buildings */}
 
-        <Polygon
-          coordinates={[
-            { latitude: 45.521805, longitude: -73.555084 },
-            { latitude: 45.531805, longitude: -73.575084 },
-            { latitude: 45.551805, longitude: -73.585084 },
-          ]}
-          fillColor="#27f"
-          strokeColor="#27f"
-          strokeWidth={2}
-          tappable={true}
-          onPress={() => console.log("Pressed")}
-        />
-
+        {/* Render multiple polygons */}
+        {outlines.map((outline) => (
+          <Polygon
+            key={outline.id}
+            coordinates={outline.coordinates}
+            fillColor="rgba(145, 35, 55, 0.57)"
+            /*fillColor={polygon.color}*/
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+          />
+        ))}
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
@@ -63,7 +61,7 @@ export default function OutdoorMap() {
             description={marker.description}
           />
         ))}
-      
+
         {/* Render MapViewDirections only if both origin and destination are set */}
         {origin && destination && (
           <MapViewDirections
