@@ -26,7 +26,7 @@ export default function OutdoorMap() {
     <View style={{ flex: 1 }}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        /* apiKey=" API KEY HERE"*/ //GOOGLE API KEY GOES HERE
+        /*apikey={GOOGLE_MAPS_APIKEY}*/
         style={styles.map}
         showsUserLocation={true}
         initialRegion={{

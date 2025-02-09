@@ -1,26 +1,15 @@
 //searchBar component -- Not yet completed and added to a any page.
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import React from "react";
+import useTheme from "@/app/hooks/useTheme";
+import { getStyles } from "@/app/styles";
 
-export default function searchBar() {
+export default function SearchBar() {
+  const { theme } = useTheme(); // Use the custom hook
+  const styles = getStyles(theme); // Get styles based on theme
   return (
     <View style={styles.searchBar}>
       <TextInput placeholder={"Search"} placeholderTextColor={"#666"} />
     </View>
   );
 }
-const styles = StyleSheet.create({
-  searchBar: {
-    /* position: 'absolute', top: 10, width: '100%' */
-    borderRadius: 30,
-    margin: 10,
-    width: "95%",
-    color: "#000",
-    borderColor: "#666",
-    backgroundColor: "#EFF2F4",
-    borderWidth: 0,
-    flex: 1,
-    paddingHorizontal: 10,
-    fontSize: 18,
-  },
-});

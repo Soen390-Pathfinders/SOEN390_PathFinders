@@ -1,34 +1,20 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../components/maps/OutdoorMap";
-import { StatusBar } from "expo-status-bar";
-import AppLogo from "../components/ui/AppLogo";
-import ThemeToggle from "../components/ui/ThemeToggle";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
-import { GOOGLE_MAPS_APIKEY } from "../constants"
+import { GOOGLE_MAPS_APIKEY } from "../constants";
+import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 
 export default function OutdoorDirections() {
   const { theme } = useTheme(); // Use the custom hook
-  const styles = getStyles(theme); // Get styles based on theme
+  const globalStyles = getStyles(theme); // Get styles based on theme
 
   return (
-    <View style={styles.container}>
-      {/* Status Bar */}
-      <StatusBar style="dark" />
-
-      {/* Header */}
-      <View style={styles.iconRow}>
-        <View style={styles.iconRowView}>
-          <AppLogo />
-        </View>
-        <View>
-          <Text style={[styles.logo]}>Campus Pilot</Text>
-        </View>
-        {/* Dark/light theme toggle */}
-        <ThemeToggle />
-      </View>
+    <View style={globalStyles.container}>
+      {/* Header with logo , title and Dakr/Light theme toggle */}
+      <CampusPilotHeader />
 
       {/* SearchBars using GooglePlacesAutocomplete */}
       <View style={styles.searchBar}>
@@ -42,23 +28,6 @@ export default function OutdoorDirections() {
           query={{
             key: GOOGLE_MAPS_APIKEY,
             language: "en",
-          }}
-          styles={{
-            textInputContainer: {
-              backgroundColor: "#EFF2F4",
-              borderRadius: 30,
-              margin: 10,
-              width: "95%",
-              paddingHorizontal: 10,
-            },
-            textInput: {
-              height: 40,
-              color: "#000",
-              fontSize: 18,
-            },
-            predefinedPlacesDescription: {
-              color: "#1faadb",
-            },
           }}
         />
       </View>
@@ -75,30 +44,43 @@ export default function OutdoorDirections() {
             key: GOOGLE_MAPS_APIKEY,
             language: "en",
           }}
-          styles={{
-            textInputContainer: {
-              backgroundColor: "#EFF2F4",
-              borderRadius: 30,
-              margin: 10,
-              width: "95%",
-              paddingHorizontal: 10,
-            },
-            textInput: {
-              height: 40,
-              color: "#000",
-              fontSize: 18,
-            },
-            predefinedPlacesDescription: {
-              color: "#1faadb",
-            },
-          }}
         />
       </View>
 
       {/* Map */}
-      <View style={styles.mapContainer}>
+      <View style={globalStyles.mapContainer}>
         <OutdoorMap />
       </View>
     </View>
   );
 }
+const styles = StyleSheet.create({
+  textInputContainer: {
+    backgroundColor: "#EFF2F4",
+    borderRadius: 30,
+    margin: 10,
+    width: "95%",
+    paddingHorizontal: 30,
+    flex: 0.5,
+  },
+  textInput: {
+    height: 40,
+    color: "#000",
+    fontSize: 12,
+  },
+  predefinedPlacesDescription: {
+    color: "#1faadb",
+  },
+  searchBar: {
+    backgroundColor: "#EFF2F4",
+    borderColor: "#666",
+    borderRadius: 30,
+    borderWidth: 0,
+    color: "#000",
+    flex: 0.5,
+    fontSize: 12,
+    margin: 10,
+    paddingHorizontal: 5,
+    width: "95%",
+  },
+});
