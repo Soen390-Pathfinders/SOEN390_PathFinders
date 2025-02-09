@@ -4,7 +4,7 @@ import { PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
-import { concordiaBuildings } from "./concordiaBuildings"; // Import the building data
+import { concordiaBuildings } from "./concordiaBuildings";
 
 export default function OutdoorMap() {
   let origin = { latitude: 45.521805, longitude: -73.555084 };
