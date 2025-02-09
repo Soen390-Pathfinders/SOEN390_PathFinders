@@ -20,17 +20,13 @@ const useUserLocation = () => {
         return;
       }
 
-      //fetch the current user location
-      
-      if (isMounted) {const userlocation = (0,0);
-       /* const userlocation = await Location.getCurrentPositionAsync({}); //Get the current user location*/
+      if (isMounted) {
+        const userlocation = await Location.getCurrentPositionAsync({}); //Get the current user location
         console.log(userlocation);
         const userlatitude = userlocation.coords.latitude;
         const userlongitude = userlocation.coords.longitude;
 
-        if (isMounted) {
-          updateUserLocation(userlatitude, userlongitude); //Update the user location
-        }
+        updateUserLocation(userlatitude, userlongitude); //Update the user location
       }
     };
 
@@ -39,7 +35,7 @@ const useUserLocation = () => {
     return () => {
       isMounted = false;
     };
-  }, [updateUserLocation]);
+  }, []); // Empty dependency array to ensure it runs only once
 
   return null; // No need to return anything
 };
