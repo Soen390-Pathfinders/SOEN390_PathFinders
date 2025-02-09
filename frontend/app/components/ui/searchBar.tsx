@@ -8,7 +8,7 @@ export default function SearchBar() {
   const { theme } = useTheme(); // Use the custom hook
   const styles = getStyles(theme); // Get styles based on theme
   return (
-    <View style={styles.searchBar}>
+    <View>
       <TextInput placeholder={"Search"} placeholderTextColor={"#666"} />
     </View>
   );

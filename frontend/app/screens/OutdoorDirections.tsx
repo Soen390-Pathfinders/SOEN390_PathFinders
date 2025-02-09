@@ -16,7 +16,7 @@ export default function OutdoorDirections() {
       {/* Header with logo , title and Dakr/Light theme toggle */}
       <CampusPilotHeader />
 
-      {/* SearchBars using GooglePlacesAutocomplete */}
+      {/* SearchBars using GooglePlacesAutocomplete                  /*Searchbar commented out to test coordinates
       <View style={styles.searchBar}>
         <GooglePlacesAutocomplete
           placeholder="Start Location"
@@ -45,7 +45,7 @@ export default function OutdoorDirections() {
             language: "en",
           }}
         />
-      </View>
+      </View>*/}
 
       {/* Map */}
       <View style={globalStyles.mapContainer}>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     borderWidth: 0,
     color: "#000",
-    flex: 0.5,
+    flex: 0.2,
     fontSize: 12,
     margin: 10,
     paddingHorizontal: 5,
