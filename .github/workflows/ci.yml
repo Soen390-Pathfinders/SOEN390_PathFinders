@@ -64,3 +64,20 @@ jobs:
 
       - name: Run Backend Tests
         run: docker compose exec web pytest # Run backend tests (optional, if you're using pytest)
+
+  sonarqube:
+    name: SonarQube Code Analysis
+    runs-on: ubuntu-latest
+    needs: test # Runs after tests are completed successfully
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for better relevancy of analysis
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        
