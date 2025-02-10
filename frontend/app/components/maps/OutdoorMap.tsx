@@ -1,25 +1,50 @@
-// Renders the Google Map through react-native-maps API
-import MapView, { Marker } from "react-native-maps";
+import React, { useState } from "react";
+import MapView, { Marker, Polygon } from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
-import { useLocation } from "../context/userLocationContext";
-import PolygonRender from "./PolygonRender";
+import outlines from "./building_outlines";
 
-export default function OutdoorMap({ origin, destination, travelMode }) {
-  const { userLocation } = useLocation(); // Get location from context
+export default function OutdoorMap() {
+  const [campus, setCampus] = useState("SGW");
 
-  // Array of Concordia buildings as markers
+  const toggleCampus = () => {
+    setCampus(campus === "SGW" ? "LOY" : "SGW");
+  };
+
+  const initialRegions = {
+    SGW: {
+      latitude: 45.49745011600138,
+      longitude: -73.57894297258392,
+      latitudeDelta: 0.0322,
+      longitudeDelta: 0.0221,
+    },
+    LOY: {
+      latitude: 45.4582,
+      longitude: -73.6405,
+      latitudeDelta: 0.0322,
+      longitudeDelta: 0.0221,
+    },
+  };
+
   const concordiaBuildings = [
     {
       id: 1,
       latitude: 45.49745011600138,
       longitude: -73.57894297258392,
       title: "Hall Building",
-      description: "H Building, Concordia University",
+      description: "H Building Concordia University",
+      campus: "SGW",
     },
-    // Add more markers here as needed
+    {
+      id: 2,
+      latitude: 45.4582,
+      longitude: -73.6405,
+      title: "Loyola Campus Main Building",
+      description: "Loyola Campus Concordia University",
+      campus: "LOY",
+    },
   ];
 
   return (
@@ -28,41 +53,47 @@ export default function OutdoorMap({ origin, destination, travelMode }) {
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         showsUserLocation={true}
-        initialRegion={{
-          latitude: 45.49745011600138,
-          longitude: -73.57894297258392,
-          latitudeDelta: 0.0322,
-          longitudeDelta: 0.0221,
-        }}
+        initialRegion={initialRegions[campus]}
+        region={initialRegions[campus]}
       >
-        {/* Render building outlines */}
-        <PolygonRender />
+        {outlines
+          .filter((outline) => outline.campus === campus)
+          .map((outline) => (
+            <Polygon
+              key={outline.id}
+              coordinates={outline.coordinates}
+              fillColor={
+                outline.campus === "SGW"
+                  ? "rgba(145, 35, 55, 0.57)"
+                  : "rgba(0, 0, 255, 0.57)"
+              }
+              strokeColor={
+                outline.campus === "SGW"
+                  ? "rgba(145, 35, 55, 0.99)"
+                  : "rgba(0, 0, 255, 0.99)"
+              }
+              strokeWidth={2}
+            />
+          ))}
 
-        {/* Render building markers */}
-        {concordiaBuildings.map((marker) => (
-          <Marker
-            key={marker.id}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}
-            title={marker.title}
-            description={marker.description}
-          />
-        ))}
-
-        {/* Render Directions if both origin and destination are set */}
-        {origin && destination && (
-          <MapViewDirections
-            origin={origin}
-            destination={destination}
-            apikey={GOOGLE_MAPS_APIKEY}
-            mode={travelMode}               // Dynamic travel mode
-            strokeWidth={7}
-            strokeColor="blue"
-          />
-        )}
+        {concordiaBuildings
+          .filter((marker) => marker.campus === campus)
+          .map((marker) => (
+            <Marker
+              key={marker.id}
+              coordinate={{
+                latitude: marker.latitude,
+                longitude: marker.longitude,
+              }}
+              title={marker.title}
+              description={marker.description}
+            />
+          ))}
       </MapView>
+
+      <TouchableOpacity style={styles.toggleButton} onPress={toggleCampus}>
+        <Text style={styles.buttonText}>{`Switch to ${campus === "SGW" ? "Loyola" : "SGW"}`}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -74,5 +105,19 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  toggleButton: {
+    position: "absolute",
+    bottom: 40,
+    left: "50%",
+    transform: [{ translateX: -50 }],
+    backgroundColor: "#000",
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
