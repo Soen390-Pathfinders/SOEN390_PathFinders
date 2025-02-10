@@ -65,14 +65,14 @@ export const BuildingAPI = {
   
 
 
-  //export const POIAPI = {
-   // getAll: () => handleRequest(() => api.get("/pointOfInterest/")),
-  //  get: (poiId) => handleRequest(() => api.get(`/pointOfInterest/${poiId}/`)),
-  //  create: (poiData) => handleRequest(() => api.post("/pointOfInterest_create/", poiData)),
-  //  update: (poiId, updatedData) =>
-  //    handleRequest(() => api.put(`/pointOfInterest_update/${poiId}/`, updatedData)),
-  //  delete: (poiId) => handleRequest(() => api.delete(`/pointOfInterest_delete/${poiId}/`)),
- // };
+  export const POIAPI = {
+    getAll: () => handleRequest(() => api.get("/pointOfInterest/")),
+    get: (poiId) => handleRequest(() => api.get(`/pointOfInterest/${poiId}/`)),
+    create: (poiData) => handleRequest(() => api.post("/pointOfInterest_create/", poiData)),
+    update: (poiId, updatedData) =>
+      handleRequest(() => api.put(`/pointOfInterest_update/${poiId}/`, updatedData)),
+    delete: (poiId) => handleRequest(() => api.delete(`/pointOfInterest_delete/${poiId}/`)),
+  };
   
-  //export default api;
+  export default api;
   
