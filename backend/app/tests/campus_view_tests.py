@@ -9,7 +9,10 @@ def api_client():
 
 @pytest.fixture
 def create_campus(db):
-    return Campus.objects.create(name="Test Building", code="TSB")
+    Campus.objects.create(name="Campus A", code= "A", latitude=-40.37402, longitude= 30.028945)
+    Campus.objects.create(name="Campus B", code="B")
+    Campus.objects.create(name="Campus George Alex Smith", code="GAS", latitude=32.45908)
+    return
 
 @pytest.mark.django_db
 def test_get_all_campuses(api_client, create_campus):
@@ -17,18 +20,16 @@ def test_get_all_campuses(api_client, create_campus):
     response = api_client.get(url)
     
     assert response.status_code == 200
-    assert len(response.data) > 0
-    assert response.data[0]["name"] == "Test Building"
-    assert response.data[0]["code"] == "TSB"
+    assert len(response.data) == 3
 
 @pytest.mark.django_db
 def test_get_campus_by_code(api_client, create_campus):
-    url = reverse("get_campus") + "?code=TSB"
+    url = reverse("get_campus") + "?code=A"
     response = api_client.get(url)
 
     assert response.status_code == 200
-    assert response.json()["name"] == "Test Building"
-    assert response.json()["code"] == "TSB"
+    assert response.json()["name"] == "Campus A"
+    assert response.json()["code"] == "A"
 
 @pytest.mark.django_db
 def test_add_campus(api_client):
@@ -46,10 +47,10 @@ def test_add_campus(api_client):
 @pytest.mark.django_db
 def test_delete_campus(api_client, create_campus):
     url = reverse("remove_campus")
-    payload = {"code": "TSB"}
+    payload = {"code": "GAS"}
 
     response = api_client.delete(url, data=payload, format="json")
 
     assert response.status_code == 200
-    assert not Campus.objects.filter(code="TSB").exists()
+    assert not Campus.objects.filter(code="GAS").exists()
 
