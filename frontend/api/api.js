@@ -30,3 +30,14 @@ export const BuildingAPI = {
     delete: (buildingName) => handleRequest(() => api.delete(`/building_delete/${buildingName}/`)),
   };
   
+
+
+  export const CampusAPI = {
+    getAll: () => handleRequest(() => api.get("/campus/")),
+    get: (campusId) => handleRequest(() => api.get(`/campus/${campusId}/`)),
+    create: (campusData) => handleRequest(() => api.post("/campus_create/", campusData)),
+    update: (campusId, updatedData) =>
+      handleRequest(() => api.put(`/campus_update/${campusId}/`, updatedData)),
+    delete: (campusId) => handleRequest(() => api.delete(`/campus_delete/${campusId}/`)),
+  };
+  
