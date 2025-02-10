@@ -19,3 +19,14 @@ const handleRequest = async (requestFunc) => {
     throw error;
   }
 };
+
+
+export const BuildingAPI = {
+    getAll: () => handleRequest(() => api.get("/building_get/")),
+    get: (buildingName) => handleRequest(() => api.get(`/building_get/${buildingName}/`)),
+    create: (buildingData) => handleRequest(() => api.post("/building_create/", buildingData)),
+    update: (buildingName, updatedData) =>
+      handleRequest(() => api.put(`/building_update/${buildingName}/`, updatedData)),
+    delete: (buildingName) => handleRequest(() => api.delete(`/building_delete/${buildingName}/`)),
+  };
+  
