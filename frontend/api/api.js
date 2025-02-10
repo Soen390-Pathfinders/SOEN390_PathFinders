@@ -74,5 +74,5 @@ export const BuildingAPI = {
     delete: (poiId) => handleRequest(() => api.delete(`/pointOfInterest_delete/${poiId}/`)),
   };
   
-  export default api;
+  //export default api;
   
