@@ -75,8 +75,11 @@ class User(AbstractUser):
 class Floor(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
-    number = models.CharField(max_length=3, unique=True)
+    number = models.CharField(max_length=3)
     description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        unique_together = ('building', 'number')
     
 class AmenityType(models.Model):
     WATER_FOUNTAIN = "Water Fountain"

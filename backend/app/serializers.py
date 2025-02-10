@@ -15,6 +15,7 @@ class BuildingSerializer(serializers.ModelSerializer):
 
 
 class FloorSerializer(serializers.ModelSerializer):
+    building = serializers.SlugRelatedField(queryset=Building.objects.all(), slug_field="code")
     class Meta:
         model = Floor
         fields = '__all__'  # Or specify fields explicitly

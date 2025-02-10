@@ -20,10 +20,10 @@ urlpatterns = [
     path('campus/modify', campus.modify_campus, name='modify_campus'),
 
     path('floor/all', floor.get_all_floors, name='get_all_floors'),
-    path('floor/get', floor.get_all_floors, name='get_floor'),
-    path('floor/add', floor.get_all_floors, name='add_floor'),
-    path('floor/remove', floor.get_all_floors, name='remove_floor'),
-    path('floor/modify', floor.get_all_floors, name='modify_floor'),
+    path('floor/get', floor.get_floor, name='get_floor'),
+    path('floor/add', floor.add_floor, name='add_floor'),
+    path('floor/remove', floor.remove_floor, name='remove_floor'),
+    path('floor/modify', floor.modify_floor, name='modify_floor'),
 
     path('pointOfInterest/', pointOfInterest.pointOfInterest_list, name='pointOfInterest_list'),  
     path('pointOfInterest/<int:pk>/', pointOfInterest.pointOfInterest_get, name='pointOfInterest_get'),  
