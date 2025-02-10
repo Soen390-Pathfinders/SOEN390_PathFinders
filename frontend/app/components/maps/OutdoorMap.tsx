@@ -9,10 +9,9 @@ import outlines from "./building_outlines";
 export default function OutdoorMap() {
   const [campus, setCampus] = useState("SGW");
 
-  const toggleCampus = () => {
-    setCampus(campus === "SGW" ? "LOY" : "SGW");
+  const toggleCampus = (selectedCampus) => {
+    setCampus(selectedCampus);
   };
-
   const initialRegions = {
     SGW: {
       latitude: 45.49745011600138,
@@ -91,9 +90,26 @@ export default function OutdoorMap() {
           ))}
       </MapView>
 
-      <TouchableOpacity style={styles.toggleButton} onPress={toggleCampus}>
-        <Text style={styles.buttonText}>{`Switch to ${campus === "SGW" ? "Loyola" : "SGW"}`}</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={[
+            styles.campusButton,
+            campus === "SGW" ? styles.activeButton : styles.inactiveButton,
+          ]}
+          onPress={() => toggleCampus("SGW")}
+        >
+          <Text style={styles.buttonText}>SGW</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.campusButton,
+            campus === "LOY" ? styles.activeButton : styles.inactiveButton,
+          ]}
+          onPress={() => toggleCampus("LOY")}
+        >
+          <Text style={styles.buttonText}>Loyola</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -106,14 +122,26 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
-  toggleButton: {
+  buttonContainer: {
     position: "absolute",
-    bottom: 40,
-    left: "50%",
-    transform: [{ translateX: -50 }],
-    backgroundColor: "#000",
+    top: -52,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  campusButton: {
     padding: 10,
     borderRadius: 10,
+    marginHorizontal: 10,
+    width: 100,
+    alignItems: "center",
+  },
+  activeButton: {
+    backgroundColor: "#575757",
+  },
+  inactiveButton: {
+    backgroundColor: "#AAAAAA",
   },
   buttonText: {
     color: "#fff",

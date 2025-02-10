@@ -1,5 +1,4 @@
-// Code: CampusPilotHeader component , contais the logo, title and theme toggle
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import AppLogo from "./AppLogo";
 import { getStyles } from "@/app/styles";
@@ -13,7 +12,7 @@ export default function CampusPilotHeader() {
 
   return (
     /* Adding the status bar on top of the screen */
-    <View style={{ flex: 0.5 }}>
+    <View style={{ flex: 0.7 }}>
       <View>
         <StatusBar style="dark" />
       </View>
@@ -30,3 +29,25 @@ export default function CampusPilotHeader() {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  headerContainer: {
+    flex: 0.5, 
+    paddingTop: 20, 
+  },
+  iconRow: {
+    flexDirection: "row",
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    paddingHorizontal: 10, 
+    paddingTop: 10, 
+  },
+  iconRowView: {
+    flexDirection: "row",
+    alignItems: "center", 
+    gap: 10, 
+  },
+  logo: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+});
