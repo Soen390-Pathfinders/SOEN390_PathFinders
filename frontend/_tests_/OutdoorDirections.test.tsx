@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import CampusMap from "@/app/screens/CampusMap";
+import OutdoorDirections from "@/app/screens/OutdoorDirections";
 import { ThemeProvider } from "@/app/components/context/ThemeContext";
 import { LocationProvider } from "@/app/components/context/userLocationContext";
 
@@ -10,12 +10,12 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   clear: jest.fn(),
 }));
 
-test("Campus Map renders correctly", () => {
+test("Outdoor Directions renders correctly", () => {
   const tree = renderer
     .create(
       <LocationProvider>
         <ThemeProvider>
-          <CampusMap />
+          <OutdoorDirections />
         </ThemeProvider>
       </LocationProvider>
     )

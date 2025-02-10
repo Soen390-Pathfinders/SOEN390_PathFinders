@@ -1,7 +1,6 @@
 import renderer from "react-test-renderer";
-import CampusMap from "@/app/screens/CampusMap";
+import CampusPilotHeader from "@/app/components/ui/CampusPilotHeader";
 import { ThemeProvider } from "@/app/components/context/ThemeContext";
-import { LocationProvider } from "@/app/components/context/userLocationContext";
 
 jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(),
@@ -10,14 +9,12 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   clear: jest.fn(),
 }));
 
-test("Campus Map renders correctly", () => {
+test("Headers  renders correctly in light mode", () => {
   const tree = renderer
     .create(
-      <LocationProvider>
-        <ThemeProvider>
-          <CampusMap />
-        </ThemeProvider>
-      </LocationProvider>
+      <ThemeProvider>
+        <CampusPilotHeader />
+      </ThemeProvider>
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
