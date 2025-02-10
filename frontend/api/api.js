@@ -41,3 +41,14 @@ export const BuildingAPI = {
     delete: (campusId) => handleRequest(() => api.delete(`/campus_delete/${campusId}/`)),
   };
   
+
+
+  export const FloorAPI = {
+    getAll: () => handleRequest(() => api.get("/floor/")),
+    get: (floorId) => handleRequest(() => api.get(`/floor/${floorId}/`)),
+    create: (floorData) => handleRequest(() => api.post("/floor/create/", floorData)),
+    update: (floorId, updatedData) =>
+      handleRequest(() => api.put(`/floor/${floorId}/update/`, updatedData)),
+    delete: (floorId) => handleRequest(() => api.delete(`/floor/${floorId}/delete/`)),
+  };
+  
