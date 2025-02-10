@@ -1,37 +1,31 @@
-//Renders the google map through react-native-maps api
-import MapView, { Marker, Polygon } from "react-native-maps";
+// Renders the Google Map through react-native-maps API
+import MapView, { Marker } from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, View } from "react-native";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
-import outlines from "./building_outlines";
-import geolib from "geolib";
-import { useEffect } from "react";
 import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 
-export default function OutdoorMap() {
-  let origin = { latitude: 45.521805, longitude: -73.555084 };
-  let destination = { latitude: 45.528805, longitude: -73.555084 };
+export default function OutdoorMap({ origin, destination, travelMode }) {
   const { userLocation } = useLocation(); // Get location from context
 
-  //Declare the array of markers
+  // Array of Concordia buildings as markers
   const concordiaBuildings = [
     {
       id: 1,
       latitude: 45.49745011600138,
       longitude: -73.57894297258392,
       title: "Hall Building",
-      description: "H Building Concordia University",
+      description: "H Building, Concordia University",
     },
-    // Add more markers here
+    // Add more markers here as needed
   ];
 
   return (
     <View style={{ flex: 1 }}>
       <MapView
         provider={PROVIDER_GOOGLE}
-        /*apikey={GOOGLE_MAPS_APIKEY}*/
         style={styles.map}
         showsUserLocation={true}
         initialRegion={{
@@ -41,8 +35,10 @@ export default function OutdoorMap() {
           longitudeDelta: 0.0221,
         }}
       >
+        {/* Render building outlines */}
         <PolygonRender />
-        {/* Render markers */}
+
+        {/* Render building markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
             key={marker.id}
@@ -54,13 +50,14 @@ export default function OutdoorMap() {
             description={marker.description}
           />
         ))}
-        {/* Render MapViewDirections only if both origin and destination are set */}
+
+        {/* Render Directions if both origin and destination are set */}
         {origin && destination && (
           <MapViewDirections
             origin={origin}
             destination={destination}
             apikey={GOOGLE_MAPS_APIKEY}
-            mode="WALKING"
+            mode={travelMode}               // Dynamic travel mode
             strokeWidth={7}
             strokeColor="blue"
           />
@@ -69,6 +66,7 @@ export default function OutdoorMap() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   map: {
     position: "absolute",
