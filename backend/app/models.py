@@ -2,29 +2,42 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractUser, Group, Permission 
+from enum import Enum
+
 
 from jsonschema import validate, ValidationError
 from datetime import time
 
 class Campus(models.Model):
-    campus_id = models.AutoField(primary_key =True)
-    campus_name = models.CharField(max_length = 255, default="")
-    location = models.JSONField(default=list, blank=True)
+    id = models.AutoField(primary_key =True)
+    name = models.CharField(max_length = 255)
+    code = models.CharField(max_length=3,unique=True)
+
+    #coordinates of campus
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+
+    def __str__(self):
+        return f"{self.name} Campus"
 
 class Building(models.Model):
-    building_id = models.AutoField(primary_key=True)
-    campus_id = models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id")
-    name = models.CharField(max_length=100, default="")  # Building name
-    number_of_floors = models.IntegerField()  # Number of floors
-    location = models.CharField(max_length=255, default="")  # Building location (could be an address or campus area)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)  # Building name
+    long_name= models.CharField(max_length=255, null=True)
+    code = models.CharField(max_length=3, unique=True)
     description = models.TextField(blank=True, null=True) # Building description for pop-up
+    address = models.CharField(max_length=255, null=True)
+
+    campus= models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id", default=1)
+    floor_count = models.IntegerField(default=1)  # Number of floors
+    
 
     #coordinates of Corners of the building
     polygon_coordinates = models.JSONField(default=list, blank=True)
     
     #coordinates of building
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
     
     def __str__(self):
         return self.name
@@ -52,7 +65,7 @@ class Building(models.Model):
 
 #set_password(raw_password) and check_password(raw_password)
 class User(AbstractUser):
-    user_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default="")
     email = models.EmailField(max_length=255)
     groups = models.ManyToManyField(Group, related_name="app_users_groups", blank=True,  verbose_name="groups")
@@ -61,18 +74,59 @@ class User(AbstractUser):
 
 class Floor(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
-    floor_id = models.AutoField(primary_key=True)
-    floor_number = models.IntegerField()
+    id = models.AutoField(primary_key=True)
+    number = models.CharField(max_length=3, unique=True)
     description = models.TextField(blank=True, null=True)
+    
+class AmenityType(models.Model):
+    WATER_FOUNTAIN = "Water Fountain"
+    VENDING_MACHINE = "Vending Machine"
+    CAFE = "Café"
+    BAR = "Bar"
+    STUDY_AREA = "Study Area"
+    CHARGING_STATION = "Charging Station"
+    ELEVATOR = "Elevator"
+    STAIRS = "Stairs"
+    PRINTER = "Printer/Copy Machine"
+    WIFI = "Wi-Fi"
+    LOCKER = "Locker"
+    LOUNGE = "Lounge"
+    CAFETERIA = "Cafeteria"
+    LIBRARY = "Library"
+    ATM = "ATM"
+    BICYCLE_RACK = "Bicycle Rack"
+    HANDICAP_ACCESSIBLE = "Handicap Accessible Entrance"
+    PARKING_SPOT = "Parking Spot"
+    POST_BOX = "Post Box"
+    SECURITY_DESK = "Security Desk"
+    TRASH_CAN = "Trash Can"
+    RECYCLING_BIN = "Recycling Bin"
+    COFFEE_MACHINE = "Coffee Machine"
+    SHOWER = "Shower"
+    FIRST_AID_KIT = "First Aid Kit"
+    POWER_OUTLETS = "Power Outlets"
+    REST_AREA = "Rest Area"
+    LOST_AND_FOUND = "Lost and Found"
+
+class RoomType(models.Model):
+    CLASSROOM = "Classroom"
+    STUDY_ROOM = "Study Room"
+    MEETING_ROOM = "Meeting Room"
+    AUDITORIUM = "Auditorium"
+    OFFICE = "Office"
+    MEN_BATHROOM = "Men's Bathroom"
+    WOMEN_BATHROOM = "Women's Bathroom"
+    GENDER_NEUTRAL_BATHROOM = "Gender Neutral Bathroom"
+
+
 
 class PointOfInterest(models.Model):
-    poi_id = models.AutoField(primary_key=True)
-    building = models.ForeignKey(Building, on_delete=models.CASCADE)
-    poi_name = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
+    id = models.AutoField(primary_key=True)
+    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, default=1)
     description = models.TextField(blank=True, null=True)
+    amenities = models.ManyToManyField(AmenityType, blank=True)
     opening_hours = models.JSONField(default=dict)
-    
+
     def set_open_hour(self, open_hour):
         if isinstance(open_hour, str):
             try:
@@ -90,13 +144,14 @@ class PointOfInterest(models.Model):
                 raise ValueError("Invalid time format. Use HH:MM")
         self.opening_hours["closed_hour"] = close_hour.strftime("%H:%M")
         self.save()
+
         
 class Room(models.Model):
-    room_id = models.AutoField(primary_key=True)
-    floor_id = models.ForeignKey('Floor', on_delete=models.CASCADE, related_name='rooms')  # Foreign key to Floor model
-    room_number = models.CharField(max_length=20) 
-    room_type = models.CharField(max_length=50) 
-    capacity = models.IntegerField()  
+    id = models.AutoField(primary_key=True)
+    floor= models.ForeignKey('Floor', on_delete=models.CASCADE, related_name='rooms', default=1)  # Foreign key to Floor model
+    number = models.CharField(max_length=10, unique=True) 
+    type = models.ManyToManyField(RoomType, blank=True)
+    capacity = models.IntegerField(null=True)  
     accessibility_features = models.TextField(blank=True, null=True)
 
     def __str__(self):

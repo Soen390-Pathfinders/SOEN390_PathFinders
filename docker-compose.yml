@@ -16,12 +16,22 @@ services:
     container_name: backend_container
     depends_on:
       - db
+    command:
+      [
+        "./wait-for-it.sh",
+        "db:5432",
+        "--",
+        "python",
+        "manage.py",
+        "runserver",
+        "0.0.0.0:8000",
+      ]
     environment:
       - DATABASE_URL=postgres://admin:password@db:5432/campus_db
       - DJANGO_SETTINGS_MODULE=backend.settings
     ports:
       - "8000:8000"
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    #command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 volumes:
   postgres_data:
