@@ -5,10 +5,12 @@ on:
     branches:
       - main
       - backend
+      - frontend
   pull_request:
     branches:
       - main
       - backend
+      - frontend
 
 jobs:
   test:
