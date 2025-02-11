@@ -1,3 +1,4 @@
+// Renders the Google Map through react-native-maps API
 import React, { useState } from "react";
 import MapView, { Marker, Polygon } from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps";
@@ -5,9 +6,20 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
 import outlines from "./building_outlines";
+import { useLocation } from "../context/userLocationContext";
+import PolygonRender from "./PolygonRender";
 
 export default function OutdoorMap() {
+  //{ origin, destination, travelMode }
+  const origin = { latitude: 45.49770784426291, longitude: -73.57878767220072 };
+  const destination = {
+    latitude: 45.49418799527119,
+    longitude: -73.5782676712656,
+  };
+  const travelMode = "WALKING";
+
   const [campus, setCampus] = useState("SGW");
+  const { userLocation } = useLocation(); // Get location from context
 
   const toggleCampus = (selectedCampus) => {
     setCampus(selectedCampus);
@@ -55,25 +67,20 @@ export default function OutdoorMap() {
         initialRegion={initialRegions[campus]}
         region={initialRegions[campus]}
       >
-        {outlines
-          .filter((outline) => outline.campus === campus)
-          .map((outline) => (
-            <Polygon
-              key={outline.id}
-              coordinates={outline.coordinates}
-              fillColor={
-                outline.campus === "SGW"
-                  ? "rgba(145, 35, 55, 0.57)"
-                  : "rgba(0, 0, 255, 0.57)"
-              }
-              strokeColor={
-                outline.campus === "SGW"
-                  ? "rgba(145, 35, 55, 0.99)"
-                  : "rgba(0, 0, 255, 0.99)"
-              }
-              strokeWidth={2}
-            />
-          ))}
+        {/* Render building outlines */}
+        <PolygonRender />
+        {/* Render building markers */}
+        {concordiaBuildings.map((marker) => (
+          <Marker
+            key={marker.id}
+            coordinate={{
+              latitude: marker.latitude,
+              longitude: marker.longitude,
+            }}
+            title={marker.title}
+            description={marker.description}
+          />
+        ))}
 
         {concordiaBuildings
           .filter((marker) => marker.campus === campus)
@@ -88,6 +95,18 @@ export default function OutdoorMap() {
               description={marker.description}
             />
           ))}
+
+        {/* Render Directions if both origin and destination are set */}
+        {origin && destination && (
+          <MapViewDirections
+            origin={origin}
+            destination={destination}
+            apikey={GOOGLE_MAPS_APIKEY}
+            mode={travelMode} // Dynamic travel mode
+            strokeWidth={7}
+            strokeColor="blue"
+          />
+        )}
       </MapView>
 
       <View style={styles.buttonContainer}>
