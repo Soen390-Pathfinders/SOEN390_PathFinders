@@ -8,7 +8,7 @@ from app.serializers import CampusSerializer
 @api_view(['GET'])
 def get_all_campuses(request):
     campuses = Campus.objects.all()
-    serializer = CampusSerializer(campuses, many=True)  # 'many=True' to serialize a queryset
+    serializer = CampusSerializer(campuses, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
