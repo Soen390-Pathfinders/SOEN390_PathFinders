@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../components/maps/OutdoorMap";
 import useTheme from "../hooks/useTheme";
@@ -18,14 +18,21 @@ export default function OutdoorDirections() {
   const [destination, setDestination] = useState(null);
   const [travelMode, setTravelMode] = useState("WALKING");
 
+  // New state variables that update when the user taps GO
+  const [submittedStart, setSubmittedStart] = useState(null);
+  const [submittedDestination, setSubmittedDestination] = useState(null);
+
   const { userLocation } = useLocation(); // Get user's current location
 
   // Refs for GooglePlacesAutocomplete to control input text
   const startLocationRef = useRef();
   const destinationRef = useRef();
 
+  // Update the submitted locations and, in this case, log the navigation info
   const handleGoPress = () => {
     if (startLocation && destination) {
+      setSubmittedStart(startLocation);
+      setSubmittedDestination(destination);
       console.log(`Navigating from: ${startLocation} to: ${destination} via ${travelMode}`);
     } else {
       Alert.alert(
@@ -75,13 +82,13 @@ export default function OutdoorDirections() {
           }}
         />
 
-        {/* Current Location Button */}
+        {/* Current Location Button for Start */}
         <TouchableOpacity onPress={() => setToCurrentLocation("start")} style={styles.locationButton}>
-        <MaterialIcons name="my-location" size={36} color="#007BFF" />
+          <MaterialIcons name="my-location" size={36} color="#007BFF" />
         </TouchableOpacity>
       </View>
 
-      {/* Destination with Current Location Icon */}
+      {/* Destination with GO Button */}
       <View style={styles.inputWithLocationContainer}>
         <GooglePlacesAutocomplete
           ref={destinationRef}
@@ -102,9 +109,9 @@ export default function OutdoorDirections() {
           }}
         />
 
-        {/* Current Location Button */}
-        <TouchableOpacity onPress={() => setToCurrentLocation("destination")} style={styles.locationButton}>
-        <MaterialIcons name="my-location" size={36} color="#007BFF" />
+        {/* GO Button instead of the current location button */}
+        <TouchableOpacity onPress={handleGoPress} style={styles.goButton}>
+          <Text style={styles.goButtonText}>GO</Text>
         </TouchableOpacity>
       </View>
 
@@ -135,9 +142,13 @@ export default function OutdoorDirections() {
         </TouchableOpacity>
       </View>
 
-      {/* Always Display Map */}
+      {/* Always Display Map with Submitted Locations */}
       <View style={globalStyles.mapContainer}>
-        <OutdoorMap origin={startLocation} destination={destination} travelMode={travelMode} />
+        <OutdoorMap 
+          origin={submittedStart} 
+          destination={submittedDestination} 
+          travelMode={travelMode} 
+        />
       </View>
     </View>
   );
@@ -165,7 +176,19 @@ const styles = StyleSheet.create({
   locationButton: {
     padding: 10,
   },
-
+  goButton: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 10,
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  goButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   /* Transport Mode Styles */
   transportModeContainer: {
     flexDirection: 'row',

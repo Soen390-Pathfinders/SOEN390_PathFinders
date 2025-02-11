@@ -71,8 +71,8 @@ export const getStyles = (theme) =>
       padding: 10,
     },
     mapContainer: {
+      flex:2,
       borderRadius: 10,
-      flex: 2,
       width: "100%",
     },
     navLogo: {

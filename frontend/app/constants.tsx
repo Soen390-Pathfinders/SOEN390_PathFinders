@@ -1,2 +1,2 @@
 // constants.tsx
-export const GOOGLE_MAPS_APIKEY = ""; //YOUR_GOOGLE_API_KEY_HERE
+export const GOOGLE_MAPS_APIKEY = "AIzaSyAVeZkW_b6ZPBRiBIDM3boDJR-e8RSe_LA"; //YOUR_GOOGLE_API_KEY_HERE

@@ -9,14 +9,9 @@ import outlines from "./building_outlines";
 import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 
-export default function OutdoorMap() {
+export default function OutdoorMap({origin, destination, travelMode}) {
   //{ origin, destination, travelMode }
-  const origin = { latitude: 45.49770784426291, longitude: -73.57878767220072 };
-  const destination = {
-    latitude: 45.49418799527119,
-    longitude: -73.5782676712656,
-  };
-  const travelMode = "WALKING";
+ 
 
   const [campus, setCampus] = useState("SGW");
   const { userLocation } = useLocation(); // Get location from context
