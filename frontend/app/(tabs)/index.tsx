@@ -15,10 +15,10 @@ export default function HomeScreen() {
   useEffect(() => {
     // Make a GET request to the Django backend
     axios
-      .get("http://localhost:8000/api/hello/") // Adjust the URL based on your API endpoint
+      .get("http://localhost:8000/api/building/all") // Adjust the URL based on your API endpoint
       .then((response) => {
         // Assume the response contains a building name
-        setBuildingName(response.data.name);
+        setBuildingName(response.data[0].name);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
