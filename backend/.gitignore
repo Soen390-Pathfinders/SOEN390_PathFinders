@@ -1,0 +1,4 @@
+backend\node_modules\*
+backend\app\views\_pycache_\*
+backend\app\_pycache_\*
+backend\backend\_pycache_\*

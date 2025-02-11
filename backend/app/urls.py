@@ -1,6 +1,6 @@
 from django.urls import path
 from django.shortcuts import render
-from .views import building, campus, floor, pointOfInterest, room, user
+from .views import building, campus, floor, pointOfInterest, room, user, types
 import json
 
 # Define the URL route for your view
@@ -42,6 +42,19 @@ urlpatterns = [
     path('user_create/', user.user_create, name='user_create'),
     path('user_delete/<int:pk>/', user.user_delete, name='user_delete'),
     path('user_update/<int:pk>/', user.user_update, name='user_update'),
+    
+    
+    path('roomType/all', types.get_all_roomType, name='get_all_roomType'),
+    path('roomType/get', types.get_roomType, name='get_roomType'),
+    path('roomType/add', types.add_roomType, name='add_roomType'),
+    path('roomType/remove', types.remove_roomType, name='remove_roomType'),
+    path('roomType/modify', types.modify_roomType, name='modify_roomType'),
+    
+    path('amenityType/all', types.get_all_amenityType, name='get_all_amenityType'),
+    path('amenityType/get', types.get_amenityType, name='get_amenityType'),
+    path('amenityType/add', types.add_amenityType, name='add_amenityType'),
+    path('amenityType/remove', types.remove_amenityType, name='remove_amenityType'),
+    path('amenityType/modify', types.modify_amenityType, name='modify_amenityType'),
     
    # path('get_building_coordinates/<str:building_name>/', views.get_building_coordinates, name="get_building_coordinates"),
 ]

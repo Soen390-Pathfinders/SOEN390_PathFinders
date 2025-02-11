@@ -28,7 +28,7 @@ class Building(models.Model):
     description = models.TextField(blank=True, null=True) # Building description for pop-up
     address = models.CharField(max_length=255, null=True)
 
-    campus= models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id", default=1)
+    campus = models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id", default=1)
     floor_count = models.IntegerField(default=1)  # Number of floors
     
 
@@ -79,45 +79,16 @@ class Floor(models.Model):
     description = models.TextField(blank=True, null=True)
     
 class AmenityType(models.Model):
-    WATER_FOUNTAIN = "Water Fountain"
-    VENDING_MACHINE = "Vending Machine"
-    CAFE = "Café"
-    BAR = "Bar"
-    STUDY_AREA = "Study Area"
-    CHARGING_STATION = "Charging Station"
-    ELEVATOR = "Elevator"
-    STAIRS = "Stairs"
-    PRINTER = "Printer/Copy Machine"
-    WIFI = "Wi-Fi"
-    LOCKER = "Locker"
-    LOUNGE = "Lounge"
-    CAFETERIA = "Cafeteria"
-    LIBRARY = "Library"
-    ATM = "ATM"
-    BICYCLE_RACK = "Bicycle Rack"
-    HANDICAP_ACCESSIBLE = "Handicap Accessible Entrance"
-    PARKING_SPOT = "Parking Spot"
-    POST_BOX = "Post Box"
-    SECURITY_DESK = "Security Desk"
-    TRASH_CAN = "Trash Can"
-    RECYCLING_BIN = "Recycling Bin"
-    COFFEE_MACHINE = "Coffee Machine"
-    SHOWER = "Shower"
-    FIRST_AID_KIT = "First Aid Kit"
-    POWER_OUTLETS = "Power Outlets"
-    REST_AREA = "Rest Area"
-    LOST_AND_FOUND = "Lost and Found"
+    name = models.CharField(max_length=50, unique=True, null=True)
+
+    def __str__(self):
+        return self.get_name_display()
 
 class RoomType(models.Model):
-    CLASSROOM = "Classroom"
-    STUDY_ROOM = "Study Room"
-    MEETING_ROOM = "Meeting Room"
-    AUDITORIUM = "Auditorium"
-    OFFICE = "Office"
-    MEN_BATHROOM = "Men's Bathroom"
-    WOMEN_BATHROOM = "Women's Bathroom"
-    GENDER_NEUTRAL_BATHROOM = "Gender Neutral Bathroom"
+    name = models.CharField(max_length=50, unique=True, null=True)
 
+    def __str__(self):
+        return self.get_name_display()
 
 
 class PointOfInterest(models.Model):
