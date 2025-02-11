@@ -16,9 +16,6 @@ export default function OutdoorMap({origin, destination, travelMode}) {
   const [campus, setCampus] = useState("SGW");
   const { userLocation } = useLocation(); // Get location from context
 
-  const toggleCampus = (selectedCampus) => {
-    setCampus(selectedCampus);
-  };
   const initialRegions = {
     SGW: {
       latitude: 45.49745011600138,
@@ -103,27 +100,6 @@ export default function OutdoorMap({origin, destination, travelMode}) {
           />
         )}
       </MapView>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={[
-            styles.campusButton,
-            campus === "SGW" ? styles.activeButton : styles.inactiveButton,
-          ]}
-          onPress={() => toggleCampus("SGW")}
-        >
-          <Text style={styles.buttonText}>SGW</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.campusButton,
-            campus === "LOY" ? styles.activeButton : styles.inactiveButton,
-          ]}
-          onPress={() => toggleCampus("LOY")}
-        >
-          <Text style={styles.buttonText}>Loyola</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 }
@@ -135,31 +111,5 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-  },
-  buttonContainer: {
-    position: "absolute",
-    top: -52,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-  },
-  campusButton: {
-    padding: 10,
-    borderRadius: 10,
-    marginHorizontal: 10,
-    width: 100,
-    alignItems: "center",
-  },
-  activeButton: {
-    backgroundColor: "#575757",
-  },
-  inactiveButton: {
-    backgroundColor: "#AAAAAA",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
   },
 });
