@@ -1,8 +1,6 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
-from django.contrib.auth.hashers import make_password, check_password
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser, Group, Permission 
-from enum import Enum
 
 
 from jsonschema import validate, ValidationError
@@ -76,59 +74,30 @@ class Floor(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
     id = models.AutoField(primary_key=True)
     number = models.CharField(max_length=3)
+    code = models.CharField(max_length=20, unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
-    class Meta:
-        unique_together = ('building', 'number')
-    
+    def save(self, *args, **kwargs):
+        self.code = f"{self.building.code}-{self.number}"
+        super().save(*args, **kwargs)
+
+
+
 class AmenityType(models.Model):
-    WATER_FOUNTAIN = "Water Fountain"
-    VENDING_MACHINE = "Vending Machine"
-    CAFE = "Café"
-    BAR = "Bar"
-    STUDY_AREA = "Study Area"
-    CHARGING_STATION = "Charging Station"
-    ELEVATOR = "Elevator"
-    STAIRS = "Stairs"
-    PRINTER = "Printer/Copy Machine"
-    WIFI = "Wi-Fi"
-    LOCKER = "Locker"
-    LOUNGE = "Lounge"
-    CAFETERIA = "Cafeteria"
-    LIBRARY = "Library"
-    ATM = "ATM"
-    BICYCLE_RACK = "Bicycle Rack"
-    HANDICAP_ACCESSIBLE = "Handicap Accessible Entrance"
-    PARKING_SPOT = "Parking Spot"
-    POST_BOX = "Post Box"
-    SECURITY_DESK = "Security Desk"
-    TRASH_CAN = "Trash Can"
-    RECYCLING_BIN = "Recycling Bin"
-    COFFEE_MACHINE = "Coffee Machine"
-    SHOWER = "Shower"
-    FIRST_AID_KIT = "First Aid Kit"
-    POWER_OUTLETS = "Power Outlets"
-    REST_AREA = "Rest Area"
-    LOST_AND_FOUND = "Lost and Found"
+    name = models.CharField(max_length=50, unique=True)
 
-class RoomType(models.Model):
-    CLASSROOM = "Classroom"
-    STUDY_ROOM = "Study Room"
-    MEETING_ROOM = "Meeting Room"
-    AUDITORIUM = "Auditorium"
-    OFFICE = "Office"
-    MEN_BATHROOM = "Men's Bathroom"
-    WOMEN_BATHROOM = "Women's Bathroom"
-    GENDER_NEUTRAL_BATHROOM = "Gender Neutral Bathroom"
+    def __str__(self):
+        return self.name
 
 
-
-class PointOfInterest(models.Model):
+class InsidePOI(models.Model):
     id = models.AutoField(primary_key=True)
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE, default=1)
     description = models.TextField(blank=True, null=True)
-    amenities = models.ManyToManyField(AmenityType, blank=True)
-    opening_hours = models.JSONField(default=dict)
+    amenities = models.ManyToManyField(AmenityType, related_name="amenities",blank=True)
+    x_coor = models.IntegerField();
+    y_coor = models.IntegerField();
+    opening_hours = models.JSONField(default=dict, null=True)
 
     def set_open_hour(self, open_hour):
         if isinstance(open_hour, str):
@@ -148,14 +117,26 @@ class PointOfInterest(models.Model):
         self.opening_hours["closed_hour"] = close_hour.strftime("%H:%M")
         self.save()
 
-        
-class Room(models.Model):
-    id = models.AutoField(primary_key=True)
-    floor= models.ForeignKey('Floor', on_delete=models.CASCADE, related_name='rooms', default=1)  # Foreign key to Floor model
-    number = models.CharField(max_length=10, unique=True) 
-    type = models.ManyToManyField(RoomType, blank=True)
-    capacity = models.IntegerField(null=True)  
-    accessibility_features = models.TextField(blank=True, null=True)
+
+class RoomType(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return f"Room {self.room_number}"
+        return self.name
+
+class Room(models.Model):
+    id = models.AutoField(primary_key=True)
+    number = models.CharField(max_length=10)
+    floor= models.ForeignKey('Floor', on_delete=models.CASCADE, default=1)
+    code = models.CharField(max_length=20, unique=True, blank=True)
+    capacity = models.PositiveIntegerField(null=True)
+    is_wheelchair_accessible = models.BooleanField(default=False)
+    type = models.ManyToManyField(RoomType, related_name="rooms")
+
+    def save(self, *args, **kwargs):
+        self.code = f"{self.floor.building.code}-{self.number}"
+        super().save(*args, **kwargs)
+      
+
+    def __str__(self):
+        return f"{self.code} (Capacity: {self.capacity})"

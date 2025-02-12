@@ -1,6 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
-from app.models import Campus,Building
+from app.models import Campus, Building, RoomType, AmenityType
 
 # Open the CSV file
 def instances(table_name):
@@ -42,5 +42,22 @@ class Command(BaseCommand):
 
         Building.objects.bulk_create(building_instances)
 
+        roomtype_data = instances('roomtype')
+        
+        roomtype_instances = [
+            RoomType(name = roomtype['name'])
+            for roomtype in roomtype_data
+        ]
 
-        self.stdout.write(self.style.SUCCESS('Successfully added campuses and buildings to the database'))
+        RoomType.objects.bulk_create(roomtype_instances)
+
+        amenitytype_data = instances('amenitytype')
+
+        amenitytype_instances = [
+            AmenityType(name = amenitytype['name'])
+            for amenitytype in amenitytype_data
+        ]
+
+        AmenityType.objects.bulk_create(amenitytype_instances)
+
+        self.stdout.write(self.style.SUCCESS('Successfully initialized the database'))

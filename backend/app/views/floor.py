@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from app.serializers import FloorSerializer
 
-
 @api_view(['GET'])
 def get_all_floors(request):
     floors = Floor.objects.all()
@@ -15,25 +14,18 @@ def get_all_floors(request):
 @api_view(['GET'])
 def get_floor(request):
     floor_id = request.GET.get("id")
-    building_code = request.GET.get("building")
-    floor_number = request.GET.get("number")
+    floor_code = request.GET.get("code")
+    
+    if not floor_id and not floor_code:
+        return Response({"error": "Provide either 'id' or 'code' to retrieve a building floor"}, status=status.HTTP_400_BAD_REQUEST)
 
-    if not floor_id and (not building_code or not floor_number):
-        return Response({"error": "Provide either 'id' or both 'building' and 'number' to retrieve a floor."}, status=status.HTTP_400_BAD_REQUEST)
-
-    # Query by ID if provided
-    if floor_id:
-        floor = Floor.objects.filter(id=floor_id).first()
-    # Otherwise, query by building_code and floor_number
-    else:
-        floor = Floor.objects.filter(building__code=building_code, number=floor_number).first()
+    floor = Floor.objects.filter(id=floor_id).first() or Floor.objects.filter(code=floor_code).first()
 
     if not floor:
-        return Response({"error": "No floor matches the given parameters."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "No building floor matches the given parameters."}, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = FloorSerializer(floor)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 
@@ -41,7 +33,10 @@ def get_floor(request):
 def add_floor(request):
     serializer = FloorSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        try:
+            serializer.save()  # Save the updated floor data
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'message': 'Floor created successfully', 'floor_id': serializer.instance.id}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -51,53 +46,38 @@ def add_floor(request):
 @api_view(['DELETE'])
 def remove_floor(request):
     floor_id = request.data.get("id")
-    building_code = request.data.get("building")
-    floor_number = request.data.get("number")
+    floor_code = request.data.get("code")
 
-    if not floor_id and (not building_code or not floor_number):
-        return Response({"error": "Provide either 'id' or both 'building' and 'number' to delete a floor."}, status=status.HTTP_400_BAD_REQUEST)
+    if not floor_id and not floor_code:
+        return Response({"error": "Provide either 'id' or 'code' to delete a building floor"}, status=status.HTTP_400_BAD_REQUEST)
 
-    if floor_id:
-        floor = Floor.objects.filter(id=floor_id).first()
-    elif building_code and floor_number:
-        floor = Floor.objects.filter(building__code=building_code, number=floor_number).first()
-    else:
-        return Response({"error": "Provide both 'building_code' and 'number' to delete a floor."}, status=status.HTTP_400_BAD_REQUEST)
+    floor = Floor.objects.filter(id=floor_id).first() or Floor.objects.filter(code=floor_code).first()
 
     if not floor:
-        return Response({"error": "No floor matches the given parameters."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "No building floor matches the given parameters."}, status=status.HTTP_404_NOT_FOUND)
 
-    floor.delete()  # Delete the floor
-
-    return Response({"success": "Floor deleted successfully."}, status=status.HTTP_200_OK)
+    floor.delete()
+    return Response({"message": "Floor deleted successfully"}, status=status.HTTP_200_OK)
 
 
 
 
 @api_view(["PUT", "PATCH"])
 def modify_floor(request):
-    floor_id = request.data.get("id")
-    building_code = request.data.get("building")
-    floor_number = request.data.get("number")
+    identifier = request.data.get("id") or request.data.get("code")
 
-    # Ensure that either 'id' or both 'building_code' and 'number' are provided
-    if not floor_id and (not building_code or not floor_number):
-        return Response({"error": "Provide either 'id' or both 'building' and 'number' to modify a floor."}, status=status.HTTP_400_BAD_REQUEST)
+    if not identifier:
+        return Response({"error": "Must provide either 'id' or 'code'."}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Filter the floor based on the provided identifiers
-    if floor_id:
-        floor = Floor.objects.filter(id=floor_id).first()
-    elif building_code and floor_number:
-        floor = Floor.objects.filter(building__code=building_code, number=floor_number).first()
+    floor = Floor.objects.filter(id=request.data.get("id")).first() or Floor.objects.filter(code=request.data.get("code")).first()
 
     if not floor:
-        return Response({"error": "No floor matches the given parameters."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": "Building floor not found."}, status=status.HTTP_404_NOT_FOUND)
 
-    # Use the FloorSerializer to validate and save the modified data
     serializer = FloorSerializer(floor, data=request.data, partial=True)
 
     if serializer.is_valid():
-        serializer.save()  # Save the updated floor data
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

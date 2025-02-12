@@ -1,6 +1,6 @@
 from django.urls import path
 from django.shortcuts import render
-from .views import building, campus, floor, pointOfInterest, room, user
+from .views import building, campus, floor, insidepoi, room, user
 import json
 
 # Define the URL route for your view
@@ -25,17 +25,17 @@ urlpatterns = [
     path('floor/remove', floor.remove_floor, name='remove_floor'),
     path('floor/modify', floor.modify_floor, name='modify_floor'),
 
-    path('pointOfInterest/', pointOfInterest.pointOfInterest_list, name='pointOfInterest_list'),  
-    path('pointOfInterest/<int:pk>/', pointOfInterest.pointOfInterest_get, name='pointOfInterest_get'),  
-    path('pointOfInterest_create/', pointOfInterest.pointOfInterest_create, name='pointOfInterest_create'),  
-    path('pointOfInterest_delete/<int:pk>/', pointOfInterest.pointOfInterest_delete, name='pointOfInterest_delete'),  
-    path('pointOfInterest_update/<int:pk>/', pointOfInterest.pointOfInterest_update, name='pointOfInterest_update'),  
+    path('poi/inside/all', insidepoi.get_all_insidepois, name='get_all_insidepois'),  
+    path('poi/inside/get', insidepoi.get_insidepoi, name='get_insidepoi'),  
+    path('poi/inside/add', insidepoi.add_insidepoi, name='add_insidepoi'),  
+    path('poi/inside/remove', insidepoi.remove_insidepoi, name='remove_insidepoi'),  
+    path('poi/inside/modify', insidepoi.modify_insidepoi, name='modify_insidepoi'),  
 
-    path('room/', room.room_list, name='room_list'),
-    path('room/<int:pk>/', room.room_detail, name='room_detail'),
-    path('room/create/', room.room_create, name='room_create'),
-    path('room/<int:pk>/update/', room.room_update, name='room_update'),
-    path('room/<int:pk>/delete/', room.room_delete, name='room_delete'),
+    path('room/all', room.get_all_rooms, name='get_all_rooms'),
+    path('room/get', room.get_room, name='get_room'),
+    path('room/add', room.add_room, name='add_room'),
+    path('room/remove', room.remove_room, name='remove_room'),
+    path('room/modify', room.modify_room, name='modify_room'),
 
     path('user/', user.user_list, name='user_list'),
     path('user/<int:pk>/', user.user_get, name='user_get'),
