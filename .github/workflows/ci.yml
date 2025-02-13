@@ -68,40 +68,39 @@ jobs:
       - name: Run Backend Tests
         run: docker compose exec web pytest
 
-  maestro-tests:
-    runs-on: macos-latest
+maestro-tests:
+  runs-on: macos-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: "16"
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "16" # or whatever version you're using
+    - name: Install dependencies
+      run: |
+        cd frontend
+        npm install
 
-      - name: Install dependencies
-        run: |
-          cd frontend
-          npm install
+    - name: Install Expo CLI
+      run: |
+        npm install -g expo-cli
 
-      - name: Install Maestro
-        run: curl -fsSL "https://get.maestro.mobile.dev" | bash
+    - name: Start Expo in the background
+      run: |
+        cd frontend
+        expo start --no-dev --minify &
 
-      - name: Launch iOS Simulator
-        id: sim
-        uses: futureware-tech/simulator-action@v4
+    - name: Install Maestro
+      run: curl -fsSL "https://get.maestro.mobile.dev" | bash
 
-      - name: Run React Native app on iOS
-        run: |
-          cd frontend
-          npx react-native run-ios --simulator="${{ steps.sim.outputs.udid }}"
+    - name: Run Maestro tests
+      run: maestro record maestro/acceptance/*.yaml --local test.mp4
 
-      - name: Run Maestro acceptance tests
-        run: maestro record maestro/acceptance/*.yaml --local test.mp4
-
-      - name: Upload Test Video
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-video
-          path: test.mp4
+    - name: Upload Test Video
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-video
+        path: test.mp4
