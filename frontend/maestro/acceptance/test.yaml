@@ -2,4 +2,4 @@ appId: host.exp.Exponent
 ---
 - launchApp
 - tapOn: "frontend"
-- assertVisible: "Welcome!"
+- assertVisible: "Step 1: Try entering the H Building"
