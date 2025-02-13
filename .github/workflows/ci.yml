@@ -94,6 +94,7 @@ jobs:
 
       - name: Run Maestro tests
         run: |
+          export PATH="$PATH":"$HOME/.maestro/bin"
           maestro test maestro/acceptance/*.yaml
 
       - name: Upload Test Video
