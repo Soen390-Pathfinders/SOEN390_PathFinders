@@ -82,6 +82,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd frontend
           npm install
 
       - name: Install Maestro
@@ -95,6 +96,7 @@ jobs:
 
       - name: Run React Native app on iOS
         run: |
+          cd frontend
           npx react-native run-ios --simulator="${{ steps.sim.outputs.udid }}"
 
       - name: Run Maestro acceptance tests
