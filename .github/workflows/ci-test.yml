@@ -1,0 +1,110 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - backend
+      - frontend
+  pull_request:
+    branches:
+      - main
+      - backend
+      - frontend
+
+jobs:
+  ci-pipeline:
+    runs-on: macos-latest # Running on macOS for iOS emulator compatibility
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Install Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      # Step 4: Build Docker Containers
+      - name: Build Docker Containers
+        run: docker compose build
+
+      # Step 5: Start Docker Compose (backend service and DB)
+      - name: Start Docker Compose
+        run: docker compose up -d
+
+      # Step 6: Wait for PostgreSQL service
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          while ! docker exec -t postgres pg_isready -U postgres; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 5
+          done
+
+      # Step 7: Run Migrations for Backend
+      - name: Run Backend Migrations
+        run: docker compose exec web python manage.py migrate
+
+      # Step 8: Install frontend dependencies
+      - name: Install Frontend Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      # Step 9: Run Jest tests for Frontend
+      - name: Run Jest Tests for Frontend
+        run: |
+          cd frontend
+          npm test -- --coverage
+
+      # Step 10: Run Backend Tests
+      - name: Run Backend Tests
+        run: docker compose exec web pytest
+
+      # Step 11: Start Expo app (iOS)
+      - name: Start Expo app (iOS)
+        run: |
+          cd frontend
+          npm run ios &  # Start Expo in the background
+
+      # Step 12: Wait for iOS emulator to be ready
+      - name: Wait for iOS emulator to be ready
+        run: |
+          while ! xcrun simctl list devices | grep "(Booted)"; do
+            echo "Waiting for emulator to start..."
+            sleep 5
+          done
+
+      # Step 13: Install Maestro
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+
+      # Step 14: Run Maestro tests
+      - name: Run Maestro tests
+        run: |
+          cd frontend
+          export PATH="$PATH":"$HOME/.maestro/bin"
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
+          maestro test maestro/acceptance/*.yaml
