@@ -77,29 +77,23 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "16" # or your preferred version
+          node-version: "16" # Adjust if necessary
 
       - name: Install dependencies
         run: |
           cd frontend
           npm install
 
-      - name: Run React Native app on iOS
+      - name: Start Expo app
         run: |
           cd frontend
-          npm run ios &  # Run Expo to start the app
+          npm run ios &  # Start Expo in the background
+          sleep 30  # Wait for app to load
 
       - name: Install Maestro
         run: curl -fsSL "https://get.maestro.mobile.dev" | bash
 
       - name: Run Maestro tests
         run: |
-          export PATH="$PATH":"$HOME/.maestro/bin"
           cd frontend
           maestro test maestro/acceptance/*.yaml
-
-      - name: Upload Test Video
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-video
-          path: test.mp4
