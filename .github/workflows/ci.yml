@@ -87,7 +87,7 @@ jobs:
       - name: Start Expo app
         run: |
           cd frontend
-          npm run ios  # Start Expo in the background
+          npm run ios & # Start Expo in the background
 
       - name: Install Maestro
         run: |
