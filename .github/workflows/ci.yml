@@ -98,5 +98,6 @@ jobs:
 
       - name: Run Maestro tests
         run: |
+          export PATH="$PATH":"$HOME/.maestro/bin"
           cd frontend
           maestro test maestro/acceptance/*.yaml
