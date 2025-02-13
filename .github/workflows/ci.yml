@@ -104,4 +104,5 @@ jobs:
         run: |
           cd frontend
           export PATH="$PATH":"$HOME/.maestro/bin"
+          export MAESTRO_DRIVER_STARTUP_TIMEOUT=60000
           maestro test maestro/acceptance/*.yaml
