@@ -67,3 +67,37 @@ jobs:
 
       - name: Run Backend Tests
         run: docker compose exec web pytest
+
+  maestro-tests:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16" # or your preferred version
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Run React Native app on iOS
+        run: |
+          cd frontend
+          npm run ios &  # Run Expo to start the app
+
+      - name: Install Maestro
+        run: curl -fsSL "https://get.maestro.mobile.dev" | bash
+
+      - name: Run Maestro tests
+        run: |
+          maestro test maestro/acceptance/*.yaml
+
+      - name: Upload Test Video
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-video
+          path: test.mp4
