@@ -14,7 +14,7 @@ on:
 
 jobs:
   ci-pipeline:
-    runs-on: macos-latest # Running on macOS for iOS emulator compatibility
+    runs-on: macos-latest # macOS runner for compatibility with Expo/iOS
 
     services:
       postgres:
@@ -36,25 +36,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Docker
+      # Step 2: Set up Docker for the backend
       - name: Set up Docker
         uses: docker/setup-buildx-action@v2
 
-      # Step 3: Install Docker Compose
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
-
-      # Step 4: Build Docker Containers
+      # Step 3: Build Docker containers
       - name: Build Docker Containers
         run: docker compose build
 
-      # Step 5: Start Docker Compose (backend service and DB)
+      # Step 4: Start Docker Compose (backend and DB services)
       - name: Start Docker Compose
         run: docker compose up -d
 
-      # Step 6: Wait for PostgreSQL service
+      # Step 5: Wait for PostgreSQL to be ready
       - name: Wait for PostgreSQL to be ready
         run: |
           while ! docker exec -t postgres pg_isready -U postgres; do
@@ -62,37 +56,42 @@ jobs:
             sleep 5
           done
 
-      # Step 7: Run Migrations for Backend
+      # Step 6: Run backend migrations
       - name: Run Backend Migrations
         run: docker compose exec web python manage.py migrate
 
-      # Step 8: Install frontend dependencies
+      # Step 7: Install frontend dependencies
       - name: Install Frontend Dependencies
         run: |
           cd frontend
           npm install
 
-      # Step 9: Run Jest tests for Frontend
+      # Step 8: Run Jest tests for frontend
       - name: Run Jest Tests for Frontend
         run: |
           cd frontend
           npm test -- --coverage
 
-      # Step 10: Run Backend Tests
+      # Step 9: Run Backend Tests
       - name: Run Backend Tests
         run: docker compose exec web pytest
 
-      # Step 11: Start Expo app (iOS)
+      # Step 10: Install Expo CLI (Ensure Expo is installed globally)
+      - name: Install Expo CLI
+        run: |
+          npm install -g expo-cli
+
+      # Step 11: Start Expo app (iOS emulator)
       - name: Start Expo app (iOS)
         run: |
           cd frontend
           npm run ios &  # Start Expo in the background
 
-      # Step 12: Wait for iOS emulator to be ready
+      # Step 12: Wait for the iOS emulator to boot
       - name: Wait for iOS emulator to be ready
         run: |
           while ! xcrun simctl list devices | grep "(Booted)"; do
-            echo "Waiting for emulator to start..."
+            echo "Waiting for iOS emulator to boot..."
             sleep 5
           done
 
