@@ -87,7 +87,7 @@ jobs:
       - name: Start Expo app
         run: |
           cd frontend
-          npm run ios &  # Start Expo in the background
+          npm run ios  # Start Expo in the background
 
       - name: Install Maestro
         run: |
@@ -97,5 +97,4 @@ jobs:
         run: |
           cd frontend
           export PATH="$PATH":"$HOME/.maestro/bin"
-          sleep 30 
           maestro test maestro/acceptance/*.yaml
