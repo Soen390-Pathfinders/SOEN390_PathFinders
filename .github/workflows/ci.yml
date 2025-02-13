@@ -67,3 +67,15 @@ jobs:
 
       - name: Run Backend Tests
         run: docker compose exec web pytest
+
+        # Add Maestro Integration Here
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+
+      - name: Run Maestro Acceptance Tests
+        run: |
+          # Make sure your app is running on a simulator or device before running tests
+          # Example of running acceptance tests (update with your specific suite name)
+          cd frontend
+          maestro test maestro/acceptance/*.yaml
