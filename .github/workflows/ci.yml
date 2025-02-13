@@ -88,10 +88,11 @@ jobs:
         run: |
           cd frontend
           npm run ios &  # Start Expo in the background
-          sleep 30  # Wait for app to load
 
       - name: Install Maestro
-        run: curl -fsSL "https://get.maestro.mobile.dev" | bash
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          export PATH="$PATH":"$HOME/.maestro/bin"
 
       - name: Run Maestro tests
         run: |
