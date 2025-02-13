@@ -4,7 +4,7 @@ exports[`Headers  renders correctly in dark mode 1`] = `
 <View
   style={
     {
-      "flex": 0.5,
+      "flex": 0.7,
     }
   }
 >
