@@ -75,7 +75,7 @@ jobs:
 
       - name: Build Expo App
         run: |
-          npx expo build:ios --no-wait
+          npx expo build -p ios --no-wait
 
       - name: Run Maestro Acceptance Tests
         run: |
