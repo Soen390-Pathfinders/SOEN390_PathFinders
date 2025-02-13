@@ -945,6 +945,5 @@ const outlines = [
       { latitude: 45.458630439266, longitude: -73.6384670350639 },
     ],
   },
-
 ];
 export default outlines;

@@ -8,10 +8,10 @@ import { GOOGLE_MAPS_APIKEY } from "../../constants";
 import outlines from "./building_outlines";
 import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
+import { concordiaBuildings } from "./concordiaBuildings";
 
-export default function OutdoorMap({origin, destination, travelMode}) {
+export default function OutdoorMap({ origin, destination, travelMode }) {
   //{ origin, destination, travelMode }
- 
 
   const [campus, setCampus] = useState("SGW");
   const { userLocation } = useLocation(); // Get location from context
@@ -31,25 +31,6 @@ export default function OutdoorMap({origin, destination, travelMode}) {
     },
   };
 
-  const concordiaBuildings = [
-    {
-      id: 1,
-      latitude: 45.49745011600138,
-      longitude: -73.57894297258392,
-      title: "Hall Building",
-      description: "H Building Concordia University",
-      campus: "SGW",
-    },
-    {
-      id: 2,
-      latitude: 45.4582,
-      longitude: -73.6405,
-      title: "Loyola Campus Main Building",
-      description: "Loyola Campus Concordia University",
-      campus: "LOY",
-    },
-  ];
-
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -61,7 +42,7 @@ export default function OutdoorMap({origin, destination, travelMode}) {
       >
         {/* Render building outlines */}
         <PolygonRender />
-        {/* Render building markers */}
+        {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
             key={marker.id}
@@ -73,20 +54,6 @@ export default function OutdoorMap({origin, destination, travelMode}) {
             description={marker.description}
           />
         ))}
-
-        {concordiaBuildings
-          .filter((marker) => marker.campus === campus)
-          .map((marker) => (
-            <Marker
-              key={marker.id}
-              coordinate={{
-                latitude: marker.latitude,
-                longitude: marker.longitude,
-              }}
-              title={marker.title}
-              description={marker.description}
-            />
-          ))}
 
         {/* Render Directions if both origin and destination are set */}
         {origin && destination && (
