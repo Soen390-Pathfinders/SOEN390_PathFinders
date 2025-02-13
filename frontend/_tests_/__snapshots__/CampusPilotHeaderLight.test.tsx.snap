@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Campus Map renders correctly 1`] = `
+exports[`Headers  renders correctly in light mode 1`] = `
 <View
   style={
     {
-      "flex": 0.5,
+      "flex": 0.7,
     }
   }
 >
