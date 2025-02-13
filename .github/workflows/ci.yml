@@ -73,6 +73,10 @@ jobs:
         run: |
           curl -fsSL "https://get.maestro.mobile.dev" | bash
 
+      - name: Build Expo App
+        run: |
+          npx expo build:ios --no-wait
+
       - name: Run Maestro Acceptance Tests
         run: |
           # Make sure your app is running on a simulator or device before running tests
