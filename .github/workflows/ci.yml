@@ -100,4 +100,5 @@ jobs:
         run: |
           export PATH="$PATH":"$HOME/.maestro/bin"
           cd frontend
+          npm run ios
           maestro test maestro/acceptance/*.yaml
