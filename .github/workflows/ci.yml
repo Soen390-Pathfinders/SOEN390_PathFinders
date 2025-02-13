@@ -14,7 +14,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     services:
       postgres:
@@ -68,18 +68,30 @@ jobs:
       - name: Run Backend Tests
         run: docker compose exec web pytest
 
-        # Add Maestro Integration Here
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "stable"
+
+      - name: Launch Simulator
+        id: sim
+        uses: futureware-tech/simulator-action@v4
+
+      - name: Install the Application
+        run: |
+          flutter run -d ${{steps.sim.outputs.udid}} &
+          while ! xcrun simctl get_app_container booted host.exp.Exponent; do 
+            sleep 5
+          done;
+
       - name: Install Maestro
-        run: |
-          curl -fsSL "https://get.maestro.mobile.dev" | bash
+        run: curl -fsSL "https://get.maestro.mobile.dev" | bash
 
-      - name: Build Expo App
-        run: |
-          npx expo build -p ios --no-wait
+      - name: Maestro test
+        run: maestro record maestro/acceptance/*.yaml --local test.mp4
 
-      - name: Run Maestro Acceptance Tests
-        run: |
-          # Make sure your app is running on a simulator or device before running tests
-          # Example of running acceptance tests (update with your specific suite name)
-          cd frontend
-          maestro test maestro/acceptance/*.yaml
+      - name: Upload Test Video
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-video
+          path: test.mp4
