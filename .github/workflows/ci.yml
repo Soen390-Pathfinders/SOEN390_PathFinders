@@ -97,10 +97,6 @@ jobs:
         run: curl -fsSL "https://get.maestro.mobile.dev" | bash
 
       - name: Run Maestro tests
-        run: maestro record maestro/acceptance/*.yaml --local test.mp4
-
-      - name: Upload Test Video
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-video
-          path: test.mp4
+        run: |
+          cd frontend
+          maestro test maestro/acceptance/*.yaml
