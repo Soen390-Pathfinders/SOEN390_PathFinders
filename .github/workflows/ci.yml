@@ -97,4 +97,5 @@ jobs:
         run: |
           cd frontend
           export PATH="$PATH":"$HOME/.maestro/bin"
+          sleep 30 
           maestro test maestro/acceptance/*.yaml
