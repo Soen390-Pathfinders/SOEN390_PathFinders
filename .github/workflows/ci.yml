@@ -67,3 +67,41 @@ jobs:
 
       - name: Run Backend Tests
         run: docker compose exec web pytest
+
+  maestro-tests:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Start Expo app
+        run: |
+          cd frontend
+          npm run ios & # Start Expo in the background
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+
+      - name: Wait for the iOS emulator to be ready
+        run: |
+          while ! xcrun simctl list devices | grep "(Booted)"; do
+            echo "Waiting for emulator to start..."
+            sleep 5
+          done
+
+      - name: Run Maestro tests
+        run: |
+          cd frontend
+          export PATH="$PATH":"$HOME/.maestro/bin"
+          maestro test maestro/acceptance/*.yaml
