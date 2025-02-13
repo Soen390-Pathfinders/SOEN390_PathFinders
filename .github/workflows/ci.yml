@@ -91,8 +91,6 @@ jobs:
       - name: Launch iOS Simulator
         id: sim
         uses: futureware-tech/simulator-action@v4
-        with:
-          simulator: "iPhone 16" # Adjust to your preferred simulator
 
       - name: Run React Native app on iOS
         run: |
