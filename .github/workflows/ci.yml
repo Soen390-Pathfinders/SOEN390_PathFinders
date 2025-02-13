@@ -69,39 +69,39 @@ jobs:
         run: docker compose exec web pytest
 
   maestro-tests:
-  runs-on: macos-latest
+    runs-on: macos-latest
 
-  steps:
-    - name: Check out repository
-      uses: actions/checkout@v3
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: "16" # or whatever version you're using
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16" # or whatever version you're using
 
-    - name: Install dependencies
-      run: |
-        npm install
+      - name: Install dependencies
+        run: |
+          npm install
 
-    - name: Install Maestro
-      run: curl -fsSL "https://get.maestro.mobile.dev" | bash
+      - name: Install Maestro
+        run: curl -fsSL "https://get.maestro.mobile.dev" | bash
 
-    - name: Launch iOS Simulator
-      id: sim
-      uses: futureware-tech/simulator-action@v4
-      with:
-        simulator: "iPhone 16" # Adjust to your preferred simulator
+      - name: Launch iOS Simulator
+        id: sim
+        uses: futureware-tech/simulator-action@v4
+        with:
+          simulator: "iPhone 16" # Adjust to your preferred simulator
 
-    - name: Run React Native app on iOS
-      run: |
-        npx react-native run-ios --simulator="${{ steps.sim.outputs.udid }}"
+      - name: Run React Native app on iOS
+        run: |
+          npx react-native run-ios --simulator="${{ steps.sim.outputs.udid }}"
 
-    - name: Run Maestro acceptance tests
-      run: maestro record maestro/acceptance/*.yaml --local test.mp4
+      - name: Run Maestro acceptance tests
+        run: maestro record maestro/acceptance/*.yaml --local test.mp4
 
-    - name: Upload Test Video
-      uses: actions/upload-artifact@v4
-      with:
-        name: test-video
-        path: test.mp4
+      - name: Upload Test Video
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-video
+          path: test.mp4
