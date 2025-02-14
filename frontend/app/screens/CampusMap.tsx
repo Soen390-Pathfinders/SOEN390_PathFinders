@@ -1,11 +1,11 @@
 //Campus Map Screen
 import { StyleSheet, Text, View, TextInput, Image } from "react-native";
-import OutdoorMap from "../components/maps/OutdoorMap";
+import OutdoorMap from "../components/OutdoorMap/OutdoorMap";
 import AppLogo from "../components/ui/AppLogo";
 import { ThemeProvider } from "../components/context/ThemeContext";
 import ThemeToggle from "../components/ui/ThemeToggle";
 import useTheme from "../hooks/useTheme";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { CampusToggle } from "../components/ui/CampusToggle";

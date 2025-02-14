@@ -7,7 +7,8 @@ import MapViewDirections from "react-native-maps-directions";
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
 import outlines from "./building_outlines";
 import { useLocation } from "../context/userLocationContext";
-import PolygonRender from "./PolygonRender";
+import PolygonRender from "./PolygonRender"; // Correct the path
+
 import { concordiaBuildings } from "./concordiaBuildings";
 
 export default function OutdoorMap({ origin, destination, travelMode }) {
@@ -41,7 +42,7 @@ export default function OutdoorMap({ origin, destination, travelMode }) {
         region={initialRegions[campus]}
       >
         {/* Render building outlines */}
-        <PolygonRender />
+        <PolygonRender destination={destination} />
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker

@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import OutdoorMap from "../components/maps/OutdoorMap";
+import OutdoorMap from "../components/OutdoorMap/OutdoorMap";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { GOOGLE_MAPS_APIKEY } from "../constants";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useLocation } from "../components/context/userLocationContext";
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 export default function OutdoorDirections() {
   const { theme } = useTheme();
@@ -33,7 +33,9 @@ export default function OutdoorDirections() {
     if (startLocation && destination) {
       setSubmittedStart(startLocation);
       setSubmittedDestination(destination);
-      console.log(`Navigating from: ${startLocation} to: ${destination} via ${travelMode}`);
+      console.log(
+        `Navigating from: ${startLocation} to: ${destination} via ${travelMode}`
+      );
     } else {
       Alert.alert(
         "Missing Information",
@@ -45,7 +47,9 @@ export default function OutdoorDirections() {
 
   // Function to set current location in the search bar and state
   const setToCurrentLocation = (type) => {
-    const locationText = `${userLocation.latitude.toFixed(6)}, ${userLocation.longitude.toFixed(6)}`;
+    const locationText = `${userLocation.latitude.toFixed(
+      6
+    )}, ${userLocation.longitude.toFixed(6)}`;
 
     if (type === "start") {
       setStartLocation(locationText); // Store as string
@@ -72,7 +76,9 @@ export default function OutdoorDirections() {
           }}
           placeholder="Start Location"
           onPress={(data, details = null) => {
-            const latLng = `${details.geometry.location.lat.toFixed(6)}, ${details.geometry.location.lng.toFixed(6)}`;
+            const latLng = `${details.geometry.location.lat.toFixed(
+              6
+            )}, ${details.geometry.location.lng.toFixed(6)}`;
             setStartLocation(latLng); // Store as string
           }}
           fetchDetails={true}
@@ -83,7 +89,10 @@ export default function OutdoorDirections() {
         />
 
         {/* Current Location Button for Start */}
-        <TouchableOpacity onPress={() => setToCurrentLocation("start")} style={styles.locationButton}>
+        <TouchableOpacity
+          onPress={() => setToCurrentLocation("start")}
+          style={styles.locationButton}
+        >
           <MaterialIcons name="my-location" size={36} color="#007BFF" />
         </TouchableOpacity>
       </View>
@@ -99,7 +108,9 @@ export default function OutdoorDirections() {
           }}
           placeholder="Select Destination"
           onPress={(data, details = null) => {
-            const latLng = `${details.geometry.location.lat.toFixed(6)}, ${details.geometry.location.lng.toFixed(6)}`;
+            const latLng = `${details.geometry.location.lat.toFixed(
+              6
+            )}, ${details.geometry.location.lng.toFixed(6)}`;
             setDestination(latLng); // Store as string
           }}
           fetchDetails={true}
@@ -118,36 +129,57 @@ export default function OutdoorDirections() {
       {/* Transportation Mode Selection */}
       <View style={styles.transportModeContainer}>
         {/* Walking Mode */}
-        <TouchableOpacity 
-          style={[styles.iconButton, travelMode === "WALKING" && styles.iconButtonSelected]}
+        <TouchableOpacity
+          style={[
+            styles.iconButton,
+            travelMode === "WALKING" && styles.iconButtonSelected,
+          ]}
           onPress={() => setTravelMode("WALKING")}
         >
-          <MaterialIcons name="directions-walk" size={24} color={travelMode === "WALKING" ? "#fff" : "#007BFF"} />
+          <MaterialIcons
+            name="directions-walk"
+            size={24}
+            color={travelMode === "WALKING" ? "#fff" : "#007BFF"}
+          />
         </TouchableOpacity>
 
         {/* Driving Mode */}
-        <TouchableOpacity 
-          style={[styles.iconButton, travelMode === "DRIVING" && styles.iconButtonSelected]}
+        <TouchableOpacity
+          style={[
+            styles.iconButton,
+            travelMode === "DRIVING" && styles.iconButtonSelected,
+          ]}
           onPress={() => setTravelMode("DRIVING")}
         >
-          <MaterialIcons name="directions-car" size={24} color={travelMode === "DRIVING" ? "#fff" : "#007BFF"} />
+          <MaterialIcons
+            name="directions-car"
+            size={24}
+            color={travelMode === "DRIVING" ? "#fff" : "#007BFF"}
+          />
         </TouchableOpacity>
 
         {/* Transit Mode */}
-        <TouchableOpacity 
-          style={[styles.iconButton, travelMode === "TRANSIT" && styles.iconButtonSelected]}
+        <TouchableOpacity
+          style={[
+            styles.iconButton,
+            travelMode === "TRANSIT" && styles.iconButtonSelected,
+          ]}
           onPress={() => setTravelMode("TRANSIT")}
         >
-          <MaterialIcons name="directions-transit" size={24} color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"} />
+          <MaterialIcons
+            name="directions-transit"
+            size={24}
+            color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"}
+          />
         </TouchableOpacity>
       </View>
 
       {/* Always Display Map with Submitted Locations */}
       <View style={globalStyles.mapContainer}>
-        <OutdoorMap 
-          origin={submittedStart} 
-          destination={submittedDestination} 
-          travelMode={travelMode} 
+        <OutdoorMap
+          origin={submittedStart}
+          destination={submittedDestination}
+          travelMode={travelMode}
         />
       </View>
     </View>
@@ -160,7 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   googleInput: {
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -168,44 +200,44 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   inputWithLocationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
-    width: '100%',
+    width: "100%",
   },
   locationButton: {
     padding: 10,
   },
   goButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: "#007BFF",
     padding: 10,
     borderRadius: 10,
     marginLeft: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   goButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   /* Transport Mode Styles */
   transportModeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     marginBottom: 10,
     paddingHorizontal: 20,
   },
   iconButton: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 3,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#007BFF',
+    borderColor: "#007BFF",
     marginHorizontal: 20,
   },
   iconButtonSelected: {
-    backgroundColor: '#007BFF',
+    backgroundColor: "#007BFF",
   },
 });

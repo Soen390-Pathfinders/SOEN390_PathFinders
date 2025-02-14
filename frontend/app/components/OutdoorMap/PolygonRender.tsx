@@ -4,8 +4,9 @@ import { useLocation } from "../context/userLocationContext";
 import { Polygon } from "react-native-maps";
 import { View } from "react-native";
 import React from "react";
+import buildingAsDestination from "./buildingAsDestination";
 
-export default function PolygonRender() {
+export default function PolygonRender({ destination }) {
   const { userLocation } = useLocation(); // Get user Location
   /*const userLocation = {
     latitude: 45.49745011599649,
@@ -40,6 +41,14 @@ export default function PolygonRender() {
                 : "rgba(0, 0, 255, 0.99)"
             }
             strokeWidth={2}
+            onPress={() => {
+              console.log("Polygon pressed"); // Add this line to verify if the handler is triggered  //TODO: Verify why the handler is not triggeredtriggered
+              buildingAsDestination((result) => {
+                if (result) {
+                  destination(outline.coordinates[0]); // Set to the first coordinate
+                }
+              });
+            }}
           />
         );
       })}
