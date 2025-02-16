@@ -33,7 +33,8 @@ jobs:
 
    #Run the Jest tests 
     - name: Run Jest tests
-      run: npm test
+      run: npm test -- __tests__/*
+
   # Runnint sonarCloud testing
   sonarcloud:
     runs-on: ubuntu-latest
