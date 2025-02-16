@@ -29,11 +29,11 @@ jobs:
 
     #Install the react native dependencies
     - name: Install dependencies
-      run: npm install
+      run: cd frontend && npm install
 
    #Run the Jest tests 
     - name: Run Jest tests
-      run: npm test -- __tests__/*
+      run: cd frontend && npm test -- __tests__/*
 
   # Runnint sonarCloud testing
   sonarcloud:
