@@ -10,6 +10,7 @@ import CustomDrawerContent from "./drawer/CustomDrawerContent";
 const Drawer = createDrawerNavigator();
 import CampusMap from "./screens/CampusMap";
 import OutdoorDirections from "./screens/OutdoorDirections";
+import ConcordiaShuttle from "./screens/ConcordiaShuttle";
 /*Loading screen and theme provider*/
 import LoadingScreen from "./screens/LoadingScreen";
 import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/light view
@@ -72,6 +73,20 @@ export default function RootLayout() {
                   <Image
                     style={styles.navLogo}
                     source={require("../assets/images/sign-post.png")}
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="(screens)/ConcordiaShuttle"
+              component={ConcordiaShuttle}
+              options={{
+                drawerLabel: "Concordia Shuttle",
+                title: "concordia Shuttle",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/chronometer.png")}
                   />
                 ),
               }}
