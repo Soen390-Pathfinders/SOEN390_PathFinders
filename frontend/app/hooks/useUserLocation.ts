@@ -10,7 +10,7 @@ const useUserLocation = () => {
     let isMounted = true;
 
     const getUserLocation = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync(); //Access foreground permission to get location access
+      let { status } = await Location.requestForegroundPermissionsAsync(); //Access foreground permission to allow device's location access
 
       if (status == "granted") {
         console.log("Permission to access location was granted");
@@ -29,10 +29,17 @@ const useUserLocation = () => {
       }
     };
 
-    getUserLocation(); // Call function on mount
+    getUserLocation(); // Call function on mount and get the user location from the device
+    // Set up interval to fetch location every 5 seconds
+    const intervalId = setInterval(() => {
+      getUserLocation();
+    }, 2000); // update the user location every 2 seconds
+
 
     return () => {
       isMounted = false;
+      clearInterval(intervalId); // Clear the interval when component unmounts
+      
     };
   }, []); // Empty dependency array to ensure it runs only once
 
@@ -46,6 +53,9 @@ const useUserLocation = () => {
   };
 
   return { setLocation, userLocation }; // Return the user location along with setLocation function
+
+  
 };
+
 
 export default useUserLocation;
