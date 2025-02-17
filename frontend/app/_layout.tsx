@@ -86,7 +86,7 @@ export default function RootLayout() {
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}
-                    source={require("../assets/images/chronometer.png")}
+                    source={require("../assets/images/bus.png")}
                   />
                 ),
               }}
