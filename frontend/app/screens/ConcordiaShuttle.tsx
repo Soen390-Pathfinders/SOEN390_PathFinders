@@ -4,7 +4,7 @@ import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import ConcordiaShuttleTimes from "../components/ui/ConcordiaShuttleTimes";
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 export default function ConcordiaShuttle() {
   const { theme } = useTheme();
@@ -15,14 +15,14 @@ export default function ConcordiaShuttle() {
       latitude: 45.45823278377158,
       longitude: -73.63915536118513,
       title: "Loyola Campus",
-      description: "Concordia University Loyola Campus"
+      description: "Concordia University Loyola Campus",
     },
     sgw: {
       latitude: 45.4972030019821,
       longitude: -73.57852620369705,
       title: "SGW Campus",
-      description: "Concordia University SGW Campus"
-    }
+      description: "Concordia University SGW Campus",
+    },
   };
 
   return (
@@ -31,6 +31,7 @@ export default function ConcordiaShuttle() {
       <ConcordiaShuttleTimes />
       <View style={globalStyles.mapContainer}>
         <MapView
+          showsUserLocation={true}
           provider={PROVIDER_GOOGLE}
           style={{ flex: 1 }}
           initialRegion={{
@@ -75,7 +76,7 @@ export default function ConcordiaShuttle() {
 
 const styles = StyleSheet.create({
   markerContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   marker: {
     backgroundColor: "rgba(145, 35, 55, 0.99)",
@@ -83,30 +84,29 @@ const styles = StyleSheet.create({
     padding: 2,
     paddingHorizontal: 4,
     borderWidth: 1,
-    borderColor: '#FFFFFF',
-    shadowColor: '#000',
+    borderColor: "#FFFFFF",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    
   },
   markerText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+    color: "#FFFFFF",
+    fontWeight: "bold",
     fontSize: 12,
   },
   arrow: {
     width: 0,
     height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
+    backgroundColor: "transparent",
+    borderStyle: "solid",
     borderLeftWidth: 6,
     borderRightWidth: 6,
     borderTopWidth: 8,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
     borderTopColor: "rgba(145, 35, 55, 0.99)",
-    transform: [{ translateY: -1 }]
-  }
+    transform: [{ translateY: -1 }],
+  },
 });
