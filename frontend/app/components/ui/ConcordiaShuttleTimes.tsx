@@ -108,7 +108,7 @@ export default function ConcordiaShuttleTimes() {
                       ? "  ⏳ Departing..."
                       : loyMinutesAway < 0 
                         ? "  ✓ Departed"
-                        : `  🚌 ${Math.max(0, Math.ceil(loyMinutesAway))} mins away`}
+                        : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
                   </Text>
                 </Text>
               )}
@@ -126,7 +126,7 @@ export default function ConcordiaShuttleTimes() {
                       ? "  ⏳ Departing..."
                       : sgwMinutesAway < 0
                         ? "  ✓ Departed"
-                        : `  🚌 ${Math.max(0, Math.ceil(sgwMinutesAway))} mins away`}
+                        : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
                   </Text>
                 </Text>
               )}
