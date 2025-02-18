@@ -23,9 +23,8 @@ const timeToMinutes = (time: string): number => {
   return hours * 60 + minutes;
 };
 
-
+// Converting the current time to minutes for accurate shuttle departure calculations
 const getCurrentTimeInMinutes = (): number => {
-  // return timeToMinutes("10:15"); // Test mode: Fixed at 10:15 AM
   return timeToMinutes(
     new Date().toLocaleTimeString("en-US", { hour12: false })
   );
@@ -37,6 +36,7 @@ const getNextDepartures = (currentMinutes: number) => {
       const timeInMinutes = timeToMinutes(time);
       return timeInMinutes > currentMinutes - 1;
     })
+    // Display only the next 3 shuttle times as per design choice to avoid cluttering the UI
     .slice(0, 3);
 
   const upcomingSGW = sgwSchedule
@@ -50,17 +50,17 @@ const getNextDepartures = (currentMinutes: number) => {
 };
 
 export default function ConcordiaShuttleTimes() {
-  const [simulatedTime, setSimulatedTime] = useState(getCurrentTimeInMinutes());
-  const [departures, setDepartures] = useState(getNextDepartures(simulatedTime));
+  const [currentTime, setCurrentTime] = useState(getCurrentTimeInMinutes());
+  const [departures, setDepartures] = useState(getNextDepartures(currentTime));
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSimulatedTime((prev) => prev + 1);
-      setDepartures(getNextDepartures(simulatedTime));
+      setCurrentTime((prev) => prev + 1);
+      setDepartures(getNextDepartures(currentTime));
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [simulatedTime]);
+  }, [currentTime]);
 
   const formatTime = (minutes: number): string => {
     const hours = Math.floor(minutes / 60);
@@ -75,8 +75,8 @@ export default function ConcordiaShuttleTimes() {
       showsVerticalScrollIndicator={false}
     >
       <Text style={styles.title}>Bus Shuttle Departure Times</Text>
-      <Text style={styles.simulatedTime}>
-        Current Time: {formatTime(simulatedTime)}
+      <Text style={styles.currentTime}>
+        Current Time: {formatTime(currentTime)}
       </Text>
       
       <View style={styles.headerRow}>
@@ -90,8 +90,8 @@ export default function ConcordiaShuttleTimes() {
       ))].map((_, index) => {
         const loyTime = departures.loyola[index];
         const sgwTime = departures.sgw[index];
-        const loyMinutesAway = loyTime ? timeToMinutes(loyTime) - simulatedTime : null;
-        const sgwMinutesAway = sgwTime ? timeToMinutes(sgwTime) - simulatedTime : null;
+        const loyMinutesAway = loyTime ? timeToMinutes(loyTime) - currentTime : null;
+        const sgwMinutesAway = sgwTime ? timeToMinutes(sgwTime) - currentTime : null;
 
         return (
           <View key={index} style={styles.row}>
@@ -140,7 +140,7 @@ export default function ConcordiaShuttleTimes() {
 
 const styles = StyleSheet.create({
   timecontainer: {
-    backgroundColor: "#1a365d",
+    backgroundColor: "rgba(145, 35, 55, 0.99)", // Matches Concordia's logo and marker for consistency
     width: "100%",
     maxHeight: "30%", // Keep the container height
   },
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     textTransform: "uppercase",
   },
-  simulatedTime: {
-    color: "#9fafca", // Lighter blue for secondary text
+  currentTime: {
+    color: "white", 
     fontSize: 16,
     textAlign: "center",
     marginBottom: 15,
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#2d4a7c",
+    borderBottomColor: "white",
     paddingBottom: 10,
     paddingHorizontal: 20,
   },
@@ -212,6 +212,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   awayStatus: {
-    color: "#9fafca", // Light blue for minutes away
+    color: "white", // Light blue for minutes away
   },
 });
