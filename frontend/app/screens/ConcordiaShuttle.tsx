@@ -1,59 +1,112 @@
-import React, { useState, useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import OutdoorMap from "../components/maps/OutdoorMap";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
-import { GOOGLE_MAPS_APIKEY } from "../constants";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useLocation } from "../components/context/userLocationContext";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import ConcordiaShuttleTimes from "../components/ui/ConcordiaShuttleTimes";
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
-export default function OutdoorDirections() {
+export default function ConcordiaShuttle() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
 
+  const campusLocations = {
+    loyola: {
+      latitude: 45.45823278377158,
+      longitude: -73.63915536118513,
+      title: "Loyola Campus",
+      description: "Concordia University Loyola Campus",
+    },
+    sgw: {
+      latitude: 45.4972030019821,
+      longitude: -73.57852620369705,
+      title: "SGW Campus",
+      description: "Concordia University SGW Campus",
+    },
+  };
+
   return (
     <View style={globalStyles.container}>
-      {/* Header */}
       <CampusPilotHeader />
-      {/*Shuttle Timing*/}
       <ConcordiaShuttleTimes />
-      {/*Outdoor Map*/}
       <View style={globalStyles.mapContainer}>
-        <OutdoorMap
-        /*   origin={{
-            latitude: 45.45823278377158,
-            longitude: -73.63915536118513,
+        <MapView
+          showsUserLocation={true}
+          provider={PROVIDER_GOOGLE}
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: 45.477716,
+            longitude: -73.608841,
+            latitudeDelta: 0.1,
+            longitudeDelta: 0.1,
           }}
-          destination={{
-            latitude: 45.4972030019821,
-            longitude: -73.57852620369705,
-          }}
-          travelMode={""}*/ //TODO:  Should we trace the shuttle path with react-native-maps polyline or direction ?
-        />
+        >
+          {/* Loyola Marker */}
+          <Marker
+            coordinate={campusLocations.loyola}
+            title={campusLocations.loyola.title}
+            description={campusLocations.loyola.description}
+          >
+            <View style={styles.markerContainer}>
+              <View style={styles.marker}>
+                <Text style={styles.markerText}>LOY</Text>
+              </View>
+              <View style={styles.arrow} />
+            </View>
+          </Marker>
+
+          {/* SGW Marker */}
+          <Marker
+            coordinate={campusLocations.sgw}
+            title={campusLocations.sgw.title}
+            description={campusLocations.sgw.description}
+          >
+            <View style={styles.markerContainer}>
+              <View style={styles.marker}>
+                <Text style={styles.markerText}>SGW</Text>
+              </View>
+              <View style={styles.arrow} />
+            </View>
+          </Marker>
+        </MapView>
       </View>
     </View>
   );
 }
 
-// Styles
 const styles = StyleSheet.create({
-  googleBarWithButton: {
-    flex: 1,
-  },
-
-  iconButton: {
+  markerContainer: {
     alignItems: "center",
-    padding: 3,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#007BFF",
-    marginHorizontal: 20,
   },
-  iconButtonSelected: {
-    backgroundColor: "#007BFF",
+  marker: {
+    backgroundColor: "rgba(145, 35, 55, 0.99)",
+    borderRadius: 4,
+    padding: 2,
+    paddingHorizontal: 4,
+    borderWidth: 1,
+    borderColor: "#FFFFFF",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  markerText: {
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    fontSize: 12,
+  },
+  arrow: {
+    width: 0,
+    height: 0,
+    backgroundColor: "transparent",
+    borderStyle: "solid",
+    borderLeftWidth: 6,
+    borderRightWidth: 6,
+    borderTopWidth: 8,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderTopColor: "rgba(145, 35, 55, 0.99)",
+    transform: [{ translateY: -1 }],
   },
 });
