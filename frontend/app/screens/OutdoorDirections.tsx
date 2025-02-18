@@ -8,146 +8,51 @@ import { GOOGLE_MAPS_APIKEY } from "../constants";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useLocation } from "../components/context/userLocationContext";
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import DirectionFields from "../components/ui/DirectionFields";
+import useDirectionLogic from "../hooks/useDirectionLogic";
 
 export default function OutdoorDirections() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
-
-  const [startLocation, setStartLocation] = useState(null);
-  const [destination, setDestination] = useState(null);
-  const [travelMode, setTravelMode] = useState("WALKING");
-
-  // New state variables that update when the user taps GO
-  const [submittedStart, setSubmittedStart] = useState(null);
-  const [submittedDestination, setSubmittedDestination] = useState(null);
-
-  const { userLocation } = useLocation(); // Get user's current location
-
-  // Refs for GooglePlacesAutocomplete to control input text
-  const startLocationRef = useRef();
-  const destinationRef = useRef();
-
-  // Update the submitted locations and, in this case, log the navigation info
-  const handleGoPress = () => {
-    if (startLocation && destination) {
-      setSubmittedStart(startLocation);
-      setSubmittedDestination(destination);
-      console.log(`Navigating from: ${startLocation} to: ${destination} via ${travelMode}`);
-    } else {
-      Alert.alert(
-        "Missing Information",
-        "Please fill in both the Start Location and Destination.",
-        [{ text: "OK", style: "default" }]
-      );
-    }
-  };
-
-  // Function to set current location in the search bar and state
-  const setToCurrentLocation = (type) => {
-    const locationText = `${userLocation.latitude.toFixed(6)}, ${userLocation.longitude.toFixed(6)}`;
-
-    if (type === "start") {
-      setStartLocation(locationText); // Store as string
-      startLocationRef.current.setAddressText(locationText); // Update search bar
-    } else if (type === "destination") {
-      setDestination(locationText); // Store as string
-      destinationRef.current.setAddressText(locationText); // Update search bar
-    }
-  };
+  const {
+    startLocation,
+    setStartLocation,
+    destination,
+    setDestination,
+    travelMode,
+    setTravelMode,
+    submittedStart,
+    submittedDestination,
+    handleGoPress,
+    setToCurrentLocation,
+    startLocationRef,
+    destinationRef,
+  } = useDirectionLogic();
 
   return (
     <View style={globalStyles.container}>
       {/* Header */}
       <CampusPilotHeader />
-
-      {/* Start Location with Current Location Icon */}
-      <View style={styles.inputWithLocationContainer}>
-        <GooglePlacesAutocomplete
-          ref={startLocationRef}
-          styles={{
-            container: styles.googleBarWithButton,
-            textInput: styles.googleInput,
-            listView: { flex: 0 },
-          }}
-          placeholder="Start Location"
-          onPress={(data, details = null) => {
-            const latLng = `${details.geometry.location.lat.toFixed(6)}, ${details.geometry.location.lng.toFixed(6)}`;
-            setStartLocation(latLng); // Store as string
-          }}
-          fetchDetails={true}
-          query={{
-            key: GOOGLE_MAPS_APIKEY,
-            language: "en",
-          }}
-        />
-
-        {/* Current Location Button for Start */}
-        <TouchableOpacity onPress={() => setToCurrentLocation("start")} style={styles.locationButton}>
-          <MaterialIcons name="my-location" size={36} color="#007BFF" />
-        </TouchableOpacity>
-      </View>
-
-      {/* Destination with GO Button */}
-      <View style={styles.inputWithLocationContainer}>
-        <GooglePlacesAutocomplete
-          ref={destinationRef}
-          styles={{
-            container: styles.googleBarWithButton,
-            textInput: styles.googleInput,
-            listView: { flex: 0 },
-          }}
-          placeholder="Select Destination"
-          onPress={(data, details = null) => {
-            const latLng = `${details.geometry.location.lat.toFixed(6)}, ${details.geometry.location.lng.toFixed(6)}`;
-            setDestination(latLng); // Store as string
-          }}
-          fetchDetails={true}
-          query={{
-            key: GOOGLE_MAPS_APIKEY,
-            language: "en",
-          }}
-        />
-
-        {/* GO Button instead of the current location button */}
-        <TouchableOpacity onPress={handleGoPress} style={styles.goButton}>
-          <Text style={styles.goButtonText}>GO</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Transportation Mode Selection */}
-      <View style={styles.transportModeContainer}>
-        {/* Walking Mode */}
-        <TouchableOpacity 
-          style={[styles.iconButton, travelMode === "WALKING" && styles.iconButtonSelected]}
-          onPress={() => setTravelMode("WALKING")}
-        >
-          <MaterialIcons name="directions-walk" size={24} color={travelMode === "WALKING" ? "#fff" : "#007BFF"} />
-        </TouchableOpacity>
-
-        {/* Driving Mode */}
-        <TouchableOpacity 
-          style={[styles.iconButton, travelMode === "DRIVING" && styles.iconButtonSelected]}
-          onPress={() => setTravelMode("DRIVING")}
-        >
-          <MaterialIcons name="directions-car" size={24} color={travelMode === "DRIVING" ? "#fff" : "#007BFF"} />
-        </TouchableOpacity>
-
-        {/* Transit Mode */}
-        <TouchableOpacity 
-          style={[styles.iconButton, travelMode === "TRANSIT" && styles.iconButtonSelected]}
-          onPress={() => setTravelMode("TRANSIT")}
-        >
-          <MaterialIcons name="directions-transit" size={24} color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"} />
-        </TouchableOpacity>
-      </View>
-
+      {/*Add start and destination fields and buttons*/}
+      <DirectionFields
+        startLocation={startLocation}
+        setStartLocation={setStartLocation}
+        destination={destination}
+        setDestination={setDestination}
+        onGoPress={handleGoPress} // Pass the handleGoPress function
+        startLocationRef={startLocationRef} // Pass the ref
+        destinationRef={destinationRef} // Pass the ref
+        travelMode={travelMode}
+        setTravelMode={setTravelMode} // Pass the setTravelMode function
+        setToCurrentLocation={setToCurrentLocation} // Pass the setToCurrentLocation function
+      />
       {/* Always Display Map with Submitted Locations */}
       <View style={globalStyles.mapContainer}>
-        <OutdoorMap 
-          origin={submittedStart} 
-          destination={submittedDestination} 
-          travelMode={travelMode} 
+        <OutdoorMap
+          origin={submittedStart}
+          destination={submittedDestination}
+          travelMode={travelMode}
         />
       </View>
     </View>
@@ -160,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   googleInput: {
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -168,44 +73,44 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   inputWithLocationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 10,
-    width: '100%',
+    width: "100%",
   },
   locationButton: {
     padding: 10,
   },
   goButton: {
-    backgroundColor: '#007BFF',
+    backgroundColor: "#007BFF",
     padding: 10,
     borderRadius: 10,
     marginLeft: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   goButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   /* Transport Mode Styles */
   transportModeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
     marginBottom: 10,
     paddingHorizontal: 20,
   },
   iconButton: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 3,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#007BFF',
+    borderColor: "#007BFF",
     marginHorizontal: 20,
   },
   iconButtonSelected: {
-    backgroundColor: '#007BFF',
+    backgroundColor: "#007BFF",
   },
 });
