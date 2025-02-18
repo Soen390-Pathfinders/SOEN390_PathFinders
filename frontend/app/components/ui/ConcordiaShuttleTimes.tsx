@@ -25,10 +25,10 @@ const timeToMinutes = (time: string): number => {
 
 
 const getCurrentTimeInMinutes = (): number => {
-  return timeToMinutes("10:15"); // Test mode: Fixed at 10:15 AM
-  // return timeToMinutes(
-  //   new Date().toLocaleTimeString("en-US", { hour12: false })
-  // );
+  // return timeToMinutes("10:15"); // Test mode: Fixed at 10:15 AM
+  return timeToMinutes(
+    new Date().toLocaleTimeString("en-US", { hour12: false })
+  );
 };
 
 const getNextDepartures = (currentMinutes: number) => {
