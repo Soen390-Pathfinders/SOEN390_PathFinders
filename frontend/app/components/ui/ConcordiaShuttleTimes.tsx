@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { ScrollView, View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 
 // Separate schedules for Loyola and SGW
@@ -25,7 +25,10 @@ const timeToMinutes = (time: string): number => {
 
 
 const getCurrentTimeInMinutes = (): number => {
-  return timeToMinutes("10:15"); // Test mode: Fixed at 10:00 AM
+  return timeToMinutes("10:15"); // Test mode: Fixed at 10:15 AM
+  // return timeToMinutes(
+  //   new Date().toLocaleTimeString("en-US", { hour12: false })
+  // );
 };
 
 const getNextDepartures = (currentMinutes: number) => {
@@ -66,7 +69,11 @@ export default function ConcordiaShuttleTimes() {
   };
 
   return (
-    <View style={styles.timecontainer}>
+    <ScrollView 
+      style={styles.timecontainer}
+      contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}
+    >
       <Text style={styles.title}>Bus Shuttle Departure Times</Text>
       <Text style={styles.simulatedTime}>
         Current Time: {formatTime(simulatedTime)}
@@ -98,10 +105,10 @@ export default function ConcordiaShuttleTimes() {
                     loyMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
                   ]}>
                     {loyMinutesAway === 0 
-                      ? "      ⏳ Departing..."
+                      ? "  ⏳ Departing..."
                       : loyMinutesAway < 0 
-                        ? "      ✓ Departed"
-                        : `      🚌 ${Math.max(0, Math.ceil(loyMinutesAway))} mins away`}
+                        ? "  ✓ Departed"
+                        : `  🚌 ${Math.max(0, Math.ceil(loyMinutesAway))} mins away`}
                   </Text>
                 </Text>
               )}
@@ -116,10 +123,10 @@ export default function ConcordiaShuttleTimes() {
                     sgwMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
                   ]}>
                     {sgwMinutesAway === 0
-                      ? "      ⏳ Departing..."
+                      ? "  ⏳ Departing..."
                       : sgwMinutesAway < 0
-                        ? "      ✓ Departed"
-                        : `      🚌 ${Math.max(0, Math.ceil(sgwMinutesAway))} mins away`}
+                        ? "  ✓ Departed"
+                        : `  🚌 ${Math.max(0, Math.ceil(sgwMinutesAway))} mins away`}
                   </Text>
                 </Text>
               )}
@@ -127,26 +134,23 @@ export default function ConcordiaShuttleTimes() {
           </View>
         );
       })}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   timecontainer: {
-    backgroundColor: "#1a365d", // Darker blue
-    height: "30%",
+    backgroundColor: "#1a365d",
     width: "100%",
+    maxHeight: "30%", // Keep the container height
+  },
+  contentContainer: {
     padding: 15,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    paddingBottom: 20, // Extra padding for scroll space
   },
   title: {
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 8,
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "white",
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
     flex: 1,
     textAlign: 'center',
@@ -186,7 +190,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     color: "white",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "500",
     textAlign: 'center',
     minWidth: 150,

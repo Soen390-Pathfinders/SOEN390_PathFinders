@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
   marker: {
     backgroundColor: "rgba(145, 35, 55, 0.99)",
     borderRadius: 4,
-    padding: 8,
-    paddingHorizontal: 12,
+    padding: 2,
+    paddingHorizontal: 4,
     borderWidth: 1,
     borderColor: '#FFFFFF',
     shadowColor: '#000',
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    
   },
   markerText: {
     color: '#FFFFFF',
