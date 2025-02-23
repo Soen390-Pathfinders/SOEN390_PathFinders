@@ -10,10 +10,9 @@ import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 import { concordiaBuildings } from "./concordiaBuildings";
 
-export default function OutdoorMap({ origin, destination, travelMode }) {
+export default function OutdoorMap({ origin, destination, travelMode, campus }) {
   //{ origin, destination, travelMode }
 
-  const [campus, setCampus] = useState("SGW");
   const { userLocation } = useLocation(); // Get location from context
 
   const initialRegions = {
