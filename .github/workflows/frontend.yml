@@ -35,17 +35,19 @@ jobs:
     - name: Run Jest tests
       run: npm test
       working-directory: frontend
-  # Runnint sonarCloud testing
-  sonarcloud:
-    runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v3
-      with:
+      #SonarQube testing was removed because the free tier runs only on main branch 
+  # Runnint sonarCloud testing
+ # sonarcloud:
+  #  runs-on: ubuntu-latest
+
+  # steps:
+   # - uses: actions/checkout@v3
+    #  with:
         # Disabling shallow clone is recommended for improving relevancy of reporting
-        fetch-depth: 0
-    - name: SonarCloud Scan
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN:  #
+     #   fetch-depth: 0
+    #- name: SonarCloud Scan
+     # uses: sonarsource/sonarcloud-github-action@master
+      #env:
+       # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #SONAR_TOKEN:  #
