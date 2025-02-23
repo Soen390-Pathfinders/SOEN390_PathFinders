@@ -3,36 +3,117 @@ import React, { useState, useEffect } from "react";
 
 // Separate schedules for Loyola and SGW
 const loyolaSchedule = [
-  "9:15", "9:30", "9:45", "10:00", "10:15", "10:30", "10:45", "11:00",
-  "11:15", "11:30", "11:45", "12:30", "12:45", "13:00", "13:15", "13:30",
-  "13:45", "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30",
-  "15:45", "16:30", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00",
-  "18:15"
+  "9:15",
+  "9:30",
+  "9:45",
+  "10:00",
+  "10:15",
+  "10:30",
+  "10:45",
+  "11:00",
+  "11:15",
+  "11:30",
+  "11:45",
+  "12:30",
+  "12:45",
+  "13:00",
+  "13:15",
+  "13:30",
+  "13:45",
+  "14:00",
+  "14:15",
+  "14:30",
+  "14:45",
+  "15:00",
+  "15:15",
+  "15:30",
+  "15:45",
+  "16:30",
+  "16:45",
+  "17:00",
+  "17:15",
+  "17:30",
+  "17:45",
+  "18:00",
+  "18:15",
 ];
 
 const sgwSchedule = [
-  "9:30", "9:45", "10:00", "10:15", "10:30", "10:45", "11:00", "11:15",
-  "11:30", "12:15", "12:30", "12:45", "13:00", "13:15", "13:30", "13:45",
-  "14:00", "14:15", "14:30", "14:45", "15:00", "15:15", "15:30", "16:00",
-  "16:15", "16:45", "17:00", "17:15", "17:30", "17:45", "18:00", "18:15",
-  "18:30"
+  "9:30",
+  "9:45",
+  "10:00",
+  "10:15",
+  "10:30",
+  "10:45",
+  "11:00",
+  "11:15",
+  "11:30",
+  "12:15",
+  "12:30",
+  "12:45",
+  "13:00",
+  "13:15",
+  "13:30",
+  "13:45",
+  "14:00",
+  "14:15",
+  "14:30",
+  "14:45",
+  "15:00",
+  "15:15",
+  "15:30",
+  "16:00",
+  "16:15",
+  "16:45",
+  "17:00",
+  "17:15",
+  "17:30",
+  "17:45",
+  "18:00",
+  "18:15",
+  "18:30",
 ];
 
-const timeToMinutes = (time: string): number => {
+//takes the time as String and returns a number of minutes
+export const timeToMinutes = (time: string): number => {
   const [hours, minutes] = time.split(":").map(Number);
+  // Check if the time is invalid (hours must be between 0-23, minutes between 0-59)
+  if (
+    isNaN(hours) ||
+    isNaN(minutes) ||
+    hours < 0 ||
+    hours >= 24 ||
+    minutes < 0 ||
+    minutes >= 60
+  ) {
+    return NaN;
+  }
+
   return hours * 60 + minutes;
 };
 
-// Converting the current time to minutes for accurate shuttle departure calculations
-const getCurrentTimeInMinutes = (): number => {
+// Converting the current time to minutes for accurate shuttle departure calculations. returns the current time in minutes
+export const getCurrentTimeInMinutes = (): number => {
   return timeToMinutes(
     new Date().toLocaleTimeString("en-US", { hour12: false })
   );
 };
-
-const getNextDepartures = (currentMinutes: number) => {
+//Format time for display
+export const formatTime = (minutes: number): string => {
+  const hours =
+    minutes >= 1440
+      ? Math.floor((minutes - 1440) / 60)
+      : Math.floor(minutes / 60);
+  const mins =
+    minutes >= 1440
+      ? Math.floor((minutes - 1440) % 60)
+      : Math.floor(minutes % 60);
+  return `${hours}:${mins.toString().padStart(2, "0")}`;
+};
+//getnextDepartures filters out the next 3 departures from the list of departure for both campus
+export const getNextDepartures = (currentMinutes: number) => {
   const upcomingLoyola = loyolaSchedule
-    .filter(time => {
+    .filter((time) => {
       const timeInMinutes = timeToMinutes(time);
       return timeInMinutes > currentMinutes - 1;
     })
@@ -40,36 +121,30 @@ const getNextDepartures = (currentMinutes: number) => {
     .slice(0, 3);
 
   const upcomingSGW = sgwSchedule
-    .filter(time => {
+    .filter((time) => {
       const timeInMinutes = timeToMinutes(time);
       return timeInMinutes > currentMinutes - 1;
     })
     .slice(0, 3);
-
   return { loyola: upcomingLoyola, sgw: upcomingSGW };
 };
 
 export default function ConcordiaShuttleTimes() {
-  const [currentTime, setCurrentTime] = useState(getCurrentTimeInMinutes());
-  const [departures, setDepartures] = useState(getNextDepartures(currentTime));
+  const [currentTime, setCurrentTime] = useState(getCurrentTimeInMinutes()); //Get the current time from the devie in minutes
+  const [departures, setDepartures] = useState(getNextDepartures(currentTime)); //departures array containing the next 3 based on current time.
 
+  //updates current time and departures every minute
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime((prev) => prev + 1);
       setDepartures(getNextDepartures(currentTime));
-    }, 30000);
+    }, 60000);
 
     return () => clearInterval(interval);
   }, [currentTime]);
 
-  const formatTime = (minutes: number): string => {
-    const hours = Math.floor(minutes / 60);
-    const mins = Math.floor(minutes % 60);
-    return `${hours}:${mins.toString().padStart(2, "0")}`;
-  };
-
   return (
-    <ScrollView 
+    <ScrollView
       style={styles.timecontainer}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
@@ -78,20 +153,23 @@ export default function ConcordiaShuttleTimes() {
       <Text style={styles.currentTime}>
         Current Time: {formatTime(currentTime)}
       </Text>
-      
+
       <View style={styles.headerRow}>
         <Text style={styles.headerText}>LOYOLA CAMPUS</Text>
         <Text style={styles.headerText}>SGW CAMPUS</Text>
       </View>
 
-      {[...Array(Math.max(
-        departures.loyola.length,
-        departures.sgw.length
-      ))].map((_, index) => {
+      {[
+        ...Array(Math.max(departures.loyola.length, departures.sgw.length)),
+      ].map((_, index) => {
         const loyTime = departures.loyola[index];
         const sgwTime = departures.sgw[index];
-        const loyMinutesAway = loyTime ? timeToMinutes(loyTime) - currentTime : null;
-        const sgwMinutesAway = sgwTime ? timeToMinutes(sgwTime) - currentTime : null;
+        const loyMinutesAway = loyTime
+          ? timeToMinutes(loyTime) - currentTime
+          : null;
+        const sgwMinutesAway = sgwTime
+          ? timeToMinutes(sgwTime) - currentTime
+          : null;
 
         return (
           <View key={index} style={styles.row}>
@@ -99,16 +177,21 @@ export default function ConcordiaShuttleTimes() {
               {loyTime && (
                 <Text style={styles.timeText}>
                   {loyTime}
-                  <Text style={[
-                    styles.statusText,
-                    loyMinutesAway === 0 ? styles.departingStatus : 
-                    loyMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
-                  ]}>
-                    {loyMinutesAway === 0 
+                  <Text
+                    style={[
+                      styles.statusText,
+                      loyMinutesAway === 0
+                        ? styles.departingStatus
+                        : loyMinutesAway < 0
+                        ? styles.departedStatus
+                        : styles.awayStatus,
+                    ]}
+                  >
+                    {loyMinutesAway === 0
                       ? "  ⏳ Departing..."
-                      : loyMinutesAway < 0 
-                        ? "  ✓ Departed"
-                        : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
+                      : loyMinutesAway < 0
+                      ? "  ✓ Departed"
+                      : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
                   </Text>
                 </Text>
               )}
@@ -117,16 +200,21 @@ export default function ConcordiaShuttleTimes() {
               {sgwTime && (
                 <Text style={styles.timeText}>
                   {sgwTime}
-                  <Text style={[
-                    styles.statusText,
-                    sgwMinutesAway === 0 ? styles.departingStatus : 
-                    sgwMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
-                  ]}>
+                  <Text
+                    style={[
+                      styles.statusText,
+                      sgwMinutesAway === 0
+                        ? styles.departingStatus
+                        : sgwMinutesAway < 0
+                        ? styles.departedStatus
+                        : styles.awayStatus,
+                    ]}
+                  >
                     {sgwMinutesAway === 0
                       ? "  ⏳ Departing..."
                       : sgwMinutesAway < 0
-                        ? "  ✓ Departed"
-                        : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
+                      ? "  ✓ Departed"
+                      : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
                   </Text>
                 </Text>
               )}
@@ -157,7 +245,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   currentTime: {
-    color: "white", 
+    color: "white",
     fontSize: 16,
     textAlign: "center",
     marginBottom: 15,
@@ -176,7 +264,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     flex: 1,
-    textAlign: 'center',
+    textAlign: "center",
   },
   row: {
     flexDirection: "row",
@@ -186,21 +274,21 @@ const styles = StyleSheet.create({
   },
   column: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   timeText: {
     color: "white",
     fontSize: 14,
     fontWeight: "500",
-    textAlign: 'center',
+    textAlign: "center",
     minWidth: 150,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
   },
   statusText: {
     fontSize: 14,
     marginLeft: 8,
-    textAlign: 'left',
+    textAlign: "left",
     flex: 1,
   },
   departingStatus: {
