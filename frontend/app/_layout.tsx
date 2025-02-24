@@ -17,6 +17,7 @@ import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/l
 /*Imports to handle user location*/
 import { LocationProvider } from "./components/context/userLocationContext"; //for the current user's location
 import useUserLocation from "./hooks/useUserLocation";
+import loginScreem from "./screens/loginScreem";
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
@@ -73,6 +74,20 @@ export default function RootLayout() {
                   <Image
                     style={styles.navLogo}
                     source={require("../assets/images/sign-post.png")}
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="(screens)/loginScreen"
+              component={loginScreem}
+              options={{
+                drawerLabel: "Directions to next class",
+                title: "direction to next class",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/class.png")}
                   />
                 ),
               }}
