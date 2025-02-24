@@ -22,6 +22,7 @@ export default function DirectionFields({
   travelMode,
   setTravelMode,
   setToCurrentLocation,
+  duration,
 }) {
   return (
     <View style={{ zIndex: 5 }}>
@@ -95,11 +96,16 @@ export default function DirectionFields({
           ]}
           onPress={() => setTravelMode("WALKING")}
         >
-          <MaterialIcons
-            name="directions-walk"
-            size={24}
-            color={travelMode === "WALKING" ? "#fff" : "#007BFF"}
-          />
+          <View style={styles.iconContainer}>
+            <MaterialIcons
+              name="directions-walk"
+              size={24}
+              color={travelMode === "WALKING" ? "#fff" : "#007BFF"}
+            />
+            {duration !== null && travelMode === "WALKING" ? (
+              <Text style={styles.duration}>{Math.round(duration)} min</Text>
+            ) : null}
+          </View>
         </TouchableOpacity>
 
         {/* Driving Mode */}
@@ -110,11 +116,16 @@ export default function DirectionFields({
           ]}
           onPress={() => setTravelMode("DRIVING")}
         >
-          <MaterialIcons
-            name="directions-car"
-            size={24}
-            color={travelMode === "DRIVING" ? "#fff" : "#007BFF"}
-          />
+          <View style={styles.iconContainer}>
+            <MaterialIcons
+              name="directions-car"
+              size={24}
+              color={travelMode === "DRIVING" ? "#fff" : "#007BFF"}
+            />
+            {duration !== null && travelMode === "DRIVING" ? (
+              <Text style={styles.duration}>{Math.round(duration)} min</Text>
+            ) : null}
+          </View>
         </TouchableOpacity>
 
         {/* Transit Mode */}
@@ -125,11 +136,16 @@ export default function DirectionFields({
           ]}
           onPress={() => setTravelMode("TRANSIT")}
         >
-          <MaterialIcons
-            name="directions-transit"
-            size={24}
-            color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"}
-          />
+          <View style={styles.iconContainer}>
+            <MaterialIcons
+              name="directions-transit"
+              size={24}
+              color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"}
+            />
+            {duration !== null && travelMode === "TRANSIT" ? (
+              <Text style={styles.duration}>{Math.round(duration)} min</Text>
+            ) : null}
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -156,6 +172,16 @@ const styles = StyleSheet.create({
   },
   locationButton: {
     padding: 10,
+  },
+  iconContainer: {
+    flexDirection: "row", // Icon and text side by side
+    alignItems: "center", // Align vertically
+  },
+  duration: {
+    marginLeft: 8, // Add spacing between icon and text
+    color: "#fff",
+    fontSize: 16,
+    paddingRight: 5,
   },
   goButton: {
     backgroundColor: "#007BFF",

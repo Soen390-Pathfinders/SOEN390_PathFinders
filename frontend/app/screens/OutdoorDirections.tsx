@@ -29,6 +29,7 @@ export default function OutdoorDirections() {
     startLocationRef,
     destinationRef,
   } = useDirectionLogic();
+  const [duration, setDuration] = useState(null); // For the trip duration
 
   return (
     <View style={globalStyles.container}>
@@ -46,6 +47,7 @@ export default function OutdoorDirections() {
         travelMode={travelMode}
         setTravelMode={setTravelMode} // Pass the setTravelMode function
         setToCurrentLocation={setToCurrentLocation} // Pass the setToCurrentLocation function
+        duration={duration}
       />
       {/* Always Display Map with Submitted Locations */}
       <View style={globalStyles.mapContainer}>
@@ -53,6 +55,7 @@ export default function OutdoorDirections() {
           origin={submittedStart}
           destination={submittedDestination}
           travelMode={travelMode}
+          onDurationChange={setDuration}
         />
       </View>
     </View>

@@ -10,7 +10,12 @@ import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 import { concordiaBuildings } from "./concordiaBuildings";
 
-export default function OutdoorMap({ origin, destination, travelMode }) {
+export default function OutdoorMap({
+  origin,
+  destination,
+  travelMode,
+  onDurationChange,
+}) {
   //{ origin, destination, travelMode }
 
   const [campus, setCampus] = useState("SGW");
@@ -64,6 +69,11 @@ export default function OutdoorMap({ origin, destination, travelMode }) {
             mode={travelMode} // Dynamic travel mode
             strokeWidth={7}
             strokeColor="blue"
+            onReady={(result) => {
+              console.log(`Distance: ${result.distance} km`);
+              console.log(`Duration: ${result.duration} min`);
+              onDurationChange(result.duration); // Send duration to parent
+            }}
           />
         )}
       </MapView>

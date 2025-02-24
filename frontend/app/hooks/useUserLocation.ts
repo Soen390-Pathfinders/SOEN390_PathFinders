@@ -2,26 +2,29 @@
 import { useEffect } from "react";
 import * as Location from "expo-location";
 import { useLocation } from "../components/context/userLocationContext";
-
+let checkcount = 0;
 const useUserLocation = () => {
   const { updateUserLocation, userLocation } = useLocation(); // Retrieve the user location from context
-
+  
   useEffect(() => {
     let isMounted = true;
+   
 
     const getUserLocation = async () => {
       let { status } = await Location.requestForegroundPermissionsAsync(); //Access foreground permission to allow device's location access
-
+      if (checkcount == 0){
       if (status == "granted") {
         console.log("Permission to access location was granted");
       } else {
         console.log("Permission to access location was denied");
         return;
       }
-
+      // Get the user's initial location only once
+      const userLocation = await Location.getCurrentPositionAsync({});
+      checkcount++; //After the first time the permission will not be checked.
+    }
       if (isMounted) {
         const userlocation = await Location.getCurrentPositionAsync({}); //Get the current user location
-        console.log(userlocation);
         const userlatitude = userlocation.coords.latitude;
         const userlongitude = userlocation.coords.longitude;
 
