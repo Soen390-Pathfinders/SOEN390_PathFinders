@@ -274,7 +274,4464 @@ exports[`Campus Map renders correctly 1`] = `
           "flex": 1,
         }
       }
-    />
+    >
+      <AIRMap
+        initialRegion={
+          {
+            "latitude": 45.49745011600138,
+            "latitudeDelta": 0.0322,
+            "longitude": -73.57894297258392,
+            "longitudeDelta": 0.0221,
+          }
+        }
+        onChange={[Function]}
+        onMapReady={[Function]}
+        region={
+          {
+            "latitude": 45.49745011600138,
+            "latitudeDelta": 0.0322,
+            "longitude": -73.57894297258392,
+            "longitudeDelta": 0.0221,
+          }
+        }
+        showsUserLocation={true}
+        style={
+          {
+            "bottom": 0,
+            "left": 0,
+            "position": "absolute",
+            "right": 0,
+            "top": 0,
+          }
+        }
+      >
+        <View>
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4979631908601,
+                  "longitude": -73.5795371416831,
+                },
+                {
+                  "latitude": 45.4977850408341,
+                  "longitude": -73.5797038854998,
+                },
+                {
+                  "latitude": 45.49774788844,
+                  "longitude": -73.5796280890596,
+                },
+                {
+                  "latitude": 45.4979205685552,
+                  "longitude": -73.5794612989859,
+                },
+                {
+                  "latitude": 45.4979631908601,
+                  "longitude": -73.5795371416831,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4974269652217,
+                  "longitude": -73.5797547280965,
+                },
+                {
+                  "latitude": 45.4974366746176,
+                  "longitude": -73.5797735308202,
+                },
+                {
+                  "latitude": 45.4974594197792,
+                  "longitude": -73.579751538598,
+                },
+                {
+                  "latitude": 45.4974904963022,
+                  "longitude": -73.5798141562255,
+                },
+                {
+                  "latitude": 45.497545834616,
+                  "longitude": -73.5797588480992,
+                },
+                {
+                  "latitude": 45.4975846830202,
+                  "longitude": -73.5798381406833,
+                },
+                {
+                  "latitude": 45.4974066437538,
+                  "longitude": -73.5800156485673,
+                },
+                {
+                  "latitude": 45.4973674712368,
+                  "longitude": -73.5799371607606,
+                },
+                {
+                  "latitude": 45.4973273093448,
+                  "longitude": -73.5798549641675,
+                },
+                {
+                  "latitude": 45.4974269652217,
+                  "longitude": -73.5797547280965,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4944719367361,
+                  "longitude": -73.5792824716213,
+                },
+                {
+                  "latitude": 45.4941650218778,
+                  "longitude": -73.5796573444229,
+                },
+                {
+                  "latitude": 45.4939841251503,
+                  "longitude": -73.5793534065794,
+                },
+                {
+                  "latitude": 45.4939794012121,
+                  "longitude": -73.5793263535658,
+                },
+                {
+                  "latitude": 45.4939897299208,
+                  "longitude": -73.5792912444086,
+                },
+                {
+                  "latitude": 45.4940116322906,
+                  "longitude": -73.5792495168289,
+                },
+                {
+                  "latitude": 45.4940353443245,
+                  "longitude": -73.5792130578085,
+                },
+                {
+                  "latitude": 45.4942607234454,
+                  "longitude": -73.5789361126721,
+                },
+                {
+                  "latitude": 45.4944719367361,
+                  "longitude": -73.5792824716213,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4978841227901,
+                  "longitude": -73.5793852899212,
+                },
+                {
+                  "latitude": 45.4976269522658,
+                  "longitude": -73.579634998021,
+                },
+                {
+                  "latitude": 45.49759701502,
+                  "longitude": -73.5795710952769,
+                },
+                {
+                  "latitude": 45.4976856390671,
+                  "longitude": -73.5794871715002,
+                },
+                {
+                  "latitude": 45.4976965292006,
+                  "longitude": -73.579509979305,
+                },
+                {
+                  "latitude": 45.4977721255837,
+                  "longitude": -73.5794388447476,
+                },
+                {
+                  "latitude": 45.4977542839333,
+                  "longitude": -73.5794009222431,
+                },
+                {
+                  "latitude": 45.4978489907935,
+                  "longitude": -73.5793121854624,
+                },
+                {
+                  "latitude": 45.4978841227901,
+                  "longitude": -73.5793852899212,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4961974565762,
+                  "longitude": -73.580090767413,
+                },
+                {
+                  "latitude": 45.4961642551432,
+                  "longitude": -73.5799956829177,
+                },
+                {
+                  "latitude": 45.4962530413227,
+                  "longitude": -73.5799329219036,
+                },
+                {
+                  "latitude": 45.4962384830517,
+                  "longitude": -73.5798912265793,
+                },
+                {
+                  "latitude": 45.4963613549795,
+                  "longitude": -73.5798042845009,
+                },
+                {
+                  "latitude": 45.496356310941,
+                  "longitude": -73.5797900899922,
+                },
+                {
+                  "latitude": 45.496530271504,
+                  "longitude": -73.5796671040144,
+                },
+                {
+                  "latitude": 45.4966657648606,
+                  "longitude": -73.5800546518386,
+                },
+                {
+                  "latitude": 45.4966521304675,
+                  "longitude": -73.5800643240436,
+                },
+                {
+                  "latitude": 45.4966770789289,
+                  "longitude": -73.5801354572773,
+                },
+                {
+                  "latitude": 45.4964113971129,
+                  "longitude": -73.5803233388934,
+                },
+                {
+                  "latitude": 45.4964206092264,
+                  "longitude": -73.5803497916397,
+                },
+                {
+                  "latitude": 45.4962918426162,
+                  "longitude": -73.5804408188786,
+                },
+                {
+                  "latitude": 45.496174995259,
+                  "longitude": -73.5801066647163,
+                },
+                {
+                  "latitude": 45.4961974565762,
+                  "longitude": -73.580090767413,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4962303495361,
+                  "longitude": -73.5797057442295,
+                },
+                {
+                  "latitude": 45.4962662475978,
+                  "longitude": -73.5797810497958,
+                },
+                {
+                  "latitude": 45.4961067084545,
+                  "longitude": -73.5799347742045,
+                },
+                {
+                  "latitude": 45.4960708106471,
+                  "longitude": -73.579859468968,
+                },
+                {
+                  "latitude": 45.4962303495361,
+                  "longitude": -73.5797057442295,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4957557901695,
+                  "longitude": -73.5779889059455,
+                },
+                {
+                  "latitude": 45.4957554076603,
+                  "longitude": -73.5779883139223,
+                },
+                {
+                  "latitude": 45.4956683410232,
+                  "longitude": -73.5780727544157,
+                },
+                {
+                  "latitude": 45.4958667623419,
+                  "longitude": -73.5784965718486,
+                },
+                {
+                  "latitude": 45.4955950920977,
+                  "longitude": -73.5787630078664,
+                },
+                {
+                  "latitude": 45.4952468016307,
+                  "longitude": -73.5780204246687,
+                },
+                {
+                  "latitude": 45.4952649822386,
+                  "longitude": -73.5780015309936,
+                },
+                {
+                  "latitude": 45.4952472580877,
+                  "longitude": -73.5779153083011,
+                },
+                {
+                  "latitude": 45.4952341934041,
+                  "longitude": -73.5779138135529,
+                },
+                {
+                  "latitude": 45.4952383706326,
+                  "longitude": -73.577878036755,
+                },
+                {
+                  "latitude": 45.495299542054,
+                  "longitude": -73.5777972129891,
+                },
+                {
+                  "latitude": 45.4953541196194,
+                  "longitude": -73.5777437803452,
+                },
+                {
+                  "latitude": 45.4953559551132,
+                  "longitude": -73.5776971209797,
+                },
+                {
+                  "latitude": 45.4954472290693,
+                  "longitude": -73.5776091768804,
+                },
+                {
+                  "latitude": 45.4954617860355,
+                  "longitude": -73.5776398360949,
+                },
+                {
+                  "latitude": 45.495550565051,
+                  "longitude": -73.5775549976773,
+                },
+                {
+                  "latitude": 45.4955392620683,
+                  "longitude": -73.5775303908666,
+                },
+                {
+                  "latitude": 45.4958308910287,
+                  "longitude": -73.5772501286848,
+                },
+                {
+                  "latitude": 45.4960481288504,
+                  "longitude": -73.5777084350653,
+                },
+                {
+                  "latitude": 45.4957557901695,
+                  "longitude": -73.5779889059455,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4943969727186,
+                  "longitude": -73.5775201996659,
+                },
+                {
+                  "latitude": 45.4946547160836,
+                  "longitude": -73.577218430009,
+                },
+                {
+                  "latitude": 45.4947009680424,
+                  "longitude": -73.5772988690161,
+                },
+                {
+                  "latitude": 45.4946921522997,
+                  "longitude": -73.5773091761123,
+                },
+                {
+                  "latitude": 45.4947746501992,
+                  "longitude": -73.5774522456317,
+                },
+                {
+                  "latitude": 45.4947637191802,
+                  "longitude": -73.5774652304452,
+                },
+                {
+                  "latitude": 45.4948068278951,
+                  "longitude": -73.5775403695801,
+                },
+                {
+                  "latitude": 45.4947987717019,
+                  "longitude": -73.5775498200192,
+                },
+                {
+                  "latitude": 45.4948424264324,
+                  "longitude": -73.5776256592136,
+                },
+                {
+                  "latitude": 45.4948358617139,
+                  "longitude": -73.5776332083992,
+                },
+                {
+                  "latitude": 45.4948770551498,
+                  "longitude": -73.5777043673824,
+                },
+                {
+                  "latitude": 45.4948698666555,
+                  "longitude": -73.5777126930623,
+                },
+                {
+                  "latitude": 45.4949119359013,
+                  "longitude": -73.5777857883245,
+                },
+                {
+                  "latitude": 45.4946956374377,
+                  "longitude": -73.5780392058659,
+                },
+                {
+                  "latitude": 45.4944430329004,
+                  "longitude": -73.5776003421639,
+                },
+                {
+                  "latitude": 45.4943969727186,
+                  "longitude": -73.5775201996659,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4938224310594,
+                  "longitude": -73.5790675793437,
+                },
+                {
+                  "latitude": 45.4936253317537,
+                  "longitude": -73.5787278267861,
+                },
+                {
+                  "latitude": 45.4938485663982,
+                  "longitude": -73.578464404337,
+                },
+                {
+                  "latitude": 45.4938347082701,
+                  "longitude": -73.5784404879638,
+                },
+                {
+                  "latitude": 45.4938823658608,
+                  "longitude": -73.5783841887415,
+                },
+                {
+                  "latitude": 45.49389163144,
+                  "longitude": -73.5783999809559,
+                },
+                {
+                  "latitude": 45.4939229605407,
+                  "longitude": -73.578363117757,
+                },
+                {
+                  "latitude": 45.493910878984,
+                  "longitude": -73.5783422413871,
+                },
+                {
+                  "latitude": 45.4941040322076,
+                  "longitude": -73.5781141243649,
+                },
+                {
+                  "latitude": 45.4941111110426,
+                  "longitude": -73.5781260965672,
+                },
+                {
+                  "latitude": 45.4942034157231,
+                  "longitude": -73.5780171102815,
+                },
+                {
+                  "latitude": 45.4941860040851,
+                  "longitude": -73.5779871135714,
+                },
+                {
+                  "latitude": 45.4943716169905,
+                  "longitude": -73.577767934105,
+                },
+                {
+                  "latitude": 45.4943922272942,
+                  "longitude": -73.5778036071554,
+                },
+                {
+                  "latitude": 45.4944351389261,
+                  "longitude": -73.5777531697142,
+                },
+                {
+                  "latitude": 45.4944025217638,
+                  "longitude": -73.5776941232604,
+                },
+                {
+                  "latitude": 45.4944086795991,
+                  "longitude": -73.5776357197305,
+                },
+                {
+                  "latitude": 45.4944430329004,
+                  "longitude": -73.5776003421639,
+                },
+                {
+                  "latitude": 45.4946956374377,
+                  "longitude": -73.5780392058659,
+                },
+                {
+                  "latitude": 45.4943622108617,
+                  "longitude": -73.5784295241273,
+                },
+                {
+                  "latitude": 45.4943695640644,
+                  "longitude": -73.5784423565512,
+                },
+                {
+                  "latitude": 45.4943013994673,
+                  "longitude": -73.5785228036446,
+                },
+                {
+                  "latitude": 45.4942942652392,
+                  "longitude": -73.5785104552821,
+                },
+                {
+                  "latitude": 45.4938224310594,
+                  "longitude": -73.5790675793437,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4941334450727,
+                  "longitude": -73.5780111512303,
+                },
+                {
+                  "latitude": 45.4938504791283,
+                  "longitude": -73.5783541424655,
+                },
+                {
+                  "latitude": 45.4937904065911,
+                  "longitude": -73.5782530376366,
+                },
+                {
+                  "latitude": 45.4940754342988,
+                  "longitude": -73.57790801225,
+                },
+                {
+                  "latitude": 45.4941334450727,
+                  "longitude": -73.5780111512303,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4957806147289,
+                  "longitude": -73.5791463973253,
+                },
+                {
+                  "latitude": 45.4957629623507,
+                  "longitude": -73.5791077526291,
+                },
+                {
+                  "latitude": 45.4957799485384,
+                  "longitude": -73.5790897682585,
+                },
+                {
+                  "latitude": 45.4956181516549,
+                  "longitude": -73.5787471654788,
+                },
+                {
+                  "latitude": 45.4958571723865,
+                  "longitude": -73.5785126489507,
+                },
+                {
+                  "latitude": 45.4959471944263,
+                  "longitude": -73.5784342342265,
+                },
+                {
+                  "latitude": 45.4961088362931,
+                  "longitude": -73.5787687575974,
+                },
+                {
+                  "latitude": 45.4961106272349,
+                  "longitude": -73.5787668842615,
+                },
+                {
+                  "latitude": 45.4961299734709,
+                  "longitude": -73.578808005427,
+                },
+                {
+                  "latitude": 45.4957806147289,
+                  "longitude": -73.5791463973253,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4939026657172,
+                  "longitude": -73.577172341666,
+                },
+                {
+                  "latitude": 45.4937175398812,
+                  "longitude": -73.5767846513606,
+                },
+                {
+                  "latitude": 45.4938361098278,
+                  "longitude": -73.5766695748613,
+                },
+                {
+                  "latitude": 45.4938966006487,
+                  "longitude": -73.5766612958295,
+                },
+                {
+                  "latitude": 45.4940651477302,
+                  "longitude": -73.5770146178946,
+                },
+                {
+                  "latitude": 45.4939026657172,
+                  "longitude": -73.577172341666,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4965299106437,
+                  "longitude": -73.5807950805683,
+                },
+                {
+                  "latitude": 45.4965384130594,
+                  "longitude": -73.5808207253697,
+                },
+                {
+                  "latitude": 45.4965502842058,
+                  "longitude": -73.5808131148126,
+                },
+                {
+                  "latitude": 45.496633265121,
+                  "longitude": -73.5810687235814,
+                },
+                {
+                  "latitude": 45.4966533120091,
+                  "longitude": -73.5810554765283,
+                },
+                {
+                  "latitude": 45.4967093556443,
+                  "longitude": -73.5812284538701,
+                },
+                {
+                  "latitude": 45.4967264417083,
+                  "longitude": -73.5812171565237,
+                },
+                {
+                  "latitude": 45.4967578790373,
+                  "longitude": -73.5813143033805,
+                },
+                {
+                  "latitude": 45.4967409287937,
+                  "longitude": -73.5813255206065,
+                },
+                {
+                  "latitude": 45.4967535741204,
+                  "longitude": -73.5813642560819,
+                },
+                {
+                  "latitude": 45.4966031929005,
+                  "longitude": -73.5814629090254,
+                },
+                {
+                  "latitude": 45.4964462034221,
+                  "longitude": -73.5809795141957,
+                },
+                {
+                  "latitude": 45.4964554935292,
+                  "longitude": -73.5809734250876,
+                },
+                {
+                  "latitude": 45.4964208469087,
+                  "longitude": -73.5808665211127,
+                },
+                {
+                  "latitude": 45.4965299106437,
+                  "longitude": -73.5807950805683,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4968299107234,
+                  "longitude": -73.5788489042803,
+                },
+                {
+                  "latitude": 45.4973732706121,
+                  "longitude": -73.5783380857457,
+                },
+                {
+                  "latitude": 45.4977094511199,
+                  "longitude": -73.5790334928957,
+                },
+                {
+                  "latitude": 45.4971650215363,
+                  "longitude": -73.5795441094622,
+                },
+                {
+                  "latitude": 45.4968299107234,
+                  "longitude": -73.5788489042803,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4967290356968,
+                  "longitude": -73.5785791067169,
+                },
+                {
+                  "latitude": 45.4967061329409,
+                  "longitude": -73.5785308839501,
+                },
+                {
+                  "latitude": 45.4966684315951,
+                  "longitude": -73.5785665996882,
+                },
+                {
+                  "latitude": 45.4962551742886,
+                  "longitude": -73.577698780706,
+                },
+                {
+                  "latitude": 45.4964959113351,
+                  "longitude": -73.577464874399,
+                },
+                {
+                  "latitude": 45.4965831527425,
+                  "longitude": -73.5776511440844,
+                },
+                {
+                  "latitude": 45.4966370883208,
+                  "longitude": -73.5776013590509,
+                },
+                {
+                  "latitude": 45.4966155543521,
+                  "longitude": -73.5775564169593,
+                },
+                {
+                  "latitude": 45.496892296862,
+                  "longitude": -73.5772933087358,
+                },
+                {
+                  "latitude": 45.4970083219392,
+                  "longitude": -73.577538644865,
+                },
+                {
+                  "latitude": 45.4969774601587,
+                  "longitude": -73.577567672881,
+                },
+                {
+                  "latitude": 45.4969978494418,
+                  "longitude": -73.5776118596604,
+                },
+                {
+                  "latitude": 45.4969882404829,
+                  "longitude": -73.5776207950782,
+                },
+                {
+                  "latitude": 45.4969937370459,
+                  "longitude": -73.5776310443142,
+                },
+                {
+                  "latitude": 45.4970408336724,
+                  "longitude": -73.5775879481697,
+                },
+                {
+                  "latitude": 45.4971154337745,
+                  "longitude": -73.5777475406371,
+                },
+                {
+                  "latitude": 45.497070682136,
+                  "longitude": -73.5777925242258,
+                },
+                {
+                  "latitude": 45.4970775229245,
+                  "longitude": -73.577806886371,
+                },
+                {
+                  "latitude": 45.4970854213868,
+                  "longitude": -73.5777993682524,
+                },
+                {
+                  "latitude": 45.497108216581,
+                  "longitude": -73.5778478596577,
+                },
+                {
+                  "latitude": 45.4971413047383,
+                  "longitude": -73.577816906224,
+                },
+                {
+                  "latitude": 45.4972596303715,
+                  "longitude": -73.5780578215289,
+                },
+                {
+                  "latitude": 45.4970184079805,
+                  "longitude": -73.578295484113,
+                },
+                {
+                  "latitude": 45.4970012731094,
+                  "longitude": -73.5782573500428,
+                },
+                {
+                  "latitude": 45.4969646664758,
+                  "longitude": -73.5782954868039,
+                },
+                {
+                  "latitude": 45.4969408652714,
+                  "longitude": -73.5782471800773,
+                },
+                {
+                  "latitude": 45.4968949963946,
+                  "longitude": -73.5782915948847,
+                },
+                {
+                  "latitude": 45.4969127577037,
+                  "longitude": -73.5783299726621,
+                },
+                {
+                  "latitude": 45.4968688933457,
+                  "longitude": -73.5783709572706,
+                },
+                {
+                  "latitude": 45.496890779169,
+                  "longitude": -73.5784152833381,
+                },
+                {
+                  "latitude": 45.4967290356968,
+                  "longitude": -73.5785791067169,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4966294082669,
+                  "longitude": -73.5774039496547,
+                },
+                {
+                  "latitude": 45.496844635985,
+                  "longitude": -73.5771852835361,
+                },
+                {
+                  "latitude": 45.4968849328591,
+                  "longitude": -73.5772663784029,
+                },
+                {
+                  "latitude": 45.4966698405954,
+                  "longitude": -73.5774849639632,
+                },
+                {
+                  "latitude": 45.4966294082669,
+                  "longitude": -73.5774039496547,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4968178433595,
+                  "longitude": -73.577086620334,
+                },
+                {
+                  "latitude": 45.4968595345464,
+                  "longitude": -73.5771701633795,
+                },
+                {
+                  "latitude": 45.496844635985,
+                  "longitude": -73.5771852835361,
+                },
+                {
+                  "latitude": 45.4966294082669,
+                  "longitude": -73.5774039496547,
+                },
+                {
+                  "latitude": 45.4965636540331,
+                  "longitude": -73.5774707182467,
+                },
+                {
+                  "latitude": 45.4965219356852,
+                  "longitude": -73.5773869878127,
+                },
+                {
+                  "latitude": 45.4968178433595,
+                  "longitude": -73.577086620334,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4974269652217,
+                  "longitude": -73.5797547280965,
+                },
+                {
+                  "latitude": 45.4973273093448,
+                  "longitude": -73.5798549641675,
+                },
+                {
+                  "latitude": 45.4972900797127,
+                  "longitude": -73.5797806452151,
+                },
+                {
+                  "latitude": 45.4973895191467,
+                  "longitude": -73.5796809452119,
+                },
+                {
+                  "latitude": 45.4974269652217,
+                  "longitude": -73.5797547280965,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4953582145817,
+                  "longitude": -73.57936679236,
+                },
+                {
+                  "latitude": 45.4952214724534,
+                  "longitude": -73.5791140655931,
+                },
+                {
+                  "latitude": 45.495166957671,
+                  "longitude": -73.5791709321529,
+                },
+                {
+                  "latitude": 45.4950053688838,
+                  "longitude": -73.5788237177934,
+                },
+                {
+                  "latitude": 45.495038478239,
+                  "longitude": -73.578790914583,
+                },
+                {
+                  "latitude": 45.4950046494943,
+                  "longitude": -73.578736668877,
+                },
+                {
+                  "latitude": 45.4951866964358,
+                  "longitude": -73.5785253185921,
+                },
+                {
+                  "latitude": 45.4954398667409,
+                  "longitude": -73.5789620198379,
+                },
+                {
+                  "latitude": 45.4955189127982,
+                  "longitude": -73.5791999148236,
+                },
+                {
+                  "latitude": 45.4953582145817,
+                  "longitude": -73.57936679236,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4977067257788,
+                  "longitude": -73.5793416838473,
+                },
+                {
+                  "latitude": 45.4978116691037,
+                  "longitude": -73.5792342402066,
+                },
+                {
+                  "latitude": 45.4978489907935,
+                  "longitude": -73.5793121854624,
+                },
+                {
+                  "latitude": 45.4977422320955,
+                  "longitude": -73.5794123189956,
+                },
+                {
+                  "latitude": 45.4977067257788,
+                  "longitude": -73.5793416838473,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.494564716508,
+                  "longitude": -73.5762499937327,
+                },
+                {
+                  "latitude": 45.4947120982703,
+                  "longitude": -73.5761230347451,
+                },
+                {
+                  "latitude": 45.4947244151302,
+                  "longitude": -73.5761094364776,
+                },
+                {
+                  "latitude": 45.4947579224634,
+                  "longitude": -73.5761855361753,
+                },
+                {
+                  "latitude": 45.494785447337,
+                  "longitude": -73.5761609270764,
+                },
+                {
+                  "latitude": 45.4948280985687,
+                  "longitude": -73.5762580011134,
+                },
+                {
+                  "latitude": 45.4946412070033,
+                  "longitude": -73.5764254231487,
+                },
+                {
+                  "latitude": 45.494564716508,
+                  "longitude": -73.5762499937327,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.494564716508,
+                  "longitude": -73.5762499937327,
+                },
+                {
+                  "latitude": 45.4947120982703,
+                  "longitude": -73.5761230347451,
+                },
+                {
+                  "latitude": 45.4947244151302,
+                  "longitude": -73.5761094364776,
+                },
+                {
+                  "latitude": 45.4947579224634,
+                  "longitude": -73.5761855361753,
+                },
+                {
+                  "latitude": 45.494785447337,
+                  "longitude": -73.5761609270764,
+                },
+                {
+                  "latitude": 45.4948280985687,
+                  "longitude": -73.5762580011134,
+                },
+                {
+                  "latitude": 45.4946412070033,
+                  "longitude": -73.5764254231487,
+                },
+                {
+                  "latitude": 45.494564716508,
+                  "longitude": -73.5762499937327,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4945606442167,
+                  "longitude": -73.5762534167571,
+                },
+                {
+                  "latitude": 45.4944343906557,
+                  "longitude": -73.575956698603,
+                },
+                {
+                  "latitude": 45.4945861959322,
+                  "longitude": -73.5758256989415,
+                },
+                {
+                  "latitude": 45.4947120982703,
+                  "longitude": -73.5761230347451,
+                },
+                {
+                  "latitude": 45.4945606442167,
+                  "longitude": -73.5762534167571,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4979631908601,
+                  "longitude": -73.5795371416831,
+                },
+                {
+                  "latitude": 45.4977850408341,
+                  "longitude": -73.5797038854998,
+                },
+                {
+                  "latitude": 45.49774788844,
+                  "longitude": -73.5796280890596,
+                },
+                {
+                  "latitude": 45.4979205685552,
+                  "longitude": -73.5794612989859,
+                },
+                {
+                  "latitude": 45.4979631908601,
+                  "longitude": -73.5795371416831,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4979631908601,
+                  "longitude": -73.5795371416831,
+                },
+                {
+                  "latitude": 45.4977850408341,
+                  "longitude": -73.5797038854998,
+                },
+                {
+                  "latitude": 45.49774788844,
+                  "longitude": -73.5796280890596,
+                },
+                {
+                  "latitude": 45.4979205685552,
+                  "longitude": -73.5794612989859,
+                },
+                {
+                  "latitude": 45.4979631908601,
+                  "longitude": -73.5795371416831,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4965834912667,
+                  "longitude": -73.5791795495828,
+                },
+                {
+                  "latitude": 45.4965523676342,
+                  "longitude": -73.5791196184748,
+                },
+                {
+                  "latitude": 45.4966450903817,
+                  "longitude": -73.5790224452225,
+                },
+                {
+                  "latitude": 45.496675967474,
+                  "longitude": -73.5790817043539,
+                },
+                {
+                  "latitude": 45.4965834912667,
+                  "longitude": -73.5791795495828,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4965834912667,
+                  "longitude": -73.5791795495828,
+                },
+                {
+                  "latitude": 45.4965523676342,
+                  "longitude": -73.5791196184748,
+                },
+                {
+                  "latitude": 45.4966450903817,
+                  "longitude": -73.5790224452225,
+                },
+                {
+                  "latitude": 45.496675967474,
+                  "longitude": -73.5790817043539,
+                },
+                {
+                  "latitude": 45.4965834912667,
+                  "longitude": -73.5791795495828,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4968008208597,
+                  "longitude": -73.5793439052364,
+                },
+                {
+                  "latitude": 45.4968371021925,
+                  "longitude": -73.5794198040332,
+                },
+                {
+                  "latitude": 45.4968257575084,
+                  "longitude": -73.5794309881814,
+                },
+                {
+                  "latitude": 45.4968319411297,
+                  "longitude": -73.5794438980169,
+                },
+                {
+                  "latitude": 45.4967386830908,
+                  "longitude": -73.5795344362081,
+                },
+                {
+                  "latitude": 45.4967324717897,
+                  "longitude": -73.579521338355,
+                },
+                {
+                  "latitude": 45.4967107583698,
+                  "longitude": -73.5795423136647,
+                },
+                {
+                  "latitude": 45.496674477241,
+                  "longitude": -73.5794664151307,
+                },
+                {
+                  "latitude": 45.4968008208597,
+                  "longitude": -73.5793439052364,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4967986678572,
+                  "longitude": -73.5793322982505,
+                },
+                {
+                  "latitude": 45.4966512204061,
+                  "longitude": -73.5794799206353,
+                },
+                {
+                  "latitude": 45.4966119346256,
+                  "longitude": -73.5793996619966,
+                },
+                {
+                  "latitude": 45.4967599305649,
+                  "longitude": -73.5792537596414,
+                },
+                {
+                  "latitude": 45.4967986678572,
+                  "longitude": -73.5793322982505,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4974269652217,
+                  "longitude": -73.5797547280965,
+                },
+                {
+                  "latitude": 45.4974366746176,
+                  "longitude": -73.5797735308202,
+                },
+                {
+                  "latitude": 45.4974594197792,
+                  "longitude": -73.579751538598,
+                },
+                {
+                  "latitude": 45.4974905240077,
+                  "longitude": -73.5798143442795,
+                },
+                {
+                  "latitude": 45.4973674712368,
+                  "longitude": -73.5799371607606,
+                },
+                {
+                  "latitude": 45.4973273093448,
+                  "longitude": -73.5798549641675,
+                },
+                {
+                  "latitude": 45.4974269652217,
+                  "longitude": -73.5797547280965,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4964371147247,
+                  "longitude": -73.5862072347505,
+                },
+                {
+                  "latitude": 45.4964669331947,
+                  "longitude": -73.585738035541,
+                },
+                {
+                  "latitude": 45.4964929471525,
+                  "longitude": -73.585738237716,
+                },
+                {
+                  "latitude": 45.4965104388295,
+                  "longitude": -73.5857788156798,
+                },
+                {
+                  "latitude": 45.4965095469652,
+                  "longitude": -73.5857918070491,
+                },
+                {
+                  "latitude": 45.4965540374265,
+                  "longitude": -73.5857921571582,
+                },
+                {
+                  "latitude": 45.4965731446704,
+                  "longitude": -73.5858366877971,
+                },
+                {
+                  "latitude": 45.4965821859183,
+                  "longitude": -73.5858289078733,
+                },
+                {
+                  "latitude": 45.4966593520445,
+                  "longitude": -73.5860080267778,
+                },
+                {
+                  "latitude": 45.4966522654248,
+                  "longitude": -73.5860140417973,
+                },
+                {
+                  "latitude": 45.4966840452384,
+                  "longitude": -73.5860874808863,
+                },
+                {
+                  "latitude": 45.496538131766,
+                  "longitude": -73.5862114702156,
+                },
+                {
+                  "latitude": 45.4965191631731,
+                  "longitude": -73.5861678798293,
+                },
+                {
+                  "latitude": 45.4965213111927,
+                  "longitude": -73.586135347569,
+                },
+                {
+                  "latitude": 45.4965047392179,
+                  "longitude": -73.5861350990752,
+                },
+                {
+                  "latitude": 45.4965000815877,
+                  "longitude": -73.5862077334339,
+                },
+                {
+                  "latitude": 45.4964371147247,
+                  "longitude": -73.5862072347505,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4949336841042,
+                  "longitude": -73.5781588337631,
+                },
+                {
+                  "latitude": 45.4950271487253,
+                  "longitude": -73.5780557026722,
+                },
+                {
+                  "latitude": 45.495179561549,
+                  "longitude": -73.5784097591447,
+                },
+                {
+                  "latitude": 45.4951168435512,
+                  "longitude": -73.5784820912087,
+                },
+                {
+                  "latitude": 45.4950370321314,
+                  "longitude": -73.5783462248431,
+                },
+                {
+                  "latitude": 45.4950559365428,
+                  "longitude": -73.5783232259694,
+                },
+                {
+                  "latitude": 45.4950323438368,
+                  "longitude": -73.5782813396289,
+                },
+                {
+                  "latitude": 45.4950136584027,
+                  "longitude": -73.5783048225717,
+                },
+                {
+                  "latitude": 45.4949336841042,
+                  "longitude": -73.5781588337631,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4957806147289,
+                  "longitude": -73.5791463973253,
+                },
+                {
+                  "latitude": 45.4957629623507,
+                  "longitude": -73.5791077526291,
+                },
+                {
+                  "latitude": 45.4957799485384,
+                  "longitude": -73.5790897682585,
+                },
+                {
+                  "latitude": 45.4956181516549,
+                  "longitude": -73.5787471654788,
+                },
+                {
+                  "latitude": 45.4958571723865,
+                  "longitude": -73.5785126489507,
+                },
+                {
+                  "latitude": 45.4959471944263,
+                  "longitude": -73.5784342342265,
+                },
+                {
+                  "latitude": 45.4961088362931,
+                  "longitude": -73.5787687575974,
+                },
+                {
+                  "latitude": 45.4961106272349,
+                  "longitude": -73.5787668842615,
+                },
+                {
+                  "latitude": 45.4961299734709,
+                  "longitude": -73.578808005427,
+                },
+                {
+                  "latitude": 45.4957806147289,
+                  "longitude": -73.5791463973253,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4957557901695,
+                  "longitude": -73.5779889059455,
+                },
+                {
+                  "latitude": 45.4957554076603,
+                  "longitude": -73.5779883139223,
+                },
+                {
+                  "latitude": 45.4956683410232,
+                  "longitude": -73.5780727544157,
+                },
+                {
+                  "latitude": 45.4958667623419,
+                  "longitude": -73.5784965718486,
+                },
+                {
+                  "latitude": 45.4955950920977,
+                  "longitude": -73.5787630078664,
+                },
+                {
+                  "latitude": 45.4952468016307,
+                  "longitude": -73.5780204246687,
+                },
+                {
+                  "latitude": 45.4952649822386,
+                  "longitude": -73.5780015309936,
+                },
+                {
+                  "latitude": 45.4952472580877,
+                  "longitude": -73.5779153083011,
+                },
+                {
+                  "latitude": 45.4952341934041,
+                  "longitude": -73.5779138135529,
+                },
+                {
+                  "latitude": 45.4952383706326,
+                  "longitude": -73.577878036755,
+                },
+                {
+                  "latitude": 45.495299542054,
+                  "longitude": -73.5777972129891,
+                },
+                {
+                  "latitude": 45.4953541196194,
+                  "longitude": -73.5777437803452,
+                },
+                {
+                  "latitude": 45.4953559551132,
+                  "longitude": -73.5776971209797,
+                },
+                {
+                  "latitude": 45.4954472290693,
+                  "longitude": -73.5776091768804,
+                },
+                {
+                  "latitude": 45.4954617860355,
+                  "longitude": -73.5776398360949,
+                },
+                {
+                  "latitude": 45.495550565051,
+                  "longitude": -73.5775549976773,
+                },
+                {
+                  "latitude": 45.4955392620683,
+                  "longitude": -73.5775303908666,
+                },
+                {
+                  "latitude": 45.4958308910287,
+                  "longitude": -73.5772501286848,
+                },
+                {
+                  "latitude": 45.4960481288504,
+                  "longitude": -73.5777084350653,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4943969727186,
+                  "longitude": -73.5775201996659,
+                },
+                {
+                  "latitude": 45.4946547160836,
+                  "longitude": -73.577218430009,
+                },
+                {
+                  "latitude": 45.4947009680424,
+                  "longitude": -73.5772988690161,
+                },
+                {
+                  "latitude": 45.4946921522997,
+                  "longitude": -73.5773091761123,
+                },
+                {
+                  "latitude": 45.4947746501992,
+                  "longitude": -73.5774522456317,
+                },
+                {
+                  "latitude": 45.4947637191802,
+                  "longitude": -73.5774652304452,
+                },
+                {
+                  "latitude": 45.4948068278951,
+                  "longitude": -73.5775403695801,
+                },
+                {
+                  "latitude": 45.4947987717019,
+                  "longitude": -73.5775498200192,
+                },
+                {
+                  "latitude": 45.4948424264324,
+                  "longitude": -73.5776256592136,
+                },
+                {
+                  "latitude": 45.4948358617139,
+                  "longitude": -73.5776332083992,
+                },
+                {
+                  "latitude": 45.4948770551498,
+                  "longitude": -73.5777043673824,
+                },
+                {
+                  "latitude": 45.4948698666555,
+                  "longitude": -73.5777126930623,
+                },
+                {
+                  "latitude": 45.4949119359013,
+                  "longitude": -73.5777857883245,
+                },
+                {
+                  "latitude": 45.4946956374377,
+                  "longitude": -73.5780392058659,
+                },
+                {
+                  "latitude": 45.4944430329004,
+                  "longitude": -73.5776003421639,
+                },
+                {
+                  "latitude": 45.4943969727186,
+                  "longitude": -73.5775201996659,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4979205685552,
+                  "longitude": -73.5794612989859,
+                },
+                {
+                  "latitude": 45.4977404249532,
+                  "longitude": -73.5796355545586,
+                },
+                {
+                  "latitude": 45.4977050135195,
+                  "longitude": -73.5795595494702,
+                },
+                {
+                  "latitude": 45.4978839592371,
+                  "longitude": -73.5793851819464,
+                },
+                {
+                  "latitude": 45.4979205685552,
+                  "longitude": -73.5794612989859,
+                },
+              ]
+            }
+            fillColor="rgba(145, 35, 55, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(145, 35, 55, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4590605941301,
+                  "longitude": -73.6401547927918,
+                },
+                {
+                  "latitude": 45.4592261553974,
+                  "longitude": -73.6405753945147,
+                },
+                {
+                  "latitude": 45.4592043834532,
+                  "longitude": -73.640592869029,
+                },
+                {
+                  "latitude": 45.4592046356388,
+                  "longitude": -73.6406106680324,
+                },
+                {
+                  "latitude": 45.4591766467971,
+                  "longitude": -73.6406330165294,
+                },
+                {
+                  "latitude": 45.4591638781537,
+                  "longitude": -73.6406244022924,
+                },
+                {
+                  "latitude": 45.4591434090388,
+                  "longitude": -73.6406407038891,
+                },
+                {
+                  "latitude": 45.4591266861319,
+                  "longitude": -73.6405981095166,
+                },
+                {
+                  "latitude": 45.4591088991508,
+                  "longitude": -73.6405955010691,
+                },
+                {
+                  "latitude": 45.4588066437309,
+                  "longitude": -73.6408374201194,
+                },
+                {
+                  "latitude": 45.4587760677973,
+                  "longitude": -73.6407597247335,
+                },
+                {
+                  "latitude": 45.4587601055038,
+                  "longitude": -73.6407725641732,
+                },
+                {
+                  "latitude": 45.4586741971207,
+                  "longitude": -73.6405540081979,
+                },
+                {
+                  "latitude": 45.4586975707439,
+                  "longitude": -73.6405353893195,
+                },
+                {
+                  "latitude": 45.4586672682077,
+                  "longitude": -73.6404585532031,
+                },
+                {
+                  "latitude": 45.4587011743893,
+                  "longitude": -73.6404313024865,
+                },
+                {
+                  "latitude": 45.4586967206135,
+                  "longitude": -73.6404200495755,
+                },
+                {
+                  "latitude": 45.4589302109954,
+                  "longitude": -73.640233187068,
+                },
+                {
+                  "latitude": 45.4589379712364,
+                  "longitude": -73.6402528997302,
+                },
+                {
+                  "latitude": 45.4590605941301,
+                  "longitude": -73.6401547927918,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4598161640063,
+                  "longitude": -73.6391675956252,
+                },
+                {
+                  "latitude": 45.4597248471938,
+                  "longitude": -73.6392438574883,
+                },
+                {
+                  "latitude": 45.4596937556834,
+                  "longitude": -73.6391676852224,
+                },
+                {
+                  "latitude": 45.4597849641343,
+                  "longitude": -73.6390916906691,
+                },
+                {
+                  "latitude": 45.4598161640063,
+                  "longitude": -73.6391675956252,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4591399912472,
+                  "longitude": -73.6422436438324,
+                },
+                {
+                  "latitude": 45.4591049702739,
+                  "longitude": -73.6422713426249,
+                },
+                {
+                  "latitude": 45.4589627714889,
+                  "longitude": -73.6419063705945,
+                },
+                {
+                  "latitude": 45.4589971408267,
+                  "longitude": -73.6418792578238,
+                },
+                {
+                  "latitude": 45.4589700627892,
+                  "longitude": -73.6418103176288,
+                },
+                {
+                  "latitude": 45.4593683495053,
+                  "longitude": -73.641495100383,
+                },
+                {
+                  "latitude": 45.459556841626,
+                  "longitude": -73.6419795323706,
+                },
+                {
+                  "latitude": 45.4595268428534,
+                  "longitude": -73.642003263324,
+                },
+                {
+                  "latitude": 45.4595029331161,
+                  "longitude": -73.6419418430954,
+                },
+                {
+                  "latitude": 45.4593579895672,
+                  "longitude": -73.6420567168413,
+                },
+                {
+                  "latitude": 45.459362962778,
+                  "longitude": -73.6420695003405,
+                },
+                {
+                  "latitude": 45.4593388819682,
+                  "longitude": -73.6420883290704,
+                },
+                {
+                  "latitude": 45.4593609868397,
+                  "longitude": -73.6421444864352,
+                },
+                {
+                  "latitude": 45.459162479683,
+                  "longitude": -73.6423014110025,
+                },
+                {
+                  "latitude": 45.4591399912472,
+                  "longitude": -73.6422436438324,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4585771279425,
+                  "longitude": -73.6415036446775,
+                },
+                {
+                  "latitude": 45.4587270927744,
+                  "longitude": -73.6419054527768,
+                },
+                {
+                  "latitude": 45.458443026293,
+                  "longitude": -73.6421195451855,
+                },
+                {
+                  "latitude": 45.4582930909286,
+                  "longitude": -73.6417179281964,
+                },
+                {
+                  "latitude": 45.4585771279425,
+                  "longitude": -73.6415036446775,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4585591499338,
+                  "longitude": -73.6433481748265,
+                },
+                {
+                  "latitude": 45.4584941068952,
+                  "longitude": -73.6434014499521,
+                },
+                {
+                  "latitude": 45.4584646569441,
+                  "longitude": -73.6433283981106,
+                },
+                {
+                  "latitude": 45.4584489935071,
+                  "longitude": -73.6433412642807,
+                },
+                {
+                  "latitude": 45.4584091351866,
+                  "longitude": -73.6432425098978,
+                },
+                {
+                  "latitude": 45.4584270519682,
+                  "longitude": -73.6432279129406,
+                },
+                {
+                  "latitude": 45.458397491732,
+                  "longitude": -73.6431541101892,
+                },
+                {
+                  "latitude": 45.4584682082598,
+                  "longitude": -73.643096280091,
+                },
+                {
+                  "latitude": 45.4584788351096,
+                  "longitude": -73.6431224663152,
+                },
+                {
+                  "latitude": 45.4584904267042,
+                  "longitude": -73.6431130101163,
+                },
+                {
+                  "latitude": 45.4584850168532,
+                  "longitude": -73.6430992598496,
+                },
+                {
+                  "latitude": 45.458538847918,
+                  "longitude": -73.643055013337,
+                },
+                {
+                  "latitude": 45.458569799674,
+                  "longitude": -73.6431312624657,
+                },
+                {
+                  "latitude": 45.4585834537778,
+                  "longitude": -73.6431197796985,
+                },
+                {
+                  "latitude": 45.4586237236778,
+                  "longitude": -73.6432203324316,
+                },
+                {
+                  "latitude": 45.4586052912001,
+                  "longitude": -73.6432354360966,
+                },
+                {
+                  "latitude": 45.4586347137707,
+                  "longitude": -73.6433083004756,
+                },
+                {
+                  "latitude": 45.4585657070598,
+                  "longitude": -73.6433647183882,
+                },
+                {
+                  "latitude": 45.4585591499338,
+                  "longitude": -73.6433481748265,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4570152333112,
+                  "longitude": -73.6378417315581,
+                },
+                {
+                  "latitude": 45.4566814964334,
+                  "longitude": -73.6369888512189,
+                },
+                {
+                  "latitude": 45.4569494733529,
+                  "longitude": -73.6367757892345,
+                },
+                {
+                  "latitude": 45.4572829702463,
+                  "longitude": -73.637629023477,
+                },
+                {
+                  "latitude": 45.4570152333112,
+                  "longitude": -73.6378417315581,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4570152333112,
+                  "longitude": -73.6378417315581,
+                },
+                {
+                  "latitude": 45.4566814964334,
+                  "longitude": -73.6369888512189,
+                },
+                {
+                  "latitude": 45.4569494733529,
+                  "longitude": -73.6367757892345,
+                },
+                {
+                  "latitude": 45.4572829702463,
+                  "longitude": -73.637629023477,
+                },
+                {
+                  "latitude": 45.4570152333112,
+                  "longitude": -73.6378417315581,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4599882339157,
+                  "longitude": -73.640201341293,
+                },
+                {
+                  "latitude": 45.4599890802148,
+                  "longitude": -73.6402030878094,
+                },
+                {
+                  "latitude": 45.4598698426124,
+                  "longitude": -73.640239858259,
+                },
+                {
+                  "latitude": 45.4598661523182,
+                  "longitude": -73.6402297881855,
+                },
+                {
+                  "latitude": 45.4597144594813,
+                  "longitude": -73.6403408856113,
+                },
+                {
+                  "latitude": 45.4596475424707,
+                  "longitude": -73.6401582825607,
+                },
+                {
+                  "latitude": 45.459624353395,
+                  "longitude": -73.640174142253,
+                },
+                {
+                  "latitude": 45.4594311833373,
+                  "longitude": -73.6396800081021,
+                },
+                {
+                  "latitude": 45.4594552221463,
+                  "longitude": -73.6396538594478,
+                },
+                {
+                  "latitude": 45.459410694611,
+                  "longitude": -73.6395474393349,
+                },
+                {
+                  "latitude": 45.4593483705756,
+                  "longitude": -73.6396001483967,
+                },
+                {
+                  "latitude": 45.4592925612444,
+                  "longitude": -73.6394530372725,
+                },
+                {
+                  "latitude": 45.4595842736695,
+                  "longitude": -73.6392287121414,
+                },
+                {
+                  "latitude": 45.4596361924694,
+                  "longitude": -73.63936036578,
+                },
+                {
+                  "latitude": 45.4596790357383,
+                  "longitude": -73.6393286811032,
+                },
+                {
+                  "latitude": 45.4598237482288,
+                  "longitude": -73.6396936209979,
+                },
+                {
+                  "latitude": 45.4599057544473,
+                  "longitude": -73.6399167215764,
+                },
+                {
+                  "latitude": 45.4599075317161,
+                  "longitude": -73.6399217964911,
+                },
+                {
+                  "latitude": 45.4599092990249,
+                  "longitude": -73.6399217784911,
+                },
+                {
+                  "latitude": 45.4599203776549,
+                  "longitude": -73.6399419907126,
+                },
+                {
+                  "latitude": 45.4599203580648,
+                  "longitude": -73.6399458772755,
+                },
+                {
+                  "latitude": 45.459927941579,
+                  "longitude": -73.6399724247668,
+                },
+                {
+                  "latitude": 45.4599421388314,
+                  "longitude": -73.6399606210943,
+                },
+                {
+                  "latitude": 45.459945876309,
+                  "longitude": -73.6399669924006,
+                },
+                {
+                  "latitude": 45.4599314761984,
+                  "longitude": -73.6399723887717,
+                },
+                {
+                  "latitude": 45.4599651084416,
+                  "longitude": -73.6400688919695,
+                },
+                {
+                  "latitude": 45.4599366371958,
+                  "longitude": -73.6400949916417,
+                },
+                {
+                  "latitude": 45.4599932287521,
+                  "longitude": -73.6401971847091,
+                },
+                {
+                  "latitude": 45.4599882339157,
+                  "longitude": -73.640201341293,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.458630439266,
+                  "longitude": -73.6384670350639,
+                },
+                {
+                  "latitude": 45.4587177447613,
+                  "longitude": -73.6383986331803,
+                },
+                {
+                  "latitude": 45.4587041622279,
+                  "longitude": -73.6383633721909,
+                },
+                {
+                  "latitude": 45.458865688604,
+                  "longitude": -73.6382369027117,
+                },
+                {
+                  "latitude": 45.4588523795509,
+                  "longitude": -73.638202500656,
+                },
+                {
+                  "latitude": 45.4588875623709,
+                  "longitude": -73.6381749048765,
+                },
+                {
+                  "latitude": 45.4588689233369,
+                  "longitude": -73.6381262969821,
+                },
+                {
+                  "latitude": 45.4589022602197,
+                  "longitude": -73.6381001930414,
+                },
+                {
+                  "latitude": 45.4588824185542,
+                  "longitude": -73.638048416268,
+                },
+                {
+                  "latitude": 45.4589108690347,
+                  "longitude": -73.638026201593,
+                },
+                {
+                  "latitude": 45.4589012758865,
+                  "longitude": -73.6380010385289,
+                },
+                {
+                  "latitude": 45.4590379079377,
+                  "longitude": -73.6378938770783,
+                },
+                {
+                  "latitude": 45.4590462434286,
+                  "longitude": -73.6379154958403,
+                },
+                {
+                  "latitude": 45.4590812905123,
+                  "longitude": -73.6378879793163,
+                },
+                {
+                  "latitude": 45.4590736379824,
+                  "longitude": -73.6378679989784,
+                },
+                {
+                  "latitude": 45.4591019251822,
+                  "longitude": -73.6378456759963,
+                },
+                {
+                  "latitude": 45.4591283803455,
+                  "longitude": -73.637914372618,
+                },
+                {
+                  "latitude": 45.4591217562384,
+                  "longitude": -73.6379194864771,
+                },
+                {
+                  "latitude": 45.4591312392161,
+                  "longitude": -73.6379438986255,
+                },
+                {
+                  "latitude": 45.4591382706944,
+                  "longitude": -73.6379385455363,
+                },
+                {
+                  "latitude": 45.4592128531383,
+                  "longitude": -73.6381321479391,
+                },
+                {
+                  "latitude": 45.4591320352687,
+                  "longitude": -73.6381955174007,
+                },
+                {
+                  "latitude": 45.4593120524935,
+                  "longitude": -73.638662296719,
+                },
+                {
+                  "latitude": 45.4593017364144,
+                  "longitude": -73.638670394265,
+                },
+                {
+                  "latitude": 45.4594835704297,
+                  "longitude": -73.6391354956591,
+                },
+                {
+                  "latitude": 45.4593605637811,
+                  "longitude": -73.6392319979447,
+                },
+                {
+                  "latitude": 45.4593511637581,
+                  "longitude": -73.6392081490052,
+                },
+                {
+                  "latitude": 45.4593346307778,
+                  "longitude": -73.6392211207098,
+                },
+                {
+                  "latitude": 45.4593177162506,
+                  "longitude": -73.6391782302059,
+                },
+                {
+                  "latitude": 45.4592639374046,
+                  "longitude": -73.6392208235631,
+                },
+                {
+                  "latitude": 45.4593048163551,
+                  "longitude": -73.6393244911281,
+                },
+                {
+                  "latitude": 45.4592337999664,
+                  "longitude": -73.6393812852633,
+                },
+                {
+                  "latitude": 45.4592147244697,
+                  "longitude": -73.6393317099037,
+                },
+                {
+                  "latitude": 45.4591065706206,
+                  "longitude": -73.6394178576669,
+                },
+                {
+                  "latitude": 45.4589909017275,
+                  "longitude": -73.6391241802509,
+                },
+                {
+                  "latitude": 45.4590952804424,
+                  "longitude": -73.6390404520442,
+                },
+                {
+                  "latitude": 45.4590781750219,
+                  "longitude": -73.6389972660174,
+                },
+                {
+                  "latitude": 45.459136324394,
+                  "longitude": -73.6389512899121,
+                },
+                {
+                  "latitude": 45.4591493045649,
+                  "longitude": -73.6389844575591,
+                },
+                {
+                  "latitude": 45.4592207554939,
+                  "longitude": -73.6389276110551,
+                },
+                {
+                  "latitude": 45.4591629850965,
+                  "longitude": -73.6387792039197,
+                },
+                {
+                  "latitude": 45.4591563609329,
+                  "longitude": -73.6387843175763,
+                },
+                {
+                  "latitude": 45.4591959059043,
+                  "longitude": -73.6388869329345,
+                },
+                {
+                  "latitude": 45.4590904643475,
+                  "longitude": -73.6389694504627,
+                },
+                {
+                  "latitude": 45.4590501539314,
+                  "longitude": -73.6388646336778,
+                },
+                {
+                  "latitude": 45.4588534704689,
+                  "longitude": -73.6390188825318,
+                },
+                {
+                  "latitude": 45.4588368000629,
+                  "longitude": -73.6389756453386,
+                },
+                {
+                  "latitude": 45.4588288455962,
+                  "longitude": -73.6389817440707,
+                },
+                {
+                  "latitude": 45.458630439266,
+                  "longitude": -73.6384670350639,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4570270106814,
+                  "longitude": -73.6378717286387,
+                },
+                {
+                  "latitude": 45.4569574351847,
+                  "longitude": -73.6379262523302,
+                },
+                {
+                  "latitude": 45.4570079631667,
+                  "longitude": -73.6380564693066,
+                },
+                {
+                  "latitude": 45.4568444954105,
+                  "longitude": -73.6381877493311,
+                },
+                {
+                  "latitude": 45.4567944087411,
+                  "longitude": -73.6380605370775,
+                },
+                {
+                  "latitude": 45.4566926139576,
+                  "longitude": -73.6381417309626,
+                },
+                {
+                  "latitude": 45.4563899278641,
+                  "longitude": -73.6373697412306,
+                },
+                {
+                  "latitude": 45.4567257369845,
+                  "longitude": -73.6371013465182,
+                },
+                {
+                  "latitude": 45.4570270106814,
+                  "longitude": -73.6378717286387,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4572499976447,
+                  "longitude": -73.6407647736335,
+                },
+                {
+                  "latitude": 45.4575244789134,
+                  "longitude": -73.6414723634341,
+                },
+                {
+                  "latitude": 45.457907931472,
+                  "longitude": -73.641169728514,
+                },
+                {
+                  "latitude": 45.4578932304326,
+                  "longitude": -73.6411318630395,
+                },
+                {
+                  "latitude": 45.4579788796594,
+                  "longitude": -73.6410642397323,
+                },
+                {
+                  "latitude": 45.4579983354857,
+                  "longitude": -73.6411144047975,
+                },
+                {
+                  "latitude": 45.4583161707973,
+                  "longitude": -73.6408610995721,
+                },
+                {
+                  "latitude": 45.4583394803179,
+                  "longitude": -73.6409214427859,
+                },
+                {
+                  "latitude": 45.458192750888,
+                  "longitude": -73.6410381860445,
+                },
+                {
+                  "latitude": 45.4582559285046,
+                  "longitude": -73.6412013573026,
+                },
+                {
+                  "latitude": 45.4581791286045,
+                  "longitude": -73.6412619490213,
+                },
+                {
+                  "latitude": 45.4582085307675,
+                  "longitude": -73.6413376805619,
+                },
+                {
+                  "latitude": 45.4582772679952,
+                  "longitude": -73.641283454495,
+                },
+                {
+                  "latitude": 45.4583273835942,
+                  "longitude": -73.6414128960257,
+                },
+                {
+                  "latitude": 45.4576724722197,
+                  "longitude": -73.641925074392,
+                },
+                {
+                  "latitude": 45.4576410498015,
+                  "longitude": -73.6418446166943,
+                },
+                {
+                  "latitude": 45.4574384492673,
+                  "longitude": -73.6420037411084,
+                },
+                {
+                  "latitude": 45.4572092219752,
+                  "longitude": -73.6414125410386,
+                },
+                {
+                  "latitude": 45.4571842470099,
+                  "longitude": -73.6414323029863,
+                },
+                {
+                  "latitude": 45.4571683714521,
+                  "longitude": -73.641391457363,
+                },
+                {
+                  "latitude": 45.4571794744891,
+                  "longitude": -73.641382695127,
+                },
+                {
+                  "latitude": 45.4571488981991,
+                  "longitude": -73.6413039848223,
+                },
+                {
+                  "latitude": 45.4571593498403,
+                  "longitude": -73.6412958089382,
+                },
+                {
+                  "latitude": 45.4570419346156,
+                  "longitude": -73.6409931876149,
+                },
+                {
+                  "latitude": 45.4570173396417,
+                  "longitude": -73.6410125229322,
+                },
+                {
+                  "latitude": 45.4569961366528,
+                  "longitude": -73.6409584909684,
+                },
+                {
+                  "latitude": 45.4570249665488,
+                  "longitude": -73.6409358533229,
+                },
+                {
+                  "latitude": 45.4569834322577,
+                  "longitude": -73.6408287050145,
+                },
+                {
+                  "latitude": 45.45720242332,
+                  "longitude": -73.6406556646887,
+                },
+                {
+                  "latitude": 45.4572459260257,
+                  "longitude": -73.6407681839922,
+                },
+                {
+                  "latitude": 45.4572499976447,
+                  "longitude": -73.6407647736335,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.4599936489802,
+                  "longitude": -73.6408312185796,
+                },
+                {
+                  "latitude": 45.4600325391171,
+                  "longitude": -73.6409334037436,
+                },
+                {
+                  "latitude": 45.4599785125656,
+                  "longitude": -73.6409753230402,
+                },
+                {
+                  "latitude": 45.4599395949683,
+                  "longitude": -73.6408729502701,
+                },
+                {
+                  "latitude": 45.4599936489802,
+                  "longitude": -73.6408312185796,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+          <AIRMapPolygon
+            coordinates={
+              [
+                {
+                  "latitude": 45.458630439266,
+                  "longitude": -73.6384670350639,
+                },
+                {
+                  "latitude": 45.4587177447613,
+                  "longitude": -73.6383986331803,
+                },
+                {
+                  "latitude": 45.4587041622279,
+                  "longitude": -73.6383633721909,
+                },
+                {
+                  "latitude": 45.458865688604,
+                  "longitude": -73.6382369027117,
+                },
+                {
+                  "latitude": 45.4588523795509,
+                  "longitude": -73.638202500656,
+                },
+                {
+                  "latitude": 45.4588875623709,
+                  "longitude": -73.6381749048765,
+                },
+                {
+                  "latitude": 45.4588689233369,
+                  "longitude": -73.6381262969821,
+                },
+                {
+                  "latitude": 45.4589022602197,
+                  "longitude": -73.6381001930414,
+                },
+                {
+                  "latitude": 45.4588824185542,
+                  "longitude": -73.638048416268,
+                },
+                {
+                  "latitude": 45.4589108690347,
+                  "longitude": -73.638026201593,
+                },
+                {
+                  "latitude": 45.4589012758865,
+                  "longitude": -73.6380010385289,
+                },
+                {
+                  "latitude": 45.4590379079377,
+                  "longitude": -73.6378938770783,
+                },
+                {
+                  "latitude": 45.4590462434286,
+                  "longitude": -73.6379154958403,
+                },
+                {
+                  "latitude": 45.4590812905123,
+                  "longitude": -73.6378879793163,
+                },
+                {
+                  "latitude": 45.4590736379824,
+                  "longitude": -73.6378679989784,
+                },
+                {
+                  "latitude": 45.4591019251822,
+                  "longitude": -73.6378456759963,
+                },
+                {
+                  "latitude": 45.4591283803455,
+                  "longitude": -73.637914372618,
+                },
+                {
+                  "latitude": 45.4591217562384,
+                  "longitude": -73.6379194864771,
+                },
+                {
+                  "latitude": 45.4591312392161,
+                  "longitude": -73.6379438986255,
+                },
+                {
+                  "latitude": 45.4591382706944,
+                  "longitude": -73.6379385455363,
+                },
+                {
+                  "latitude": 45.4592128531383,
+                  "longitude": -73.6381321479391,
+                },
+                {
+                  "latitude": 45.4591320352687,
+                  "longitude": -73.6381955174007,
+                },
+                {
+                  "latitude": 45.4593120524935,
+                  "longitude": -73.638662296719,
+                },
+                {
+                  "latitude": 45.4593017364144,
+                  "longitude": -73.638670394265,
+                },
+                {
+                  "latitude": 45.4594835704297,
+                  "longitude": -73.6391354956591,
+                },
+                {
+                  "latitude": 45.4593605637811,
+                  "longitude": -73.6392319979447,
+                },
+                {
+                  "latitude": 45.4593511637581,
+                  "longitude": -73.6392081490052,
+                },
+                {
+                  "latitude": 45.4593346307778,
+                  "longitude": -73.6392211207098,
+                },
+                {
+                  "latitude": 45.4593177162506,
+                  "longitude": -73.6391782302059,
+                },
+                {
+                  "latitude": 45.4592639374046,
+                  "longitude": -73.6392208235631,
+                },
+                {
+                  "latitude": 45.4593048163551,
+                  "longitude": -73.6393244911281,
+                },
+                {
+                  "latitude": 45.4592337999664,
+                  "longitude": -73.6393812852633,
+                },
+                {
+                  "latitude": 45.4592147244697,
+                  "longitude": -73.6393317099037,
+                },
+                {
+                  "latitude": 45.4591065706206,
+                  "longitude": -73.6394178576669,
+                },
+                {
+                  "latitude": 45.4589909017275,
+                  "longitude": -73.6391241802509,
+                },
+                {
+                  "latitude": 45.4590952804424,
+                  "longitude": -73.6390404520442,
+                },
+                {
+                  "latitude": 45.4590781750219,
+                  "longitude": -73.6389972660174,
+                },
+                {
+                  "latitude": 45.459136324394,
+                  "longitude": -73.6389512899121,
+                },
+                {
+                  "latitude": 45.4591493045649,
+                  "longitude": -73.6389844575591,
+                },
+                {
+                  "latitude": 45.4592207554939,
+                  "longitude": -73.6389276110551,
+                },
+                {
+                  "latitude": 45.4591629850965,
+                  "longitude": -73.6387792039197,
+                },
+                {
+                  "latitude": 45.4591563609329,
+                  "longitude": -73.6387843175763,
+                },
+                {
+                  "latitude": 45.4591959059043,
+                  "longitude": -73.6388869329345,
+                },
+                {
+                  "latitude": 45.4590904643475,
+                  "longitude": -73.6389694504627,
+                },
+                {
+                  "latitude": 45.4590501539314,
+                  "longitude": -73.6388646336778,
+                },
+                {
+                  "latitude": 45.4588534704689,
+                  "longitude": -73.6390188825318,
+                },
+                {
+                  "latitude": 45.4588368000629,
+                  "longitude": -73.6389756453386,
+                },
+                {
+                  "latitude": 45.4588288455962,
+                  "longitude": -73.6389817440707,
+                },
+                {
+                  "latitude": 45.458630439266,
+                  "longitude": -73.6384670350639,
+                },
+              ]
+            }
+            fillColor="rgba(0, 0, 255, 0.57)"
+            onPress={[Function]}
+            strokeColor="rgba(0, 0, 255, 0.99)"
+            strokeWidth={2}
+            tappable={true}
+          />
+        </View>
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457984,
+              "longitude": -73.639834,
+            }
+          }
+          description="Administration Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="AD Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497856,
+              "longitude": -73.579588,
+            }
+          }
+          description="B Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="B Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459793,
+              "longitude": -73.639174,
+            }
+          }
+          description="BB-BH Annex, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="BB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459819,
+              "longitude": -73.639152,
+            }
+          }
+          description="BB-BH Annex, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="BH Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.458204,
+              "longitude": -73.6403,
+            }
+          }
+          description="Central Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="CC Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497467,
+              "longitude": -73.579925,
+            }
+          }
+          description="CI Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="CI Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457478,
+              "longitude": -73.640354,
+            }
+          }
+          description="Communication Studies and Journalism Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="CJ Building - wing A"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457478,
+              "longitude": -73.640354,
+            }
+          }
+          description="Communication Studies and Journalism Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="CJ Building - wing N"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457478,
+              "longitude": -73.640354,
+            }
+          }
+          description="Communication Studies and Journalism Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="CJ Building - wing S"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494259,
+              "longitude": -73.579007,
+            }
+          }
+          description="CL Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="CL Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497827,
+              "longitude": -73.579409,
+            }
+          }
+          description="D Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="D Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496944,
+              "longitude": -73.579555,
+            }
+          }
+          description="EN Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="EN Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496428,
+              "longitude": -73.57999,
+            }
+          }
+          description="ER Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="ER Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496172,
+              "longitude": -73.579922,
+            }
+          }
+          description="ES Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="ES Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496163,
+              "longitude": -73.579904,
+            }
+          }
+          description="ET Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="ET Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.495376,
+              "longitude": -73.577997,
+            }
+          }
+          description="Engineering, Computer Science and Visual Arts Integrated Complex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="EV Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496874,
+              "longitude": -73.579468,
+            }
+          }
+          description="FA Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="FA Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494666,
+              "longitude": -73.577603,
+            }
+          }
+          description="Faubourg Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="FB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.458493,
+              "longitude": -73.639287,
+            }
+          }
+          description="F.C. Smith Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="FC Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494381,
+              "longitude": -73.578425,
+            }
+          }
+          description="Faubourg Ste-Catherine Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="FG Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494123,
+              "longitude": -73.57787,
+            }
+          }
+          description="Grey Nuns Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GA Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457017,
+              "longitude": -73.640432,
+            }
+          }
+          description="Centre for Structural and Functional Genomics, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GE Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.495983,
+              "longitude": -73.578824,
+            }
+          }
+          description="Guy-De Maisonneuve Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GM Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.493622,
+              "longitude": -73.577003,
+            }
+          }
+          description="Grey Nuns Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GN Building - wing A"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.493622,
+              "longitude": -73.577003,
+            }
+          }
+          description="Grey Nuns Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GN Building - wings B, C, D, E, F, G, P"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.493622,
+              "longitude": -73.577003,
+            }
+          }
+          description="Grey Nuns Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GN Building - wings H, I, J, K"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.493622,
+              "longitude": -73.577003,
+            }
+          }
+          description="Grey Nuns Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GN Building - wings L, M, N"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496673,
+              "longitude": -73.581409,
+            }
+          }
+          description="Guy-Sherbrooke Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="GS Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497092,
+              "longitude": -73.5788,
+            }
+          }
+          description="Henry F. Hall Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="H Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459356,
+              "longitude": -73.64127,
+            }
+          }
+          description="Hingston Hall, wing HA, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="HA Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459308,
+              "longitude": -73.641849,
+            }
+          }
+          description="Hingston Hall, wing HB, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="HB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459663,
+              "longitude": -73.64208,
+            }
+          }
+          description="Hingston Hall, wing HC, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="HC Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.458513,
+              "longitude": -73.641921,
+            }
+          }
+          description="Applied Science Hub, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="HU Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.458432,
+              "longitude": -73.643235,
+            }
+          }
+          description="Jesuit Residence, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="JR Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497777,
+              "longitude": -73.579531,
+            }
+          }
+          description="K Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="K Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.49705,
+              "longitude": -73.578009,
+            }
+          }
+          description="J.W. McConnell Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="LB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496782,
+              "longitude": -73.577358,
+            }
+          }
+          description="LC Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="LC Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496697,
+              "longitude": -73.577312,
+            }
+          }
+          description="LD Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="LD Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497368,
+              "longitude": -73.579777,
+            }
+          }
+          description="M Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="M Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.495304,
+              "longitude": -73.579044,
+            }
+          }
+          description="John Molson Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497807,
+              "longitude": -73.579261,
+            }
+          }
+          description="MI Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MI Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496606,
+              "longitude": -73.579025,
+            }
+          }
+          description="MK Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MK Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494665,
+              "longitude": -73.576365,
+            }
+          }
+          description="MM Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MM Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494568,
+              "longitude": -73.576315,
+            }
+          }
+          description="MN Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MN Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.494442,
+              "longitude": -73.576108,
+            }
+          }
+          description="Montefiore Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MT Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497963,
+              "longitude": -73.579506,
+            }
+          }
+          description="MU Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="MU Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496745,
+              "longitude": -73.579113,
+            }
+          }
+          description="P Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="P Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.456534,
+              "longitude": -73.638106,
+            }
+          }
+          description="PB Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="PB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457088,
+              "longitude": -73.637683,
+            }
+          }
+          description="PERFORM centre, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="PC Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497066,
+              "longitude": -73.57979,
+            }
+          }
+          description="PR Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="PR Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459636,
+              "longitude": -73.639758,
+            }
+          }
+          description="Physical Services Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="PS Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459308,
+              "longitude": -73.638941,
+            }
+          }
+          description="Oscar Peterson Concert Hall, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="PT Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.458938,
+              "longitude": -73.640467,
+            }
+          }
+          description="Psychology Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="PY Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496648,
+              "longitude": -73.579094,
+            }
+          }
+          description="Q Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="Q Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496826,
+              "longitude": -73.579389,
+            }
+          }
+          description="R Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="R Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.456774,
+              "longitude": -73.63761,
+            }
+          }
+          description="Recreation and Athletics Complex, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="RA Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.458489,
+              "longitude": -73.641028,
+            }
+          }
+          description="Loyola Jesuit Hall and Conference Centre, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="RF Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496796,
+              "longitude": -73.579259,
+            }
+          }
+          description="RR Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="RR Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497423,
+              "longitude": -73.579851,
+            }
+          }
+          description="S Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="S Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.4966,
+              "longitude": -73.58609,
+            }
+          }
+          description="Samuel Bronfman Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="SB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459131,
+              "longitude": -73.639251,
+            }
+          }
+          description="Student Centre, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="SC Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459298,
+              "longitude": -73.642478,
+            }
+          }
+          description="Solar House, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="SH Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.457881,
+              "longitude": -73.641565,
+            }
+          }
+          description="Richard J. Renaud Science Complex, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="SP Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.49671,
+              "longitude": -73.57927,
+            }
+          }
+          description="T Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="T Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459992,
+              "longitude": -73.640897,
+            }
+          }
+          description="Terrebonne Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="TA Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.460051,
+              "longitude": -73.640842,
+            }
+          }
+          description="TB Annex, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="TB Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.495103,
+              "longitude": -73.578375,
+            }
+          }
+          description="Toronto-Dominion Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="TD Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.49648,
+              "longitude": -73.578918,
+            }
+          }
+          description="TU Tunnel, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="TU Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.497101,
+              "longitude": -73.579907,
+            }
+          }
+          description="V Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="V Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.495543,
+              "longitude": -73.573795,
+            }
+          }
+          description="Visual Arts Building, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="VA Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459026,
+              "longitude": -73.638606,
+            }
+          }
+          description="Vanier Extension, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="VE Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.459026,
+              "longitude": -73.638606,
+            }
+          }
+          description="Vanier Library Building, Loyola Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="VL Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.49694,
+              "longitude": -73.579593,
+            }
+          }
+          description="X Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="X Building"
+        />
+        <AIRMapMarker
+          coordinate={
+            {
+              "latitude": 45.496981,
+              "longitude": -73.579705,
+            }
+          }
+          description="Z Annex, Sir George Williams Campus"
+          onPress={[Function]}
+          style={
+            [
+              {
+                "backgroundColor": "transparent",
+                "position": "absolute",
+              },
+              undefined,
+            ]
+          }
+          title="Z Building"
+        />
+      </AIRMap>
+    </View>
   </View>
 </View>
 `;
