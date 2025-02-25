@@ -14,6 +14,7 @@ import useDirectionLogic from "../hooks/useDirectionLogic";
 
 export default function OutdoorDirections() {
   const { theme } = useTheme();
+  const [campus, setCampus] = useState("SGW");
   const globalStyles = getStyles(theme);
   const {
     startLocation,
@@ -53,6 +54,7 @@ export default function OutdoorDirections() {
           origin={submittedStart}
           destination={submittedDestination}
           travelMode={travelMode}
+          campus={campus}
         />
       </View>
     </View>
