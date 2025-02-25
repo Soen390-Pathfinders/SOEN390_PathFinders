@@ -8,12 +8,16 @@ import { GOOGLE_MAPS_APIKEY } from "../../constants";
 import outlines from "./building_outlines";
 import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
+import useTheme from "../../hooks/useTheme";
+import { darkMapStyle } from "../../styles";
 import { concordiaBuildings } from "./concordiaBuildings";
 
 export default function OutdoorMap({ origin, destination, travelMode, campus }) {
   //{ origin, destination, travelMode }
 
   const { userLocation } = useLocation(); // Get location from context
+  const { theme } = useTheme();
+  const mapStyle = theme === "light" ? darkMapStyle : [];
 
   const initialRegions = {
     SGW: {
@@ -38,6 +42,7 @@ export default function OutdoorMap({ origin, destination, travelMode, campus }) 
         showsUserLocation={true}
         initialRegion={initialRegions[campus]}
         region={initialRegions[campus]}
+        customMapStyle={mapStyle}
       >
         {/* Render building outlines */}
         <PolygonRender />
