@@ -20,12 +20,14 @@ export default function OutdoorDirections() {
     setStartLocation,
     destination,
     setDestination,
+    setBuildingLocation,
     travelMode,
     setTravelMode,
     submittedStart,
     submittedDestination,
     handleGoPress,
     setToCurrentLocation,
+    setToBuildingLocation,
     startLocationRef,
     destinationRef,
   } = useDirectionLogic();
@@ -46,6 +48,7 @@ export default function OutdoorDirections() {
         travelMode={travelMode}
         setTravelMode={setTravelMode} // Pass the setTravelMode function
         setToCurrentLocation={setToCurrentLocation} // Pass the setToCurrentLocation function
+        setToBuildingLocation={setToBuildingLocation} // Pass the setToBuildingLocation function
       />
       {/* Always Display Map with Submitted Locations */}
       <View style={globalStyles.mapContainer}>
@@ -53,6 +56,7 @@ export default function OutdoorDirections() {
           origin={submittedStart}
           destination={submittedDestination}
           travelMode={travelMode}
+          setBuildingLocation={setBuildingLocation}
         />
       </View>
     </View>

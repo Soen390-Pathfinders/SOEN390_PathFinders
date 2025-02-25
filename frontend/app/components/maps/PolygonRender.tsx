@@ -4,8 +4,9 @@ import { useLocation } from "../context/userLocationContext";
 import { Polygon } from "react-native-maps";
 import { View } from "react-native";
 import React from "react";
+import buildingAsDestination from "./BuildingAsDestination";
 
-export default function PolygonRender() {
+export default function PolygonRender({ setBuildingLocation }) {
   const { userLocation } = useLocation(); // Get user Location
   /*const userLocation = {
     latitude: 45.49745011599649,
@@ -40,6 +41,25 @@ export default function PolygonRender() {
                 : "rgba(0, 0, 255, 0.99)"
             }
             strokeWidth={2}
+            //Functionality to tap on the polygon to set it as destination
+            tappable={true}
+            onPress={() => {
+              buildingAsDestination((result) => {
+                if (result) {
+                  const center = geolib.getCenter(outline.coordinates); // Get the center of the polygon
+                  const { latitude, longitude } = center;
+                  const coordresult = { latitude, longitude };
+                  if (coordresult) {
+                    console.log("Setting submitted destination:", coordresult); // Log the value
+                    setBuildingLocation(coordresult);
+                  } else {
+                    console.error(
+                      "Failed to calculate the center of the polygon."
+                    );
+                  }
+                }
+              });
+            }}
           />
         );
       })}

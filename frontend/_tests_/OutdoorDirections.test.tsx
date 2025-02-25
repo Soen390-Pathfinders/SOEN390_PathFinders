@@ -4,45 +4,51 @@ import OutdoorDirections from "@/app/screens/OutdoorDirections";
 import { ThemeProvider } from "@/app/components/context/ThemeContext";
 import { LocationProvider } from "@/app/components/context/userLocationContext";
 
-
-jest.mock('@react-native-async-storage/async-storage', () => ({
+jest.mock("@react-native-async-storage/async-storage", () => ({
   setItem: jest.fn(),
-  getItem: jest.fn(() => Promise.resolve('light')),
+  getItem: jest.fn(() => Promise.resolve("light")),
+}));
+
+// Mock GooglePlacesAutocomplete without passing ref
+jest.mock("react-native-google-places-autocomplete", () => ({
+  GooglePlacesAutocomplete: () => null, // Make sure no refs are passed
 }));
 
 // Mock expo-font properly
-jest.mock('expo-font', () => ({
+jest.mock("expo-font", () => ({
   isLoaded: jest.fn(() => true),
   loadAsync: jest.fn(),
-  __metadata__: { loadedNativeFonts: [] }  
+  __metadata__: { loadedNativeFonts: [] },
 }));
 
 // Mock all vector icons
-jest.mock('@expo/vector-icons', () => ({
-  MaterialIcons: 'MaterialIcons',
-  Fontisto: 'Fontisto',
-  createIconSet: () => 'Icon'
+jest.mock("@expo/vector-icons", () => ({
+  MaterialIcons: "MaterialIcons",
+  Fontisto: "Fontisto",
+  createIconSet: () => "Icon",
 }));
 
 // Mock GooglePlacesAutocomplete
-jest.mock('react-native-google-places-autocomplete', () => ({
-  GooglePlacesAutocomplete: () => null
+jest.mock("react-native-google-places-autocomplete", () => ({
+  GooglePlacesAutocomplete: () => null,
 }));
 
 // Mock OutdoorMap component
-jest.mock('@/app/components/maps/OutdoorMap', () => {
+jest.mock("@/app/components/maps/OutdoorMap", () => {
   return function MockOutdoorMap() {
     return null;
   };
 });
 
 test("Outdoor Directions renders correctly", () => {
-  const tree = renderer.create(
-    <LocationProvider>
-      <ThemeProvider>
-        <OutdoorDirections />
-      </ThemeProvider>
-    </LocationProvider>
-  ).toJSON();
+  const tree = renderer
+    .create(
+      <LocationProvider>
+        <ThemeProvider>
+          <OutdoorDirections />
+        </ThemeProvider>
+      </LocationProvider>
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

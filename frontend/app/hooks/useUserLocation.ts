@@ -13,7 +13,7 @@ const useUserLocation = () => {
       let { status } = await Location.requestForegroundPermissionsAsync(); //Access foreground permission to allow device's location access
 
       if (status == "granted") {
-        console.log("Permission to access location was granted");
+        //console.log("Permission to access location was granted");
       } else {
         console.log("Permission to access location was denied");
         return;
@@ -21,7 +21,7 @@ const useUserLocation = () => {
 
       if (isMounted) {
         const userlocation = await Location.getCurrentPositionAsync({}); //Get the current user location
-        console.log(userlocation);
+       // console.log(userlocation);
         const userlatitude = userlocation.coords.latitude;
         const userlongitude = userlocation.coords.longitude;
 

@@ -10,16 +10,15 @@ jest.mock("@react-native-async-storage/async-storage", () => ({
   clear: jest.fn(),
 }));
 
-// I commented out the problematic snapshot -- It's bee added as a bug and will be modified
-//test("Campus Map renders correctly", () => {
-  //const tree = renderer
-    //.create(
-      //<LocationProvider>
-        //<ThemeProvider>
-          //<CampusMap />
-        //</ThemeProvider>
-      //</LocationProvider>
-    //)
-    //.toJSON();
-  //expect(tree).toMatchSnapshot();
-//});
+test("Campus Map renders correctly", () => {
+  const tree = renderer
+    .create(
+      <LocationProvider>
+        <ThemeProvider>
+          <CampusMap />
+        </ThemeProvider>
+      </LocationProvider>
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
