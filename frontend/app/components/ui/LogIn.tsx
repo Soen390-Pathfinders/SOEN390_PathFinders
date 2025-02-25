@@ -16,9 +16,7 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        {/* Header */}
-        <CampusPilotHeader />
-        
+        {/* Header */}        
         <View style={styles.content}>
           <Text style={styles.loginTitle}>Login</Text>
 
@@ -84,11 +82,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 30,
+    alignSelf: 'center',
     color: '#000',
   },
   illustration: {
     width: '100%',
-    height: 250,
+    height: 180,
     marginBottom: 40,
   },
   form: {
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
   loginButton: {
     width: '100%',
     height: 50,
-    backgroundColor: '#0077B6',
+    backgroundColor: '#0072A8',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -132,14 +131,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   googleButton: {
-    width: '100%',
+    width: 50,
     height: 50,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
+    borderRadius: 25,
+    marginTop: -10,
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-  },
+    elevation: 3, 
+    shadowColor: '#000', 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    alignSelf: 'center', 
+    marginVertical: 15,
+    borderWidth: 0,  },
   googleIcon: {
     width: 24,
     height: 24,
