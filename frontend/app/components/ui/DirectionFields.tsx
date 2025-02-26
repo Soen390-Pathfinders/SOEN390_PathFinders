@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Alert, Text, Image } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../maps/OutdoorMap";
 import useTheme from "@/app/hooks/useTheme";
@@ -53,7 +53,7 @@ export default function DirectionFields({
           onPress={() => setToCurrentLocation("start")}
           style={styles.locationButton}
         >
-          <MaterialIcons name="my-location" size={36} color="#007BFF" />
+          <MaterialIcons name="my-location" size={36} color="#193697" />
         </TouchableOpacity>
       </View>
       <View style={styles.inputWithLocationContainer}>
@@ -81,7 +81,14 @@ export default function DirectionFields({
 
         {/* GO Button instead of the current location button */}
         <TouchableOpacity onPress={onGoPress} style={styles.goButton}>
-          <Text style={styles.goButtonText}>GO</Text>
+          <Image source={require("../../../assets/images/go.png")}
+            style={{
+              width: 27,
+              height: 27,
+              transform: [{ rotate: '180deg' }]
+            }
+          }>
+          </Image>
         </TouchableOpacity>
       </View>
 
@@ -98,7 +105,7 @@ export default function DirectionFields({
           <MaterialIcons
             name="directions-walk"
             size={24}
-            color={travelMode === "WALKING" ? "#fff" : "#007BFF"}
+            color={travelMode === "WALKING" ? "#fff" : "#193697"}
           />
         </TouchableOpacity>
 
@@ -113,7 +120,7 @@ export default function DirectionFields({
           <MaterialIcons
             name="directions-car"
             size={24}
-            color={travelMode === "DRIVING" ? "#fff" : "#007BFF"}
+            color={travelMode === "DRIVING" ? "#fff" : "#193697"}
           />
         </TouchableOpacity>
 
@@ -128,7 +135,7 @@ export default function DirectionFields({
           <MaterialIcons
             name="directions-transit"
             size={24}
-            color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"}
+            color={travelMode === "TRANSIT" ? "#fff" : "#193697"}
           />
         </TouchableOpacity>
       </View>
@@ -143,7 +150,7 @@ const styles = StyleSheet.create({
   googleInput: {
     borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 20,
     paddingHorizontal: 10,
     height: 50,
     fontSize: 14,
@@ -152,13 +159,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
-    width: "100%",
+    width: "90%",
   },
   locationButton: {
     padding: 10,
   },
   goButton: {
-    backgroundColor: "#007BFF",
     padding: 10,
     borderRadius: 10,
     marginLeft: 10,
@@ -183,10 +189,10 @@ const styles = StyleSheet.create({
     padding: 3,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#007BFF",
+    borderColor: "#193697",
     marginHorizontal: 20,
   },
   iconButtonSelected: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "#193697",
   },
 });
