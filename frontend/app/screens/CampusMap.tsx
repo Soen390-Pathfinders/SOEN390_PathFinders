@@ -22,7 +22,9 @@ export default function CampusMap() {
   return (
     <View style={styles.container}>
       {/* Header with logo , title and Dakr/Light theme toggle */}
-      <CampusPilotHeader />
+     <View style={{ marginTop: -150 }}>
+               <CampusPilotHeader />
+      </View>
       <CampusToggle campus={campus} toggleCampus={toggleCampus} />
       {/*SearchBar
       <View style={styles.searchBar}>

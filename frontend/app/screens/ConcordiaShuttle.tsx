@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
+import { darkMapStyle } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import ConcordiaShuttleTimes from "../components/ui/ConcordiaShuttleTimes";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -9,6 +10,8 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 export default function ConcordiaShuttle() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
+  const mapStyle = theme === "light" ? darkMapStyle : [];
+
 
   const campusLocations = {
     loyola: {
@@ -27,8 +30,9 @@ export default function ConcordiaShuttle() {
 
   return (
     <View style={globalStyles.container}>
-      <CampusPilotHeader />
-      <ConcordiaShuttleTimes />
+      <View style={{ marginTop: -150 }}>
+          <CampusPilotHeader />
+          </View>
       <View style={globalStyles.mapContainer}>
         <MapView
           showsUserLocation={true}
@@ -40,6 +44,7 @@ export default function ConcordiaShuttle() {
             latitudeDelta: 0.1,
             longitudeDelta: 0.1,
           }}
+          customMapStyle={mapStyle}
         >
           {/* Loyola Marker */}
           <Marker

@@ -31,8 +31,8 @@ export default function CampusPilotHeader() {
 }
 const styles = StyleSheet.create({
   headerContainer: {
-    flex: 0.5, 
-    paddingTop: 20, 
+    flex: 0.3, 
+    paddingTop: -20, 
   },
   iconRow: {
     flexDirection: "row",

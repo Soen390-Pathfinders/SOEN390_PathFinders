@@ -1,4 +1,4 @@
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Modal, Image } from "react-native";
 import React, { useState, useEffect } from "react";
 
 // Separate schedules for Loyola and SGW
@@ -23,7 +23,6 @@ const timeToMinutes = (time: string): number => {
   return hours * 60 + minutes;
 };
 
-// Converting the current time to minutes for accurate shuttle departure calculations
 const getCurrentTimeInMinutes = (): number => {
   return timeToMinutes(
     new Date().toLocaleTimeString("en-US", { hour12: false })
@@ -36,7 +35,6 @@ const getNextDepartures = (currentMinutes: number) => {
       const timeInMinutes = timeToMinutes(time);
       return timeInMinutes > currentMinutes - 1;
     })
-    // Display only the next 3 shuttle times as per design choice to avoid cluttering the UI
     .slice(0, 3);
 
   const upcomingSGW = sgwSchedule
@@ -52,6 +50,7 @@ const getNextDepartures = (currentMinutes: number) => {
 export default function ConcordiaShuttleTimes() {
   const [currentTime, setCurrentTime] = useState(getCurrentTimeInMinutes());
   const [departures, setDepartures] = useState(getNextDepartures(currentTime));
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -68,85 +67,120 @@ export default function ConcordiaShuttleTimes() {
     return `${hours}:${mins.toString().padStart(2, "0")}`;
   };
 
-  return (
-    <ScrollView 
-      style={styles.timecontainer}
-      contentContainerStyle={styles.contentContainer}
-      showsVerticalScrollIndicator={false}
-    >
-      <Text style={styles.title}>Bus Shuttle Departure Times</Text>
-      <Text style={styles.currentTime}>
-        Current Time: {formatTime(currentTime)}
-      </Text>
-      
-      <View style={styles.headerRow}>
-        <Text style={styles.headerText}>LOYOLA CAMPUS</Text>
-        <Text style={styles.headerText}>SGW CAMPUS</Text>
-      </View>
+  const renderDepartureTimes = () => {
+    return [...Array(Math.max(
+      departures.loyola.length,
+      departures.sgw.length
+    ))].map((_, index) => {
+      const loyTime = departures.loyola[index];
+      const sgwTime = departures.sgw[index];
+      const loyMinutesAway = loyTime ? timeToMinutes(loyTime) - currentTime : null;
+      const sgwMinutesAway = sgwTime ? timeToMinutes(sgwTime) - currentTime : null;
 
-      {[...Array(Math.max(
-        departures.loyola.length,
-        departures.sgw.length
-      ))].map((_, index) => {
-        const loyTime = departures.loyola[index];
-        const sgwTime = departures.sgw[index];
-        const loyMinutesAway = loyTime ? timeToMinutes(loyTime) - currentTime : null;
-        const sgwMinutesAway = sgwTime ? timeToMinutes(sgwTime) - currentTime : null;
-
-        return (
-          <View key={index} style={styles.row}>
-            <View style={styles.column}>
-              {loyTime && (
-                <Text style={styles.timeText}>
-                  {loyTime}
-                  <Text style={[
-                    styles.statusText,
-                    loyMinutesAway === 0 ? styles.departingStatus : 
-                    loyMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
-                  ]}>
-                    {loyMinutesAway === 0 
-                      ? "  ⏳ Departing..."
-                      : loyMinutesAway < 0 
-                        ? "  ✓ Departed"
-                        : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
-                  </Text>
+      return (
+        <View key={index} style={styles.row}>
+          <View style={styles.column}>
+            {loyTime && (
+              <Text style={styles.timeText}>
+                {loyTime}
+                <Text style={[
+                  styles.statusText,
+                  loyMinutesAway === 0 ? styles.departingStatus : 
+                  loyMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
+                ]}>
+                  {loyMinutesAway === 0 
+                    ? "  ⏳ Departing..."
+                    : loyMinutesAway < 0 
+                      ? "  ✓ Departed"
+                      : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
                 </Text>
-              )}
-            </View>
-            <View style={styles.column}>
-              {sgwTime && (
-                <Text style={styles.timeText}>
-                  {sgwTime}
-                  <Text style={[
-                    styles.statusText,
-                    sgwMinutesAway === 0 ? styles.departingStatus : 
-                    sgwMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
-                  ]}>
-                    {sgwMinutesAway === 0
-                      ? "  ⏳ Departing..."
-                      : sgwMinutesAway < 0
-                        ? "  ✓ Departed"
-                        : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
-                  </Text>
-                </Text>
-              )}
-            </View>
+              </Text>
+            )}
           </View>
-        );
-      })}
-    </ScrollView>
+          <View style={styles.column}>
+            {sgwTime && (
+              <Text style={styles.timeText}>
+                {sgwTime}
+                <Text style={[
+                  styles.statusText,
+                  sgwMinutesAway === 0 ? styles.departingStatus : 
+                  sgwMinutesAway < 0 ? styles.departedStatus : styles.awayStatus
+                ]}>
+                  {sgwMinutesAway === 0
+                    ? "  ⏳ Departing..."
+                    : sgwMinutesAway < 0
+                      ? "  ✓ Departed"
+                      : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
+                </Text>
+              </Text>
+            )}
+          </View>
+        </View>
+      );
+    });
+  };
+
+  return (
+    
+    <View>
+      {/* Button to open modal */}
+      <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
+          <Image source={require("../../../assets/images/bus-schedule.png")}
+                      style={{
+                        width: 27,
+                        height: 27,
+                      }
+                    }>
+          </Image>      
+      </TouchableOpacity>
+
+      {/* Modal to display departure times */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Bus Shuttle Departure Times</Text>
+            <Text style={styles.modalCurrentTime}>
+              Current Time: {formatTime(currentTime)}
+            </Text>
+
+            <View style={styles.headerRow}>
+              <Text style={styles.headerText}>LOYOLA CAMPUS</Text>
+              <Text style={styles.headerText}>SGW CAMPUS</Text>
+            </View>
+
+            {renderDepartureTimes()}
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setModalVisible(!modalVisible)}
+            >
+              <Text style={styles.buttonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  timecontainer: {
-    backgroundColor: "rgba(145, 35, 55, 0.99)", // Matches Concordia's logo and marker for consistency
-    width: "100%",
-    maxHeight: "30%", // Keep the container height
+  container: {
+    flex: 0.1,
+    backgroundColor: "rgba(255, 255, 255, 0.99)",
+  },
+  scrollView: {
+    flex: 1,
   },
   contentContainer: {
     padding: 15,
-    paddingBottom: 20, // Extra padding for scroll space
+    paddingBottom: 80, // Extra padding to avoid overlap with the button
   },
   title: {
     color: "white",
@@ -162,6 +196,45 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 15,
   },
+  button: {
+    padding: 15,
+    borderRadius: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    right: 20,
+  },
+  buttonText: {
+    color: "rgba(145, 35, 55, 0.99)",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent background
+  },
+  modalView: {
+    width: "90%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  modalCurrentTime: {
+    fontSize: 16,
+    marginBottom: 15,
+    textAlign: "center",
+  },
   headerRow: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -172,7 +245,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   headerText: {
-    color: "white",
+    color: "black", // Changed to black for modal
     fontSize: 14,
     fontWeight: "bold",
     flex: 1,
@@ -189,7 +262,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   timeText: {
-    color: "white",
+    color: "black", // Changed to black for modal
     fontSize: 14,
     fontWeight: "500",
     textAlign: 'center',
@@ -212,6 +285,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   awayStatus: {
-    color: "white", // Light blue for minutes away
+    color: "black", // Changed to black for modal
   },
 });
