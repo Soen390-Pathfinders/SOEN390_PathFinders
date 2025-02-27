@@ -66,32 +66,8 @@ const LoginScreen = () => {
         />
 
         <View style={styles.form}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            placeholderTextColor="#999"
-          />
 
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholderTextColor="#999"
-          />
-
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>Log in</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.orText}>Log in with</Text>
+          <Text style={styles.orText}>Continue with Google</Text>
 
           <TouchableOpacity
             style={styles.googleButton}
@@ -135,7 +111,7 @@ const styles = StyleSheet.create({
   },
   illustration: {
     width: '100%',
-    height: 180,
+    height: 350,
     marginBottom: 40,
   },
   form: {
@@ -175,13 +151,14 @@ const styles = StyleSheet.create({
   orText: {
     textAlign: 'center',
     marginBottom: 20,
+    fontWeight: 'bold',
     color: '#666',
-    fontSize: 16,
+    fontSize: 18,
   },
   googleButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 90,
+    height: 90,
+    borderRadius: 50,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -190,8 +167,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   googleIcon: {
-    width: 24,
-    height: 24,
+    width: 40,
+    height: 40,
   },
   userInfoText: {
     marginTop: 20,
