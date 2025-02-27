@@ -4,7 +4,6 @@ import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
 import { Image, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import CampusPilotHeader from "./components/ui/CampusPilotHeader";
 /*Imports for drawer navigation*/
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawerContent from "./drawer/CustomDrawerContent";
@@ -50,7 +49,6 @@ export default function RootLayout() {
             }}
             drawerContent={CustomDrawerContent}
           >
-        
             <Drawer.Screen
               name="(screens)/CampusMap"
               component={CampusMap}
@@ -80,11 +78,11 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="ConcordiaShuttle"
+              name="(screens)/ConcordiaShuttle"
               component={ConcordiaShuttle}
               options={{
                 drawerLabel: "Concordia Shuttle",
-                title: "Campus Pilot",
+                title: "concordia Shuttle",
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}
