@@ -31,7 +31,7 @@ export default function CampusMap() {
 
       {/*Campus Map*/}
       <View style={styles.mapContainer}>
-        <OutdoorMap />
+        <OutdoorMap campus = {campus}/>
       </View>
     </View>
   );

@@ -1,6 +1,6 @@
 // Renders the Google Map through react-native-maps API
 import React, { useState } from "react";
-import MapView, { Marker, Polygon } from "react-native-maps";
+import MapView, { Marker, Polygon, PROVIDER_DEFAULT } from "react-native-maps";
 import { PROVIDER_GOOGLE } from "react-native-maps";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import MapViewDirections from "react-native-maps-directions";
@@ -10,15 +10,16 @@ import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 import { concordiaBuildings } from "./concordiaBuildings";
 
+
 export default function OutdoorMap({
   origin,
   destination,
   travelMode,
   onDurationChange,
 }) {
+
   //{ origin, destination, travelMode }
 
-  const [campus, setCampus] = useState("SGW");
   const { userLocation } = useLocation(); // Get location from context
 
   const initialRegions = {
@@ -39,7 +40,7 @@ export default function OutdoorMap({
   return (
     <View style={{ flex: 1 }}>
       <MapView
-        provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_DEFAULT}
         style={styles.map}
         showsUserLocation={true}
         initialRegion={initialRegions[campus]}
