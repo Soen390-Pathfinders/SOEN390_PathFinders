@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,62 +8,110 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import CampusPilotHeader from "../ui/CampusPilotHeader";
+import * as WebBrowser from 'expo-web-browser';
+import * as AuthSession from 'expo-auth-session';
+
+
+WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
+
+  // Google OAuth configuration
+  const discovery = {
+    authorizationEndpoint: "https://accounts.google.com/o/oauth2/v2/auth",
+    tokenEndpoint: "https://oauth2.googleapis.com/token",
+    userInfoEndpoint: "https://www.googleapis.com/oauth2/v3/userinfo",
+  };
+
+  const [request, response, promptAsync] = AuthSession.useAuthRequest(
+    {
+      clientId: "1094661065391-dnk33i66mtkmln41mt51v0q5b5dpbqlo.apps.googleusercontent.com",
+      scopes: ["openid", "profile", "email"],
+      redirectUri: AuthSession.makeRedirectUri({
+        native: "myapp://redirect",
+        useProxy: false,
+        scheme: "myapp",
+      }),
+    },
+    discovery
+  );
+
+  useEffect(() => {
+    if (response?.type === "success") {
+      const { authentication } = response;
+      getUserInfo(authentication.accessToken);
+    }
+  }, [response]);
+
+  const getUserInfo = async (token) => {
+    const response = await fetch(discovery.userInfoEndpoint, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const user = await response.json();
+    setUserInfo(user);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-        {/* Header */}        
-        <View style={styles.content}>
-          <Text style={styles.loginTitle}>Login</Text>
+      <View style={styles.content}>
+        <Text style={styles.loginTitle}>Login</Text>
 
-          {/* Login Illustration */}
-          <Image
-            source={require('../../../assets/images/LogIn.png')}
-            style={styles.illustration}
-            resizeMode="contain"
+        <Image
+          source={require('../../../assets/images/LogIn.png')}
+          style={styles.illustration}
+          resizeMode="contain"
+        />
+
+        <View style={styles.form}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            placeholderTextColor="#999"
           />
 
-          {/* Login Form */}
-          <View style={styles.form}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              placeholderTextColor="#999"
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            placeholderTextColor="#999"
+          />
+
+          <TouchableOpacity style={styles.loginButton}>
+            <Text style={styles.loginButtonText}>Log in</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.orText}>Log in with</Text>
+
+          <TouchableOpacity
+            style={styles.googleButton}
+            onPress={() => {
+              promptAsync({ useProxy: false, showInRecents: true });
+            }}
+          >
+            <Image
+              source={require('../../../assets/images/google.png')}
+              style={styles.googleIcon}
             />
-
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              placeholderTextColor="#999"
-            />
-
-            <TouchableOpacity style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Log in</Text>
-            </TouchableOpacity>
-
-            <Text style={styles.orText}>Log in with</Text>
-
-            <TouchableOpacity style={styles.googleButton}>
-              <Image
-                source={require('../../../assets/images/google.png')}
-                style={styles.googleIcon}
-              />
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
+
+        {userInfo && (
+          <View>
+            <Text style={styles.userInfoText}>Welcome, {userInfo.name}!</Text>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -134,21 +182,21 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginTop: -10,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 3, 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    alignSelf: 'center', 
+    alignSelf: 'center',
     marginVertical: 15,
-    borderWidth: 0,  },
+    elevation: 3,
+  },
   googleIcon: {
     width: 24,
     height: 24,
+  },
+  userInfoText: {
+    marginTop: 20,
+    fontSize: 18,
+    textAlign: 'center',
   },
 });
 
