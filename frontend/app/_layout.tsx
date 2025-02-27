@@ -81,7 +81,7 @@ export default function RootLayout() {
             />
             <Drawer.Screen
               name="(screens)/NextClassInfo"
-              component={loginScreem}
+              component={NextClassInfo}
               options={{
                 drawerLabel: "NextClassInfo",
                 title: "NextClassInfo drawer for dev",
