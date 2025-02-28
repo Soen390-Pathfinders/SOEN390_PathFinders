@@ -12,7 +12,11 @@
     "lint": "expo lint"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
+
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
@@ -54,6 +58,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5"
+
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

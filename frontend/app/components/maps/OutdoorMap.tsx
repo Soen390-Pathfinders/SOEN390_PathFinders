@@ -16,6 +16,8 @@ export default function OutdoorMap({
   destination,
   travelMode,
   onDurationChange,
+  campus,
+  setBuildingLocation,
 }) {
 
   //{ origin, destination, travelMode }
@@ -47,7 +49,7 @@ export default function OutdoorMap({
         region={initialRegions[campus]}
       >
         {/* Render building outlines */}
-        <PolygonRender />
+        <PolygonRender setBuildingLocation={setBuildingLocation} />
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
