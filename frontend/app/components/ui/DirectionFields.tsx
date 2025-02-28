@@ -22,6 +22,7 @@ export default function DirectionFields({
   travelMode,
   setTravelMode,
   setToCurrentLocation,
+  setToBuildingLocation,
 }) {
   return (
     <View style={{ zIndex: 5 }}>

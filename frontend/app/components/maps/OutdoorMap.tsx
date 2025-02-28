@@ -10,7 +10,13 @@ import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 import { concordiaBuildings } from "./concordiaBuildings";
 
-export default function OutdoorMap({ origin, destination, travelMode, campus }) {
+export default function OutdoorMap({
+  origin,
+  destination,
+  travelMode,
+  campus,
+  setBuildingLocation,
+}) {
   //{ origin, destination, travelMode }
 
   const { userLocation } = useLocation(); // Get location from context
@@ -40,7 +46,7 @@ export default function OutdoorMap({ origin, destination, travelMode, campus }) 
         region={initialRegions[campus]}
       >
         {/* Render building outlines */}
-        <PolygonRender />
+        <PolygonRender setBuildingLocation={setBuildingLocation} />
         {/* Render markers */}
         {concordiaBuildings.map((marker) => (
           <Marker
