@@ -1,6 +1,12 @@
 {
   "dependencies": {
+    "expo": "^52.0.37",
     "expo-constants": "^17.0.5",
+    "react-native": "^0.78.0",
     "react-native-dotenv": "^3.4.11"
+  },
+  "devDependencies": {
+    "@types/react": "~18.3.12",
+    "typescript": "^5.3.3"
   }
 }

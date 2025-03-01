@@ -1,30 +1,54 @@
-//Root layout and
-//  top navigation drawer(For the hamburger menu)
 import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
 import { Image, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-/*Imports for drawer navigation*/
+
+/* Imports for drawer navigation */
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawerContent from "./drawer/CustomDrawerContent";
 const Drawer = createDrawerNavigator();
 import CampusMap from "./screens/CampusMap";
 import OutdoorDirections from "./screens/OutdoorDirections";
 import ConcordiaShuttle from "./screens/ConcordiaShuttle";
-/*Loading screen and theme provider*/
+
+/* Loading screen and theme provider */
 import LoadingScreen from "./screens/LoadingScreen";
-import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/light view
-/*Imports to handle user location*/
-import { LocationProvider } from "./components/context/userLocationContext"; //for the current user's location
+import { ThemeProvider } from "./components/context/ThemeContext";
+
+/* Imports to handle user location */
+import { LocationProvider } from "./components/context/userLocationContext";
 import useUserLocation from "./hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 
-export default function RootLayout() {
-  /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
-  const [isLoading, setIsLoading] = useState(true);
+/* 🔹 Firebase Analytics */
+import analytics from "@react-native-firebase/analytics";
+import { useNavigation } from "@react-navigation/native";
 
-  /*Loading screen logic*/ //TODO : Can this logic be moved to custom hook ?
+export default function RootLayout() {
+  const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation(); // Needed for tracking screen changes
+
+  /* ✅ Track app opened event */
+  useEffect(() => {
+    analytics().logEvent("app_opened"); 
+  }, []);
+
+  /* ✅ Track screen views */
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("state", async () => {
+      const currentRoute = navigation.getCurrentRoute();
+      if (currentRoute) {
+        await analytics().logEvent("screen_view", {
+          screen_name: currentRoute.name,
+        });
+      }
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  /* Loading screen logic */
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -37,10 +61,9 @@ export default function RootLayout() {
 
   return (
     <LocationProvider>
-      {/* Current user Location context provider and fetching the user Location */}
+      {/* Current user Location context provider */}
       <FetchUserLocation />
       <ThemeProvider>
-        {/* Dark/Light Theme context provider */}
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Drawer.Navigator
             screenOptions={{
@@ -112,7 +135,7 @@ export default function RootLayout() {
               component={ConcordiaShuttle}
               options={{
                 drawerLabel: "Concordia Shuttle",
-                title: "concordia Shuttle",
+                title: "Concordia Shuttle",
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}

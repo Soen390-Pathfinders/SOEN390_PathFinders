@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "235960455657",
+    "project_id": "pathfinders-71dec",
+    "storage_bucket": "pathfinders-71dec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235960455657:android:ad6c5296dbcd0c33767b78",
+        "android_client_info": {
+          "package_name": "com.haifaa.pathfinders"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBievKyhT0mXfdmEFDrewMXMsYF8cBjgD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
