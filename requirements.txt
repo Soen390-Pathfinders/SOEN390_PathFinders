@@ -5,3 +5,5 @@ sqlparse==0.5.3
 pytest
 pytest-django
 django-cors-headers
+jsonschema
+django-rest-framework
