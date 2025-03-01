@@ -1,30 +1,66 @@
-//Root layout and
-//  top navigation drawer(For the hamburger menu)
+// Root layout and top navigation drawer (For the hamburger menu)
 import "react-native-get-random-values";
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-/*Imports for drawer navigation*/
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawerContent from "./drawer/CustomDrawerContent";
-const Drawer = createDrawerNavigator();
 import CampusMap from "./screens/CampusMap";
 import OutdoorDirections from "./screens/OutdoorDirections";
 import ConcordiaShuttle from "./screens/ConcordiaShuttle";
-/*Loading screen and theme provider*/
 import LoadingScreen from "./screens/LoadingScreen";
-import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/light view
-/*Imports to handle user location*/
-import { LocationProvider } from "./components/context/userLocationContext"; //for the current user's location
+import { ThemeProvider } from "./components/context/ThemeContext";
+import { LocationProvider } from "./components/context/userLocationContext";
 import useUserLocation from "./hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 
+//  Import LogRocket conditionally based on platform
+let LogRocket;
+if (Platform.OS === "web") {
+  LogRocket = require("logrocket").default;
+} else {
+  try {
+    LogRocket = require("@logrocket/react-native").default;
+  } catch (error) {
+    console.warn("LogRocket React Native SDK failed to load, using web SDK instead.");
+    LogRocket = require("logrocket").default;
+  }
+}
+
+//  Initialize LogRocket
+if (LogRocket) {
+  LogRocket.init("iojfbz/pathfinders"); // Replace with your actual LogRocket App ID
+}
+
+// Function to Identify Users in LogRocket
+function identifyUser(user) {
+  if (!user) return;
+
+  LogRocket.identify(user.id, {
+    name: user.name,
+    email: user.email,
+    subscriptionType: user.subscriptionType, // Example: custom metadata
+  });
+}
+
 export default function RootLayout() {
-  /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
   const [isLoading, setIsLoading] = useState(true);
 
-  /*Loading screen logic*/ //TODO : Can this logic be moved to custom hook ?
+  // //  Example User Data (Replace with real authentication logic)
+  const user = {
+    id: "user_12345",
+    name: "James Morrison",
+    email: "jamesmorrison@example.com",
+    subscriptionType: "test", // Custom metadata
+  };
+
+  // Identify the user in LogRocket when the app loads
+  useEffect(() => {
+    identifyUser(user);
+  }, []);
+
+  /* Loading screen logic */
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -37,10 +73,8 @@ export default function RootLayout() {
 
   return (
     <LocationProvider>
-      {/* Current user Location context provider and fetching the user Location */}
       <FetchUserLocation />
       <ThemeProvider>
-        {/* Dark/Light Theme context provider */}
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Drawer.Navigator
             screenOptions={{
@@ -58,10 +92,7 @@ export default function RootLayout() {
                 drawerLabel: "Campus Map",
                 title: "Campus Map",
                 drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/map.png")}
-                  />
+                  <Image style={styles.navLogo} source={require("../assets/images/map.png")} />
                 ),
               }}
             />
@@ -72,10 +103,7 @@ export default function RootLayout() {
                 drawerLabel: "Outdoor Directions",
                 title: "Outdoor Directions",
                 drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/sign-post.png")}
-                  />
+                  <Image style={styles.navLogo} source={require("../assets/images/sign-post.png")} />
                 ),
               }}
             />
@@ -86,10 +114,7 @@ export default function RootLayout() {
                 drawerLabel: "NextClassInfo",
                 title: "NextClassInfo drawer for dev",
                 drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/class.png")}
-                  />
+                  <Image style={styles.navLogo} source={require("../assets/images/class.png")} />
                 ),
               }}
             />
@@ -100,10 +125,7 @@ export default function RootLayout() {
                 drawerLabel: "Directions to next class",
                 title: "direction to next class",
                 drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/class.png")}
-                  />
+                  <Image style={styles.navLogo} source={require("../assets/images/class.png")} />
                 ),
               }}
             />
@@ -114,10 +136,7 @@ export default function RootLayout() {
                 drawerLabel: "Concordia Shuttle",
                 title: "concordia Shuttle",
                 drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/bus.png")}
-                  />
+                  <Image style={styles.navLogo} source={require("../assets/images/bus.png")} />
                 ),
               }}
             />
