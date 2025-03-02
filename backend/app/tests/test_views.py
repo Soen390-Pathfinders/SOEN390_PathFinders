@@ -8,8 +8,12 @@ def api_client():
     return APIClient()
 
 @pytest.fixture
-def building(db):
-    return Building.objects.create(name="Building 1", code="B1")
+def campus(db):
+    return Campus.objects.create(name="Campus A", code="A")
+
+@pytest.fixture
+def building(db, campus):
+    return Building.objects.create(name="Building 1", code="B1", campus=campus)
 
 @pytest.mark.django_db
 def test_get_all_buildings(api_client, building):
