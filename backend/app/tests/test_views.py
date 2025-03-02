@@ -133,7 +133,7 @@ def floor(db, building):
     return Floor.objects.create(code="F1", number=1, building=building)
 
 @pytest.mark.django_db
-def test_get_all_floors(api_client, floor):
+def test_get_all_floors(api_client, floor): #works
     url = reverse("get_all_floors")
     response = api_client.get(url)
 
@@ -141,21 +141,21 @@ def test_get_all_floors(api_client, floor):
     assert len(response.data) > 0
 
 @pytest.mark.django_db
-def test_get_floor_by_code(api_client, floor):
+def test_get_floor_by_code(api_client, floor): #works
     response = api_client.get(reverse("get_floor"), {"code": floor.code})
 
     assert response.status_code == 200
     assert response.json()["code"] == floor.code
 
 @pytest.mark.django_db
-def test_get_floor_invalid(api_client):
+def test_get_floor_invalid(api_client): #works
     response = api_client.get(reverse("get_floor"), {"id": 9999})
 
     assert response.status_code == 400
 
 @pytest.mark.django_db
 def test_add_floor(api_client, floor):
-    building = Building.objects.create(name="Building 1", code="B1")
+    building = Building.objects.create(name="Building 4", code="B4")
     url = reverse("add_floor")
     payload = {
         "code": "F2",
