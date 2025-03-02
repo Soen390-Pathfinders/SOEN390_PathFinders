@@ -328,7 +328,7 @@ def test_get_insidepoi_invalid_id(api_client): #works
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_insidepoi(api_client, floor, amenities): #error
+def test_add_insidepoi(api_client, floor, amenities): #failed
     url = reverse("add_insidepoi")
     payload = {
         "floor": floor.code,
@@ -359,7 +359,7 @@ def test_remove_insidepoi_invalid(api_client): #works
     assert response.status_code == 404
 
 @pytest.mark.django_db
-def test_modify_insidepoi(api_client, inside_poi):
+def test_modify_insidepoi(api_client, inside_poi): #failed
     url = reverse("modify_insidepoi")
     payload = {
         "id": inside_poi.id,
