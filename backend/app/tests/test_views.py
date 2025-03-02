@@ -202,7 +202,7 @@ def test_modify_floor(api_client, floor, campus):
     response = api_client.put(url, data=payload, format="json")
 
     assert response.status_code == 200
-    assert response.json()["number"] == 3
+    assert response.json()["number"] == "3"
     assert response.json()["code"] == "F3"
 
 @pytest.mark.django_db
