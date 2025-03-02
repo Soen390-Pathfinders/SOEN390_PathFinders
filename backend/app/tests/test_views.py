@@ -154,8 +154,8 @@ def test_get_floor_invalid(api_client): #works
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_floor(api_client, floor):
-    building = Building.objects.create(name="Building 4", code="B4")
+def test_add_floor(api_client, floor, campus): #failed
+    building = Building.objects.create(name="Building 4", code="B4", campus=campus)
     url = reverse("add_floor")
     payload = {
         "code": "F2",
@@ -169,12 +169,12 @@ def test_add_floor(api_client, floor):
     assert Floor.objects.filter(code="F2").exists()
 
 @pytest.mark.django_db
-def test_add_floor_invalid(api_client):
+def test_add_floor_invalid(api_client): #works
     response = api_client.post(reverse("add_floor"), {})
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_remove_floor(api_client, floor):
+def test_remove_floor(api_client, floor): #works
     url = reverse("remove_floor")
     payload = {"id": floor.id}
 
@@ -184,12 +184,13 @@ def test_remove_floor(api_client, floor):
     assert not Floor.objects.filter(id=floor.id).exists()
 
 @pytest.mark.django_db
-def test_remove_floor_invalid(api_client):
+def test_remove_floor_invalid(api_client): #works
     response = api_client.delete(reverse("remove_floor"), {"id": 9999}, format="json")
     assert response.status_code == 404
 
 @pytest.mark.django_db
-def test_modify_floor(api_client, floor):
+def test_modify_floor(api_client, floor, campus):
+    building = Building.objects.create(name="Building 6", code="B6", campus=campus)
     url = reverse("modify_floor")
     payload = {
         "id": floor.id,
