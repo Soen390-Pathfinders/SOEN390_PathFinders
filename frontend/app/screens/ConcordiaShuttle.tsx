@@ -4,7 +4,7 @@ import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import ConcordiaShuttleTimes from "../components/ui/ConcordiaShuttleTimes";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 
 export default function ConcordiaShuttle() {
   const { theme } = useTheme();
@@ -32,7 +32,7 @@ export default function ConcordiaShuttle() {
       <View style={globalStyles.mapContainer}>
         <MapView
           showsUserLocation={true}
-          provider={PROVIDER_GOOGLE}
+          provider={PROVIDER_DEFAULT}
           style={{ flex: 1 }}
           initialRegion={{
             latitude: 45.477716,
