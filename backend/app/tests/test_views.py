@@ -26,9 +26,10 @@ def test_get_building_by_code(api_client, building):
 
 @pytest.mark.django_db
 def test_get_building_by_name(api_client, building):
-    response = api_client.get(reverse("get_building"), {"name": building.name})
+    url = reverse("get_building") + "?name=Building 1"
+    response = api_client.get(url)
     assert response.status_code == 200
-    assert response.data["name"] == building.name
+    assert response.data["name"] == "Building 1"
 
 @pytest.mark.django_db
 def test_get_building_invalid(api_client):
