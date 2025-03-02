@@ -194,15 +194,15 @@ def test_modify_floor(api_client, floor, campus):
     url = reverse("modify_floor")
     payload = {
         "id": floor.id,
-        "name": "Floor 3",
         "code": "F3",
+        "number": 3,
         "building": building.code
     }
 
     response = api_client.put(url, data=payload, format="json")
 
     assert response.status_code == 200
-    assert response.json()["name"] == "Floor 3"
+    assert response.json()["number"] == 3
     assert response.json()["code"] == "F3"
 
 @pytest.mark.django_db
