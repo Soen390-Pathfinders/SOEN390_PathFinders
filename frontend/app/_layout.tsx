@@ -19,6 +19,7 @@ import { LocationProvider } from "./components/context/userLocationContext"; //f
 import useUserLocation from "./hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
+import IndoorDirections from "./screens/IndoorDirections";
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
@@ -117,6 +118,20 @@ export default function RootLayout() {
                   <Image
                     style={styles.navLogo}
                     source={require("../assets/images/bus.png")}
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
+              name="(screens)/IndoorDirections"
+              component={IndoorDirections}
+              options={{
+                drawerLabel: "IndoorDirections",
+                title: "Indoor Directions",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/direction.png")}
                   />
                 ),
               }}
