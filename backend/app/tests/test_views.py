@@ -239,7 +239,7 @@ def test_get_room_invalid(api_client): #works
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_room(api_client, floor):
+def test_add_room(api_client, floor): #failed
     url = reverse("add_room")
     payload = {
         "number": 2,
@@ -259,7 +259,7 @@ def test_add_room_invalid(api_client):
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_remove_room(api_client, room):
+def test_remove_room(api_client, room): #works
     url = reverse("remove_room")
     payload = {"id": room.id}
 
@@ -278,14 +278,14 @@ def test_modify_room(api_client, room):
     url = reverse("modify_room")
     payload = {
         "id": room.id,
-        "name": "Room 3",
+        "number": 3,
         "code": "R3"
     }
 
     response = api_client.put(url, data=payload, format="json")
 
     assert response.status_code == 200
-    assert response.json()["name"] == "Room 3"
+    assert response.json()["number"] == "3"
     assert response.json()["code"] == "R3"
 
 @pytest.mark.django_db
