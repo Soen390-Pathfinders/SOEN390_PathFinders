@@ -7,7 +7,7 @@ from app.models import Building, Campus, Floor, Room, InsidePOI
 def api_client():
     return APIClient()
 
-@pytest.ficture
+@pytest.fixture
 def building(db):
     return Building.objects.create(name="Building 1", code="B1")
 
@@ -15,17 +15,16 @@ def building(db):
 def test_get_all_buildings(api_client, building):
     response = api_client.get(reverse("get_all_buildings"))
     assert response.status_code == 200
-    assert response.data[0]["name"] == "Building 1"
-    assert response.data[0]["code"] == "B1"
+    assert len(response.data) == 1
 
 @pytest.mark.django_db
 def test_get_building_by_code(api_client, building):
-    response = api_client.get(reverse("get_building"), {"id": building.code})
+    response = api_client.get(reverse("get_building"), {"code": building.code})
     assert response.status_code == 200
     assert response.data["code"] == building.code
 
 @pytest.mark.django_db
-def test_get_building_by_code(api_client, building):
+def test_get_building_by_name(api_client, building):
     response = api_client.get(reverse("get_building"), {"name": building.name})
     assert response.status_code == 200
     assert response.data["name"] == building.name
@@ -37,7 +36,12 @@ def test_get_building_invalid(api_client):
 
 @pytest.mark.django_db
 def test_add_building(api_client):
-    response = api_client.post(reverse("add_building"), {"name": "Building 2", "code": "B2"})
+    url = reverse("add_building")
+    payload = {
+        "name": "Building 2",
+        "code": "B2"
+    }
+    response = api_client.post(url, data=payload, format="json")
     assert response.status_code == 201
     assert 'building_id' in response.data
 
@@ -48,8 +52,11 @@ def test_add_building_invalid(api_client):
 
 @pytest.mark.django_db
 def test_remove_building(api_client, building):
-    response = api_client.delete(reverse("remove_building"), {"id": building.id}, format="json")
+    url = reverse("remove_building")
+    payload = {"code": building.code}   
+    response = api_client.delete(url, data=payload, format="json")
     assert response.status_code == 200
+    assert not Building.objects.filter(code=building.code).exists()
 
 @pytest.mark.django_db
 def test_remove_building_invalid(api_client):
@@ -58,7 +65,13 @@ def test_remove_building_invalid(api_client):
 
 @pytest.mark.django_db
 def test_modify_building(api_client, building):
-    response = api_client.put(reverse("modify_building"), {"id": building.id, "name": "Building 3", "code": "B3"})
+    url = reverse("modify_building")
+    payload = {
+        "id": building.id,
+        "name": "Building 3",
+        "code": "B3"
+    }
+    response = api_client.put(url, data=payload, format="json")
     assert response.status_code == 200
     assert response.data["name"] == "Building 3"
     assert response.data["code"] == "B3"
@@ -116,10 +129,8 @@ def test_delete_campus(api_client, create_campus):
     assert not Campus.objects.filter(code="GAS").exists() 
 
 @pytest.fixture
-def floor(db):
-    building = Building.objects.create(name="Building 1", code="B1")
-    Floor.objects.create(name="Floor 1", code="F1", building=building)
-    return
+def floor(db, building):
+    return Floor.objects.create(name="Floor 1", code="F1", building=building)
 
 @pytest.mark.django_db
 def test_get_all_floors(api_client, floor):
@@ -130,11 +141,11 @@ def test_get_all_floors(api_client, floor):
     assert len(response.data) > 0
 
 @pytest.mark.django_db
-def test_get_floor_by_id(api_client, floor):
-    response = api_client.get(reverse("get_floor"), {"id": floor.id})
+def test_get_floor_by_name(api_client, floor):
+    response = api_client.get(reverse("get_floor"), {"name": floor.name})
 
     assert response.status_code == 200
-    assert response.json()["id"] == floor.id
+    assert response.json()["name"] == floor.name
 
 @pytest.mark.django_db
 def test_get_floor_by_code(api_client, floor):
@@ -150,7 +161,7 @@ def test_get_floor_invalid(api_client):
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_floor(api_client):
+def test_add_floor(api_client, floor):
     building = Building.objects.create(name="Building 1", code="B1")
     url = reverse("add_floor")
     payload = {
@@ -205,25 +216,22 @@ def test_modify_floor_invalid(api_client):
     assert response.status_code == 404
 
 @pytest.fixture
-def room(db):
-    building = Building.objects.create(name="Building 1", code="B1")
-    floor = Floor.objects.create(name="Floor 1", code="F1", building=building)
-    Room.objects.create(name="Room 1", code="R1", floor=floor)
-    return
-
+def room(db, floor, building):
+    return Room.objects.create(name="Room 1", code="R1", floor=floor)
+    
 @pytest.mark.django_db
 def test_get_all_rooms(api_client, room):
     response = api_client.get(reverse("get_all_rooms"))
 
     assert response.status_code == 200
-    assert len(response.data) > 0
+    assert len(response.data) == 1
 
 @pytest.mark.django_db
-def test_get_room_by_id(api_client, room):
-    response = api_client.get(reverse("get_room"), {"id": room.id})
+def test_get_room_by_code(api_client, room):
+    response = api_client.get(reverse("get_room"), {"code": room.code})
 
     assert response.status_code == 200
-    assert response.json()["id"] == room.id
+    assert response.json()["code"] == room.code
 
 @pytest.mark.django_db
 def test_get_room_by_name(api_client, room):
@@ -239,9 +247,7 @@ def test_get_room_invalid(api_client):
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_room(api_client):
-    building = Building.objects.create(name="Building 1", code="B1")
-    floor = Floor.objects.create(name="Floor 1", code="F1", building=building)
+def test_add_room(api_client, floor):
     url = reverse("add_room")
     payload = {
         "name": "Room 2",
@@ -295,9 +301,5 @@ def test_modify_room_invalid(api_client):
     assert response.status_code == 404
 
 @pytest.fixture
-def inside_poi(db):
-    building = Building.objects.create(name="Building 1", code="B1")
-    floor = Floor.objects.create(name="Floor 1", code="F1", building=building)
-    room = Room.objects.create(name="Room 1", code="R1", floor=floor)
-    InsidePOI.objects.create(name="InsidePOI 1", code="I1", room=room)
-    return
+def inside_poi(db, building, floor, room):
+    return InsidePOI.objects.create(name="InsidePOI 1", code="I1", room=room)

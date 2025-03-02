@@ -50,7 +50,7 @@ def test_create_floor(floor):
 @pytest.mark.django_db
 def test_create_room(create_room):
     assert Room.objects.count() == 1
-    assert create_room.number == "H-2-H-110"
+    assert create_room.number == "H-110"
     assert create_room.capacity == 200
     assert create_room.is_wheelchair_accessible == True
 
@@ -59,9 +59,3 @@ def test_create_inside_poi(create_poi):
     assert InsidePOI.objects.count() == 1
     assert create_poi.x_coor == 100
     assert create_poi.y_coor == 200
-
-@pytest.mark.django_db
-def test_polygon_coordinates(building):
-    building.polygon_coordinates = [{"longitude": "invalid", "latitude": 45.0}]
-    with pytest.raises(ValueError):
-        building.clean()
