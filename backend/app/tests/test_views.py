@@ -196,7 +196,6 @@ def test_modify_floor(api_client, floor, campus):
         "id": floor.id,
         "code": "F3",
         "number": 3,
-        "building": building.code
     }
 
     response = api_client.put(url, data=payload, format="json")
