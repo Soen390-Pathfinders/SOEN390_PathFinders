@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType
+from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType
 
 @pytest.fixture
 def api_client():
@@ -274,7 +274,7 @@ def test_remove_room_invalid(api_client):
     assert response.status_code == 404
 
 @pytest.mark.django_db
-def test_modify_room(api_client, room):
+def test_modify_room(api_client, room): #Failed
     url = reverse("modify_room")
     payload = {
         "id": room.id,
@@ -289,10 +289,28 @@ def test_modify_room(api_client, room):
     assert response.json()["code"] == "R3"
 
 @pytest.mark.django_db
-def test_modify_room_invalid(api_client):
+def test_modify_room_invalid(api_client): #works
     response = api_client.put(reverse("modify_room"), {"id": 9999, "name": "Room 3"})
     assert response.status_code == 404
 
 @pytest.fixture
-def inside_poi(db, building, floor, room):
-    return InsidePOI.objects.create(name="InsidePOI 1", code="I1", room=room)
+def amenities(db):
+    return AmenityType.objects.create(name="Amenity Type 1")
+
+@pytest.fixture
+def inside_poi(db, floor, amenities):
+    poi = InsidePOI.objects.create(
+        floor = floor,
+        x_coor = 100,
+        y_coor = 200,
+        opening_hours={"open_hour": "09:00", "closed_hour": "17:00"}
+    )
+    poi.amenities.add(amenities)
+    return poi
+
+@pytest.mark.django_db
+def test_get_all_inside_pois(api_client, inside_poi):
+    url = reverse("get_all_insidepois")
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert len(response.data) == 1
