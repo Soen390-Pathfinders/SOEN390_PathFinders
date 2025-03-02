@@ -39,7 +39,7 @@ def test_add_building(api_client, campus):
     payload = {
         "name": "Building 2",
         "code": "B2",
-        "campus": campus.id
+        "campus": campus.code
     }
     response = api_client.post(url, data=payload, format="json")
     assert response.status_code == 201
