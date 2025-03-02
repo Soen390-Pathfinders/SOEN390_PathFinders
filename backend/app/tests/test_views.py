@@ -244,7 +244,8 @@ def test_add_room(api_client, floor):
     payload = {
         "number": 2,
         "floor": floor.code,
-        "code": "R2"
+        "code": "R2",
+        "type": ["Room Type 1"]
     }
 
     response = api_client.post(url, data=payload, format="json")
