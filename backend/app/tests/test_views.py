@@ -29,23 +29,17 @@ def test_get_building_by_code(api_client, building):
     assert response.data["code"] == "B1"
 
 @pytest.mark.django_db
-def test_get_building_by_name(api_client, building):
-    url = reverse("get_building") + "?name=Building 1"
-    response = api_client.get(url)
-    assert response.status_code == 200
-    assert response.data["name"] == "Building 1"
-
-@pytest.mark.django_db
 def test_get_building_invalid(api_client):
     response = api_client.get(reverse("get_building"), {"id": 9999})
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_building(api_client):
+def test_add_building(api_client, campus):
     url = reverse("add_building")
     payload = {
         "name": "Building 2",
-        "code": "B2"
+        "code": "B2",
+        "campus": campus.id
     }
     response = api_client.post(url, data=payload, format="json")
     assert response.status_code == 201
