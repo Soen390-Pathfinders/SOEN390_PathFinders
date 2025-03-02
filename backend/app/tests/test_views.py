@@ -16,25 +16,25 @@ def building(db, campus):
     return Building.objects.create(name="Building 1", code="B1", campus=campus)
 
 @pytest.mark.django_db
-def test_get_all_buildings(api_client, building):
+def test_get_all_buildings(api_client, building): #works
     response = api_client.get(reverse("get_all_buildings"))
     assert response.status_code == 200
     assert len(response.data) == 1
 
 @pytest.mark.django_db
-def test_get_building_by_code(api_client, building):
+def test_get_building_by_code(api_client, building): #works
     url = reverse("get_building") + "?code=B1"
     response = api_client.get(url)
     assert response.status_code == 200
     assert response.data["code"] == "B1"
 
 @pytest.mark.django_db
-def test_get_building_invalid(api_client):
+def test_get_building_invalid(api_client): #works
     response = api_client.get(reverse("get_building"), {"id": 9999})
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_building(api_client, campus):
+def test_add_building(api_client, campus): #works
     url = reverse("add_building")
     payload = {
         "name": "Building 2",
@@ -46,12 +46,12 @@ def test_add_building(api_client, campus):
     assert 'building_id' in response.data
 
 @pytest.mark.django_db
-def test_add_building_invalid(api_client):
+def test_add_building_invalid(api_client): #works
     response = api_client.post(reverse("add_building"), {})
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_remove_building(api_client, building):
+def test_remove_building(api_client, building): #works
     url = reverse("remove_building")
     payload = {"code": building.code}   
     response = api_client.delete(url, data=payload, format="json")
@@ -59,12 +59,12 @@ def test_remove_building(api_client, building):
     assert not Building.objects.filter(code=building.code).exists()
 
 @pytest.mark.django_db
-def test_remove_building_invalid(api_client):
+def test_remove_building_invalid(api_client): #works
     response = api_client.delete(reverse('remove_building'), {'id': 9999}, format='json')
     assert response.status_code == 404
 
 @pytest.mark.django_db
-def test_modify_building(api_client, building):
+def test_modify_building(api_client, building): #works
     url = reverse("modify_building")
     payload = {
         "id": building.id,
@@ -77,7 +77,7 @@ def test_modify_building(api_client, building):
     assert response.data["code"] == "B3"
 
 @pytest.mark.django_db
-def test_modify_building_invalid(api_client):
+def test_modify_building_invalid(api_client): #works
     response = api_client.put(reverse("modify_building"), {"id": 9999, "name": "Building 3"})
     assert response.status_code == 404 
 
@@ -89,7 +89,7 @@ def create_campus(db):
     return
 
 @pytest.mark.django_db
-def test_get_all_campuses(api_client, create_campus):
+def test_get_all_campuses(api_client, create_campus): #works
     url = reverse("get_all_campuses")  # Ensure you have a URL name for your campus list view
     response = api_client.get(url)
     
@@ -97,7 +97,7 @@ def test_get_all_campuses(api_client, create_campus):
     assert len(response.data) == 3
 
 @pytest.mark.django_db
-def test_get_campus_by_code(api_client, create_campus):
+def test_get_campus_by_code(api_client, create_campus): #works
     url = reverse("get_campus") + "?code=A"
     response = api_client.get(url)
 
@@ -106,7 +106,7 @@ def test_get_campus_by_code(api_client, create_campus):
     assert response.json()["code"] == "A"
 
 @pytest.mark.django_db
-def test_add_campus(api_client):
+def test_add_campus(api_client): #works
     url = reverse("add_campus")  # Ensure you have this route defined
     payload = {
         "name": "New Campus",
@@ -119,7 +119,7 @@ def test_add_campus(api_client):
     assert Campus.objects.filter(code="NEW").exists()
 
 @pytest.mark.django_db
-def test_delete_campus(api_client, create_campus):
+def test_delete_campus(api_client, create_campus): #works
     url = reverse("remove_campus")
     payload = {"code": "GAS"}
 
@@ -130,7 +130,7 @@ def test_delete_campus(api_client, create_campus):
 
 @pytest.fixture
 def floor(db, building):
-    return Floor.objects.create(name="Floor 1", code="F1", building=building)
+    return Floor.objects.create(code="F1", number=1, building=building)
 
 @pytest.mark.django_db
 def test_get_all_floors(api_client, floor):
@@ -139,13 +139,6 @@ def test_get_all_floors(api_client, floor):
 
     assert response.status_code == 200
     assert len(response.data) > 0
-
-@pytest.mark.django_db
-def test_get_floor_by_name(api_client, floor):
-    response = api_client.get(reverse("get_floor"), {"name": floor.name})
-
-    assert response.status_code == 200
-    assert response.json()["name"] == floor.name
 
 @pytest.mark.django_db
 def test_get_floor_by_code(api_client, floor):
@@ -165,9 +158,9 @@ def test_add_floor(api_client, floor):
     building = Building.objects.create(name="Building 1", code="B1")
     url = reverse("add_floor")
     payload = {
-        "name": "Floor 2",
         "code": "F2",
-        "building": building.id
+        "number": 2,
+        "building": building.code
     }
 
     response = api_client.post(url, data=payload, format="json")
