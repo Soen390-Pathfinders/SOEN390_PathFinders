@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from app.models import Building, Campus, Floor, Room, InsidePOI
+from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType
 
 @pytest.fixture
 def api_client():
@@ -189,8 +189,7 @@ def test_remove_floor_invalid(api_client): #works
     assert response.status_code == 404
 
 @pytest.mark.django_db
-def test_modify_floor(api_client, floor, campus):
-    building = Building.objects.create(name="Building 6", code="B6", campus=campus)
+def test_modify_floor(api_client, floor, campus): #failed
     url = reverse("modify_floor")
     payload = {
         "id": floor.id,
@@ -205,13 +204,17 @@ def test_modify_floor(api_client, floor, campus):
     assert response.json()["code"] == floor.code
 
 @pytest.mark.django_db
-def test_modify_floor_invalid(api_client):
+def test_modify_floor_invalid(api_client): #works
     response = api_client.put(reverse("modify_floor"), {"id": 9999, "name": "Floor 3"})
     assert response.status_code == 404
 
 @pytest.fixture
-def room(db, floor, building):
-    return Room.objects.create(name="Room 1", code="R1", floor=floor)
+def room_type(db):
+    return RoomType.objects.create(name="Room Type 1")
+
+@pytest.fixture
+def room(db, floor, room_type):
+    return Room.objects.create(number=1, floor=floor, code="R1", type=room_type)
     
 @pytest.mark.django_db
 def test_get_all_rooms(api_client, room):
