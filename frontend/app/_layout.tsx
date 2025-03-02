@@ -23,7 +23,9 @@ if (Platform.OS === "web") {
   try {
     LogRocket = require("@logrocket/react-native").default;
   } catch (error) {
-    console.warn("LogRocket React Native SDK failed to load, using web SDK instead.");
+    console.warn(
+      "LogRocket React Native SDK failed to load, using web SDK instead."
+    );
     LogRocket = require("logrocket").default;
   }
 }
@@ -46,7 +48,7 @@ function identifyUser(user) {
 
 export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
-
+  const Drawer = createDrawerNavigator();
   // //  Example User Data (Replace with real authentication logic)
   const user = {
     id: "user_12345",
@@ -92,7 +94,10 @@ export default function RootLayout() {
                 drawerLabel: "Campus Map",
                 title: "Campus Map",
                 drawerIcon: () => (
-                  <Image style={styles.navLogo} source={require("../assets/images/map.png")} />
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/map.png")}
+                  />
                 ),
               }}
             />
@@ -103,7 +108,10 @@ export default function RootLayout() {
                 drawerLabel: "Outdoor Directions",
                 title: "Outdoor Directions",
                 drawerIcon: () => (
-                  <Image style={styles.navLogo} source={require("../assets/images/sign-post.png")} />
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/sign-post.png")}
+                  />
                 ),
               }}
             />
@@ -114,7 +122,10 @@ export default function RootLayout() {
                 drawerLabel: "NextClassInfo",
                 title: "NextClassInfo drawer for dev",
                 drawerIcon: () => (
-                  <Image style={styles.navLogo} source={require("../assets/images/class.png")} />
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/class.png")}
+                  />
                 ),
               }}
             />
@@ -125,7 +136,10 @@ export default function RootLayout() {
                 drawerLabel: "Directions to next class",
                 title: "direction to next class",
                 drawerIcon: () => (
-                  <Image style={styles.navLogo} source={require("../assets/images/class.png")} />
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/class.png")}
+                  />
                 ),
               }}
             />
@@ -136,7 +150,10 @@ export default function RootLayout() {
                 drawerLabel: "Concordia Shuttle",
                 title: "concordia Shuttle",
                 drawerIcon: () => (
-                  <Image style={styles.navLogo} source={require("../assets/images/bus.png")} />
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/bus.png")}
+                  />
                 ),
               }}
             />
