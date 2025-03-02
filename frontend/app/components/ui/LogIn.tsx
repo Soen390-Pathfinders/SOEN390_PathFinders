@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
@@ -11,12 +10,9 @@ import {
 import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
 
-
 WebBrowser.maybeCompleteAuthSession();
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [userInfo, setUserInfo] = useState(null);
 
   // Google OAuth configuration
@@ -28,30 +24,56 @@ const LoginScreen = () => {
 
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
-      clientId: "1094661065391-dnk33i66mtkmln41mt51v0q5b5dpbqlo.apps.googleusercontent.com",
-      scopes: ["openid", "profile", "email"],
-      redirectUri: AuthSession.makeRedirectUri({
-        native: "myapp://redirect",
-        useProxy: false,
-        scheme: "myapp",
-      }),
+      clientId: "1094661065391-76dc7skuglltgsqqu3bku6inoh5g5q2b.apps.googleusercontent.com",
+      scopes: [
+        "openid",
+        "profile",
+        "email",
+        "https://www.googleapis.com/auth/calendar.readonly"
+      ],
+      redirectUri: "https://auth.expo.io/@znibou/campus-pilot"
+      ,
     },
     discovery
   );
 
   useEffect(() => {
+    console.log("OAuth Response:", response);
     if (response?.type === "success") {
       const { authentication } = response;
-      getUserInfo(authentication.accessToken);
+      console.log("Access Token:", authentication?.accessToken);
+      if (authentication?.accessToken) {
+        getUserInfo(authentication.accessToken);
+      } else {
+        console.error("Authentication failed: No access token");
+      }
+    } else if (response?.type === "error") {
+      console.error("Google Login Error:", response.error);
     }
   }, [response]);
 
   const getUserInfo = async (token) => {
-    const response = await fetch(discovery.userInfoEndpoint, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const user = await response.json();
-    setUserInfo(user);
+    try {
+      // Fetch user profile
+      const response = await fetch(discovery.userInfoEndpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const user = await response.json();
+      console.log("User Info:", user);
+      setUserInfo(user);
+
+      // Fetch calendar events (class schedule)
+      const eventsResponse = await fetch(
+        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const events = await eventsResponse.json();
+      console.log("User's Calendar Events:", events.items);
+    } catch (error) {
+      console.error("Error fetching user info or calendar:", error);
+    }
   };
 
   return (
@@ -66,13 +88,12 @@ const LoginScreen = () => {
         />
 
         <View style={styles.form}>
-
           <Text style={styles.orText}>Continue with Google</Text>
 
           <TouchableOpacity
             style={styles.googleButton}
             onPress={() => {
-              promptAsync({ useProxy: false, showInRecents: true });
+              promptAsync();
             }}
           >
             <Image
@@ -116,37 +137,6 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '100%',
-  },
-  label: {
-    fontSize: 18,
-    fontWeight: '500',
-    marginBottom: 10,
-    color: '#000',
-  },
-  input: {
-    width: '100%',
-    height: 55,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
-    paddingHorizontal: 15,
-    marginBottom: 20,
-    fontSize: 16,
-    color: '#000',
-  },
-  loginButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#0072A8',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 10,
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
   },
   orText: {
     textAlign: 'center',
