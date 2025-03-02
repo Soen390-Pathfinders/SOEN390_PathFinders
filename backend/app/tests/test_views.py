@@ -214,7 +214,9 @@ def room_type(db):
 
 @pytest.fixture
 def room(db, floor, room_type):
-    return Room.objects.create(number=1, floor=floor, code="R1", type=room_type)
+    room = Room.objects.create(number=1, floor=floor, code="R1")
+    room.type.add(room_type)
+    return room
     
 @pytest.mark.django_db
 def test_get_all_rooms(api_client, room):
