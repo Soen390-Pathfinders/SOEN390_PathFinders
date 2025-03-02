@@ -219,28 +219,21 @@ def room(db, floor, room_type):
     return room
     
 @pytest.mark.django_db
-def test_get_all_rooms(api_client, room):
+def test_get_all_rooms(api_client, room): #works
     response = api_client.get(reverse("get_all_rooms"))
 
     assert response.status_code == 200
     assert len(response.data) == 1
 
 @pytest.mark.django_db
-def test_get_room_by_code(api_client, room):
+def test_get_room_by_code(api_client, room): #works
     response = api_client.get(reverse("get_room"), {"code": room.code})
 
     assert response.status_code == 200
     assert response.json()["code"] == room.code
 
 @pytest.mark.django_db
-def test_get_room_by_name(api_client, room):
-    response = api_client.get(reverse("get_room"), {"name": room.name})
-
-    assert response.status_code == 200
-    assert response.json()["name"] == room.name
-
-@pytest.mark.django_db
-def test_get_room_invalid(api_client):
+def test_get_room_invalid(api_client): #works
     response = api_client.get(reverse("get_room"), {"id": 9999})
 
     assert response.status_code == 400
@@ -249,9 +242,9 @@ def test_get_room_invalid(api_client):
 def test_add_room(api_client, floor):
     url = reverse("add_room")
     payload = {
-        "name": "Room 2",
-        "code": "R2",
-        "floor": floor.id
+        "number": 2,
+        "floor": floor.code,
+        "code": "R2"
     }
 
     response = api_client.post(url, data=payload, format="json")
