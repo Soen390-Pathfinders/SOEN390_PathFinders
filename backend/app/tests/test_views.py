@@ -309,8 +309,66 @@ def inside_poi(db, floor, amenities):
     return poi
 
 @pytest.mark.django_db
-def test_get_all_inside_pois(api_client, inside_poi):
+def test_get_all_inside_pois(api_client, inside_poi): #works
     url = reverse("get_all_insidepois")
     response = api_client.get(url)
     assert response.status_code == 200
     assert len(response.data) == 1
+
+@pytest.mark.django_db
+def test_get_inside_poi_by_id(api_client, inside_poi):
+    url = reverse("get_insidepoi") + f"?id={inside_poi.id}"
+    response = api_client.get(url)
+    assert response.status_code == 200
+    assert response.data["id"] == inside_poi.id
+
+@pytest.mark.django_db
+def test_get_insidepoi_invalid_id(api_client):
+    response = api_client.get(reverse("get_insidepoi"), {"id": 999})
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_add_insidepoi(api_client, floor, amenity_type):
+    url = reverse("add_insidepoi")
+    payload = {
+        "floor": floor.code,
+        "amenities": ["Test Amenity"],
+        "x_coor": 150,
+        "y_coor": 250,
+        "opening_hours": {"open_hour": "08:00", "closed_hour": "18:00"}
+    }
+    response = api_client.post(url, data=payload, format="json")
+    assert response.status_code == 201
+    assert InsidePOI.objects.filter(x_coor=150).exists()
+
+@pytest.mark.django_db
+def test_add_insidepoi_invalid(api_client):
+    response = api_client.post(reverse("add_insidepoi"), {})
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_remove_insidepoi(api_client, inside_poi):
+    url = reverse("remove_insidepoi")
+    response = api_client.delete(url, {"id": inside_poi.id}, format="json")
+    assert response.status_code == 200
+    assert not InsidePOI.objects.filter(id=inside_poi.id).exists()
+
+@pytest.mark.django_db
+def test_remove_insidepoi_invalid(api_client):
+    response = api_client.delete(reverse("remove_insidepoi"), {"id": 999}, format="json")
+    assert response.status_code == 404
+
+@pytest.mark.django_db
+def test_modify_insidepoi(api_client, inside_poi, amenity_type):
+    url = reverse("modify_insidepoi")
+    payload = {
+        "id": inside_poi.id,
+        "x_coor": 200,
+        "amenities": ["Test Amenity", "New Amenity"]
+    }
+    AmenityType.objects.create(name="New Amenity")
+    response = api_client.put(url, data=payload, format="json")
+    assert response.status_code == 200
+    inside_poi.refresh_from_db()
+    assert inside_poi.x_coor == 200
+    assert inside_poi.amenities.count() == 2
