@@ -317,7 +317,7 @@ def test_get_all_inside_pois(api_client, inside_poi): #works
 
 @pytest.mark.django_db
 def test_get_inside_poi_by_id(api_client, inside_poi):
-    url = reverse("get_insidepoi") + f"?id={inside_poi.id}"
+    url = reverse("get_insidepoi"), {"id": inside_poi.id}
     response = api_client.get(url)
     assert response.status_code == 200
     assert response.data["id"] == inside_poi.id
