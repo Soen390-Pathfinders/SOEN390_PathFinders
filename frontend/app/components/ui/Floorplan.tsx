@@ -1,20 +1,60 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { Image } from "expo-image";
+import { ImageZoom } from "@likashefqet/react-native-image-zoom";
+import { Zoomable } from "@likashefqet/react-native-image-zoom";
 
 export default function Floorplan() {
+  const zoomableRef = useRef(null); // Define a reference
+  const [scale, setScale] = useState(1);
+
+  const onZoom = (zoomType) => {
+    console.log("Zoom event triggered:", zoomType);
+  };
+
+  const onAnimationEnd = (finished) => {
+    console.log("Animation ended:", finished);
+  };
+
   return (
     <View style={styles.container}>
-      <Image
+      <Zoomable
+        ref={zoomableRef}
+        minScale={1}
+        maxScale={5}
+        // scale={scale}
+        doubleTapScale={3}
+        isSingleTapEnabled
+        isDoubleTapEnabled
+        onPanStart={() => console.log("onPanStart")}
+        onPanEnd={() => console.log("onPanEnd")}
+        onPinchStart={() => console.log("onPinchStart")}
+        onPinchEnd={() => console.log("onPinchEnd")}
+        onSingleTap={() => console.log("onSingleTap")}
+        onDoubleTap={(zoomType) => {
+          console.log("onDoubleTap", zoomType);
+          onZoom(zoomType);
+        }}
+        onProgrammaticZoom={(zoomType) => {
+          console.log("onZoom", zoomType);
+          onZoom(zoomType);
+        }}
         style={styles.image}
-        source={require("../../../assets/floorplans/H5.jpg")}
-        contentFit="cover"
-        transition={1000}
-        resizeMode="cover" // Ensures the image covers the container
-      />
-
-      {/*svg will come hete */}
+        onResetAnimationEnd={(finished, values) => {
+          console.log("onResetAnimationEnd", finished);
+          console.log("lastScaleValue:", values?.SCALE.lastValue);
+          onAnimationEnd(finished);
+        }}
+      >
+        <Image
+          style={styles.image}
+          source={require("../../../assets/floorplans/H5.jpg")}
+          contentFit="cover"
+          transition={1000}
+          resizeMode="cover" // Ensures the image covers the container
+        />
+      </Zoomable>
     </View>
   );
 }
