@@ -22,8 +22,8 @@ export default function Floorplan() {
       <Zoomable
         ref={zoomableRef}
         minScale={1}
-        maxScale={5}
-        // scale={scale}
+        maxScale={9}
+        // scale={1.5}
         doubleTapScale={3}
         isSingleTapEnabled
         isDoubleTapEnabled
@@ -50,7 +50,7 @@ export default function Floorplan() {
         <Image
           style={styles.image}
           source={require("../../../assets/floorplans/H5.jpg")}
-          contentFit="cover"
+          contentFit="contain"
           transition={1000}
           resizeMode="cover" // Ensures the image covers the container
         />
@@ -61,13 +61,11 @@ export default function Floorplan() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
   image: {
     flex: 1,
     width: "100%",
-    backgroundColor: "#0553",
   },
 });

@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   header: { height: "20%" },
   myImagecontainer: {
     height: "80%",
-    backgroundColor: "#e7e7e7",
     width: "100%",
   },
 });
