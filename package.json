@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "expo-constants": "^17.0.5",
+    "react-native-dotenv": "^3.4.11"
+  }
+}
