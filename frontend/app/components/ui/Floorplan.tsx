@@ -11,6 +11,7 @@ export default function Floorplan() {
         source={require("../../../assets/floorplans/H5.jpg")}
         contentFit="cover"
         transition={1000}
+        resizeMode="cover" // Ensures the image covers the container
       />
 
       {/*svg will come hete */}

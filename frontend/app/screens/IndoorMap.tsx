@@ -11,18 +11,20 @@ export default function IndoorMap() {
 
   return (
     <View style={globalStyles.container}>
-      <CampusPilotHeader />
-
-      <View style={styles.mycontainer}>
+      <View style={styles.header}>
+        <CampusPilotHeader />
+      </View>
+      <View style={styles.myImagecontainer}>
         <Floorplan />
-        <Text>Hello</Text>
       </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  mycontainer: {
+  header: { height: "20%" },
+  myImagecontainer: {
+    height: "80%",
     backgroundColor: "#e7e7e7",
-    height: "50%",
+    width: "100%",
   },
 });
