@@ -15,49 +15,66 @@ import useUserLocation from "./hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 
-//  Import LogRocket conditionally based on platform
-let LogRocket;
-if (Platform.OS === "web") {
-  LogRocket = require("logrocket").default;
-} else {
-  try {
-    LogRocket = require("@logrocket/react-native").default;
-  } catch (error) {
-    console.warn(
-      "LogRocket React Native SDK failed to load, using web SDK instead."
-    );
-    LogRocket = require("logrocket").default;
-  }
-}
+// ✅ Import LogRocket for Web & Native (React Native)
+import LogRocketWeb from "logrocket";
+import LogRocketNative from "@logrocket/react-native";
 
-//  Initialize LogRocket
+// ✅ Initialize LogRocket based on platform
+const LogRocket = Platform.OS === "web" ? LogRocketWeb : LogRocketNative;
+
 if (LogRocket) {
-  LogRocket.init("iojfbz/pathfinders"); // Replace with your actual LogRocket App ID
+  LogRocket.init("iojfbz/pathfinders", {
+    shouldRecordSession: () => true, // ✅ Force session recording
+    network: { isEnabled: true }, // ✅ Ensure network logging is enabled
+  });
 }
 
-// Function to Identify Users in LogRocket
+// ✅ Custom Fetch Wrapper to Log API Calls Across All Platforms
+const fetchWithLogging = async (url, options = {}) => {
+  try {
+    const response = await fetch(url, options);
+    
+    // ✅ Log API request details in LogRocket
+    LogRocket.track("API Request", {
+      url,
+      method: options.method || "GET",
+      status: response.status,
+    });
+
+    return response;
+  } catch (error) {
+    LogRocket.track("API Error", { url, error: error.message });
+    throw error;
+  }
+};
+
+// ✅ Override Fetch Globally for ALL platforms
+global.fetch = fetchWithLogging;
+
+// ✅ Identify User in LogRocket
 function identifyUser(user) {
   if (!user) return;
 
   LogRocket.identify(user.id, {
     name: user.name,
     email: user.email,
-    subscriptionType: user.subscriptionType, // Example: custom metadata
+    subscriptionType: user.subscriptionType, // Example metadata
   });
 }
 
 export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const Drawer = createDrawerNavigator();
-  // //  Example User Data (Replace with real authentication logic)
+
+  // ✅ Example User Data (Replace with real authentication logic)
   const user = {
     id: "user_12345",
     name: "James Morrison",
     email: "jamesmorrison@example.com",
-    subscriptionType: "test", // Custom metadata
+    subscriptionType: "test",
   };
 
-  // Identify the user in LogRocket when the app loads
+  // ✅ Identify the user in LogRocket when the app loads
   useEffect(() => {
     identifyUser(user);
   }, []);
@@ -148,7 +165,7 @@ export default function RootLayout() {
               component={ConcordiaShuttle}
               options={{
                 drawerLabel: "Concordia Shuttle",
-                title: "concordia Shuttle",
+                title: "Concordia Shuttle",
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}
