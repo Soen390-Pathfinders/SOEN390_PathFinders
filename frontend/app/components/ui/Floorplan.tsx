@@ -27,23 +27,18 @@ export default function Floorplan() {
         doubleTapScale={3}
         isSingleTapEnabled
         isDoubleTapEnabled
-        onPanStart={() => console.log("onPanStart")}
-        onPanEnd={() => console.log("onPanEnd")}
-        onPinchStart={() => console.log("onPinchStart")}
-        onPinchEnd={() => console.log("onPinchEnd")}
-        onSingleTap={() => console.log("onSingleTap")}
         onDoubleTap={(zoomType) => {
-          console.log("onDoubleTap", zoomType);
+          //console.log("onDoubleTap", zoomType);
           onZoom(zoomType);
         }}
         onProgrammaticZoom={(zoomType) => {
-          console.log("onZoom", zoomType);
+          //console.log("onZoom", zoomType);
           onZoom(zoomType);
         }}
         style={styles.image}
         onResetAnimationEnd={(finished, values) => {
-          console.log("onResetAnimationEnd", finished);
-          console.log("lastScaleValue:", values?.SCALE.lastValue);
+          // console.log("onResetAnimationEnd", finished);
+          //console.log("lastScaleValue:", values?.SCALE.lastValue);
           onAnimationEnd(finished);
         }}
       >
