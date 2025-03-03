@@ -49,8 +49,8 @@ export default function Floorplan() {
       >
         <Image
           style={styles.image}
-          source={require("../../../assets/floorplans/H5.jpg")}
-          contentFit="contain"
+          source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
+          contentFit="contain" // entire image is contained
           transition={1000}
           resizeMode="cover" // Ensures the image covers the container
         />
