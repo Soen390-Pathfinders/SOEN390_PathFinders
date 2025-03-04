@@ -105,18 +105,18 @@ describe("useDirectionLogic hook", () => {
     );
   });
 
-  test("handleGoPress does not show alert when destination and startLocation are both not null", () => {
+  test("handleGoPress no alert condition not null and set submittedstart and submittedDesitnaiton", () => {
     // Render the hook to use the function
     const { result } = renderHook(() => useDirectionLogic());
 
     //set the start location and destination to non-null values
     act(() => {
       result.current.setStartLocation({
-        latitude: -73.57764257156214,
+        latitude: -73.57764257156214, // hall
         longitude: 45.495280338359244,
       });
       result.current.setDestination({
-        latitude: -73.57907171854552,
+        latitude: -73.57907171854552, //faubourg
         longitude: 45.49749147752672,
       });
     });
@@ -128,5 +128,19 @@ describe("useDirectionLogic hook", () => {
 
     // Verify Alert was not called
     expect(Alert.alert).not.toHaveBeenCalled();
+    //Verify that submittedStart has been changed
+    expect(result.current.submittedStart).toStrictEqual({
+      latitude: -73.57764257156214, // hall
+      longitude: 45.495280338359244,
+    });
+    //Verify that submittedDestination has been changed
+    expect(result.current.submittedDestination).toStrictEqual({
+      latitude: -73.57907171854552, //faubourg
+      longitude: 45.49749147752672,
+    });
   });
 });
+
+//describe("setToCurrentLocationHook", () => {
+
+//});
