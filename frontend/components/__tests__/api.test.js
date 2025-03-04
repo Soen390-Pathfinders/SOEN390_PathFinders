@@ -1,4 +1,4 @@
-import { BuildingAPI, CampusAPI, FloorAPI, RoomAPI, POIAPI } from '../api';
+import { BuildingAPI, CampusAPI, FloorAPI, RoomAPI, POIAPI } from '../../api/api.js';
 import axios from 'axios';
 
 jest.mock('axios');
