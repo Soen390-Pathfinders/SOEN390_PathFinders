@@ -29,36 +29,12 @@ class Building(models.Model):
     campus= models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id", default=1)
     floor_count = models.IntegerField(default=1)  # Number of floors
     
-
-    #coordinates of Corners of the building
-    polygon_coordinates = models.JSONField(default=list, blank=True)
-    
     #coordinates of building
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
     
     def __str__(self):
         return self.name
-    
-    #Make sure that the JSON object for polygon_coordinates format is correct
-    def clean(self):
-        super().clean()
-        schema = {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "longitude": {"type": "number", "format": "float"},  
-                    "latitude": {"type": "number", "format": "float"},
-                },
-                "required": ["longitude", "latitude"],  
-                "additionalProperties": False  
-            }
-        }
-        try:
-            validate(instance=self.polygon_coordinates, schema=schema)
-        except ValidationError as e:
-            raise ValidationError({"polygon_coordinates": [e.message]})
 
 
 #set_password(raw_password) and check_password(raw_password)
