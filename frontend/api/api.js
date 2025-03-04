@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000/api";
+export const API_BASE_URL = "http://localhost:8000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -56,8 +56,7 @@ export const FloorAPI = {
 
 export const RoomAPI = {
   getAll: () => handleRequest(() => api.get("/room/all")),
-  get: (roomCode) =>
-    handleRequest(() => api.get(`/room/get?code=${roomCode}/`)),
+  get: (roomCode) => handleRequest(() => api.get(`/room/get?code=${roomCode}`)),
   create: (roomData) => handleRequest(() => api.post("/room/add", roomData)),
   update: (roomData) => handleRequest(() => api.put(`/room/modify`, roomData)),
   delete: (roomData) =>
@@ -66,7 +65,7 @@ export const RoomAPI = {
 
 export const POIAPI = {
   getAll: () => handleRequest(() => api.get("/poi/inside/all")),
-  get: (poiId) => handleRequest(() => api.get(`/poi/inside/get?id=${poiId}/`)),
+  get: (poiId) => handleRequest(() => api.get(`/poi/inside/get?id=${poiId}`)),
   create: (poiData) =>
     handleRequest(() => api.post("/poi/inside/add", poiData)),
   update: (poiData) =>
