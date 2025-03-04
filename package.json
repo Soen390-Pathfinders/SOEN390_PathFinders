@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "expo-calendar": "^14.0.6",
     "expo-constants": "^17.0.5",
+    "expo-permissions": "^14.4.0",
     "react-native-dotenv": "^3.4.11"
   }
 }

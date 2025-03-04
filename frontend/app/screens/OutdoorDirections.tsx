@@ -12,7 +12,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import DirectionFields from "../components/ui/DirectionFields";
 import useDirectionLogic from "../hooks/useDirectionLogic";
 
-export default function OutdoorDirections() {
+export default function OutdoorDirections({route}) {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const {
@@ -32,6 +32,17 @@ export default function OutdoorDirections() {
     destinationRef,
   } = useDirectionLogic();
   const [duration, setDuration] = useState(null); // For the trip duration
+
+  // Ensure route.params is defined before accessing values
+  const customStartLocation = route?.params?.customStartLocation ?? null;
+  const customDestination = route?.params?.customDestination ?? null;
+  
+  if (customStartLocation != null){
+    setToCurrentLocation(customStartLocation);
+  }
+  if (customDestination != null){
+    setDestination(customDestination)
+  }
 
   return (
     <View style={globalStyles.container}>
