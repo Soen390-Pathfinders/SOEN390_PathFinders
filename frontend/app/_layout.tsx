@@ -20,8 +20,10 @@ import useUserLocation from "./hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 import IndoorDirections from "./screens/IndoorDirections";
+import IndoorMap from "./screens/IndoorMap";
 import FindRoom from "./screens/FindRoom";
 import NavigateYourSpace from "./screens/NavigateYourSpace";
+
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
@@ -54,6 +56,20 @@ export default function RootLayout() {
             }}
             drawerContent={CustomDrawerContent}
           >
+            <Drawer.Screen
+              name="(screens)/IndoorMap"
+              component={IndoorMap}
+              options={{
+                drawerLabel: "Dev Indoor Map",
+                title: "IndoorMap",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/map.png")}
+                  />
+                ),
+              }}
+            />
             <Drawer.Screen
               name="(screens)/CampusMap"
               component={CampusMap}
