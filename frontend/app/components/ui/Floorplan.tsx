@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Svg, { Circle } from "react-native-svg";
+import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
@@ -42,13 +42,36 @@ export default function Floorplan() {
           onAnimationEnd(finished);
         }}
       >
-        <Image
-          style={styles.image}
-          source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
-          contentFit="contain" // entire image is contained
-          transition={1000}
-          resizeMode="cover" // Ensures the image covers the container
-        />
+        <View style={styles.svgContainer}>
+          {" "}
+          <Svg height="100%" width="100%" viewBox="0 0 100 100">
+            <Circle
+              cx="80"
+              cy="80"
+              r="5"
+              stroke="blue"
+              strokeWidth="2.5"
+              fill="green"
+            />
+            <Line
+              x1="45"
+              y1="60"
+              x2="30"
+              y2="42"
+              stroke="red"
+              strokeWidth="0.5"
+            ></Line>
+          </Svg>
+        </View>
+        <View style={styles.floorplanContainer}>
+          <Image
+            style={styles.image}
+            source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
+            contentFit="contain" // entire image is contained
+            transition={1000}
+            resizeMode="cover" // Ensures the image covers the container
+          ></Image>
+        </View>
       </Zoomable>
     </View>
   );
@@ -62,5 +85,21 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: "100%",
+  },
+  svgContainer: {
+    height: "100%",
+    width: "100%",
+    position: "absolute",
+    left: 0,
+    top: 0,
+    zIndex: 4,
+  },
+  floorplanContainer: {
+    height: "100%",
+    width: "100%",
+    position: "absolute",
+    left: 0,
+    top: 0,
+    zIndex: 2,
   },
 });
