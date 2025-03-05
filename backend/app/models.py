@@ -108,6 +108,7 @@ class Room(models.Model):
     capacity = models.PositiveIntegerField(null=True)
     is_wheelchair_accessible = models.BooleanField(default=False)
     type = models.ManyToManyField(RoomType, related_name="rooms")
+    location = models.ForeignKey(InsidePOI, on_delete=models.SET_NULL, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.code = f"{self.floor.building.code}-{self.number}"

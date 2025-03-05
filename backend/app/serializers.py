@@ -33,6 +33,7 @@ class RoomSerializer(serializers.ModelSerializer):
         child=serializers.CharField(), 
         write_only=True
     )
+    location = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id", allow_null=True, required=False)
 
     # Modify the save method to handle names and convert them to RoomType objects
     def create(self, validated_data):
