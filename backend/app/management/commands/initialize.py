@@ -1,6 +1,6 @@
 import csv
 from django.core.management.base import BaseCommand
-from app.serializers import CampusSerializer, BuildingSerializer, RoomTypeSerializer, AmenityTypeSerializer, FloorSerializer, InsidePOISerializer, RoomSerializer
+from app.serializers import CampusSerializer, BuildingSerializer, RoomTypeSerializer, AmenityTypeSerializer, FloorSerializer, InsidePOISerializer, RoomSerializer, EdgeSerializer
 
 # Open the CSV file
 def instances(csv_file_name):
@@ -37,5 +37,6 @@ class Command(BaseCommand):
         add_data_to_database('floor', FloorSerializer)
         add_data_to_database('insidepoi', InsidePOISerializer)
         add_data_to_database('room', RoomSerializer)
+        add_data_to_database('edge', EdgeSerializer)
 
         self.stdout.write(self.style.SUCCESS('Successfully initialized the database'))

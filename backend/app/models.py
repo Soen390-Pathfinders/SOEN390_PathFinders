@@ -1,10 +1,6 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import AbstractUser, Group, Permission 
-
-
-from jsonschema import validate, ValidationError
-from datetime import time
+from math import sqrt
 
 class Campus(models.Model):
     id = models.AutoField(primary_key =True)
@@ -70,28 +66,10 @@ class InsidePOI(models.Model):
     id = models.AutoField(primary_key=True)
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE, default=1)
     description = models.TextField(blank=True, null=True)
-    amenities = models.ManyToManyField(AmenityType, related_name="amenities",blank=True)
+    amenities = models.ManyToManyField(AmenityType, related_name="amenities", blank=True)
     x_coor = models.IntegerField();
     y_coor = models.IntegerField();
-    opening_hours = models.JSONField(default=dict, null=True)
 
-    def set_open_hour(self, open_hour):
-        if isinstance(open_hour, str):
-            try:
-                open_hour = time.fromisoformat(open_hour) 
-            except ValueError:
-                raise ValueError("Invalid time format. Use HH:MM")
-        self.opening_hours["open_hour"] = open_hour.strftime("%H:%M")
-        self.save()
-
-    def set_close_hour(self, close_hour):
-        if isinstance(close_hour, str):
-            try:
-                close_hour = time.fromisoformat(close_hour)
-            except ValueError:
-                raise ValueError("Invalid time format. Use HH:MM")
-        self.opening_hours["closed_hour"] = close_hour.strftime("%H:%M")
-        self.save()
 
 
 class RoomType(models.Model):
@@ -108,7 +86,7 @@ class Room(models.Model):
     capacity = models.PositiveIntegerField(null=True)
     is_wheelchair_accessible = models.BooleanField(default=False)
     type = models.ManyToManyField(RoomType, related_name="rooms")
-    location = models.ForeignKey(InsidePOI, on_delete=models.SET_NULL, null=True, blank=True)
+    location = models.ForeignKey(InsidePOI, on_delete=models.SET_DEFAULT, blank=True, default=1)
 
     def save(self, *args, **kwargs):
         self.code = f"{self.floor.building.code}-{self.number}"
@@ -117,3 +95,21 @@ class Room(models.Model):
 
     def __str__(self):
         return f"{self.code} (Capacity: {self.capacity})"
+
+
+
+class Edge(models.Model):
+    node1 = models.ForeignKey('InsidePOI', on_delete=models.CASCADE, related_name='edges_from')
+    node2 = models.ForeignKey('InsidePOI', on_delete=models.CASCADE, related_name='edges_to')
+    distance = models.FloatField(editable=False)  # Auto-calculated
+
+    def save(self, *args, **kwargs):
+        # Calculate Euclidean distance based on latitude/longitude
+        self.distance = sqrt(
+            (self.node1.x_coor - self.node2.x_coor) ** 2 +
+            (self.node1.y_coor - self.node2.y_coor) ** 2
+        )
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Edge from node#{self.node1.id} to node#{self.node2.id} - Distance: {self.distance}"

@@ -1,6 +1,6 @@
 from django.urls import path
 from django.shortcuts import render
-from .views import building, campus, floor, insidepoi, room, user
+from .views import building, campus, floor, insidepoi, room, user, edge, djikstra
 import json
 
 # Define the URL route for your view
@@ -36,6 +36,9 @@ urlpatterns = [
     path('room/add', room.add_room, name='add_room'),
     path('room/remove', room.remove_room, name='remove_room'),
     path('room/modify', room.modify_room, name='modify_room'),
+
+     path('edge/all', edge.get_all_edges, name='get_all_edges'),
+     path('path/rooms', djikstra.get_shortest_path_between_rooms, name='get_shortest_path_between_rooms'),
 
     path('user/', user.user_list, name='user_list'),
     path('user/<int:pk>/', user.user_get, name='user_get'),

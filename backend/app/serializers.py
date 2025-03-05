@@ -1,6 +1,6 @@
 import ast
 from rest_framework import serializers
-from .models import Campus, Building, Floor, Room, RoomType, AmenityType, InsidePOI
+from .models import Campus, Building, Floor, Room, RoomType, AmenityType, InsidePOI, Edge
 
 class CampusSerializer(serializers.ModelSerializer):
     class Meta:
@@ -93,3 +93,12 @@ class InsidePOISerializer(serializers.ModelSerializer):
     class Meta:
         model = InsidePOI
         fields = '__all__'  # Or specify fields explicitly
+
+
+class EdgeSerializer(serializers.ModelSerializer):
+    node1 = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id")
+    node2 = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id")
+
+    class Meta:
+        model = Edge
+        fields = '__all__'
