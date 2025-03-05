@@ -1,3 +1,4 @@
+import ast
 from rest_framework import serializers
 from .models import Campus, Building, Floor, Room, RoomType, AmenityType, InsidePOI
 
@@ -35,6 +36,13 @@ class RoomSerializer(serializers.ModelSerializer):
     )
     location = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id", allow_null=True, required=False)
 
+    def to_internal_value(self, data):
+        # Convert room types from a string format (CSV) to a list
+        if isinstance(data.get('type'), str):
+            data['type'] = data['type'].split('|')  # Split by '|'
+        
+        return super().to_internal_value(data)
+
     # Modify the save method to handle names and convert them to RoomType objects
     def create(self, validated_data):
         room_type_names = validated_data.pop('type')  # Get the names
@@ -64,6 +72,13 @@ class InsidePOISerializer(serializers.ModelSerializer):
         child=serializers.CharField(), 
         write_only=True
     )
+    
+    def to_internal_value(self, data):
+        # Convert amenities from a string format (CSV) to a list
+        if isinstance(data.get('amenities'), str):
+            data['amenities'] = data['amenities'].split('|')  # Split by '|'
+        
+        return super().to_internal_value(data)
 
 
     def create(self, validated_data):

@@ -1,4 +1,4 @@
-Campus,Building,BuildingName,Building Long Name,Address,Latitude,Longitude
+campus,code,name,long_name,address,latitude,longitude
 LOY,AD,AD Building,Administration Building,"7141, Sherbrooke West",45.457984,-73.639834
 SGW,B,B Building,B Annex,2160 Bishop Street,45.497856,-73.579588
 LOY,BB,BB Building,BB-BH Annex,3502 Bermore Avenue,45.459793,-73.639174
