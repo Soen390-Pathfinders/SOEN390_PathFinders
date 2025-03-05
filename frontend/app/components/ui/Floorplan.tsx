@@ -58,7 +58,15 @@ export default function Floorplan() {
               y1="60"
               x2="30"
               y2="42"
-              stroke="red"
+              stroke="green"
+              strokeWidth="0.5"
+            ></Line>
+            <Line
+              x1="33"
+              y1="22"
+              x2="30"
+              y2="42"
+              stroke="green"
               strokeWidth="0.5"
             ></Line>
           </Svg>

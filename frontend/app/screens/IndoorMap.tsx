@@ -15,7 +15,7 @@ export default function IndoorMap() {
       <View style={styles.header}>
         <CampusPilotHeader />
       </View>
-      <View style={StyleSheet.absoluteFill}>
+      <View style={styles.myImagecontainer}>
         <Floorplan />
       </View>
     </View>
