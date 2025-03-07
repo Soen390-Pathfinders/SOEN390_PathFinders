@@ -4,8 +4,6 @@ import { Calendar } from "react-native-calendars";
 import * as CalendarAPI from "expo-calendar";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import useDirectionLogic from "../hooks/useDirectionLogic";
-import { useLocation } from "../components/context/userLocationContext";
 
 // Define Drawer Navigation Type
 type RootDrawerParamList = {
@@ -83,7 +81,12 @@ export default function NextClassInfo() {
 
   const handleDayPress = (day) => {
     const date = day.dateString;
-    const eventsOnDate = allEvents.filter(event => event.startDate.startsWith(date));
+
+    // Convert event start date to proper format for comparison
+    const eventsOnDate = allEvents.filter(event => {
+      const eventDate = new Date(event.startDate).toISOString().split("T")[0]; // Extract YYYY-MM-DD
+      return eventDate === date;
+    });
 
     if (eventsOnDate.length > 0) {
       setSelectedEvents(eventsOnDate);
@@ -136,10 +139,7 @@ export default function NextClassInfo() {
         {
           text: "OK",
           onPress: () => {
-            // Set current location as start point
-            
-            // Navigate to Outdoor Directions
-            navigation.navigate("index", {
+            navigation.navigate("OutdoorDirections", {
               customStartLocation: 'start',
               customDestination: nextEvent.location,
             });
@@ -164,7 +164,7 @@ export default function NextClassInfo() {
       {/* New Button for Next Class Info */}
       <Button title="Directions to Next Class" onPress={getNextClass} />
 
-      {/* Modal for Switching Calendar */}
+      {/* Modal for Selecting Calendar */}
       <Modal visible={calendarModalVisible} animationType="slide" transparent={true}>
         <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "center", padding: 20 }}>
           <View style={{ backgroundColor: "white", borderRadius: 10, padding: 20 }}>
@@ -184,6 +184,27 @@ export default function NextClassInfo() {
             />
 
             <Button title="Close" onPress={() => setCalendarModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal for displaying event details */}
+      <Modal visible={eventModalVisible} animationType="slide" transparent={true}>
+        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "center", padding: 20 }}>
+          <View style={{ backgroundColor: "white", borderRadius: 10, padding: 20 }}>
+            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Events on this day:</Text>
+            <FlatList
+              data={selectedEvents}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={{ marginBottom: 10, padding: 10, backgroundColor: "#f0f0f0", borderRadius: 8 }}>
+                  <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+                  <Text>{new Date(item.startDate).toLocaleString()}</Text>
+                  <Text>Location: {item.location || "No location specified"}</Text>
+                </View>
+              )}
+            />
+            <Button title="Close" onPress={() => setEventModalVisible(false)} />
           </View>
         </View>
       </Modal>
