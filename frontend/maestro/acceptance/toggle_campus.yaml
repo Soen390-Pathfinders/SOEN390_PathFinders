@@ -1,0 +1,8 @@
+#issue #50
+appId: host.exp.exponent
+---
+- tapOn:
+    point: "6%,9%"  
+- tapOn: "Campus Map"
+- tapOn: "Loyola"
+- tapOn: "SGW"
