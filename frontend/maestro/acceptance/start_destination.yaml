@@ -1,0 +1,12 @@
+#issue #55
+appId: host.exp.exponent
+---
+- tapOn:
+    point: "6%,9%"  
+- tapOn: "Campus Map"
+- tapOn: "LB Building"
+- tapOn: "LB Building"
+- tapOn: "YES"
+- tapOn:
+    point: "6%,9%"
+- tapOn: "Outdoor Directions"
