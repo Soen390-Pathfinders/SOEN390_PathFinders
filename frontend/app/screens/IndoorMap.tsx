@@ -4,7 +4,7 @@ import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import Floorplan from "../components/ui/Floorplan";
-import Svg, { Circle } from "react-native-svg";
+
 
 export default function IndoorMap() {
   const { theme } = useTheme();
