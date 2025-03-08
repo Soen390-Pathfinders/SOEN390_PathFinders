@@ -1,0 +1,10 @@
+#issue #52
+appId: host.exp.exponent
+---
+- tapOn:
+    point: "6%,9%"  
+- tapOn: "Campus Map"
+- tapOn: "LB Building"
+- assertVisible: "LB Building"  
+- tapOn: "LC Building"
+- assertVisible: "LC Building"  
