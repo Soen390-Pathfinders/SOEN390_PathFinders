@@ -130,7 +130,7 @@ def test_delete_campus(api_client, create_campus): #works
 
 @pytest.fixture
 def floor(db, building):
-    return Floor.objects.create(code="F1", number=1, building=building)
+    return Floor.objects.create(number=1, building=building)
 
 @pytest.mark.django_db
 def test_get_all_floors(api_client, floor): #works
@@ -158,7 +158,6 @@ def test_add_floor(api_client, floor, campus): #failed
     building = Building.objects.create(name="Building 4", code="B4", campus=campus)
     url = reverse("add_floor")
     payload = {
-        "code": "F2",
         "number": 2,
         "building": building.code
     }
@@ -166,7 +165,7 @@ def test_add_floor(api_client, floor, campus): #failed
     response = api_client.post(url, data=payload, format="json")
 
     assert response.status_code == 201
-    assert Floor.objects.filter(code="F2").exists()
+    assert Floor.objects.filter(code="B4-2").exists()
 
 @pytest.mark.django_db
 def test_add_floor_invalid(api_client): #works
@@ -193,7 +192,6 @@ def test_modify_floor(api_client, floor, campus): #failed
     url = reverse("modify_floor")
     payload = {
         "id": floor.id,
-        "code": "F3",
         "number": 3,
     }
 
@@ -201,7 +199,7 @@ def test_modify_floor(api_client, floor, campus): #failed
 
     assert response.status_code == 200
     assert response.json()["number"] == "3"
-    assert response.json()["code"] == floor.code
+    assert response.json()["code"] == floor.building.code + "-3"
 
 @pytest.mark.django_db
 def test_modify_floor_invalid(api_client): #works
@@ -213,8 +211,16 @@ def room_type(db):
     return RoomType.objects.create(name="Room Type 1")
 
 @pytest.fixture
-def room(db, floor, room_type):
-    room = Room.objects.create(number=1, floor=floor, code="R1")
+def location(db, floor, amenities):
+    poi = InsidePOI.objects.create(floor=floor, x_coor=10, y_coor=10)  # Create the object first
+    if not isinstance(amenities, (list, tuple)):  
+        amenities = [amenities]
+    poi.amenities.set(amenities)  # Correctly set Many-to-Many relationships
+    return poi
+
+@pytest.fixture
+def room(db, floor, room_type, location):
+    room = Room.objects.create(number=1, floor=floor, location=location)
     room.type.add(room_type)
     return room
     
@@ -239,19 +245,19 @@ def test_get_room_invalid(api_client): #works
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_room(api_client, floor): #failed
+def test_add_room(api_client, floor, location, room_type): #failed
     url = reverse("add_room")
     payload = {
         "number": 2,
         "floor": floor.code,
-        "code": "R2",
-        "type": ["Room Type 1"]
+        "type": [room_type.name],
+        "location": location.id
     }
 
     response = api_client.post(url, data=payload, format="json")
 
     assert response.status_code == 201
-    assert Room.objects.filter(code="R2").exists()
+    assert Room.objects.filter(code="B1-2").exists()
 
 @pytest.mark.django_db
 def test_add_room_invalid(api_client):
@@ -279,14 +285,13 @@ def test_modify_room(api_client, room): #Failed
     payload = {
         "id": room.id,
         "number": 3,
-        "code": "R3"
     }
 
     response = api_client.put(url, data=payload, format="json")
 
     assert response.status_code == 200
     assert response.json()["number"] == "3"
-    assert response.json()["code"] == "R3"
+    assert response.json()["code"] == "B1-3"
 
 @pytest.mark.django_db
 def test_modify_room_invalid(api_client): #works
@@ -302,10 +307,12 @@ def inside_poi(db, floor, amenities):
     poi = InsidePOI.objects.create(
         floor = floor,
         x_coor = 100,
-        y_coor = 200,
-        opening_hours={"open_hour": "09:00", "closed_hour": "17:00"}
+        y_coor = 200
     )
-    poi.amenities.add(amenities)
+    if not isinstance(amenities, (list, tuple)):  
+        amenities = [amenities]
+
+    poi.amenities.set(amenities)
     return poi
 
 @pytest.mark.django_db
@@ -317,8 +324,8 @@ def test_get_all_inside_pois(api_client, inside_poi): #works
 
 @pytest.mark.django_db
 def test_get_inside_poi_by_id(api_client, inside_poi): #failed
-    url = reverse("get_insidepoi"), {"id": inside_poi.id}
-    response = api_client.get(url)
+    url = reverse("get_insidepoi")
+    response = api_client.get(url, {"id": inside_poi.id})
     assert response.status_code == 200
     assert response.data["id"] == inside_poi.id
 
@@ -332,14 +339,13 @@ def test_add_insidepoi(api_client, floor, amenities): #failed
     url = reverse("add_insidepoi")
     payload = {
         "floor": floor.code,
-        "amenities": ["Test Amenity"],
+        "amenities": [amenities.name],
         "x_coor": 150,
-        "y_coor": 250,
-        "opening_hours": {"open_hour": "08:00", "closed_hour": "18:00"}
+        "y_coor": 250
     }
     response = api_client.post(url, data=payload, format="json")
     assert response.status_code == 201
-    assert InsidePOI.objects.filter(x_coor=150).exists()
+    assert InsidePOI.objects.filter(x_coor=150, y_coor=250).exists()
 
 @pytest.mark.django_db
 def test_add_insidepoi_invalid(api_client): #works
@@ -363,8 +369,8 @@ def test_modify_insidepoi(api_client, inside_poi): #failed
     url = reverse("modify_insidepoi")
     payload = {
         "id": inside_poi.id,
-        "x_coor": 200,
+        "x_coor": 777,
     }
     response = api_client.put(url, data=payload, format="json")
     assert response.status_code == 200
-    assert inside_poi.x_coor == 200
+    assert response.json()['x_coor'] == 777

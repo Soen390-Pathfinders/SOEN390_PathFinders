@@ -20,8 +20,14 @@ def room_type(db):
     return RoomType.objects.create(name="Classroom")
 
 @pytest.fixture
-def create_room(db, floor, room_type):
-    room = Room.objects.create(number="H-110", floor=floor, capacity=200, is_wheelchair_accessible=True)
+def create_poi(db, create_amenity, floor):
+    poi = InsidePOI.objects.create(floor=floor, x_coor=100, y_coor=200)
+    poi.amenities.add(create_amenity)
+    return poi
+
+@pytest.fixture
+def create_room(db, floor, room_type, create_poi):
+    room = Room.objects.create(number="H-110", floor=floor, capacity=200, is_wheelchair_accessible=True, location=create_poi)
     room.type.add(room_type)
     return room
 
@@ -29,11 +35,6 @@ def create_room(db, floor, room_type):
 def create_amenity(db):
     return AmenityType.objects.create(name="Elevator")
 
-@pytest.fixture
-def create_poi(db, create_amenity, floor):
-    poi = InsidePOI.objects.create(floor=floor, x_coor=100, y_coor=200)
-    poi.amenities.add(create_amenity)
-    return poi
 
 @pytest.mark.django_db
 def test_create_building(building):
@@ -53,6 +54,8 @@ def test_create_room(create_room):
     assert create_room.number == "H-110"
     assert create_room.capacity == 200
     assert create_room.is_wheelchair_accessible == True
+    assert create_room.location.x_coor == 100
+    assert create_room.location.y_coor == 200
 
 @pytest.mark.django_db
 def test_create_inside_poi(create_poi):

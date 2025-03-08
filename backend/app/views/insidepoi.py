@@ -23,7 +23,7 @@ def get_insidepoi(request):
     if not poi:
         return Response({"error": "No point of interest matches the given parameters."}, status=status.HTTP_400_BAD_REQUEST)
 
-    serializer = InsidePOI(poi)
+    serializer = InsidePOISerializer(poi)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
@@ -65,7 +65,7 @@ def modify_insidepoi(request):
     identifier = request.data.get("id")
 
     if not identifier:
-        return Response({"error": "Must provide either 'id'."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": "Must provide 'id'."}, status=status.HTTP_400_BAD_REQUEST)
 
     poi = InsidePOI.objects.filter(id=identifier).first()
     if not poi:
