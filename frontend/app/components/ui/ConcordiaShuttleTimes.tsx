@@ -1,78 +1,6 @@
-import { ScrollView, View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
-
-// Separate schedules for Loyola and SGW
-const loyolaSchedule = [
-  "9:15",
-  "9:30",
-  "9:45",
-  "10:00",
-  "10:15",
-  "10:30",
-  "10:45",
-  "11:00",
-  "11:15",
-  "11:30",
-  "11:45",
-  "12:30",
-  "12:45",
-  "13:00",
-  "13:15",
-  "13:30",
-  "13:45",
-  "14:00",
-  "14:15",
-  "14:30",
-  "14:45",
-  "15:00",
-  "15:15",
-  "15:30",
-  "15:45",
-  "16:30",
-  "16:45",
-  "17:00",
-  "17:15",
-  "17:30",
-  "17:45",
-  "18:00",
-  "18:15",
-];
-
-const sgwSchedule = [
-  "9:30",
-  "9:45",
-  "10:00",
-  "10:15",
-  "10:30",
-  "10:45",
-  "11:00",
-  "11:15",
-  "11:30",
-  "12:15",
-  "12:30",
-  "12:45",
-  "13:00",
-  "13:15",
-  "13:30",
-  "13:45",
-  "14:00",
-  "14:15",
-  "14:30",
-  "14:45",
-  "15:00",
-  "15:15",
-  "15:30",
-  "16:00",
-  "16:15",
-  "16:45",
-  "17:00",
-  "17:15",
-  "17:30",
-  "17:45",
-  "18:00",
-  "18:15",
-  "18:30",
-];
+import { loyolaSchedule, sgwSchedule } from "../../data/shuttleSchedules";
 
 //takes the time as String and returns a number of minutes
 export const timeToMinutes = (time: string): number => {
@@ -144,11 +72,7 @@ export default function ConcordiaShuttleTimes() {
   }, [currentTime]);
 
   return (
-    <ScrollView
-      style={styles.timecontainer}
-      contentContainerStyle={styles.contentContainer}
-      showsVerticalScrollIndicator={false}
-    >
+    <View style={styles.timecontainer}>
       <Text style={styles.title}>Bus Shuttle Departure Times</Text>
       <Text style={styles.currentTime}>
         Current Time: {formatTime(currentTime)}
@@ -159,82 +83,79 @@ export default function ConcordiaShuttleTimes() {
         <Text style={styles.headerText}>SGW CAMPUS</Text>
       </View>
 
-      {[
-        ...Array(Math.max(departures.loyola.length, departures.sgw.length)),
-      ].map((_, index) => {
-        const loyTime = departures.loyola[index];
-        const sgwTime = departures.sgw[index];
-        const loyMinutesAway = loyTime
-          ? timeToMinutes(loyTime) - currentTime
-          : null;
-        const sgwMinutesAway = sgwTime
-          ? timeToMinutes(sgwTime) - currentTime
-          : null;
+      {[...Array(Math.max(departures.loyola.length, departures.sgw.length))].map(
+        (_, index) => {
+          const loyTime = departures.loyola[index];
+          const sgwTime = departures.sgw[index];
+          const loyMinutesAway = loyTime
+            ? timeToMinutes(loyTime) - currentTime
+            : null;
+          const sgwMinutesAway = sgwTime
+            ? timeToMinutes(sgwTime) - currentTime
+            : null;
 
-        return (
-          <View key={index} style={styles.row}>
-            <View style={styles.column}>
-              {loyTime && (
-                <Text style={styles.timeText}>
-                  {loyTime}
-                  <Text
-                    style={[
-                      styles.statusText,
-                      loyMinutesAway === 0
-                        ? styles.departingStatus
+          return (
+            <View key={index} style={styles.row}>
+              <View style={styles.column}>
+                {loyTime && (
+                  <Text style={styles.timeText}>
+                    {loyTime}
+                    <Text
+                      style={[
+                        styles.statusText,
+                        loyMinutesAway === 0
+                          ? styles.departingStatus
+                          : loyMinutesAway < 0
+                          ? styles.departedStatus
+                          : styles.awayStatus,
+                      ]}
+                    >
+                      {loyMinutesAway === 0
+                        ? "  ⏳ Departing..."
                         : loyMinutesAway < 0
-                        ? styles.departedStatus
-                        : styles.awayStatus,
-                    ]}
-                  >
-                    {loyMinutesAway === 0
-                      ? "  ⏳ Departing..."
-                      : loyMinutesAway < 0
-                      ? "  ✓ Departed"
-                      : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
+                        ? "  ✓ Departed"
+                        : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
+                    </Text>
                   </Text>
-                </Text>
-              )}
-            </View>
-            <View style={styles.column}>
-              {sgwTime && (
-                <Text style={styles.timeText}>
-                  {sgwTime}
-                  <Text
-                    style={[
-                      styles.statusText,
-                      sgwMinutesAway === 0
-                        ? styles.departingStatus
+                )}
+              </View>
+              <View style={styles.column}>
+                {sgwTime && (
+                  <Text style={styles.timeText}>
+                    {sgwTime}
+                    <Text
+                      style={[
+                        styles.statusText,
+                        sgwMinutesAway === 0
+                          ? styles.departingStatus
+                          : sgwMinutesAway < 0
+                          ? styles.departedStatus
+                          : styles.awayStatus,
+                      ]}
+                    >
+                      {sgwMinutesAway === 0
+                        ? "  ⏳ Departing..."
                         : sgwMinutesAway < 0
-                        ? styles.departedStatus
-                        : styles.awayStatus,
-                    ]}
-                  >
-                    {sgwMinutesAway === 0
-                      ? "  ⏳ Departing..."
-                      : sgwMinutesAway < 0
-                      ? "  ✓ Departed"
-                      : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
+                        ? "  ✓ Departed"
+                        : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
+                    </Text>
                   </Text>
-                </Text>
-              )}
+                )}
+              </View>
             </View>
-          </View>
-        );
-      })}
-    </ScrollView>
+          );
+        }
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   timecontainer: {
-    backgroundColor: "rgba(145, 35, 55, 0.99)", // Matches Concordia's logo and marker for consistency
+    backgroundColor: "rgba(145, 35, 55, 0.99)",
     width: "100%",
-    maxHeight: "30%", // Keep the container height
-  },
-  contentContainer: {
+    maxHeight: "37%",
     padding: 15,
-    paddingBottom: 20, // Extra padding for scroll space
   },
   title: {
     color: "white",
