@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, Alert, FlatList, TouchableOpacity, Modal } from "react-native";
+import { 
+  View, Text, Button, Alert, FlatList, TouchableOpacity, Modal, StyleSheet 
+} from "react-native";
 import { Calendar } from "react-native-calendars";
 import * as CalendarAPI from "expo-calendar";
 import { useNavigation } from "@react-navigation/native";
@@ -16,7 +18,6 @@ export default function NextClassInfo() {
   const [selectedCalendarId, setSelectedCalendarId] = useState(null);
   const [markedDates, setMarkedDates] = useState({});
   const [allEvents, setAllEvents] = useState([]);
-
   const [calendarModalVisible, setCalendarModalVisible] = useState(false);
   const [eventModalVisible, setEventModalVisible] = useState(false);
   const [selectedEvents, setSelectedEvents] = useState([]);
@@ -82,9 +83,8 @@ export default function NextClassInfo() {
   const handleDayPress = (day) => {
     const date = day.dateString;
 
-    // Convert event start date to proper format for comparison
     const eventsOnDate = allEvents.filter(event => {
-      const eventDate = new Date(event.startDate).toISOString().split("T")[0]; // Extract YYYY-MM-DD
+      const eventDate = new Date(event.startDate).toISOString().split("T")[0];
       return eventDate === date;
     });
 
@@ -150,55 +150,43 @@ export default function NextClassInfo() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
+    <View style={styles.container}>
       <Button title="Switch Calendar" onPress={() => setCalendarModalVisible(true)} />
       <Button title="Refresh Events" onPress={() => fetchEvents(selectedCalendarId)} />
 
-      <Text style={{ fontSize: 20, marginVertical: 10 }}>Calendar:</Text>
-      <Calendar
-        markedDates={markedDates}
-        markingType="dot"
-        onDayPress={handleDayPress}
-      />
+      <Text style={styles.header}>Calendar:</Text>
+      <Calendar markedDates={markedDates} markingType="dot" onDayPress={handleDayPress} />
 
-      {/* New Button for Next Class Info */}
       <Button title="Directions to Next Class" onPress={getNextClass} />
 
-      {/* Modal for Selecting Calendar */}
       <Modal visible={calendarModalVisible} animationType="slide" transparent={true}>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "center", padding: 20 }}>
-          <View style={{ backgroundColor: "white", borderRadius: 10, padding: 20 }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Select a Google Calendar:</Text>
-
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalHeader}>Select a Google Calendar:</Text>
             <FlatList
               data={calendars}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={{ padding: 15, borderBottomWidth: 1, borderBottomColor: "#ddd" }}
-                  onPress={() => handleCalendarSelection(item)}
-                >
+                <TouchableOpacity style={styles.listItem} onPress={() => handleCalendarSelection(item)}>
                   <Text>{item.title}</Text>
                 </TouchableOpacity>
               )}
             />
-
             <Button title="Close" onPress={() => setCalendarModalVisible(false)} />
           </View>
         </View>
       </Modal>
 
-      {/* Modal for displaying event details */}
       <Modal visible={eventModalVisible} animationType="slide" transparent={true}>
-        <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.5)", justifyContent: "center", padding: 20 }}>
-          <View style={{ backgroundColor: "white", borderRadius: 10, padding: 20 }}>
-            <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 10 }}>Events on this day:</Text>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalHeader}>Events on this day:</Text>
             <FlatList
               data={selectedEvents}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
-                <View style={{ marginBottom: 10, padding: 10, backgroundColor: "#f0f0f0", borderRadius: 8 }}>
-                  <Text style={{ fontWeight: "bold" }}>{item.title}</Text>
+                <View style={styles.eventItem}>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
                   <Text>{new Date(item.startDate).toLocaleString()}</Text>
                   <Text>Location: {item.location || "No location specified"}</Text>
                 </View>
@@ -211,3 +199,44 @@ export default function NextClassInfo() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    fontSize: 20,
+    marginVertical: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 20,
+  },
+  modalHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  listItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  eventItem: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+  },
+  eventTitle: {
+    fontWeight: "bold",
+  },
+});
