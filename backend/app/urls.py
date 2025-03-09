@@ -40,7 +40,7 @@ urlpatterns = [
      path('edge/all', edge.get_all_edges, name='get_all_edges'),
      path('path/rooms', djikstra.get_shortest_path_between_rooms, name='get_shortest_path_between_rooms'),
      path('path/rooms/accessible', djikstra.get_accessible_path_between_rooms, name='get_accessible_path_between_rooms'),
-
+     path("floor/amenities", djikstra.get_amenities_by_floor, name="get_amenities_by_floor"),
 
     path('user/', user.user_list, name='user_list'),
     path('user/<int:pk>/', user.user_get, name='user_get'),
