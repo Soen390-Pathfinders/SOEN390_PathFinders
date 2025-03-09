@@ -28,6 +28,7 @@ export default function PathTrace() {
   useEffect(() => {
     pathAPI.shortestPath(rooms).then((response) => {
       console.log(response);
+      console.log("hello");
       setNodePath(response); // Load JSON on component mount
     });
   }, [pathNodes]);
