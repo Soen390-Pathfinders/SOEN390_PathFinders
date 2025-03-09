@@ -4,6 +4,7 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
+import PathTrace from "../ui/pathTrace";
 
 export default function Floorplan() {
   const zoomableRef = useRef(null); // Define a reference
@@ -16,6 +17,9 @@ export default function Floorplan() {
   const onAnimationEnd = (finished) => {
     console.log("Animation ended:", finished);
   };
+
+  const [linepath, setlinePath] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   return (
     <View style={styles.container}>
@@ -45,30 +49,7 @@ export default function Floorplan() {
         <View style={styles.svgContainer}>
           {" "}
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            <Circle
-              cx="80"
-              cy="80"
-              r="5"
-              stroke="blue"
-              strokeWidth="2.5"
-              fill="green"
-            />
-            <Line
-              x1="45"
-              y1="60"
-              x2="30"
-              y2="42"
-              stroke="green"
-              strokeWidth="0.5"
-            ></Line>
-            <Line
-              x1="33"
-              y1="22"
-              x2="30"
-              y2="42"
-              stroke="green"
-              strokeWidth="0.5"
-            ></Line>
+            <PathTrace />
           </Svg>
         </View>
         <View style={styles.floorplanContainer}>
