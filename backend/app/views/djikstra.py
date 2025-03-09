@@ -80,7 +80,6 @@ def get_accessible_path_between_rooms(request):
     if not room1 or not room2:
         return Response({"error": "One or both room codes are invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Create a copy of the graph and modify weights for accessibility
     G_accessible = G.copy()
 
     for edge in Edge.objects.all():
