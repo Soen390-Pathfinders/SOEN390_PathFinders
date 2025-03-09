@@ -19,7 +19,11 @@
       "text",
       "lcov",
       "html"
-    ]
+    ],
+    "collectCoverageFrom": [
+    "app/**/*.{js,jsx,ts,tsx}",  
+    "!app/**/*.d.ts"             
+  ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",

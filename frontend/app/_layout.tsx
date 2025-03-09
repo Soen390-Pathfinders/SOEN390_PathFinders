@@ -24,7 +24,6 @@ import IndoorMap from "./screens/IndoorMap";
 import FindRoom from "./screens/FindRoom";
 import NavigateYourSpace from "./screens/NavigateYourSpace";
 
-
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
   const [isLoading, setIsLoading] = useState(true);
@@ -99,20 +98,6 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="(screens)/NextClassInfo"
-              component={NextClassInfo}
-              options={{
-                drawerLabel: "NextClassInfo",
-                title: "NextClassInfo drawer for dev",
-                drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/class.png")}
-                  />
-                ),
-              }}
-            />
-            <Drawer.Screen
               name="(screens)/loginScreen"
               component={loginScreem}
               options={{
@@ -158,16 +143,16 @@ export default function RootLayout() {
               name="(screens)/FindRoom"
               component={FindRoom}
               options={{
-                drawerItemStyle: { height: 0 },  // This hides it from the drawer
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Find Room",
               }}
             />
-            
+
             <Drawer.Screen
               name="(screens)/NavigateYourSpace"
               component={NavigateYourSpace}
               options={{
-                drawerItemStyle: { height: 0 },  // This hides it from the drawer
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Navigate Your Space",
               }}
             />
