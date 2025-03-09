@@ -1,16 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const CampusToggle = ({ campus, toggleCampus }) => {
   
-    return (
+  // Load stored campus preference when the component mounts
+  useEffect(() => {
+    const loadCampusPreference = async () => {
+      const savedCampus = await AsyncStorage.getItem("selectedCampus");
+      if (savedCampus) {
+        toggleCampus(savedCampus); // Update state with stored value
+      }
+    };
+    loadCampusPreference();
+  }, []);
+
+  // Save campus preference when toggled
+  const handleToggle = async (selectedCampus) => {
+    toggleCampus(selectedCampus);
+    await AsyncStorage.setItem("selectedCampus", selectedCampus);
+  };
+
+  return (
     <View style={styles.buttonContainer}>
       <TouchableOpacity
         style={[
           styles.campusButton,
           campus === "SGW" ? styles.activeButton : styles.inactiveButton,
         ]}
-        onPress={() => toggleCampus("SGW")}
+        onPress={() => handleToggle("SGW")}
       >
         <Text style={styles.buttonText}>SGW</Text>
       </TouchableOpacity>
@@ -19,7 +37,7 @@ export const CampusToggle = ({ campus, toggleCampus }) => {
           styles.campusButton,
           campus === "LOY" ? styles.activeButton : styles.inactiveButton,
         ]}
-        onPress={() => toggleCampus("LOY")}
+        onPress={() => handleToggle("LOY")}
       >
         <Text style={styles.buttonText}>Loyola</Text>
       </TouchableOpacity>
