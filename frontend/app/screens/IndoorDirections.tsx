@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -31,8 +31,10 @@ export default function IndoorDirections() {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find Your Way</Text>
         
-        {/* Placeholder for map */}
-        <View style={styles.mapPlaceholder} />
+        <Image 
+          source={require("../../assets/images/location.png")} 
+          style={styles.mapImage} 
+        />
         
         {/* Navigation buttons */}
         <View style={styles.buttonContainer}>
@@ -56,6 +58,13 @@ export default function IndoorDirections() {
 }
 
 const styles = StyleSheet.create({
+  mapImage:{
+    width: 300,
+    height: 300,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    marginBottom: 30,
+  },
   contentContainer: {
     flex: 1,
     alignItems: "center",
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   button: {
-    backgroundColor: "rgba(145, 35, 55, 0.99)",
+    backgroundColor: "rgba(0, 114, 168, 0.99)",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

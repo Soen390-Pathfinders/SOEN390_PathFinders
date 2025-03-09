@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
@@ -14,10 +14,10 @@ export default function NavigateYourSpace() {
     <View style={globalStyles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Navigate Your Space</Text>
-        
+
         {/* Start location input */}
         <View style={styles.inputContainer}>
-          <MaterialIcons name="my-location" size={24} color="rgba(145, 35, 55, 0.99)" />
+          <MaterialIcons name="my-location" size={24} color="rgba(0, 114, 168, 0.99)" />
           <TextInput
             style={styles.input}
             placeholder="Start location (e.g., H-920)"
@@ -26,10 +26,10 @@ export default function NavigateYourSpace() {
             placeholderTextColor="#999"
           />
         </View>
-        
+
         {/* Destination input */}
         <View style={styles.inputContainer}>
-          <MaterialIcons name="location-on" size={24} color="rgba(145, 35, 55, 0.99)" />
+          <MaterialIcons name="location-on" size={24} color="rgba(0, 114, 168, 0.99)" />
           <TextInput
             style={styles.input}
             placeholder="Destination (e.g., H-945)"
@@ -38,14 +38,16 @@ export default function NavigateYourSpace() {
             placeholderTextColor="#999"
           />
         </View>
-        
+
         {/* Get directions button */}
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Get directions</Text>
         </TouchableOpacity>
 
-        {/* Placeholder for map */}
-        <View style={styles.mapPlaceholder} />
+        <Image
+          source={require("../../assets/images/directions.png")}
+          style={styles.mapImage}
+        />
       </View>
     </View>
   );
@@ -57,6 +59,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 20,
+  },
+  mapImage:{
+    width: 300,
+    height: 300,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    marginBottom: 30,
   },
   title: {
     fontSize: 28,
@@ -85,7 +94,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   button: {
-    backgroundColor: "rgba(145, 35, 55, 0.99)",
+    backgroundColor: "rgba(0, 114, 168, 0.99)",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 8,

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
@@ -31,8 +31,10 @@ export default function FindRoom() {
           )}
         </View>
 
-        {/* Placeholder for map */}
-        <View style={styles.mapPlaceholder} />
+              <Image 
+                source={require("../../assets/images/search.png")} 
+                style={styles.mapImage} 
+              />
       </View>
     </View>
   );
@@ -44,6 +46,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 20,
+  },
+  mapImage:{
+    width: 400,
+    height: 350,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 10,
+    marginBottom: 30,
   },
   title: {
     fontSize: 28,
