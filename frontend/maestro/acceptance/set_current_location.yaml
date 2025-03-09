@@ -1,2 +1,6 @@
-appId: host.exp.Exponent
+#issue #56
+appId: host.exp.exponent
 ---
+- tapOn:
+    point: "6%,9%"
+- tapOn: "Outdoor Directions"
