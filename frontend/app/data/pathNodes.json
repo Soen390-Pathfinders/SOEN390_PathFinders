@@ -18,7 +18,21 @@
       "floor": "H-5",
       "description": null,
       "x_coor": 20,
-      "y_coor": 30
-    }
+      "y_coor": 20
+    },
+    {
+        "id": 5,
+        "floor": "H-5",
+        "description": null,
+        "x_coor": 34,
+        "y_coor": 76
+      },
+      {
+        "id": 7,
+        "floor": "H-5",
+        "description": null,
+        "x_coor": 36,
+        "y_coor": 20
+      }
   ]
   
