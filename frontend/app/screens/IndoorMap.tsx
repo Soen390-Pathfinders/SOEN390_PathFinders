@@ -5,6 +5,7 @@ import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import Floorplan from "../components/ui/Floorplan";
 
+
 export default function IndoorMap() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
