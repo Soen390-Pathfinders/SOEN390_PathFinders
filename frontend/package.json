@@ -14,20 +14,11 @@
   "jest": {
     "preset": "jest-expo",
     "collectCoverage": true,
-<<<<<<< HEAD
-    "coverageDirectory": "coverage",
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "html"
-    ]
-=======
     "coverageReporters": [
       "lcov",
       "text-summary"
     ],
     "coverageDirectory": "coverage"
->>>>>>> f5861c9 (Added test coverage report)
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
