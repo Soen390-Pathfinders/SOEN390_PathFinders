@@ -31,8 +31,7 @@ export default function PathTrace() {
       {nodePath.map((node, index) => {
         //For every node in the path, create a line to the next node using lineFactory
         //make sure the index is not the last node
-        console.log("node", index);
-        console.log("node", index);
+
         if (index === nodePath.length - 1) {
           return (
             <View key={node.id}>
