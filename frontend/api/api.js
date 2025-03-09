@@ -75,7 +75,7 @@ export const BuildingAPI = {
   };
 
   export const pathAPI = {
-    shortestPath: (roomData) => handleRequest(() => api.post("/path/rooms"), roomData)
+    shortestPath: (roomData) => handleRequest(() => api.post("/path/rooms", roomData))
   }
   
   export default api;

@@ -24,9 +24,12 @@ export default function PathTrace() {
 
   const rooms = { room1: "H-521", room2: "H-524" };
   //The path will be updated every time the json file is modified
-  pathAPI.shortestPath(rooms).then((response) => {});
+
   useEffect(() => {
-    setNodePath(pathNodes); // Load JSON on component mount
+    pathAPI.shortestPath(rooms).then((response) => {
+      console.log(response);
+      setNodePath(response); // Load JSON on component mount
+    });
   }, [pathNodes]);
 
   return (
