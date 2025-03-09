@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Modal, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { View, Modal, TouchableOpacity, Text, StyleSheet, ScrollView } from "react-native";
 import { Checkbox } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -13,42 +13,68 @@ export const FilterButton = () => {
         "Escalators",
         "Elevators",
         "Stairs",
+        "Water fountain",
+        "Vending machine",
+        "Cafe",
+        "Bar",
+        "Study area",
+        "Charging station",
+        "Elevator",
+        "Stairs",
+        "Printer",
+        "Wifi",
+        "Locker",
+        "Lounge",
+        "Cafeteria",
+        "Library",
+        "Atm",
+        "Bicycle rack",
+        "Handicap accessible",
+        "Parking spot",
+        "Post box",
+        "Security desk",
+        "Trash can",
+        "Recycling bin",
+        "Coffee machine",
+        "Shower",
+        "First aid kit",
+        "Power outlets",
+        "Rest area",
+        "Lost and found"
     ];
 
     const toggleSelection = (item: string) => {
         setSelectedFilters((prevFilters) =>
             prevFilters.includes(item)
-                ? prevFilters.filter((filter) => filter !== item) // Remove item if already selected
-                : [...prevFilters, item] // Add item if not selected
+                ? prevFilters.filter((filter) => filter !== item)
+                : [...prevFilters, item]
         );
     };
 
     return (
         <View style={styles.container}>
-            {/* Floating Filter Button */}
             <TouchableOpacity style={styles.fab} onPress={() => setVisible(true)}>
                 <MaterialIcons name="filter-list" size={28} color="white" />
             </TouchableOpacity>
 
-            {/* Modal for Filter Options */}
             <Modal transparent visible={visible} animationType="fade">
                 <TouchableOpacity style={styles.overlay} onPress={() => setVisible(false)} />
                 <View style={styles.modalContainer}>
-                    {filters.map((item, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            style={styles.option}
-                            onPress={() => toggleSelection(item)}
-                        >
-                            <Checkbox
-                                status={selectedFilters.includes(item) ? "checked" : "unchecked"}
+                    <ScrollView style={styles.scrollContainer}>
+                        {filters.map((item, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                style={styles.option}
                                 onPress={() => toggleSelection(item)}
-                            />
-                            <Text style={styles.optionText}>{item}</Text>
-                        </TouchableOpacity>
-                    ))}
-
-                    {/* Apply Button */}
+                            >
+                                <Checkbox
+                                    status={selectedFilters.includes(item) ? "checked" : "unchecked"}
+                                    onPress={() => toggleSelection(item)}
+                                />
+                                <Text style={styles.optionText}>{item}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
                     <TouchableOpacity
                         style={styles.applyButton}
                         onPress={() => setVisible(false)}
@@ -70,7 +96,7 @@ const styles = StyleSheet.create({
     fab: {
         position: "absolute",
         bottom: 20,
-        left: 125,
+        left: 300,
         backgroundColor: "#0072A8",
         width: 56,
         height: 56,
@@ -99,6 +125,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 4,
         elevation: 5,
+        maxHeight: 400,
+    },
+    scrollContainer: {
+        maxHeight: 300,
     },
     option: {
         flexDirection: "row",
