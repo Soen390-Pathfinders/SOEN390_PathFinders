@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import pathNodes from "../../data/pathNodes.json";
 import LineFactory from "@/app/hooks/lineFactory";
 import { Circle } from "react-native-svg";
+import { BuildingAPI, pathAPI } from "../../../api/api";
 
 export default function PathTrace() {
   //Get the information from the json file
@@ -21,7 +22,9 @@ export default function PathTrace() {
     y_coor: number;
   };
 
+  const rooms = { room1: "H-521", room2: "H-524" };
   //The path will be updated every time the json file is modified
+  pathAPI.shortestPath(rooms).then((response) => {});
   useEffect(() => {
     setNodePath(pathNodes); // Load JSON on component mount
   }, [pathNodes]);

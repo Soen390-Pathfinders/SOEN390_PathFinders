@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+const API_BASE_URL = "http://192.168.47.56:8000/api";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -22,7 +22,7 @@ const handleRequest = async (requestFunc) => {
 
 
 export const BuildingAPI = {
-    getAll: () => handleRequest(() => api.get("/building_get/")),
+    getAll: () => handleRequest(() => api.get("/building/all")),
     get: (buildingName) => handleRequest(() => api.get(`/building_get/${buildingName}/`)),
     create: (buildingData) => handleRequest(() => api.post("/building_create/", buildingData)),
     update: (buildingName, updatedData) =>
@@ -73,6 +73,10 @@ export const BuildingAPI = {
       handleRequest(() => api.put(`/pointOfInterest_update/${poiId}/`, updatedData)),
     delete: (poiId) => handleRequest(() => api.delete(`/pointOfInterest_delete/${poiId}/`)),
   };
+
+  export const pathAPI = {
+    shortestPath: (roomData) => handleRequest(() => api.post("/path/rooms"), roomData)
+  }
   
   export default api;
   
