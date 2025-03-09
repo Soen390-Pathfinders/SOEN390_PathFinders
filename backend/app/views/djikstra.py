@@ -1,4 +1,4 @@
-from ..models import Edge, InsidePOI, Room
+from ..models import Edge, InsidePOI, Room, Floor
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -90,12 +90,15 @@ def get_accessible_path_between_rooms(request):
         is_accessible = False
 
         if node1_poi and node2_poi:
-            if ("elevator" in (node1_poi.amenities or "").lower() or 
-                "elevator" in (node2_poi.amenities or "").lower()):
+            # Get a list of amenity names
+            node1_amenities = list(node1_poi.amenities.values_list("name", flat=True))
+            node2_amenities = list(node2_poi.amenities.values_list("name", flat=True))
+
+            # Check if the path is accessible
+            if "elevator" in node1_amenities or "elevator" in node2_amenities:
                 is_accessible = True
 
-            if ("ramp" in (node1_poi.amenities or "").lower() or 
-                "ramp" in (node2_poi.amenities or "").lower()):
+            if "ramp" in node1_amenities or "ramp" in node2_amenities:
                 is_accessible = True
 
         # Penalize non-accessible paths
@@ -114,27 +117,34 @@ def get_accessible_path_between_rooms(request):
 @api_view(['GET'])
 def get_amenities_by_floor(request):
     """Retrieve all amenities available on a specific floor."""
-    floor_number = request.GET.get("floor")
+    floor_code = request.GET.get("floor")  # The user provides a floor code (e.g., 'H-5')
 
-    if not floor_number:
+    if not floor_code:
         return Response({"error": "floor parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
 
-    pois = InsidePOI.objects.filter(floor=floor_number)
+    # Fetch the floor ID from the Floor model
+    floor = Floor.objects.filter(code=floor_code).first()
+    
+    if not floor:
+        return Response({"error": "Floor not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    # Now use floor.id instead of floor_code
+    pois = InsidePOI.objects.filter(floor=floor.id)
 
     if not pois.exists():
         return Response({"message": "No amenities available on this floor."}, status=status.HTTP_200_OK)
 
     floor_amenities = {}
     for poi in pois:
-        if poi.amenities:
-            for amenity in poi.amenities.split("|"):  # Splitting multi-amenity strings
-                if amenity not in floor_amenities:
-                    floor_amenities[amenity] = []
-                floor_amenities[amenity].append({
+        if poi.amenities.exists():  # Check if there are related amenities
+            for amenity in poi.amenities.all():  # Iterate over related amenities
+                if amenity.name not in floor_amenities:
+                    floor_amenities[amenity.name] = []
+                floor_amenities[amenity.name].append({
                     "id": poi.id,
                     "description": poi.description,
                     "x_coor": poi.x_coor,
                     "y_coor": poi.y_coor
                 })
 
-    return Response({"floor": floor_number, "amenities": floor_amenities}, status=status.HTTP_200_OK)
+    return Response({"floor": floor_code, "amenities": floor_amenities}, status=status.HTTP_200_OK)
