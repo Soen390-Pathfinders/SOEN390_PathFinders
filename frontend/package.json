@@ -8,18 +8,26 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --no-watch",
+    "test": "jest --coverage",
     "lint": "expo lint"
   },
   "jest": {
     "preset": "jest-expo",
     "collectCoverage": true,
+<<<<<<< HEAD
     "coverageDirectory": "coverage",
     "coverageReporters": [
       "text",
       "lcov",
       "html"
     ]
+=======
+    "coverageReporters": [
+      "lcov",
+      "text-summary"
+    ],
+    "coverageDirectory": "coverage"
+>>>>>>> f5861c9 (Added test coverage report)
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
