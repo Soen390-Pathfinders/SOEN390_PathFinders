@@ -66,4 +66,6 @@ jobs:
           npm test -- --coverage # Run Jest tests for React Native
 
       - name: Run Backend Tests
+
         run: docker compose exec web pytest
+
