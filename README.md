@@ -32,7 +32,7 @@ Before you can run the project, make sure you have installed **Docker**, Postgre
 ### Step 1: Clone the Repository 
 You can use the following command to clone the repo:
 ```bash
-git clone https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025.git
+git clone https://github.com/Soen390-Pathfinders/SOEN390_PathFinders.git
 ```
 
 ### Step 2: Run the Backend 
