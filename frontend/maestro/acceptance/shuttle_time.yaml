@@ -4,3 +4,6 @@ appId: host.exp.exponent
 - tapOn:
     point: "6%,9%" 
 - tapOn: "Concordia Shuttle"
+- assertVisible: "BUS SHUTTLE DEPARTURE TIMES"   
+- tapOn: "LOY"
+- assertVisible: "Concordia University Loyola Campus"   
