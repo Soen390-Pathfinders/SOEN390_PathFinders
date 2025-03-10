@@ -33,6 +33,11 @@
         "description": null,
         "x_coor": 36,
         "y_coor": 20
-      }
+      },
+      {"id": 8,
+      "floor" : "H-5",
+      "description" : null,
+      "x_coor": 50,
+      "y_coor": 20}
   ]
   
