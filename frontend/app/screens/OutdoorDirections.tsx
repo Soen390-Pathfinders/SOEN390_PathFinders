@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../components/maps/OutdoorMap";
@@ -12,7 +12,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import DirectionFields from "../components/ui/DirectionFields";
 import useDirectionLogic from "../hooks/useDirectionLogic";
 
-export default function OutdoorDirections() {
+export default function OutdoorDirections({route}) {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const {
@@ -32,6 +32,16 @@ export default function OutdoorDirections() {
     destinationRef,
   } = useDirectionLogic();
   const [duration, setDuration] = useState(null); // For the trip duration
+
+  useEffect(() => {
+    if (route?.params?.customStartLocation) {
+      setToCurrentLocation(route.params.customStartLocation);
+    }
+    if (route?.params?.customDestination) {
+      setDestination(route.params.customDestination);
+    }
+  }, [route.params]); // Only runs when route.params changes
+  
 
   return (
     <View style={globalStyles.container}>
