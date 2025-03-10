@@ -35,11 +35,9 @@ export default function OutdoorDirections({route}) {
 
   useEffect(() => {
     if (route?.params?.customStartLocation) {
-      console.log(route.params.customStartLocation)
       setToCurrentLocation(route.params.customStartLocation);
     }
     if (route?.params?.customDestination) {
-      console.log(route.params.customDestination)
       setDestination(route.params.customDestination);
     }
   }, [route.params]); // Only runs when route.params changes
