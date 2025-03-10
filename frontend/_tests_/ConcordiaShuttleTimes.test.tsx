@@ -102,7 +102,7 @@ describe("ConcordiaShuttleTimes rendering", () => {
   });
 });
 
-//This snapshot was removed because the date needs to be mocked or it will fail everytime
+//This snapshot was removed because the date needs to be mocked or it will fail everytime -- we will rely less on snapshots form now on
 //Add snapshot for Integration testing - making sure that nothing changes the rendering of the component in the future
 //describe("ConcordiaShuttleTimes", () => {
 //test("renders the shuttle departure times screen correctly", () => {

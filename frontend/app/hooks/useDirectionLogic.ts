@@ -23,7 +23,7 @@ const useDirectionLogic = (initialValue = "") => {
 
 
   // Update the submitted locations and log the navigation info
-  const handleGoPress = () => {
+   const handleGoPress = () => { //TODO: change the name of this function for something more descriptive
     if (startLocation && destination) {
       setSubmittedStart(startLocation);
       setSubmittedDestination(destination);
@@ -40,7 +40,7 @@ const useDirectionLogic = (initialValue = "") => {
   };
 
   // Function to set current location in the search bar and state
-  const setToCurrentLocation = (type) => {
+   const setToCurrentLocation = (type) => {
     const locationText = `${userLocation.latitude.toFixed(
       6
     )}, ${userLocation.longitude.toFixed(6)}`;
