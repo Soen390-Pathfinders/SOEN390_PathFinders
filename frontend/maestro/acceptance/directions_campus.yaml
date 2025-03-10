@@ -1,0 +1,13 @@
+#issue #59
+appId: host.exp.exponent
+---
+- tapOn:
+    point: "50%,46%"
+- tapOn: "Start Location"
+- inputText: "Hall Building"
+- tapOn: "H Building Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"
+- tapOn: "Select Destination"
+- inputText: "Loyola Campus"
+- tapOn: "Concordia University - Loyola Campus, Sherbrooke Street West, Montreal, QC, Canada"
+- tapOn: "GO"
+- assertVisible: "17 min"
