@@ -1,58 +1,41 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
-from django.contrib.auth.hashers import make_password, check_password
 from django.contrib.auth.models import AbstractUser, Group, Permission 
-
-from jsonschema import validate, ValidationError
-from datetime import time
+from math import sqrt
 
 class Campus(models.Model):
-    campus_id = models.AutoField(primary_key =True)
-    campus_name = models.CharField(max_length = 255, default="")
-    location = models.JSONField(default=list, blank=True)
+    id = models.AutoField(primary_key =True)
+    name = models.CharField(max_length = 255)
+    code = models.CharField(max_length=3,unique=True)
+
+    #coordinates of campus
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+
+    def __str__(self):
+        return f"{self.name} Campus"
 
 class Building(models.Model):
-    building_id = models.AutoField(primary_key=True)
-    campus_id = models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id")
-    name = models.CharField(max_length=100, default="")  # Building name
-    number_of_floors = models.IntegerField()  # Number of floors
-    location = models.CharField(max_length=255, default="")  # Building location (could be an address or campus area)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)  # Building name
+    long_name= models.CharField(max_length=255, null=True)
+    code = models.CharField(max_length=3, unique=True)
     description = models.TextField(blank=True, null=True) # Building description for pop-up
+    address = models.CharField(max_length=255, null=True)
 
-    #coordinates of Corners of the building
-    polygon_coordinates = models.JSONField(default=list, blank=True)
+    campus= models.ForeignKey(Campus, on_delete=models.CASCADE, db_column="campus_id", default=1)
+    floor_count = models.IntegerField(default=1)  # Number of floors
     
     #coordinates of building
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, default=0)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)
     
     def __str__(self):
         return self.name
-    
-    #Make sure that the JSON object for polygon_coordinates format is correct
-    def clean(self):
-        super().clean()
-        schema = {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "longitude": {"type": "number", "format": "float"},  
-                    "latitude": {"type": "number", "format": "float"},
-                },
-                "required": ["longitude", "latitude"],  
-                "additionalProperties": False  
-            }
-        }
-        try:
-            validate(instance=self.polygon_coordinates, schema=schema)
-        except ValidationError as e:
-            raise ValidationError({"polygon_coordinates": [e.message]})
 
 
 #set_password(raw_password) and check_password(raw_password)
 class User(AbstractUser):
-    user_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, default="")
     email = models.EmailField(max_length=255)
     groups = models.ManyToManyField(Group, related_name="app_users_groups", blank=True,  verbose_name="groups")
@@ -61,43 +44,72 @@ class User(AbstractUser):
 
 class Floor(models.Model):
     building = models.ForeignKey(Building, on_delete=models.CASCADE)
-    floor_id = models.AutoField(primary_key=True)
-    floor_number = models.IntegerField()
+    id = models.AutoField(primary_key=True)
+    number = models.CharField(max_length=3)
+    code = models.CharField(max_length=20, unique=True, blank=True)
     description = models.TextField(blank=True, null=True)
 
-class PointOfInterest(models.Model):
-    poi_id = models.AutoField(primary_key=True)
-    building = models.ForeignKey(Building, on_delete=models.CASCADE)
-    poi_name = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    opening_hours = models.JSONField(default=dict)
-    
-    def set_open_hour(self, open_hour):
-        if isinstance(open_hour, str):
-            try:
-                open_hour = time.fromisoformat(open_hour) 
-            except ValueError:
-                raise ValueError("Invalid time format. Use HH:MM")
-        self.opening_hours["open_hour"] = open_hour.strftime("%H:%M")
-        self.save()
+    def save(self, *args, **kwargs):
+        self.code = f"{self.building.code}-{self.number}"
+        super().save(*args, **kwargs)
 
-    def set_close_hour(self, close_hour):
-        if isinstance(close_hour, str):
-            try:
-                close_hour = time.fromisoformat(close_hour)
-            except ValueError:
-                raise ValueError("Invalid time format. Use HH:MM")
-        self.opening_hours["closed_hour"] = close_hour.strftime("%H:%M")
-        self.save()
-        
-class Room(models.Model):
-    room_id = models.AutoField(primary_key=True)
-    floor_id = models.ForeignKey('Floor', on_delete=models.CASCADE, related_name='rooms')  # Foreign key to Floor model
-    room_number = models.CharField(max_length=20) 
-    room_type = models.CharField(max_length=50) 
-    capacity = models.IntegerField()  
-    accessibility_features = models.TextField(blank=True, null=True)
+
+
+class AmenityType(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return f"Room {self.room_number}"
+        return self.name
+
+
+class InsidePOI(models.Model):
+    id = models.AutoField(primary_key=True)
+    floor = models.ForeignKey(Floor, on_delete=models.CASCADE, default=1)
+    description = models.TextField(blank=True, null=True)
+    amenities = models.ManyToManyField(AmenityType, related_name="amenities", blank=True)
+    x_coor = models.IntegerField();
+    y_coor = models.IntegerField();
+
+
+
+class RoomType(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+class Room(models.Model):
+    id = models.AutoField(primary_key=True)
+    number = models.CharField(max_length=10)
+    floor= models.ForeignKey('Floor', on_delete=models.CASCADE, default=1)
+    code = models.CharField(max_length=20, unique=True, blank=True)
+    capacity = models.PositiveIntegerField(null=True)
+    is_wheelchair_accessible = models.BooleanField(default=False)
+    type = models.ManyToManyField(RoomType, related_name="rooms")
+    location = models.ForeignKey(InsidePOI, on_delete=models.SET_DEFAULT, blank=True, default=1)
+
+    def save(self, *args, **kwargs):
+        self.code = f"{self.floor.building.code}-{self.number}"
+        super().save(*args, **kwargs)
+      
+
+    def __str__(self):
+        return f"{self.code} (Capacity: {self.capacity})"
+
+
+
+class Edge(models.Model):
+    node1 = models.ForeignKey('InsidePOI', on_delete=models.CASCADE, related_name='edges_from')
+    node2 = models.ForeignKey('InsidePOI', on_delete=models.CASCADE, related_name='edges_to')
+    distance = models.FloatField(editable=False)  # Auto-calculated
+
+    def save(self, *args, **kwargs):
+        # Calculate Euclidean distance based on latitude/longitude
+        self.distance = sqrt(
+            (self.node1.x_coor - self.node2.x_coor) ** 2 +
+            (self.node1.y_coor - self.node2.y_coor) ** 2
+        )
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Edge from node#{self.node1.id} to node#{self.node2.id} - Distance: {self.distance}"

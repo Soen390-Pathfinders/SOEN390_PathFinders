@@ -1,15 +1,27 @@
-// Renders the Google Map through react-native-maps API
-import React, { useState } from "react";
-import MapView, { Marker, Polygon, PROVIDER_DEFAULT } from "react-native-maps";
-import { PROVIDER_GOOGLE } from "react-native-maps";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React from "react";
+import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
+import { StyleSheet, View } from "react-native";
 import { GOOGLE_MAPS_APIKEY } from "../../constants";
-import outlines from "./building_outlines";
-import { useLocation } from "../context/userLocationContext";
 import PolygonRender from "./PolygonRender";
 import { concordiaBuildings } from "./concordiaBuildings";
+import { useLocation } from "../context/userLocationContext";
 
+// Campus coordinates for SGW and LOY campuses
+const CampusCoordinates = {
+  SGW: {
+    latitude: 45.49745011600138,
+    longitude: -73.57894297258392,
+    latitudeDelta: 0.0322,
+    longitudeDelta: 0.0221,
+  },
+  LOY: {
+    latitude: 45.4582,
+    longitude: -73.6405,
+    latitudeDelta: 0.0322,
+    longitudeDelta: 0.0221,
+  },
+};
 
 export default function OutdoorMap({
   origin,
@@ -19,72 +31,54 @@ export default function OutdoorMap({
   campus,
   setBuildingLocation,
 }) {
+  const { userLocation } = useLocation();
 
-  //{ origin, destination, travelMode }
+  // Helper function to render markers for Concordia buildings
+  const renderBuildingMarkers = () =>
+    concordiaBuildings.map((marker) => (
+      <Marker
+        key={marker.id}
+        coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+        title={marker.title}
+        description={marker.description}
+      />
+    ));
 
-  const { userLocation } = useLocation(); // Get location from context
-
-  const initialRegions = {
-    SGW: {
-      latitude: 45.49745011600138,
-      longitude: -73.57894297258392,
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221,
-    },
-    LOY: {
-      latitude: 45.4582,
-      longitude: -73.6405,
-      latitudeDelta: 0.0322,
-      longitudeDelta: 0.0221,
-    },
-  };
+  // Render Map Directions when origin and destination exist
+  const renderDirections = () =>
+    origin &&
+    destination && (
+      <MapViewDirections
+        origin={origin}
+        destination={destination}
+        apikey={GOOGLE_MAPS_APIKEY}
+        mode={travelMode}
+        strokeWidth={7}
+        strokeColor="blue"
+        onReady={(result) => onDurationChange(result.duration)}
+      />
+    );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={styles.container}>
       <MapView
         provider={PROVIDER_DEFAULT}
         style={styles.map}
         showsUserLocation={true}
-        initialRegion={initialRegions[campus]}
-        region={initialRegions[campus]}
+        initialRegion={CampusCoordinates[campus]}
+        region={CampusCoordinates[campus]}
       >
-        {/* Render building outlines */}
         <PolygonRender setBuildingLocation={setBuildingLocation} />
-        {/* Render markers */}
-        {concordiaBuildings.map((marker) => (
-          <Marker
-            key={marker.id}
-            coordinate={{
-              latitude: marker.latitude,
-              longitude: marker.longitude,
-            }}
-            title={marker.title}
-            description={marker.description}
-          />
-        ))}
-
-        {/* Render Directions if both origin and destination are set */}
-        {origin && destination && (
-          <MapViewDirections
-            origin={origin}
-            destination={destination}
-            apikey={GOOGLE_MAPS_APIKEY}
-            mode={travelMode} // Dynamic travel mode
-            strokeWidth={7}
-            strokeColor="blue"
-            onReady={(result) => {
-              console.log(`Distance: ${result.distance} km`);
-              console.log(`Duration: ${result.duration} min`);
-              onDurationChange(result.duration); // Send duration to parent
-            }}
-          />
-        )}
+        {renderBuildingMarkers()}
+        {renderDirections()}
       </MapView>
     </View>
   );
 }
 
+// Styles
 const styles = StyleSheet.create({
+  container: { flex: 1 },
   map: {
     position: "absolute",
     top: 0,

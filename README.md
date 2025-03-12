@@ -1,4 +1,4 @@
-# Concordia Campus Navigation App -- version 0.0.1 [![.github/workflows/ci.yml](https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025/actions/workflows/ci.yml/badge.svg)](https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025/actions/workflows/ci.yml)
+# Concordia Campus Navigation App -- version 0.0.1 [![.github/workflows/ci.yml](https://github.com/Soen390-Pathfinders/SOEN390_PathFinders/actions/workflows/ci.yml/badge.svg)](https://github.com/Soen390-Pathfinders/SOEN390_PathFinders/actions/workflows/ci.yml)
 ## Project Overview
 
 The **Concordia Campus Guide** is a mobile application designed to help Concordia's students, faculty, and visitors navigate through campus buildings and rooms efficiently. Inspired by Google Maps, this app provides a user-friendly interface for locating your current position on campus and finding the shortest path to any desired location.
@@ -32,7 +32,7 @@ Before you can run the project, make sure you have installed **Docker**, Postgre
 ### Step 1: Clone the Repository 
 You can use the following command to clone the repo:
 ```bash
-git clone https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025.git
+git clone https://github.com/Soen390-Pathfinders/SOEN390_PathFinders.git
 ```
 
 ### Step 2: Run the Backend 

@@ -1,5 +1,6 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CampusButton = ({ label, isActive, onPress }) => (
   <TouchableOpacity
@@ -11,6 +12,7 @@ const CampusButton = ({ label, isActive, onPress }) => (
 );
 
 export const CampusToggle = ({ campus, toggleCampus }) => {
+
   const campuses = [
     { key: "SGW", label: "SGW" },
     { key: "LOY", label: "Loyola" },
@@ -26,6 +28,7 @@ export const CampusToggle = ({ campus, toggleCampus }) => {
           onPress={() => toggleCampus(key)}
         />
       ))}
+
     </View>
   );
 };

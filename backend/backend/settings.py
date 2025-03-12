@@ -90,6 +90,7 @@ DATABASES = {
         'PASSWORD': 'password',  # The password defined in Docker
         'HOST': 'db',  # Use 'localhost' if you're running it locally
         'PORT': '5432',  # The port mapped in Docker (5433 -> 5432)
+        'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
 

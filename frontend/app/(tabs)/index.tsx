@@ -4,6 +4,7 @@ import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { BuildingAPI } from "@/api/api.js";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -12,17 +13,22 @@ import { View, Text } from "react-native";
 export default function HomeScreen() {
   const [buildingName, setBuildingName] = useState(null);
 
+  const fetchBuildings = async () => {
+    try {
+      const response = await BuildingAPI.get("H");
+      if (true) {
+        setBuildingName(response["name"]);
+      } else {
+        console.warn("No buildings found.");
+      }
+    } catch (error) {
+      console.error("Error fetching buildings:", error);
+    }
+  };
+
   useEffect(() => {
     // Make a GET request to the Django backend
-    axios
-      .get("http://localhost:8000/api/hello/") // Adjust the URL based on your API endpoint
-      .then((response) => {
-        // Assume the response contains a building name
-        setBuildingName(response.data.name);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    fetchBuildings();
   }, []);
 
   return (

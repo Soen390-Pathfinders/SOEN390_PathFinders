@@ -84,7 +84,7 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="index"
+              name="OutdoorDirections"
               component={OutdoorDirections}
               options={{
                 drawerLabel: "Outdoor Directions",

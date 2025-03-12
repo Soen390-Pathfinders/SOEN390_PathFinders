@@ -1,0 +1,5 @@
+floor,number,capacity,is_wheelchair_accessible,type,location
+H-5,521,200,True,CLASSROOM|OFFICE,1
+H-5,522,200,True,CLASSROOM|OFFICE,2
+H-5,523,200,True,CLASSROOM|OFFICE,3
+H-5,524,200,True,CLASSROOM|OFFICE,4

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../maps/OutdoorMap";
@@ -25,6 +25,15 @@ export default function DirectionFields({
   duration,
   setToBuildingLocation,
 }) {
+
+  useEffect(() => {
+    console.log("destination updated")
+    console.log(destination)
+    if (destination && destinationRef.current) {
+      destinationRef.current.setAddressText(destination);
+    }
+  }, [destination]);
+
   return (
     <View style={{ zIndex: 5 }}>
       <View style={styles.inputWithLocationContainer}>
