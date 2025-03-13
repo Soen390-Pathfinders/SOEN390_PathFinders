@@ -2,45 +2,33 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const CampusToggle = ({ campus, toggleCampus }) => {
-  
-  // Load stored campus preference when the component mounts
-  useEffect(() => {
-    const loadCampusPreference = async () => {
-      const savedCampus = await AsyncStorage.getItem("selectedCampus");
-      if (savedCampus) {
-        toggleCampus(savedCampus); // Update state with stored value
-      }
-    };
-    loadCampusPreference();
-  }, []);
+const CampusButton = ({ label, isActive, onPress }) => (
+  <TouchableOpacity
+    style={[styles.campusButton, isActive ? styles.activeButton : styles.inactiveButton]}
+    onPress={onPress}
+  >
+    <Text style={styles.buttonText}>{label}</Text>
+  </TouchableOpacity>
+);
 
-  // Save campus preference when toggled
-  const handleToggle = async (selectedCampus) => {
-    toggleCampus(selectedCampus);
-    await AsyncStorage.setItem("selectedCampus", selectedCampus);
-  };
+export const CampusToggle = ({ campus, toggleCampus }) => {
+
+  const campuses = [
+    { key: "SGW", label: "SGW" },
+    { key: "LOY", label: "Loyola" },
+  ];
 
   return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity
-        style={[
-          styles.campusButton,
-          campus === "SGW" ? styles.activeButton : styles.inactiveButton,
-        ]}
-        onPress={() => handleToggle("SGW")}
-      >
-        <Text style={styles.buttonText}>SGW</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[
-          styles.campusButton,
-          campus === "LOY" ? styles.activeButton : styles.inactiveButton,
-        ]}
-        onPress={() => handleToggle("LOY")}
-      >
-        <Text style={styles.buttonText}>Loyola</Text>
-      </TouchableOpacity>
+      {campuses.map(({ key, label }) => (//use of .map() to generate buttons
+        <CampusButton
+          key={key}
+          label={label}
+          isActive={campus === key}
+          onPress={() => toggleCampus(key)}
+        />
+      ))}
+
     </View>
   );
 };
