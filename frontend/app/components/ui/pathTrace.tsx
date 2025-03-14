@@ -47,7 +47,7 @@ export default function PathTrace() {
           );
         }
         return (
-          <View>
+          <View key={node.id}>
             {/*Create a circle for each node */}
             <Circle
               cx={node.x_coor}
