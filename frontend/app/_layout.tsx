@@ -20,6 +20,7 @@ import useUserLocation from "./hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 import IndoorDirections from "./screens/IndoorDirections";
+import IndoorMap from "./screens/IndoorMap";
 import FindRoom from "./screens/FindRoom";
 import NavigateYourSpace from "./screens/NavigateYourSpace";
 
@@ -55,6 +56,20 @@ export default function RootLayout() {
             drawerContent={CustomDrawerContent}
           >
             <Drawer.Screen
+              name="(screens)/IndoorMap"
+              component={IndoorMap}
+              options={{
+                drawerLabel: "Dev Indoor Map",
+                title: "IndoorMap",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/map.png")}
+                  />
+                ),
+              }}
+            />
+            <Drawer.Screen
               name="(screens)/CampusMap"
               component={CampusMap}
               options={{
@@ -69,7 +84,7 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="index"
+              name="OutdoorDirections"
               component={OutdoorDirections}
               options={{
                 drawerLabel: "Outdoor Directions",
@@ -78,20 +93,6 @@ export default function RootLayout() {
                   <Image
                     style={styles.navLogo}
                     source={require("../assets/images/sign-post.png")}
-                  />
-                ),
-              }}
-            />
-            <Drawer.Screen
-              name="(screens)/NextClassInfo"
-              component={NextClassInfo}
-              options={{
-                drawerLabel: "NextClassInfo",
-                title: "NextClassInfo drawer for dev",
-                drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/class.png")}
                   />
                 ),
               }}
@@ -142,16 +143,16 @@ export default function RootLayout() {
               name="(screens)/FindRoom"
               component={FindRoom}
               options={{
-                drawerItemStyle: { height: 0 },  // This hides it from the drawer
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Find Room",
               }}
             />
-            
+
             <Drawer.Screen
               name="(screens)/NavigateYourSpace"
               component={NavigateYourSpace}
               options={{
-                drawerItemStyle: { height: 0 },  // This hides it from the drawer
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Navigate Your Space",
               }}
             />
