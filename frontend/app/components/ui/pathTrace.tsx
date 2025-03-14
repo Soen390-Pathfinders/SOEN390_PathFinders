@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import pathNodes from "../../data/pathNodes.json";
 import LineFactory from "@/app/hooks/lineFactory";
 import { Circle } from "react-native-svg";
+import { PathAPI } from "@/api/api";
 
 export default function PathTrace() {
   //Get the information from the json file
@@ -19,6 +20,7 @@ export default function PathTrace() {
     description: string | null;
     x_coor: number;
     y_coor: number;
+    amenity_names: string[];
   };
 
   //The path will be updated every time the json file is modified
