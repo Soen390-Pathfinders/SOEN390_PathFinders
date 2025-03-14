@@ -199,7 +199,7 @@ import { RoomAPI } from "./api";
 async function createRoom() {
   const roomData = {
     number: "101",
-    floor: "SCI-1", // Floor code
+    floor: "H-5", // Floor code
     capacity: 30,
     is_wheelchair_accessible: true,
     type: "CLASSROOM|LAB", // Pipe-separated list of room types
@@ -223,7 +223,7 @@ import { PathAPI } from "./api";
 
 async function findPath() {
   try {
-    const path = await PathAPI.shortestPath("SCI-101", "ENG-205");
+    const path = await PathAPI.shortestPath("H-521", "H-524");
     console.log("Path found:", path);
     return path;
   } catch (error) {
