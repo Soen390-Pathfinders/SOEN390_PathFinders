@@ -73,3 +73,14 @@ export const POIAPI = {
   delete: (poiData) =>
     handleRequest(() => api.delete(`/poi/inside/remove`, poiData)),
 };
+
+export const PathAPI = {
+  shortestPath: (start_room, destination_room) =>
+    handleRequest(() =>
+      api.post("/path/rooms", { room1: start_room, room2: destination_room })
+    ),
+};
+
+const pkg = { BuildingAPI, CampusAPI, FloorAPI, RoomAPI, POIAPI, PathAPI };
+
+export default pkg;

@@ -1,5 +1,5 @@
 floor,description,amenities,x_coor,y_coor,opening_hours
 H-5,Hosts software classes,WATER_FOUNTAIN|VENDING_MACHINE,10,20,
 H-5,,BAR,15,15
-H-5,,BAR|LIBRARY,5,10
+H-5,,BAR|LIBRARY|EXIT,5,10
 H-5,,BAR,20,20
