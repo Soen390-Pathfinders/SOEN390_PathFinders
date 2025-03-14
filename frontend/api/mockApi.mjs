@@ -47,6 +47,8 @@ export const FloorAPI = {
   getAll: () => handleRequest(() => api.get("/floor/all")),
   get: (floorCode) =>
     handleRequest(() => api.get(`/floor/get?code=${floorCode}`)),
+  getAmenities: (floorCode) =>
+    handleRequest(() => api.get(`/floor/amenities?code=${floorCode}`)),
   create: (floorData) => handleRequest(() => api.post("/floor/add", floorData)),
   update: (floorData) =>
     handleRequest(() => api.put(`/floor/modify`, floorData)),
@@ -75,11 +77,19 @@ export const POIAPI = {
 };
 
 export const PathAPI = {
-  shortestPath: (start_room, destination_room, has_disability) =>
+  shortestPathToRoom: (start_room, destination_room, has_disability) =>
     handleRequest(() =>
       api.post("/path/rooms", {
         room1: start_room,
         room2: destination_room,
+        accessible: has_disability,
+      })
+    ),
+  shortestPathToAmenity: (start_room, amenity_name, has_disability) =>
+    handleRequest(() =>
+      api.post("/path/amenity", {
+        room1: start_room,
+        amenity: amenity_name,
         accessible: has_disability,
       })
     ),
