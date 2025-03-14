@@ -9,7 +9,6 @@ const api = axios.create({
   },
 });
 
-
 const handleRequest = async (requestFunc) => {
   try {
     const response = await requestFunc();
@@ -19,7 +18,6 @@ const handleRequest = async (requestFunc) => {
     throw error;
   }
 };
-
 
 export const BuildingAPI = {
   getAll: () => handleRequest(() => api.get("/building/all")),
@@ -53,7 +51,7 @@ export const FloorAPI = {
   update: (floorData) =>
     handleRequest(() => api.put(`/floor/modify`, floorData)),
   delete: (floorData) =>
-    handleRequest(() => api.delete(`/floor/remove`), floorData),
+    handleRequest(() => api.delete(`/floor/remove`, floorData)),
 };
 
 export const RoomAPI = {
@@ -77,4 +75,3 @@ export const POIAPI = {
 };
 
 export default api;
-
