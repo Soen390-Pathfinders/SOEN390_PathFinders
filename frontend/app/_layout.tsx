@@ -98,11 +98,11 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="(screens)/loginScreen"
-              component={loginScreem}
+              name="(screens)/NextClassInfo"
+              component={NextClassInfo}
               options={{
                 drawerLabel: "Directions to next class",
-                title: "direction to next class",
+                title: "Direction to next class",
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}
