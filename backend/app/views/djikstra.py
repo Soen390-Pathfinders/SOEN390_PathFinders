@@ -17,12 +17,14 @@ def initialize_graphs():
     for node in InsidePOI.objects.all():
         G_normal.add_node(node.id, data=node)
 
-        if node.is_accessible: G_accessible.add_node(node.id, data=node)
+        if node.is_accessible: 
+            G_accessible.add_node(node.id, data=node)
 
     for edge in Edge.objects.all():
         G_normal.add_edge(edge.node1.id, edge.node2.id, weight=edge.distance)
 
-        if edge.node1.is_accessible and edge.node2.is_accessible: G_accessible.add_edge(edge.node1.id, edge.node2.id, weight=edge.distance)
+        if edge.node1.is_accessible and edge.node2.is_accessible: 
+            G_accessible.add_edge(edge.node1.id, edge.node2.id, weight=edge.distance)
 
     graphs_initialized = True
 
@@ -45,13 +47,13 @@ def get_shortest_path_between_rooms(request):
 
     room1_code = request.data.get("room1")
     room2_code = request.data.get("room2")
-    has_disability = request.data.get("accessible") or False
+    has_disability = request.data.get("accessible")
 
-    if not room1_code or not room2_code:
-        return Response({"error": "room1 and room2 must be provided"}, status=status.HTTP_400_BAD_REQUEST)
+    if not room1_code:
+        return Response({"error": "room1 must be provided"}, status=status.HTTP_400_BAD_REQUEST)
 
     room1 = Room.objects.filter(code=room1_code).first()
-    room2 = Room.objects.filter(code=room2_code).first()
+    room2 = Room.objects.filter(code=room2_code).first() or Room.objects.filter(location__amenities__name="EXIT").first()
 
     if not room1 or not room2:
         return Response({"error": "One or both room codes are invalid"}, status=status.HTTP_400_BAD_REQUEST)

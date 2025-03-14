@@ -18,9 +18,10 @@ export default function PathTrace() {
     id: number;
     floor: string;
     description: string | null;
+    is_accessible: boolean;
+    amenity_names: string[];
     x_coor: number;
     y_coor: number;
-    amenity_names: string[];
   };
 
   //The path will be updated every time the json file is modified

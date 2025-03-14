@@ -75,8 +75,12 @@ export const POIAPI = {
 };
 
 export const PathAPI = {
-  shortestPath: (start_room, destination_room) =>
+  shortestPath: (start_room, destination_room, has_disability) =>
     handleRequest(() =>
-      api.post("/path/rooms", { room1: start_room, room2: destination_room })
+      api.post("/path/rooms", {
+        room1: start_room,
+        room2: destination_room,
+        accessible: has_disability,
+      })
     ),
 };
