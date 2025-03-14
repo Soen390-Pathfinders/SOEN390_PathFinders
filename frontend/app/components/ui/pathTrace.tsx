@@ -34,36 +34,30 @@ export default function PathTrace() {
         //For every node in the path, create a line to the next node using lineFactory
         //make sure the index is not the last node
 
-        if (index === nodePath.length - 1) {
-          return (
-            <View key={node.id}>
-              {/* Create a circle for the last node */}
-              <Circle
-                cx={node.x_coor}
-                cy={node.y_coor}
-                r="0.5"
-                fill="red" // red color for the destination
-                stroke="none"
-              />
-            </View>
-          );
-        }
         return (
-          <View>
+          <View key={index}>
             {/*Create a circle for each node */}
             <Circle
               cx={node.x_coor}
               cy={node.y_coor}
               r="0.5"
-              fill={index === 0 ? "blue" : "green"}
+              fill={
+                index === 0
+                  ? "blue"
+                  : index === nodePath.length - 1
+                  ? "red"
+                  : "green"
+              }
               stroke="none"
             />
             {/*LineFactory returns every line segments based on the nodes */}
-            <LineFactory
-              key={`line-${index}`}
-              node1={node}
-              node2={nodePath[index + 1]}
-            />
+            {index === nodePath.length - 1 || (
+              <LineFactory
+                key={`line-${index}`}
+                node1={node}
+                node2={nodePath[index + 1]}
+              />
+            )}
           </View>
         );
       })}
