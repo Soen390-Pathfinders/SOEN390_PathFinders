@@ -93,4 +93,12 @@ export const PathAPI = {
         accessible: has_disability,
       })
     ),
+  shortestPathToPOI: (start_room, poi_id, has_disability) =>
+    handleRequest(() =>
+      api.post("/path/poi", {
+        room1: start_room,
+        location_id: poi_id,
+        accessible: has_disability,
+      })
+    ),
 };

@@ -123,3 +123,34 @@ def get_shortest_path_to_amenity(request):
     serializer = InsidePOISerializer(node_data_list, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+
+
+@api_view(['POST'])
+def get_shortest_path_to_poi(request):
+    """Retrieve the shortest path from a room to an amenity."""
+    if not graphs_initialized:
+        initialize_graphs()
+
+    room1_code = request.data.get("room1")
+    poi_id = request.data.get("location_id")
+    has_disability = request.data.get("accessible")
+
+    if not room1_code or not poi_id:
+        return Response({"error": "room1 and location_id must be provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+    room1 = Room.objects.filter(code=room1_code).first()
+    poi = InsidePOI.objects.filter(id=poi_id).first()
+
+    if not room1 or not poi:
+        return Response({"error": "Room code or location id is invalid"}, status=status.HTTP_400_BAD_REQUEST)
+
+    graph = G_normal if not has_disability else G_accessible
+    node_data_list = compute_shortest_path(graph, room1.location.id, poi.id)
+
+    if not node_data_list:
+        return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = InsidePOISerializer(node_data_list, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+

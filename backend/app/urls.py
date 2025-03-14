@@ -42,6 +42,7 @@ urlpatterns = [
 
     path('path/rooms', djikstra.get_shortest_path_between_rooms, name='get_shortest_path_between_rooms'),
     path('path/amenity', djikstra.get_shortest_path_to_amenity, name='get_shortest_path_to_amenity'),
+    path('path/poi', djikstra.get_shortest_path_to_poi, name='get_shortest_path_to_poi'),
      
 
     path('user/', user.user_list, name='user_list'),
