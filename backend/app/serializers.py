@@ -79,7 +79,8 @@ class InsidePOISerializer(serializers.ModelSerializer):
         
     class Meta:
         model = InsidePOI
-        fields = ['id', 'floor', 'description', 'amenities', 'amenity_names', 'x_coor', 'y_coor']
+        fields = ['id', 'floor', 'description', 'is_accessible',
+                  'amenities', 'amenity_names', 'x_coor', 'y_coor']
 
 class RoomSerializer(serializers.ModelSerializer):
     floor = serializers.SlugRelatedField(queryset=Floor.objects.all(), slug_field="code")
@@ -137,9 +138,8 @@ class RoomSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Room
-        fields = ['id', 'number', 'floor', 'code', 'capacity', 
-                  'is_wheelchair_accessible', 'type', 'room_types', 
-                  'location', 'location_data']
+        fields = ['id', 'number', 'floor', 'code', 'capacity', 'type', 
+                  'room_types', 'location', 'location_data']
 
 class EdgeSerializer(serializers.ModelSerializer):
     node1 = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id")
