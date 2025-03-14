@@ -71,13 +71,14 @@ Manages building data within campuses.
 
 Manages floors within buildings.
 
-| Method              | Description                | Parameters                                                     | Return Data            |
-| ------------------- | -------------------------- | -------------------------------------------------------------- | ---------------------- |
-| `getAll()`          | Retrieves all floors       | None                                                           | Array of floor objects |
-| `get(floorCode)`    | Retrieves a specific floor | `floorCode`: String code identifier (format: `BUILDING-FLOOR`) | Floor object           |
-| `create(floorData)` | Creates a new floor        | `floorData`: Object with floor details                         | Created floor object   |
-| `update(floorData)` | Updates an existing floor  | `floorData`: Object with updated floor details                 | Updated floor object   |
-| `delete(floorData)` | Deletes a floor            | `floorData`: Object with floor identifier                      | Deletion confirmation  |
+| Method                    | Description                                         | Parameters                                                     | Return Data                            |
+| ------------------------- | --------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------- |
+| `getAll()`                | Retrieves all floors                                | None                                                           | Array of floor objects                 |
+| `get(floorCode)`          | Retrieves a specific floor                          | `floorCode`: String code identifier (format: `BUILDING-FLOOR`) | Floor object                           |
+| `getAmenities(floorCode)` | Retrieves all amenities related to a specific floor | `floorCode`: String code identifier (format: `BUILDING-FLOOR`) | Array of amenities and associated POIs |
+| `create(floorData)`       | Creates a new floor                                 | `floorData`: Object with floor details                         | Created floor object                   |
+| `update(floorData)`       | Updates an existing floor                           | `floorData`: Object with updated floor details                 | Updated floor object                   |
+| `delete(floorData)`       | Deletes a floor                                     | `floorData`: Object with floor identifier                      | Deletion confirmation                  |
 
 **Floor Object Structure:**
 
@@ -112,7 +113,6 @@ Manages rooms within floors.
   floor: String,                    // Floor code this room belongs to
   code: String,                     // Auto-generated code (BUILDING-NUMBER)
   capacity: Number,                 // Room capacity
-  is_wheelchair_accessible: Boolean, // Accessibility flag
   type: [String],                   // Array of room type names for creating/updating
   room_types: [String],             // Array of room type names (read-only)
   location: Number,                 // InsidePOI ID for creating/updating
@@ -139,6 +139,7 @@ Manages Points of Interest (POIs) inside buildings.
   id: Number,
   floor: String,            // Floor code this POI belongs to
   description: String,      // Optional description
+  is_accessible: Boolean,   // Accessibility flag
   amenities: [String],      // Array of amenity names for creating/updating
   amenity_names: [String],  // Array of amenity names (read-only)
   x_coor: Number,           // X coordinate on floor map
@@ -148,11 +149,13 @@ Manages Points of Interest (POIs) inside buildings.
 
 ### PathAPI
 
-Calculates navigation paths between rooms.
+Calculates navigation paths between rooms. The has_disability attribute is optional (default is false) and can be used to compute the shortest accessible path for students with disabilities.
 
-| Method                                       | Description                                    | Parameters                                                               | Return Data      |
-| -------------------------------------------- | ---------------------------------------------- | ------------------------------------------------------------------------ | ---------------- |
-| `shortestPath(start_room, destination_room)` | Calculates the shortest path between two rooms | `start_room`: String (room code), `destination_room`: String (room code) | Path data object |
+| Method                                                             | Description                                                                  | Parameters                                                                                        | Return Data      |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------- |
+| `shortestPathToRoom(start_room, destination_room, has_disability)` | Calculates the shortest path between two rooms                               | `start_room`: String (room code), `destination_room`: String (room code), has_disability: Boolean | Path data object |
+| `shortestPathToAmenity(start_room, amenity_name, has_disability)`  | Calculates the shortest path from a room to a POI with the specified amenity | `start_room`: String (room code), `amenity_name`: AmenityType, has_disability: Boolean            | Path data object |
+| `shortestPathToPOI(start_room, poi_id, has_disability)`            | Calculates the shortest path from a room to a POI                            | `start_room`: String (room code), `poi_id`: Integer, has_disability: Boolean                      | Path data object |
 
 **Path Data Structure:**
 
@@ -160,16 +163,18 @@ Calculates navigation paths between rooms.
 {
   path: [
     {
-      node_id: Number,     // ID of InsidePOI in the path
-      x_coor: Number,      // X coordinate
-      y_coor: Number,      // Y coordinate
-      floor: String,       // Floor code
-      description: String  // Optional description
+      id: Number,
+      floor: String,            // Floor code this POI belongs to
+      description: String,      // Optional description
+      is_accessible: Boolean,   // Accessibility flag
+      amenities: [String],      // Array of amenity names for creating/updating
+      amenity_names: [String],  // Array of amenity names (read-only)
+      x_coor: Number,           // X coordinate on floor map
+      y_coor: Number            // Y coordinate on floor map
     },
     // Additional nodes...
   ],
   distance: Number,        // Total path distance
-  path_description: String // Human-readable directions
 }
 ```
 
