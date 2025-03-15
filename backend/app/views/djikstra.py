@@ -32,11 +32,12 @@ def initialize_graphs():
 def compute_shortest_path(graph, source_id, target_id):
     """Compute the shortest path between two nodes in the graph."""
     try:
-        node_ids = nx.shortest_path(graph, source=source_id, target=target_id, weight="weight")
-        node_data_list = [graph.nodes[node_id]["data"] for node_id in node_ids]
-        return node_data_list
+        path = nx.shortest_path(graph, source=source_id, target=target_id, weight="weight")
+        total_distance = sum(graph[u][v]["weight"] for u, v in zip(path[:-1], path[1:]))
+        node_data_list = [graph.nodes[node_id]["data"] for node_id in path]
+        return node_data_list, total_distance
     except (nx.NetworkXNoPath, nx.NodeNotFound):
-        return None
+        return None, None
 
 
 # Function to find the shortest path to a node that has the specified amenity
@@ -48,7 +49,7 @@ def compute_shortest_path_to_amenity(graph, start_id, amenity):
     ]
     
     if not target_nodes:
-        return None  # No matching nodes
+        return None, None  # No matching nodes
 
     # Find the shortest path to any target node
     shortest = None
@@ -61,8 +62,11 @@ def compute_shortest_path_to_amenity(graph, start_id, amenity):
             continue  # No path to this target, try the next one
     
     if not shortest:
-        return None
-    return [graph.nodes[node_id]["data"] for node_id in shortest]
+        return None, None
+    
+    total_distance = sum(graph[u][v]["weight"] for u, v in zip(shortest[:-1], shortest[1:]))
+    path = [graph.nodes[node_id]["data"] for node_id in shortest]
+    return path, total_distance
 
 
 
@@ -86,13 +90,13 @@ def get_shortest_path_between_rooms(request):
         return Response({"error": "One or both room codes are invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
     graph = G_normal if not has_disability else G_accessible
-    node_data_list = compute_shortest_path(graph, room1.location.id, room2.location.id)
+    node_data_list, total_distance = compute_shortest_path(graph, room1.location.id, room2.location.id)
 
     if not node_data_list:
         return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = InsidePOISerializer(node_data_list, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'path': serializer.data, 'distance': total_distance}, status=status.HTTP_200_OK)
 
 
 
@@ -115,13 +119,13 @@ def get_shortest_path_to_amenity(request):
         return Response({"error": "Room code is invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
     graph = G_normal if not has_disability else G_accessible
-    node_data_list = compute_shortest_path_to_amenity(graph, room1.location.id, amenity_name)
+    node_data_list, total_distance = compute_shortest_path_to_amenity(graph, room1.location.id, amenity_name)
 
     if not node_data_list:
         return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = InsidePOISerializer(node_data_list, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({"path": serializer.data, "distance": total_distance}, status=status.HTTP_200_OK)
 
 
 
@@ -146,11 +150,11 @@ def get_shortest_path_to_poi(request):
         return Response({"error": "Room code or location id is invalid"}, status=status.HTTP_400_BAD_REQUEST)
 
     graph = G_normal if not has_disability else G_accessible
-    node_data_list = compute_shortest_path(graph, room1.location.id, poi.id)
+    node_data_list, total_distance = compute_shortest_path(graph, room1.location.id, poi.id)
 
     if not node_data_list:
         return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = InsidePOISerializer(node_data_list, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response({'path':serializer.data, 'distance':total_distance}, status=status.HTTP_200_OK)
 
