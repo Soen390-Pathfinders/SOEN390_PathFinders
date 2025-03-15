@@ -102,3 +102,7 @@ export const PathAPI = {
       })
     ),
 };
+
+const pkg = { BuildingAPI, CampusAPI, FloorAPI, RoomAPI, POIAPI, PathAPI };
+
+export default pkg;

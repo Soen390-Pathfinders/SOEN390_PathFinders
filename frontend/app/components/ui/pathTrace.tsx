@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import pathNodes from "../../data/pathNodes.json";
 import LineFactory from "@/app/hooks/lineFactory";
 import { Circle } from "react-native-svg";
+import { PathAPI } from "@/api/api";
 
 export default function PathTrace() {
   //Get the information from the json file
@@ -17,13 +18,17 @@ export default function PathTrace() {
     id: number;
     floor: string;
     description: string | null;
+    is_accessible: boolean;
+    amenity_names: string[];
     x_coor: number;
     y_coor: number;
   };
 
   //The path will be updated every time the json file is modified
   useEffect(() => {
-    setNodePath(pathNodes); // Load JSON on component mount
+    PathAPI.shortestPathToRoom("H-521", "H-524").then((response) => {
+      setNodePath(response.path);
+    }); // Load JSON on component mount
   }, [pathNodes]);
 
   return (
@@ -32,36 +37,30 @@ export default function PathTrace() {
         //For every node in the path, create a line to the next node using lineFactory
         //make sure the index is not the last node
 
-        if (index === nodePath.length - 1) {
-          return (
-            <View key={node.id}>
-              {/* Create a circle for the last node */}
-              <Circle
-                cx={node.x_coor}
-                cy={node.y_coor}
-                r="0.5"
-                fill="red" // red color for the destination
-                stroke="none"
-              />
-            </View>
-          );
-        }
         return (
-          <View>
+          <View key={index}>
             {/*Create a circle for each node */}
             <Circle
               cx={node.x_coor}
               cy={node.y_coor}
               r="0.5"
-              fill={index === 0 ? "blue" : "green"}
+              fill={
+                index === 0
+                  ? "blue"
+                  : index === nodePath.length - 1
+                  ? "red"
+                  : "green"
+              }
               stroke="none"
             />
             {/*LineFactory returns every line segments based on the nodes */}
-            <LineFactory
-              key={`line-${index}`}
-              node1={node}
-              node2={nodePath[index + 1]}
-            />
+            {index === nodePath.length - 1 || (
+              <LineFactory
+                key={`line-${index}`}
+                node1={node}
+                node2={nodePath[index + 1]}
+              />
+            )}
           </View>
         );
       })}
