@@ -10,7 +10,7 @@ The API uses Axios for HTTP requests with a base URL of `http://localhost:8000/a
 
 ## Error Handling
 
-All API methods return detailed 
+All API methods return detailed error messages.
 
 ## API Modules
 
