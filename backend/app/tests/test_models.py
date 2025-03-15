@@ -27,7 +27,7 @@ def create_poi(db, create_amenity, floor):
 
 @pytest.fixture
 def create_room(db, floor, room_type, create_poi):
-    room = Room.objects.create(number="H-110", floor=floor, capacity=200, is_wheelchair_accessible=True, location=create_poi)
+    room = Room.objects.create(number="H-110", floor=floor, capacity=200, location=create_poi)
     room.type.add(room_type)
     return room
 
@@ -53,7 +53,6 @@ def test_create_room(create_room):
     assert Room.objects.count() == 1
     assert create_room.number == "H-110"
     assert create_room.capacity == 200
-    assert create_room.is_wheelchair_accessible == True
     assert create_room.location.x_coor == 100
     assert create_room.location.y_coor == 200
 
