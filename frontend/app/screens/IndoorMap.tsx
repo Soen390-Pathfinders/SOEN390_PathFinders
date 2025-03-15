@@ -4,7 +4,7 @@ import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import Floorplan from "../components/ui/Floorplan";
-import FloorPlanRoom from "../components/ui/FloorplanRoom";
+import FloorplanRoom from "../components/ui/FloorplanRoom";
 
 export default function IndoorMap(roomOrPath: string) {
   const { theme } = useTheme();
@@ -16,7 +16,8 @@ export default function IndoorMap(roomOrPath: string) {
         <CampusPilotHeader />
       </View>
       <View style={styles.myImagecontainer}>
-        {roomOrPath === "room" ? <FloorPlanRoom /> : <Floorplan />}
+        {roomOrPath === "room" ? <FloorplanRoom /> : <Floorplan />}//TODO: Why
+        is it NOT loading FloorplanRoom ?
       </View>
     </View>
   );

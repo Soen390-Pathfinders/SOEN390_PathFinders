@@ -4,9 +4,20 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
-import PathTrace from "./pathTrace";
 
-export default function FloorplanRoom() {
+export default function FloorplanRoom(roomNode) {
+  const {
+    id,
+    number,
+    floor,
+    code,
+    capacity,
+    type,
+    room_types,
+    location,
+    location_data,
+  } = roomNode;
+
   const zoomableRef = useRef(null); // Define a reference
   const [scale, setScale] = useState(1);
 
@@ -46,16 +57,10 @@ export default function FloorplanRoom() {
           onAnimationEnd(finished);
         }}
       >
-        <View style={styles.svgContainer}>
-          {" "}
-          <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            <PathTrace />
-          </Svg>
-        </View>
         <View style={styles.floorplanContainer}>
           <Image
             style={styles.image}
-            source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
+            source={require("../../../assets/floorplans/H9.jpg")} //5fth floor of Hall buildign was used
             contentFit="contain" // entire image is contained
             transition={1000}
             resizeMode="cover" // Ensures the image covers the container

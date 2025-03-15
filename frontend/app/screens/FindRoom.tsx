@@ -12,10 +12,12 @@ import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { RoomAPI } from "../../api/api";
+import { RoomAPI } from "@/api/api";
 // Define the navigation type for Typescript
 type RootDrawerParamList = {
-  "(screens)/IndoorMap": { roomOrPath: string };
+  "(screens)/IndoorMap": {
+    roomOrPath: string;
+  };
 };
 type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 
@@ -28,20 +30,23 @@ export default function FindRoom() {
   {
     /* Function to change the screen and return the backend information on the node*/
   }
-  const findTheRoom = async () => {
-    //TODO : YOU ARE HERE. FETCH THE INFO AND THEN ZOOMABLE
+  const findTheRoom = async (roomCode) => {
     //Get the node information
-    const fetchRoom = async (roomCode) => {
-      try {
-        const roomNode = await RoomAPI.get(roomCode);
-        console.log(roomNode);
-      } catch (error) {
-        console.error("Failed to fetch room information:", error);
-      }
-    };
+    console.log("Finding the room:", roomCode);
+    try {
+      const roomNode = await RoomAPI.get(roomCode);
+      console.log(roomNode);
 
-    //Navigate to the net Screen
-    navigation.navigate("(screens)/IndoorMap", { roomOrPath: "room" });
+      //Navigate to the net Screen , pass the argument that will chose the screen to show and which node to focus on
+      navigation.navigate("(screens)/IndoorMap", {
+        roomOrPath: "room",
+      });
+    } catch (error) {
+      console.error("Failed to fetch room information:", error);
+    }
+    navigation.navigate("(screens)/IndoorMap", {
+      roomOrPath: "room",
+    });
   };
 
   return (
@@ -78,7 +83,13 @@ export default function FindRoom() {
         </View>
         {/* Find a room button */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={findTheRoom}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              console.log("Search Query:", searchQuery);
+              findTheRoom(searchQuery);
+            }}
+          >
             <Text style={styles.buttonText}>Find the room</Text>
           </TouchableOpacity>
         </View>
