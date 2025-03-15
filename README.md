@@ -64,7 +64,7 @@ The final step should launch the app on a mobile device emulator.
 Locate your IPv4 address on your computer (Open CMD, type ipconfig)
 
 Before building the Docker container, modify settings.py in the backend directory:
-Change ALLOWED_USERS = [] --> ALLOWED_USERS = ['*']
+Change ALLOWED_HOSTS = [] --> ALLOWED_HOSTS = ['*']
 
 In /frontend/api/api.js, modify the API_BASE_URL to correspond to your own IPv4 address. For example, the current directory is http://192.168.47.56:8000/api, but your local machine might be http://192.168.47.90:8000/api.
 
