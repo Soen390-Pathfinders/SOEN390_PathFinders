@@ -149,7 +149,7 @@ Manages Points of Interest (POIs) inside buildings.
 
 ### PathAPI
 
-Calculates navigation paths between rooms. The has_disability attribute is optional (default is false) and can be used to compute the shortest accessible path for students with disabilities.
+Calculates navigation paths between rooms. The `has_disability` attribute is optional (default is false) and can be used to compute the shortest accessible path for students with disabilities.
 
 | Method                                                             | Description                                                                  | Parameters                                                                                        | Return Data      |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------- |
