@@ -65,7 +65,7 @@ Then, write the `python manage.py initialize` command to populate the database.
 
 #### Step 2.5: Clear the database
 
-To clear the database, write in the project's root directory:
+If you want to clear the database, write in the project's root directory:
 
 ```bash
 docker compose down -v
