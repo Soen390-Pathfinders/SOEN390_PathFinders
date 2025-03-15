@@ -206,7 +206,6 @@ async function createRoom() {
     number: "101",
     floor: "H-5", // Floor code
     capacity: 30,
-    is_wheelchair_accessible: true,
     type: "CLASSROOM|LAB", // Pipe-separated list of room types
     location: 42, // ID of an InsidePOI
   };
