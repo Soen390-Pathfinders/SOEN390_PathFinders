@@ -4,9 +4,9 @@ import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import Floorplan from "../components/ui/Floorplan";
+import FloorPlanRoom from "../components/ui/FloorplanRoom";
 
-
-export default function IndoorMap() {
+export default function IndoorMap(roomOrPath: string) {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
 
@@ -16,7 +16,7 @@ export default function IndoorMap() {
         <CampusPilotHeader />
       </View>
       <View style={styles.myImagecontainer}>
-        <Floorplan />
+        {roomOrPath === "room" ? <FloorPlanRoom /> : <Floorplan />}
       </View>
     </View>
   );
