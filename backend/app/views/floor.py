@@ -1,8 +1,9 @@
-from ..models import Floor
+from ..models import Floor, InsidePOI
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from app.serializers import FloorSerializer
+from app.serializers import FloorSerializer, InsidePOISerializer
+from collections import defaultdict
 
 @api_view(['GET'])
 def get_all_floors(request):
@@ -27,6 +28,42 @@ def get_floor(request):
     serializer = FloorSerializer(floor)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+@api_view(['GET'])
+def get_floor_amenities(request):
+    """
+    Returns all amenities on a floor organized by amenity type with locations
+    URL params:
+    - code: Floor code
+    """
+    floor_code = request.GET.get("code")
+    
+    if not floor_code:
+        return Response({"error": "Please provide a floor code"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    floor = Floor.objects.filter(code=floor_code).first()
+    
+    if not floor:
+        return Response({"error": f"Floor with code {floor_code} not found"}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Get all POIs on this floor
+    pois = InsidePOI.objects.filter(floor=floor)
+    
+    # Organize POIs by amenity
+    amenity_map = defaultdict(list)
+    
+    for poi in pois:
+        # Get simplified POI data
+        poi_data = InsidePOISerializer(poi).data
+        
+        # Add this POI to each of its amenity categories
+        for amenity in poi.amenities.all():
+            amenity_map[amenity.name].append(poi_data)
+    
+    # Convert defaultdict to regular dict for response
+    result = dict(amenity_map)
+    
+    return Response(result, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
