@@ -151,8 +151,8 @@ Manages Points of Interest (POIs) inside buildings.
 
 Calculates navigation paths between rooms. The `has_disability` attribute is optional (default is false) and can be used to compute the shortest accessible path for students with disabilities.
 
-| Method                                                             | Description                                                                  | Parameters                                                                                        | Return Data      |
-| ------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------- |
+| Method                                                             | Description                                                                  | Parameters                                                                                          | Return Data      |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------- |
 | `shortestPathToRoom(start_room, destination_room, has_disability)` | Calculates the shortest path between two rooms                               | `start_room`: String (room code), `destination_room`: String (room code), `has_disability`: Boolean | Path data object |
 | `shortestPathToAmenity(start_room, amenity_name, has_disability)`  | Calculates the shortest path from a room to a POI with the specified amenity | `start_room`: String (room code), `amenity_name`: AmenityType, `has_disability`: Boolean            | Path data object |
 | `shortestPathToPOI(start_room, poi_id, has_disability)`            | Calculates the shortest path from a room to a POI                            | `start_room`: String (room code), `poi_id`: Integer, `has_disability`: Boolean                      | Path data object |
@@ -227,8 +227,9 @@ import { PathAPI } from "./api";
 
 async function findPath() {
   try {
-    const path = await PathAPI.shortestPath("H-521", "H-524");
-    console.log("Path found:", path);
+    const response = await PathAPI.shortestPathToRoom("H-521", "H-524");
+    console.log("Path found:", response.path);
+    console.log("Distance:", response.distance);
     return path;
   } catch (error) {
     console.error("Failed to find path:", error);
