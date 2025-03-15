@@ -26,7 +26,7 @@ export default function FloorplanRoom(roomNode) {
   };
 
   const onAnimationEnd = (finished) => {
-    console.log("Animation ended:", finished);
+    console.log("Animation ended2:", finished);
   };
 
   const [linepath, setlinePath] = useState([]);
