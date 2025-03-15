@@ -10,7 +10,7 @@ The API uses Axios for HTTP requests with a base URL of `http://localhost:8000/a
 
 ## Error Handling
 
-All API methods use a centralized error handling system that logs errors to the console and throws them for further handling in your application.
+All API methods return detailed error messages.
 
 ## API Modules
 
@@ -149,13 +149,13 @@ Manages Points of Interest (POIs) inside buildings.
 
 ### PathAPI
 
-Calculates navigation paths between rooms. The has_disability attribute is optional (default is false) and can be used to compute the shortest accessible path for students with disabilities.
+Calculates navigation paths between rooms. The `has_disability` attribute is optional (default is false) and can be used to compute the shortest accessible path for students with disabilities.
 
 | Method                                                             | Description                                                                  | Parameters                                                                                        | Return Data      |
 | ------------------------------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------- |
-| `shortestPathToRoom(start_room, destination_room, has_disability)` | Calculates the shortest path between two rooms                               | `start_room`: String (room code), `destination_room`: String (room code), has_disability: Boolean | Path data object |
-| `shortestPathToAmenity(start_room, amenity_name, has_disability)`  | Calculates the shortest path from a room to a POI with the specified amenity | `start_room`: String (room code), `amenity_name`: AmenityType, has_disability: Boolean            | Path data object |
-| `shortestPathToPOI(start_room, poi_id, has_disability)`            | Calculates the shortest path from a room to a POI                            | `start_room`: String (room code), `poi_id`: Integer, has_disability: Boolean                      | Path data object |
+| `shortestPathToRoom(start_room, destination_room, has_disability)` | Calculates the shortest path between two rooms                               | `start_room`: String (room code), `destination_room`: String (room code), `has_disability`: Boolean | Path data object |
+| `shortestPathToAmenity(start_room, amenity_name, has_disability)`  | Calculates the shortest path from a room to a POI with the specified amenity | `start_room`: String (room code), `amenity_name`: AmenityType, `has_disability`: Boolean            | Path data object |
+| `shortestPathToPOI(start_room, poi_id, has_disability)`            | Calculates the shortest path from a room to a POI                            | `start_room`: String (room code), `poi_id`: Integer, `has_disability`: Boolean                      | Path data object |
 
 **Path Data Structure:**
 
@@ -206,7 +206,6 @@ async function createRoom() {
     number: "101",
     floor: "H-5", // Floor code
     capacity: 30,
-    is_wheelchair_accessible: true,
     type: "CLASSROOM|LAB", // Pipe-separated list of room types
     location: 42, // ID of an InsidePOI
   };
