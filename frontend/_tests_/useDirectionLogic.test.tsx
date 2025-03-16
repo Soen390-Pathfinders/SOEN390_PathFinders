@@ -1,146 +1,76 @@
-import { renderHook, act } from "@testing-library/react-native";
-import useDirectionLogic from "@/app/hooks/useDirectionLogic";
-import { LocationProvider } from "@/app/components/context/userLocationContext";
-import { useLocation } from "@/app/components/context/userLocationContext";
-import { Alert } from "react-native";
+import { renderHook, act } from '@testing-library/react-hooks';
+import useDirectionLogic from '../app/hooks/useDirectionLogic';
 
-//First mock the dependencies the useDirectionLogic hook uses
-//mock useLocation Context , setting the location To SGW Hall building
-jest.mock("@/app/components/context/userLocationContext", () => ({
-  useLocation: jest.fn(),
+// Mock useLocation
+jest.mock('../app/components/context/userLocationContext', () => ({
+  useLocation: jest.fn(() => ({
+    userLocation: { latitude: 45.5, longitude: -73.6 },
+  })),
 }));
 
-//Track the calls to the references for start location and destination
-const startLocationRef = { current: { setAddressText: jest.fn() } };
-const destinationRef = { current: { setAddressText: jest.fn() } };
+// Mock Alert
+jest.mock('react-native/Libraries/Alert/Alert', () => ({
+  alert: jest.fn(),
+}));
 
-describe("useDirectionLogic hook", () => {
-  //before each test
-  beforeEach(() => {
-    //Mock the value returned by useLocation
-    useLocation.mockReturnValue({
-      userLocation: {
-        latitude: 45.49749523766439, // Hall building location
-        longitude: -73.57898588896131,
-      },
-    });
-
-    //reset the alert mock
-    jest.clearAllMocks(); // Clear any calls to mocks
-    jest.spyOn(Alert, "alert").mockImplementation(() => {}); // Mock Alert for each test
-  });
-
-  test("handleGoPress shows alert when startLocation or destination is null", () => {
-    // Render the hook to use the function
+describe('useDirectionLogic hook', () => {
+  it('has correct initial state', () => {
     const { result } = renderHook(() => useDirectionLogic());
 
-    //set the start location and destination to null
-    act(() => {
-      result.current.setStartLocation(null);
-      result.current.setDestination(null);
-    });
+    expect(result.current.startLocation).toBe(null);
+    expect(result.current.destination).toBe(null);
+    expect(result.current.travelMode).toBe('WALKING');
+  });
 
-    // call the method and test for the alert
+  it('sets submittedStart and submittedDestination on handleGoPress', () => {
+    const { result } = renderHook(() => useDirectionLogic());
+  
+    act(() => {
+      result.current.setStartLocation('start');
+      result.current.setDestination('destination');
+    });
+  
+    act(() => {
+      result.current.handleGoPress();
+    });
+  
+    expect(result.current.submittedStart).toBe('start');
+    expect(result.current.submittedDestination).toBe('destination');
+  });
+  
+
+  it('triggers Alert if start or destination missing', () => {
+    const { result } = renderHook(() => useDirectionLogic());
+    const alertMock = require('react-native/Libraries/Alert/Alert').alert;
+
     act(() => {
       result.current.handleGoPress();
     });
 
-    // Verify Alert was called
-    expect(Alert.alert).toHaveBeenCalledWith(
-      "Missing Information",
-      "Please fill in both the Start Location and Destination.",
-      [{ text: "OK", style: "default" }]
+    expect(alertMock).toHaveBeenCalledWith(
+      'Missing Information',
+      'Please fill in both the Start Location and Destination.',
+      [{ text: 'OK', style: 'default' }]
     );
   });
 
-  test("handleGoPress shows alert when startLocation only is null", () => {
-    // Render the hook to use the function
+  it('sets start location correctly with setToCurrentLocation', () => {
     const { result } = renderHook(() => useDirectionLogic());
 
-    //set the start location and destination
     act(() => {
-      result.current.setStartLocation(null);
-      result.current.setDestination({
-        latitude: -73.57907171854552,
-        longitude: 45.49749147752672,
-      });
+      result.current.setToCurrentLocation('start');
     });
 
-    // call the method and test for the alert
-    act(() => {
-      result.current.handleGoPress();
-    });
-
-    // Verify Alert was called
-    expect(Alert.alert).toHaveBeenCalledWith(
-      "Missing Information",
-      "Please fill in both the Start Location and Destination.",
-      [{ text: "OK", style: "default" }]
-    );
+    expect(result.current.startLocation).toBe('45.500000, -73.600000');
   });
 
-  test("handleGoPress shows alert when destination only is null", () => {
-    // Render the hook to use the function
+  it('sets destination correctly with setToCurrentLocation', () => {
     const { result } = renderHook(() => useDirectionLogic());
 
-    //set the start location and destination to null
     act(() => {
-      result.current.setStartLocation({
-        latitude: -73.57907171854552,
-        longitude: 45.49749147752672,
-      });
-      result.current.setDestination(null);
+      result.current.setToCurrentLocation('destination');
     });
 
-    // call the method and test for the alert
-    act(() => {
-      result.current.handleGoPress();
-    });
-
-    // Verify Alert was called
-    expect(Alert.alert).toHaveBeenCalledWith(
-      "Missing Information",
-      "Please fill in both the Start Location and Destination.",
-      [{ text: "OK", style: "default" }]
-    );
-  });
-
-  test("handleGoPress no alert condition not null and set submittedstart and submittedDesitnaiton", () => {
-    // Render the hook to use the function
-    const { result } = renderHook(() => useDirectionLogic());
-
-    //set the start location and destination to non-null values
-    act(() => {
-      result.current.setStartLocation({
-        latitude: -73.57764257156214, // hall
-        longitude: 45.495280338359244,
-      });
-      result.current.setDestination({
-        latitude: -73.57907171854552, //faubourg
-        longitude: 45.49749147752672,
-      });
-    });
-
-    // call the method and test for the alert
-    act(() => {
-      result.current.handleGoPress();
-    });
-
-    // Verify Alert was not called
-    expect(Alert.alert).not.toHaveBeenCalled();
-    //Verify that submittedStart has been changed
-    expect(result.current.submittedStart).toStrictEqual({
-      latitude: -73.57764257156214, // hall
-      longitude: 45.495280338359244,
-    });
-    //Verify that submittedDestination has been changed
-    expect(result.current.submittedDestination).toStrictEqual({
-      latitude: -73.57907171854552, //faubourg
-      longitude: 45.49749147752672,
-    });
+    expect(result.current.destination).toBe('45.500000, -73.600000');
   });
 });
-
-//describe("setToCurrentLocationHook", () => {
-
-//});

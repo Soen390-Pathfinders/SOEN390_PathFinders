@@ -19,15 +19,15 @@
       "html"
     ],
     "collectCoverageFrom": [
-    "app/**/*.{js,jsx,ts,tsx}",
-    "!app/**/*.d.ts",                 
-    "!app/**/styles.{js,ts,tsx}",     
-    "!app/**/constants.{js,ts,tsx}",  
-    "!app/**/index.{js,ts,tsx}",      
-    "!app/data/**",                  
-    "!app/**/types.{js,ts,tsx}",      
-    "!app/assets/**"                 
-  ]
+      "app/**/*.{js,jsx,ts,tsx}",
+      "!app/**/*.d.ts",
+      "!app/**/styles.{js,ts,tsx}",
+      "!app/**/constants.{js,ts,tsx}",
+      "!app/**/index.{js,ts,tsx}",
+      "!app/data/**",
+      "!app/**/types.{js,ts,tsx}",
+      "!app/assets/**"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
@@ -79,6 +79,7 @@
     "@playwright/test": "^1.50.1",
     "@react-native-community/cli": "latest",
     "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^13.0.1",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
