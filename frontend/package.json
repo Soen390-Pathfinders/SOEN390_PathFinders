@@ -19,9 +19,15 @@
       "html"
     ],
     "collectCoverageFrom": [
-      "app/**/*.{js,jsx,ts,tsx}",
-      "!app/**/*.d.ts"
-    ]
+    "app/**/*.{js,jsx,ts,tsx}",
+    "!app/**/*.d.ts",                 
+    "!app/**/styles.{js,ts,tsx}",     
+    "!app/**/constants.{js,ts,tsx}",  
+    "!app/**/index.{js,ts,tsx}",      
+    "!app/data/**",                  
+    "!app/**/types.{js,ts,tsx}",      
+    "!app/assets/**"                 
+  ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
