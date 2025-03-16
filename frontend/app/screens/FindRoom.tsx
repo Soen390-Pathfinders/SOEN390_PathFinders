@@ -106,11 +106,11 @@ export default function FindRoom() {
             </TouchableOpacity>
           )}
         </View>
-        {/* Icon to make things interesting TODO: Fix the styling*/}
+        {/* Image at the center of the screen*/}
         <View style={styles.visual}>
           <Image
-            source={require("../../assets/images/pin.png")}
-            style={styles.visualIcon}
+            source={require("../../assets/images/navigation.png")}
+            style={{ width: "100%", height: "100%" }}
           />
         </View>
         {/* Find a room button */}

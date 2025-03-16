@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -30,21 +30,23 @@ export default function IndoorDirections() {
     <View style={globalStyles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find Your Way</Text>
-        
+
         {/* Placeholder for map */}
-        <View style={styles.mapPlaceholder} />
-        
+        <View style={styles.mapPlaceholder}>
+          <Image
+            source={require("../../assets/images/directions.png")}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </View>
+
         {/* Navigation buttons */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity 
-            style={styles.button} 
-            onPress={navigateToFindRoom}
-          >
+          <TouchableOpacity style={styles.button} onPress={navigateToFindRoom}>
             <Text style={styles.buttonText}>Find a room</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={styles.button} 
+
+          <TouchableOpacity
+            style={styles.button}
             onPress={navigateToNavigateYourSpace}
           >
             <Text style={styles.buttonText}>Get directions</Text>
