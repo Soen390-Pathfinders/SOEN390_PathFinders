@@ -1,16 +1,20 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
 import Floorplan from '../app/components/ui/Floorplan';
 
-// Mock child components & libraries
-jest.mock('@likashefqet/react-native-image-zoom', () => ({
-  Zoomable: ({ children }) => <>{children}</>,
-}));
+// Fix: require React inside mock factory
+jest.mock('@likashefqet/react-native-image-zoom', () => {
+  const React = require('react');
+  return {
+    Zoomable: React.forwardRef(({ children }, ref) => <>{children}</>),
+  };
+});
 
+// Mock expo-image
 jest.mock('expo-image', () => ({
-  Image: (props) => <></>, // Placeholder
+  Image: (props) => <></>,
 }));
 
+// Mock pathTrace
 jest.mock('../app/components/ui/pathTrace', () => () => <></>);
 
 describe('Floorplan Component', () => {
