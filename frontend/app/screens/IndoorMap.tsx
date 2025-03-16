@@ -18,10 +18,12 @@ export default function IndoorMap({ route }) {
       </View>
 
       <View style={styles.myImagecontainer}>
-        {/*{roomOrPath === "room" ? <FloorplanRoom /> : <Floorplan />}*/}
+        {roomOrPath === "room" ? (
+          <FloorplanRoom nodeInfo={nodeInfo} />
+        ) : (
+          <Floorplan />
+        )}
         console.log("Inside IndoorMap this is the room node");
-        console.log(nodeInfo);
-        <FloorplanRoom nodeInfo={nodeInfo} />
       </View>
     </View>
   );
