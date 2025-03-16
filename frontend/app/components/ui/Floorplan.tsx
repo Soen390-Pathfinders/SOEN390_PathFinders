@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
+import FilterButton from "./Filter";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
@@ -61,6 +62,7 @@ export default function Floorplan() {
             resizeMode="cover" // Ensures the image covers the container
           ></Image>
         </View>
+        <FilterButton />
       </Zoomable>
     </View>
   );
