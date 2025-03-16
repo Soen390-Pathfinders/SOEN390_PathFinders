@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppLogo Component renders correctly with dark theme 1`] = `
+<View>
+  <Image
+    source={
+      {
+        "testUri": "../../../assets/images/logo.png",
+      }
+    }
+    style={
+      {
+        "height": 50,
+        "width": 50,
+      }
+    }
+    tintColor="#000"
+  />
+</View>
+`;
+
+exports[`AppLogo Component renders correctly with light theme 1`] = `
+<View>
+  <Image
+    source={
+      {
+        "testUri": "../../../assets/images/logo.png",
+      }
+    }
+    style={
+      {
+        "height": 50,
+        "width": 50,
+      }
+    }
+    tintColor="#fff"
+  />
+</View>
+`;
