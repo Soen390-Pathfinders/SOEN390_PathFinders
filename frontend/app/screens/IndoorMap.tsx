@@ -16,6 +16,7 @@ export default function IndoorMap({ route }) {
       <View style={styles.header}>
         <CampusPilotHeader />
       </View>
+
       <View style={styles.myImagecontainer}>
         {/*{roomOrPath === "room" ? <FloorplanRoom /> : <Floorplan />}*/}
         console.log("Inside IndoorMap this is the room node");

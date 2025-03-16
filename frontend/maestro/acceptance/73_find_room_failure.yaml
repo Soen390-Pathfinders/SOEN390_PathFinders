@@ -5,8 +5,9 @@ appId: host.exp.exponent
     point: "6%,9%"  
 - tapOn: "Indoor Directions"
 - tapOn: "Find a room"
-- tapOn:
-    id: "NavSpace-roomcodeInput"
+- tapOn: "H-920"
 - inputText: "H-521"
 - tapOn: "Find the room"
+- assertVisible: "Room not found. Please check the room number and try again."
+
 

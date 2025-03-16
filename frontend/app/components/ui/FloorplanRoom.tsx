@@ -78,12 +78,15 @@ export default function FloorplanRoom({ nodeInfo }) {
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
             {nodeInfo?.location_data && (
               <Circle
-                cx={x_coor}
-                cy={y_coor}
-                r="5"
+                // cx={x_coor}  //TODO: Uncomment these line when backend return the right coordinates
+                // cy={y_coor}
+                cx="12"
+                cy="72"
+                r="7"
                 stroke="black"
                 strokeWidth="0.2"
                 fill="rgba(145, 35, 55, 0.4)"
+                testID="roomCircle"
               />
             )}
           </Svg>
@@ -95,6 +98,7 @@ export default function FloorplanRoom({ nodeInfo }) {
             contentFit="contain" // entire image is contained
             transition={1000}
             resizeMode="cover" // Ensures the image covers the container
+            testID="roomMap"
           ></Image>
         </View>
       </Zoomable>
