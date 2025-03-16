@@ -43,6 +43,7 @@ export default function PolygonRender({ setBuildingLocation }) {
             strokeWidth={2}
             //Functionality to tap on the polygon to set it as destination
             tappable={true}
+            testID={`polygon-${outline.id}`}
             onPress={() => {
               buildingAsDestination((result) => {
                 if (result) {
