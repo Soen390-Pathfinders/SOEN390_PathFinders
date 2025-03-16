@@ -6,7 +6,8 @@ import { getStyles } from "../styles";
 import Floorplan from "../components/ui/Floorplan";
 import FloorplanRoom from "../components/ui/FloorplanRoom";
 
-export default function IndoorMap(roomOrPath: string) {
+export default function IndoorMap({ route }) {
+  const { roomOrPath, nodeInfo } = route.params || {}; // Get nodeInfo from route.params
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
 
@@ -16,8 +17,10 @@ export default function IndoorMap(roomOrPath: string) {
         <CampusPilotHeader />
       </View>
       <View style={styles.myImagecontainer}>
-        {roomOrPath === "room" ? <FloorplanRoom /> : <Floorplan />}//TODO: Why
-        is it NOT loading FloorplanRoom ?
+        {/*{roomOrPath === "room" ? <FloorplanRoom /> : <Floorplan />}*/}
+        console.log("Inside IndoorMap this is the room node");
+        console.log(nodeInfo);
+        <FloorplanRoom nodeInfo={nodeInfo} />
       </View>
     </View>
   );

@@ -13,6 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RoomAPI } from "@/api/api";
+import useRoomCodeValidation from "../hooks/useRoomCodeValidation";
+
 // Define the navigation type for Typescript
 type RootDrawerParamList = {
   "(screens)/IndoorMap": {
@@ -31,22 +33,21 @@ export default function FindRoom() {
     /* Function to change the screen and return the backend information on the node*/
   }
   const findTheRoom = async (roomCode) => {
+    //TODO:  You are here , use useValidation to validate the room code
+
     //Get the node information
-    console.log("Finding the room:", roomCode);
     try {
-      const roomNode = await RoomAPI.get(roomCode);
-      console.log(roomNode);
+      const nodeInfo = await RoomAPI.get(roomCode);
+      console.log(nodeInfo);
 
       //Navigate to the net Screen , pass the argument that will chose the screen to show and which node to focus on
       navigation.navigate("(screens)/IndoorMap", {
         roomOrPath: "room",
+        nodeInfo: nodeInfo,
       });
     } catch (error) {
       console.error("Failed to fetch room information:", error);
     }
-    navigation.navigate("(screens)/IndoorMap", {
-      roomOrPath: "room",
-    });
   };
 
   return (

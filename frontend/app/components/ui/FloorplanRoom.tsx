@@ -1,25 +1,28 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
-import { ImageZoom } from "@likashefqet/react-native-image-zoom";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 
-export default function FloorplanRoom(roomNode) {
+export default function FloorplanRoom({ nodeInfo }) {
+  console.log("Inside Floor plan this is the room node");
+  console.log(nodeInfo);
+  // Destructure the values of roomNode
+  const { capacity, code, floor, id, number, room_types, location_data } =
+    nodeInfo || {};
+  // Destructure the location data
   const {
-    id,
-    number,
-    floor,
-    code,
-    capacity,
-    type,
-    room_types,
-    location,
-    location_data,
-  } = roomNode;
+    amenity_names,
+    description,
+    floor: locationFloor,
+    is_accessible,
+    x_coor,
+    y_coor,
+  } = location_data || {};
 
-  const zoomableRef = useRef(null); // Define a reference
-  const [scale, setScale] = useState(1);
+  const initialScale = 1; // initial scale is 1
+  const zoomableRef = useRef(null);
+  const [scale, setScale] = useState(initialScale);
 
   const onZoom = (zoomType) => {
     console.log("Zoom event triggered:", zoomType);
@@ -29,8 +32,22 @@ export default function FloorplanRoom(roomNode) {
     console.log("Animation ended2:", finished);
   };
 
-  const [linepath, setlinePath] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // Zoom in on the room when component mounts
+  useEffect(() => {
+    console.log(x_coor, y_coor);
+    if (zoomableRef.current && nodeInfo?.location_data) {
+      const { x_coor, y_coor } = nodeInfo.location_data;
+
+      // Add a delay to zoom on the room after the component has rendered
+      setTimeout(() => {
+        console.log("let's zoom in");
+        zoomableRef.current.zoom(2, 2, 5);
+      }, 800);
+      console.log("let's zoom innnn");
+    }
+  }, [nodeInfo]);
 
   return (
     <View style={styles.container}>
@@ -57,10 +74,24 @@ export default function FloorplanRoom(roomNode) {
           onAnimationEnd(finished);
         }}
       >
+        <View style={styles.svgContainer}>
+          <Svg height="100%" width="100%" viewBox="0 0 100 100">
+            {nodeInfo?.location_data && (
+              <Circle
+                cx={x_coor}
+                cy={y_coor}
+                r="5"
+                stroke="black"
+                strokeWidth="0.2"
+                fill="rgba(145, 35, 55, 0.4)"
+              />
+            )}
+          </Svg>
+        </View>
         <View style={styles.floorplanContainer}>
           <Image
             style={styles.image}
-            source={require("../../../assets/floorplans/H9.jpg")} //5fth floor of Hall buildign was used
+            source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
             contentFit="contain" // entire image is contained
             transition={1000}
             resizeMode="cover" // Ensures the image covers the container
