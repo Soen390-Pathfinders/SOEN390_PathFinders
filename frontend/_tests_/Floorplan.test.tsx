@@ -8,13 +8,14 @@ jest.mock('@likashefqet/react-native-image-zoom', () => ({
 }));
 
 jest.mock('expo-image', () => ({
-  Image: (props) => <></>, // Empty placeholder
+  Image: (props) => <></>, // Placeholder
 }));
 
 jest.mock('../app/components/ui/pathTrace', () => () => <></>);
 
 describe('Floorplan Component', () => {
   it('renders correctly without crashing', () => {
-    const { getByTestId } = render(<Floorplan />);
+    const { toJSON } = render(<Floorplan />);
+    expect(toJSON()).toBeTruthy(); // Basic render check
   });
 });
