@@ -4,6 +4,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import React, { useState } from "react";
 import useTheme from "../hooks/useTheme";
@@ -50,17 +51,22 @@ export default function NavigateYourSpace() {
             value={destination}
             onChangeText={setDestination}
             placeholderTextColor="#999"
-            testID="NavSpace-roomcodeInput"
           />
         </View>
+        <View>
+          {/* Get directions button */}
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Get directions</Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Get directions button */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Get directions</Text>
-        </TouchableOpacity>
-
-        {/* Placeholder for map */}
-        <View style={styles.mapPlaceholder} />
+        {/* Image at the center of the screen*/}
+        <View style={styles.visual}>
+          <Image
+            source={require("../../assets/images/navigation.png")}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -114,10 +120,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  mapPlaceholder: {
+  visual: {
     width: 250,
     height: 180,
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
+    marginTop: 20,
   },
 });

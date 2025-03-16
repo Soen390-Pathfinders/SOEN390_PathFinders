@@ -109,7 +109,7 @@ export default function FindRoom() {
         {/* Image at the center of the screen*/}
         <View style={styles.visual}>
           <Image
-            source={require("../../assets/images/navigation.png")}
+            source={require("../../assets/images/search.png")}
             style={{ width: "100%", height: "100%" }}
           />
         </View>
