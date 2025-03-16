@@ -1,0 +1,6 @@
+#issue 60
+ppId: host.exp.exponent
+---
+- tapOn:
+    point: "6%,9%" 
+- tapOn: "Directions to next class"
