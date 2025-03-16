@@ -34,7 +34,6 @@ export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
 export const getRoomInfo = async (roomCode) => {
   try {
     const nodeInfo = await RoomAPI.get(roomCode);
-    console.log(nodeInfo);
     return nodeInfo;
   } catch (error) {
     console.error("Failed to fetch room information:", error);
@@ -78,7 +77,7 @@ export default function FindRoom() {
       return;
     }
     //navigate to indoor map
-    console.log("Let's navigate now");
+
     helperNavigateToIndoorMap(navigation, nodeInfo);
   };
 
@@ -119,7 +118,6 @@ export default function FindRoom() {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              console.log("Search Query:", searchQuery);
               findTheRoom(searchQuery);
             }}
           >

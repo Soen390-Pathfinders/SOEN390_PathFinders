@@ -23,7 +23,6 @@ export default function IndoorMap({ route }) {
         ) : (
           <Floorplan />
         )}
-        console.log("Inside IndoorMap this is the room node");
       </View>
     </View>
   );

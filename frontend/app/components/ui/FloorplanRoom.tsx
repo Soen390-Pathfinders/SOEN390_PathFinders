@@ -5,8 +5,6 @@ import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 
 export default function FloorplanRoom({ nodeInfo }) {
-  console.log("Inside Floor plan this is the room node");
-  console.log(nodeInfo);
   // Destructure the values of roomNode
   const { capacity, code, floor, id, number, room_types, location_data } =
     nodeInfo || {};
@@ -36,16 +34,13 @@ export default function FloorplanRoom({ nodeInfo }) {
 
   // Zoom in on the room when component mounts
   useEffect(() => {
-    console.log(x_coor, y_coor);
     if (zoomableRef.current && nodeInfo?.location_data) {
       const { x_coor, y_coor } = nodeInfo.location_data;
 
       // Add a delay to zoom on the room after the component has rendered
       setTimeout(() => {
-        console.log("let's zoom in");
         zoomableRef.current.zoom(2, 2, 5);
       }, 800);
-      console.log("let's zoom innnn");
     }
   }, [nodeInfo]);
 
