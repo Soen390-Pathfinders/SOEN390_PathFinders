@@ -23,31 +23,63 @@ type RootDrawerParamList = {
 };
 type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 
+// Function to validate code room*/
+export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
+  const validationResult = validateRoomCode(roomCode);
+  //return a boolean isValid and a string contaiing the error message
+  return validationResult;
+};
+
+//fetch the room node information using the API
+export const getRoomInfo = async (roomCode) => {
+  try {
+    const nodeInfo = await RoomAPI.get(roomCode);
+    console.log(nodeInfo);
+    return nodeInfo;
+  } catch (error) {
+    console.error("Failed to fetch room information:", error);
+  }
+};
+
+//navigate to the indoor map screen
+export const helperNavigateToIndoorMap = (navigation, nodeInfo) => {
+  navigation.navigate("(screens)/IndoorMap", {
+    roomOrPath: "room",
+    nodeInfo: nodeInfo,
+  });
+};
+
 export default function FindRoom() {
-  const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(""); //state of the search query
+  const navigation = useNavigation<NavigationProp>(); //navigaiton hook
+  const { validateRoomCode } = useRoomCodeValidation(); // hook to validate the code
 
   {
     /* Function to change the screen and return the backend information on the node*/
   }
   const findTheRoom = async (roomCode) => {
-    //TODO:  You are here , use useValidation to validate the room code
+    //validate the room code format
+    const validationResult = helpervalideRoomCode(validateRoomCode, roomCode);
+
+    //Alert the user if the room code is invalid
+    if (!validationResult.isValid) {
+      alert(validationResult.errorMessage);
+      return;
+    }
 
     //Get the node information
-    try {
-      const nodeInfo = await RoomAPI.get(roomCode);
-      console.log(nodeInfo);
+    const nodeInfo = await getRoomInfo(roomCode);
 
-      //Navigate to the net Screen , pass the argument that will chose the screen to show and which node to focus on
-      navigation.navigate("(screens)/IndoorMap", {
-        roomOrPath: "room",
-        nodeInfo: nodeInfo,
-      });
-    } catch (error) {
-      console.error("Failed to fetch room information:", error);
+    //Alert user if room is not found
+    if (nodeInfo === undefined) {
+      alert("Room not found. Please check the room number and try again.");
+      return;
     }
+    //navigate to indoor map
+    console.log("Let's navigate now");
+    helperNavigateToIndoorMap(navigation, nodeInfo);
   };
 
   return (

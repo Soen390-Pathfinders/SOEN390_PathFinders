@@ -1,32 +1,23 @@
-import { useState } from 'react';
+//This hook takes in the code as a string and returns a boolean isValid and an errorMessage if the code is not valid
 
 const useRoomCodeValidation = () => {
-  const [roomCode, setRoomCode] = useState('');
-  const [error, setError] = useState('');
 
-
-  const roomCodeChangeHandler = (text) => {
-    setRoomCode(text);
-    setError('');
+       const validateRoomCode = (code) => {
+      // Regex for "SOMELETTERS-SOMEDIGITS" format
+      const regex = /^[A-Za-z]+-\d+$/;
+      
+      // Checks if the code matches the format
+      const isValid = regex.test(code);
+      
+      // Return an object with the validation status(true/false) and the error message if there is one
+      return {
+        isValid,
+        errorMessage: isValid ? '' : 'Invalid room code. Please enter a code in the format LETTERS-DIGITS (H-521).'
+      };
+    };
+    
+    // Return the function to validate
+    return { validateRoomCode };
   };
-
-  const validateRoomCode = () => {
-    const regex = /^H-\d+$/; // the code must be of the format H-521
-    if (regex.test(roomCode)) {
-      setError('');
-      return true;
-    } else {
-      setError('Invalid room code. Please enter a code in the format H-345.');
-      return false;
-    }
-  };
-
-  return {
-    roomCode,
-    error,
-    roomCodeChangeHandler,
-    validateRoomCode,
-  };
-};
-
-export default useRoomCodeValidation;
+  
+  export default useRoomCodeValidation;

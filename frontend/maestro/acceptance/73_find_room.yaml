@@ -1,0 +1,12 @@
+#issue #73
+appId: host.exp.exponent
+---
+- tapOn:
+    point: "6%,9%"  
+- tapOn: "Indoor Directions"
+- tapOn: "Find a room"
+- tapOn:
+    id: "NavSpace-roomcodeInput"
+- inputText: "H-521"
+- tapOn: "Find the room"
+

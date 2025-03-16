@@ -50,6 +50,7 @@ export default function NavigateYourSpace() {
             value={destination}
             onChangeText={setDestination}
             placeholderTextColor="#999"
+            testID="NavSpace-roomcodeInput"
           />
         </View>
 
