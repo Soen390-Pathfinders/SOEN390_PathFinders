@@ -3,22 +3,17 @@ import { View, Modal, TouchableOpacity, Text, StyleSheet, ScrollView } from "rea
 import { Checkbox } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export const FilterButton = () => {
+export const FilterButton = ({ onApplyFilters }) => {
     const [visible, setVisible] = useState(false);
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
     const filters = [
-        "Exclusive Bathrooms",
-        "All Inclusive Bathrooms",
-        "Escalators",
-        "Elevators",
-        "Stairs",
-        "Water fountain",
-        "Vending machine",
+        "Water Fountain",
+        "Vending Machine",
         "Cafe",
         "Bar",
-        "Study area",
-        "Charging station",
+        "Study Area",
+        "Charging Station",
         "Elevator",
         "Stairs",
         "Printer",
@@ -27,20 +22,21 @@ export const FilterButton = () => {
         "Lounge",
         "Cafeteria",
         "Library",
-        "Atm",
-        "Bicycle rack",
-        "Handicap accessible",
-        "Parking spot",
-        "Post box",
-        "Security desk",
-        "Trash can",
-        "Recycling bin",
-        "Coffee machine",
+        "ATM",
+        "Bicycle Rack",
+        "Handical Accessible",
+        "Parking Spot",
+        "Post Box",
+        "Security Desk",
+        "Trash Can",
+        "Recycling Bin",
+        "Coffee Machine",
         "Shower",
-        "First aid kit",
-        "Power outlets",
-        "Rest area",
-        "Lost and found"
+        "First Aid Kit",
+        "Power Outlets",
+        "Rest Area",
+        "Lost and Found",
+        "Exit"
     ];
 
     const toggleSelection = (item: string) => {
@@ -50,37 +46,52 @@ export const FilterButton = () => {
                 : [...prevFilters, item]
         );
     };
+    
+    const handleApply = () => {
+        onApplyFilters(selectedFilters);
+        setVisible(false);
+    };
 
     return (
         <View style={styles.container}>
+            {/* This button should always be visible */}
             <TouchableOpacity style={styles.fab} onPress={() => setVisible(true)}>
                 <MaterialIcons name="filter-list" size={28} color="white" />
             </TouchableOpacity>
 
             <Modal transparent visible={visible} animationType="fade">
-                <TouchableOpacity style={styles.overlay} onPress={() => setVisible(false)} />
-                <View style={styles.modalContainer}>
-                    <ScrollView style={styles.scrollContainer}>
-                        {filters.map((item, index) => (
-                            <TouchableOpacity
-                                key={index}
-                                style={styles.option}
-                                onPress={() => toggleSelection(item)}
-                            >
-                                <Checkbox
-                                    status={selectedFilters.includes(item) ? "checked" : "unchecked"}
-                                    onPress={() => toggleSelection(item)}
-                                />
-                                <Text style={styles.optionText}>{item}</Text>
+                <View style={styles.overlay}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalHeader}>
+                            <Text style={styles.modalTitle}>Select Filters</Text>
+                            <TouchableOpacity onPress={() => setVisible(false)}>
+                                <MaterialIcons name="close" size={24} color="black" />
                             </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                    <TouchableOpacity
-                        style={styles.applyButton}
-                        onPress={() => setVisible(false)}
-                    >
-                        <Text style={styles.applyButtonText}>Apply</Text>
-                    </TouchableOpacity>
+                        </View>
+                        
+                        <ScrollView style={styles.scrollContainer}>
+                            {filters.map((item, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    style={styles.option}
+                                    onPress={() => toggleSelection(item)}
+                                >
+                                    <Checkbox
+                                        status={selectedFilters.includes(item) ? "checked" : "unchecked"}
+                                        onPress={() => toggleSelection(item)}
+                                    />
+                                    <Text style={styles.optionText}>{item}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                        
+                        <TouchableOpacity
+                            style={styles.applyButton}
+                            onPress={handleApply}
+                        >
+                            <Text style={styles.applyButtonText}>Apply</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </Modal>
         </View>
@@ -89,14 +100,12 @@ export const FilterButton = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 0.5,
-        justifyContent: "center",
-        alignItems: "center",
-    },    
-    fab: {
         position: "absolute",
         bottom: 20,
-        left: 300,
+        right: 20,
+        zIndex: 10, // Ensure it stays on top
+    },    
+    fab: {
         backgroundColor: "#0072A8",
         width: 56,
         height: 56,
@@ -108,9 +117,8 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         backgroundColor: "rgba(0,0,0,0.4)",
-        position: "absolute",
-        width: "100%",
-        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
     },
     modalContainer: {
         position: "absolute",
@@ -126,6 +134,19 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
         maxHeight: 400,
+        width: 300,
+    },
+    modalHeader: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: "#eee",
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
     },
     scrollContainer: {
         maxHeight: 300,
