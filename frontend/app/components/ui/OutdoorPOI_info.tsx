@@ -2,8 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 
 export default function OutdoorPOI_info({ info }) {
-  // console.log("From outdoorPO place info are ", info);
-
+  //Deconstrcut the information from google Place API
   const {
     name,
     rating,
@@ -18,7 +17,6 @@ export default function OutdoorPOI_info({ info }) {
     address_components,
     geometry,
   } = info || {};
-  console.log({ opening_hours });
 
   const { open_now, periods, weekday_text } = opening_hours || {};
   const { location, viewport } = geometry || {};
@@ -32,7 +30,8 @@ export default function OutdoorPOI_info({ info }) {
       <Text>Open Now:{open_now ? "Yes" : "No"} </Text>
       <Text>Open Hours: </Text>
       <Text>Hours:</Text>
-      {weekday_text.map((day, index) => (
+
+      {(weekday_text || []).map((day, index) => (
         <Text key={index}>{day}</Text>
       ))}
     </View>
@@ -40,6 +39,7 @@ export default function OutdoorPOI_info({ info }) {
 }
 const styles = StyleSheet.create({
   infoBoxContainer: {
+    marginTop: 20,
     width: 300,
     height: 400,
     backgroundColor: "white",
