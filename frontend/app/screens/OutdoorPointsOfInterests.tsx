@@ -50,17 +50,6 @@ export default function OutdoorPointsOfInterests() {
       placeID: outdoorPlaceID,
     });
 
-  // print the place info when it changes
-  useEffect(() => {
-    if (placeInfo) {
-      console.log("OutdoorPoint of interest received placeInfo:", placeInfo);
-    }
-  }, [placeInfo]);
-  // print the place info when it changes
-  useEffect(() => {
-    console.log("placeId :", place);
-  }, [place]);
-
   return (
     <View style={globalStyles.container}>
       <CampusPilotHeader />
@@ -75,7 +64,7 @@ export default function OutdoorPointsOfInterests() {
           }}
         />
         <View style={styles.infoBoxOverMap}>
-          <OutdoorPOI_info />
+          <OutdoorPOI_info info={placeInfo} />
         </View>
 
         <MapView

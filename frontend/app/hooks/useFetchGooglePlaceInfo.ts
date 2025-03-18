@@ -6,7 +6,6 @@ import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
  * @param {string} The google placeID we want information about
  */
 const useFetchGooglePlacesInfo = ({ placeID }) => {
-    console.log("We are in the hook, the place id is : ", placeID)
   
   //set the place
  const[place, setPlace] =  useState(placeID);
@@ -42,7 +41,7 @@ const fetchPlaceInfo = useCallback(async (placeToFetch) => {
         'url',
         'opening_hours',
         'price_level',
-        'reviews',
+      //  'reviews',
         'types',
         'address_components',
         'geometry',
@@ -62,7 +61,6 @@ const fetchPlaceInfo = useCallback(async (placeToFetch) => {
         }
         
         if (data.result) {
-          console.log("Setting place info:", data.result);
           setPlaceInfo(data.result);
           return data.result;
         } else {
@@ -80,9 +78,7 @@ const fetchPlaceInfo = useCallback(async (placeToFetch) => {
   
 // Call fetchPlaceInfo whenever place changes
 useEffect(() => {
-    console.log("place state changed to:", place);
     if (place) {
-      console.log("Triggering fetch for place:", place);
       fetchPlaceInfo(place);
     }
   }, [place, fetchPlaceInfo]);
