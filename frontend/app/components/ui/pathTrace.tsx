@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { useEffect, useState } from "react";
 import pathNodes from "../../data/pathNodes.json";
-import LineFactory from "@/app/hooks/lineFactory";
+import LineFactory from "@/hooks/lineFactory";
 import { Circle } from "react-native-svg";
 import { PathAPI } from "@/api/api";
 

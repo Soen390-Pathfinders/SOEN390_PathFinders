@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../maps/OutdoorMap";
-import useTheme from "@/app/hooks/useTheme";
+import useTheme from "@/hooks/useTheme";
 import { getStyles } from "@/app/styles";
 import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
 import CampusPilotHeader from "./CampusPilotHeader";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useLocation } from "../context/userLocationContext";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import useDirectionLogic from "@/app/hooks/useDirectionLogic";
+import useDirectionLogic from "@/hooks/useDirectionLogic";
 
 export default function DirectionFields({
   startLocation,
@@ -25,10 +25,9 @@ export default function DirectionFields({
   duration,
   setToBuildingLocation,
 }) {
-
   useEffect(() => {
-    console.log("destination updated")
-    console.log(destination)
+    console.log("destination updated");
+    console.log(destination);
     if (destination && destinationRef.current) {
       destinationRef.current.setAddressText(destination);
     }

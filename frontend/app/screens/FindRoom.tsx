@@ -1,6 +1,12 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
-import useTheme from "../hooks/useTheme";
+import useTheme from "../../hooks/useTheme";
 import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -13,10 +19,15 @@ export default function FindRoom() {
     <View style={globalStyles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find a Room</Text>
-        
+
         {/* Search bar */}
         <View style={styles.searchContainer}>
-          <Ionicons name="search" size={24} color="#666" style={styles.searchIcon} />
+          <Ionicons
+            name="search"
+            size={24}
+            color="#666"
+            style={styles.searchIcon}
+          />
           <TextInput
             style={styles.searchInput}
             placeholder="Enter room number (e.g., H-920)"

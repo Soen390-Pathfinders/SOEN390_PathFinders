@@ -2,7 +2,7 @@
 //Renders the Campus Pilot logo
 import { View, Text, Image, StyleSheet } from "react-native";
 import React from "react";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../../../hooks/useTheme";
 
 export default function AppLogo() {
   const { theme, toggleTheme } = useTheme(); // Use the custom hook

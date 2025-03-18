@@ -1,7 +1,7 @@
 /* User location logic*/
 import { useEffect } from "react";
 import * as Location from "expo-location";
-import { useLocation } from "../components/context/userLocationContext";
+import { useLocation } from "../app/components/context/userLocationContext";
 let checkcount = 0;
 const useUserLocation = () => {
   const { updateUserLocation, userLocation } = useLocation(); // Retrieve the user location from context

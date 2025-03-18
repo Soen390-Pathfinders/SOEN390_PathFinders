@@ -1,7 +1,7 @@
 // useTheme.ts
 //custom hook for theme context for dark/light theme
 import { useContext } from "react";
-import ThemeContext from "../components/context/ThemeContext";
+import ThemeContext from "../app/components/context/ThemeContext";
 
 const useTheme = () => {
   const context = useContext(ThemeContext);

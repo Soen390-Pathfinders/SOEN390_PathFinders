@@ -16,7 +16,7 @@ import LoadingScreen from "./screens/LoadingScreen";
 import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/light view
 /*Imports to handle user location*/
 import { LocationProvider } from "./components/context/userLocationContext"; //for the current user's location
-import useUserLocation from "./hooks/useUserLocation";
+import useUserLocation from "../hooks/useUserLocation";
 import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 import IndoorDirections from "./screens/IndoorDirections";
