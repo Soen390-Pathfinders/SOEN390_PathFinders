@@ -3,7 +3,10 @@ import React from "react";
 
 export default function OutdoorPOI_info() {
   return (
-    <View style={styles.box2test}>
+    <View style={styles.infoBoxContainer}>
+      <Text>open Now</Text>
+      <Text>open Now</Text>
+      <Text>open Now</Text>
       <Text>open Now</Text>
     </View>
   );
