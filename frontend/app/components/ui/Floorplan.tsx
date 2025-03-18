@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { ImageZoom } from "@likashefqet/react-native-image-zoom";
@@ -9,6 +9,8 @@ import PathTrace from "../ui/pathTrace";
 export default function Floorplan() {
   const zoomableRef = useRef(null); // Define a reference
   const [scale, setScale] = useState(1);
+  // Add state for current floor
+  const [currentFloor, setCurrentFloor] = useState("H5");
 
   const onZoom = (zoomType) => {
     console.log("Zoom event triggered:", zoomType);
@@ -21,8 +23,44 @@ export default function Floorplan() {
   const [linepath, setlinePath] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Function to get the appropriate floor plan image based on current floor
+  const getFloorplanImage = () => {
+    switch(currentFloor) {
+      case "H1":
+        return require("../../../assets/floorplans/H1.png");
+      case "H5":
+        return require("../../../assets/floorplans/H5.jpg");
+      case "H9":
+        return require("../../../assets/floorplans/H9.jpg");
+      default:
+        return require("../../../assets/floorplans/H5.jpg");
+    }
+  };
+
   return (
     <View style={styles.container}>
+      {/* Floor selector */}
+      <View style={styles.floorSelector}>
+        <TouchableOpacity 
+          style={[styles.floorButton, currentFloor === "H1" && styles.selectedFloor]} 
+          onPress={() => setCurrentFloor("H1")}
+        >
+          <Text style={[styles.floorButtonText, currentFloor === "H1" && styles.selectedFloorText]}>H1</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.floorButton, currentFloor === "H5" && styles.selectedFloor]} 
+          onPress={() => setCurrentFloor("H5")}
+        >
+          <Text style={[styles.floorButtonText, currentFloor === "H5" && styles.selectedFloorText]}>H5</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.floorButton, currentFloor === "H9" && styles.selectedFloor]} 
+          onPress={() => setCurrentFloor("H9")}
+        >
+          <Text style={[styles.floorButtonText, currentFloor === "H9" && styles.selectedFloorText]}>H9</Text>
+        </TouchableOpacity>
+      </View>
+      
       <Zoomable
         ref={zoomableRef}
         minScale={1}
@@ -55,10 +93,10 @@ export default function Floorplan() {
         <View style={styles.floorplanContainer}>
           <Image
             style={styles.image}
-            source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
-            contentFit="contain" // entire image is contained
-            transition={1000}
-            resizeMode="cover" // Ensures the image covers the container
+            source={getFloorplanImage()} // Use dynamic image source based on selected floor
+            contentFit="contain" 
+            transition={500}
+            resizeMode="cover"
           ></Image>
         </View>
       </Zoomable>
@@ -70,6 +108,34 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  floorSelector: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    paddingVertical: 10,
+    backgroundColor: "#f5f5f5",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  floorButton: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    marginHorizontal: 5,
+    borderRadius: 20,
+    backgroundColor: "#e0e0e0",
+  },
+  selectedFloor: {
+    backgroundColor: "#3498db",
+  },
+  floorButtonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
+  },
+  selectedFloorText: {
+    color: "white",
   },
   image: {
     flex: 1,
