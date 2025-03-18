@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import AppLogo from "./AppLogo";
 import { getStyles } from "@/app/styles";
-import useTheme from "@/hooks/useTheme";
+import useTheme from "@/app/hooks/useTheme";
 import ThemeToggle from "./ThemeToggle";
 import { StatusBar } from "expo-status-bar";
 
@@ -31,20 +31,20 @@ export default function CampusPilotHeader() {
 }
 const styles = StyleSheet.create({
   headerContainer: {
-    flex: 0.5,
-    paddingTop: 20,
+    flex: 0.5, 
+    paddingTop: 20, 
   },
   iconRow: {
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-    paddingTop: 10,
+    alignItems: "center", 
+    justifyContent: "space-between", 
+    paddingHorizontal: 10, 
+    paddingTop: 10, 
   },
   iconRowView: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
+    alignItems: "center", 
+    gap: 10, 
   },
   logo: {
     fontSize: 20,

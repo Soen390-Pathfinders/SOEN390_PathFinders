@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import OutdoorMap from "../components/maps/OutdoorMap";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { GOOGLE_MAPS_APIKEY } from "../constants";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
@@ -10,9 +10,9 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useLocation } from "../components/context/userLocationContext";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import DirectionFields from "../components/ui/DirectionFields";
-import useDirectionLogic from "../../hooks/useDirectionLogic";
+import useDirectionLogic from "../hooks/useDirectionLogic";
 
-export default function OutdoorDirections({ route }) {
+export default function OutdoorDirections({route}) {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const {
@@ -41,6 +41,7 @@ export default function OutdoorDirections({ route }) {
       setDestination(route.params.customDestination);
     }
   }, [route.params]); // Only runs when route.params changes
+  
 
   return (
     <View style={globalStyles.container}>
@@ -60,6 +61,7 @@ export default function OutdoorDirections({ route }) {
         setToCurrentLocation={setToCurrentLocation} // Pass the setToCurrentLocation function
         duration={duration}
         setToBuildingLocation={setToBuildingLocation} // Pass the setToBuildingLocation function
+
       />
       {/* Always Display Map with Submitted Locations */}
       <View style={globalStyles.mapContainer}>

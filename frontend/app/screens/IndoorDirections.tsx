@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 
 // Define the navigation type
@@ -30,18 +30,21 @@ export default function IndoorDirections() {
     <View style={globalStyles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find Your Way</Text>
-
+        
         {/* Placeholder for map */}
         <View style={styles.mapPlaceholder} />
-
+        
         {/* Navigation buttons */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={navigateToFindRoom}>
+          <TouchableOpacity 
+            style={styles.button} 
+            onPress={navigateToFindRoom}
+          >
             <Text style={styles.buttonText}>Find a room</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
+          
+          <TouchableOpacity 
+            style={styles.button} 
             onPress={navigateToNavigateYourSpace}
           >
             <Text style={styles.buttonText}>Get directions</Text>

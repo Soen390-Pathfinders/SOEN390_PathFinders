@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "../app/components/context/userLocationContext";
+import { useLocation } from "../components/context/userLocationContext";
 import { Alert } from "react-native";
 
 const useDirectionLogic = (initialValue = "") => {

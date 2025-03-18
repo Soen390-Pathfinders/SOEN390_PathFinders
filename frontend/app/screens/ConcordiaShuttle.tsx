@@ -1,14 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import ConcordiaShuttleTimes from "../components/ui/ConcordiaShuttleTimes";
-import MapView, {
-  Marker,
-  PROVIDER_DEFAULT,
-  PROVIDER_GOOGLE,
-} from "react-native-maps";
+import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 
 export default function ConcordiaShuttle() {
   const { theme } = useTheme();

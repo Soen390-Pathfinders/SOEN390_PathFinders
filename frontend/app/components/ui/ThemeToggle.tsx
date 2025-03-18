@@ -3,7 +3,7 @@ import React from "react";
 import { useContext } from "react";
 import ThemeContext from "../context/ThemeContext";
 import { getStyles } from "../../styles";
-import useTheme from "../../../hooks/useTheme";
+import useTheme from "../../hooks/useTheme";
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme(); // Use the custom hook

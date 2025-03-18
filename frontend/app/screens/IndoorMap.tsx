@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import React from "react";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
-import useTheme from "../../hooks/useTheme";
+import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import Floorplan from "../components/ui/Floorplan";
+
 
 export default function IndoorMap() {
   const { theme } = useTheme();
