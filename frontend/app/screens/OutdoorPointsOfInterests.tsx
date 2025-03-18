@@ -41,23 +41,25 @@ export default function OutdoorPointsOfInterests() {
     },
   };
 
-  const [outdoorplaceID, setoutdoorPlaceID] = useState(null); //TODO : make this placEID dynamic when received from the search
-  // This get the place information whenever the place is changed
+  //Do not reference the placeID with this. The state of the placeID reference is inside the useFetchGooglePlacEInfo hook
+  const [outdoorPlaceID, setoutdoorPlaceID] = useState<string | null>(null);
+
+  // Use the hook
+  const { place, placeInfo, error, isLoading, fetchPlaceInfo } =
+    useFetchGooglePlacesInfo({
+      placeID: outdoorPlaceID,
+    });
+
+  // print the place info when it changes
   useEffect(() => {
-    // Skip the initial render
-    if (outdoorplaceID !== "") {
-      console.log("place changed to:", outdoorplaceID);
-      // Perform any side effects when text changes
+    if (placeInfo) {
+      console.log("OutdoorPoint of interest received placeInfo:", placeInfo);
     }
-  }, [outdoorplaceID]); // Add inputText as a dependency
-
-  //Use the useFetchGooglePlace hook to get google place information from placEID
-  // Use our hook with the placeId parameter
-
-  const { place, placeInfo, error } = useFetchGooglePlacesInfo({
-    placeID: outdoorplaceID, // Pass the placeId directly to the hook
-  });
-  console.log(placeInfo);
+  }, [placeInfo]);
+  // print the place info when it changes
+  useEffect(() => {
+    console.log("placeId :", place);
+  }, [place]);
 
   return (
     <View style={globalStyles.container}>
@@ -65,7 +67,13 @@ export default function OutdoorPointsOfInterests() {
       <CampusToggle campus={campus} toggleCampus={toggleCampus} />
 
       <View style={globalStyles.mapContainer}>
-        <Button onPress={(placeID = "ChIJV6iQyGsayUwR6gbBRRU9FIg")} />
+        <Button
+          title="Manually fecth the place"
+          onPress={() => {
+            //  fetchPlaceDetails(place);//
+            fetchPlaceInfo("ChIJV6iQyGsayUwR6gbBRRU9FIg"); //
+          }}
+        />
         <View style={styles.infoBoxOverMap}>
           <OutdoorPOI_info />
         </View>

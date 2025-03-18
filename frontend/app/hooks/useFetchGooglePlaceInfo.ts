@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
 
 /**
@@ -6,99 +6,105 @@ import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
  * @param {string} The google placeID we want information about
  */
 const useFetchGooglePlacesInfo = ({ placeID }) => {
+    console.log("We are in the hook, the place id is : ", placeID)
   
   //set the place
- const[place, setPlace] = useState(null);
-  //set the placeInformattion
+ const[place, setPlace] =  useState(placeID);
+  //set the placeInformation
   const[placeInfo, setPlaceInfo] = useState(null);
-  
   // Error handling
-  const [error, setError] = useState(null);
-  
-  // Clear any previous errors before operations
-  const clearError = useCallback(() => setError(null), []);
-  // Clear any place before operations
-  const clearPlace = useCallback(() => setPlace(null), []);
+  const [error, setError] =  useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  
-  /**
-   * Fetch information about the point of interest  the placeID
-   * @param {string} placeId Google Places API place_id
-   * @returns {Promise<Object>} Place details object
-   */
-  const fetchPlaceDetails = useCallback(async (placeId) => {
-    if (!placeId) {
-      setError('No place ID provided');
-      return null;
-    }
-    
-    clearError();
+ // Update place whenever placeID changes in the hook call
+ useEffect(() => {
+    console.log("placeID changed to:", placeID);
+    setPlace(placeID);
+  }, [placeID]);
 
-    
-    // Define which fields to request from the API
+//Use the function is a custom place or the one from the hook's state
+const fetchPlaceInfo = useCallback(async (placeToFetch) => {
+    //fall back to the state if there were no argument
+    const placeIdToUse = placeToFetch || place;
+
+
+    console.log("Starting to fetch details for:", placeIdToUse);
+    setIsLoading(true);
+    setError(null);    
+    // The fields to be fetched from google place API
     const fields = [
-      'name',
-      'rating',
-      'formatted_phone_number',
-      'international_phone_number',
-      'formatted_address',
-      'website',
-      'url',
-      'opening_hours',
-      'price_level',
-      'reviews',
-      'types',
-      'address_components',
-      'geometry',
-    ].filter(Boolean).join(',');
-    
-    try {
-      // In a production app, this request should go through a backend proxy
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=${fields}&key=${GOOGLE_MAPS_APIKEY}`
-      );
-      
-      const data = await response.json();
-      
-      if (data.error_message) {
-        throw new Error(data.error_message);
-      }
-      
-      if (data.result) {
-        setPlaceInfo(data.result);
-        return data.result;
-      }
-      
-      return null;
-    } catch (err) {
-      setError(`Failed to fetch place details: ${err.message}`);
-      return null;
-    } 
-  }, [clearError]);
+        'name',
+        'rating',
+        'formatted_phone_number',
+        'international_phone_number',
+        'formatted_address',
+        'website',
+        'url',
+        'opening_hours',
+        'price_level',
+        'reviews',
+        'types',
+        'address_components',
+        'geometry',
+      ].join(',');
 
+      try {
+        console.log("Making API call for place:", placeIdToUse);
+        const response = await fetch(
+          `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeIdToUse}&fields=${fields}&key=${GOOGLE_MAPS_APIKEY}`
+        );
+        
+        const data = await response.json();
+        console.log("API response received:", data);
+        
+        if (data.error_message) {
+          throw new Error(data.error_message);
+        }
+        
+        if (data.result) {
+          console.log("Setting place info:", data.result);
+          setPlaceInfo(data.result);
+          return data.result;
+        } else {
+          setError("No results found");
+          return null;
+        }
+      } catch (err) {
+        console.error("Error in fetch:", err);
+        setError(`Failed to fetch place details: ${err.message}`);
+        return null;
+      } finally {
+        setIsLoading(false);
+      }
+    }, [place]);
   
+// Call fetchPlaceInfo whenever place changes
+useEffect(() => {
+    console.log("place state changed to:", place);
+    if (place) {
+      console.log("Triggering fetch for place:", place);
+      fetchPlaceInfo(place);
+    }
+  }, [place, fetchPlaceInfo]);
 
+   //cleanup and utility functions
+   const clearError = useCallback(() => setError(null), []);
+   const clearPlace = useCallback(() => {
+     setPlace(null);
+     setPlaceInfo(null);
+     setError(null);
+   }, []);
 
-  /**
-   * Reset all state in the hook
-   */
-  const reset = useCallback(() => {
-    setPlace(null);
-    clearError();
-  }, [clearError]);
-
-  // Return the hook's interface
-  return {
-    // State
-    error,
+   return {
+    //state
     place,
     placeInfo,
-    
-    // Methods
-    fetchPlaceDetails,
+    error,
+    isLoading,
+    //functions
+    fetchPlaceInfo,
     clearError,
     clearPlace
   };
 };
-
 export default useFetchGooglePlacesInfo;
