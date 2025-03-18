@@ -1,11 +1,12 @@
 import React from "react";
-import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { CampusToggle } from "../components/ui/CampusToggle";
 import OutdoorPOI_info from "../components/ui/OutdoorPOI_info";
+import useFetchGooglePlacesInfo from "../hooks/useFetchGooglePlaceInfo";
 import MapView, {
   Marker,
   PROVIDER_DEFAULT,
@@ -20,7 +21,7 @@ export default function OutdoorPointsOfInterests() {
   const toggleCampus = (selectedCampus) => {
     setCampus(selectedCampus);
   };
-
+  //Campus coordinates for the toggle
   const campusCoordinates = {
     LOY: {
       latitude: 45.45823278377158,
@@ -40,12 +41,31 @@ export default function OutdoorPointsOfInterests() {
     },
   };
 
+  const [outdoorplaceID, setoutdoorPlaceID] = useState(null); //TODO : make this placEID dynamic when received from the search
+  // This get the place information whenever the place is changed
+  useEffect(() => {
+    // Skip the initial render
+    if (outdoorplaceID !== "") {
+      console.log("place changed to:", outdoorplaceID);
+      // Perform any side effects when text changes
+    }
+  }, [outdoorplaceID]); // Add inputText as a dependency
+
+  //Use the useFetchGooglePlace hook to get google place information from placEID
+  // Use our hook with the placeId parameter
+
+  const { place, placeInfo, error } = useFetchGooglePlacesInfo({
+    placeID: outdoorplaceID, // Pass the placeId directly to the hook
+  });
+  console.log(placeInfo);
+
   return (
     <View style={globalStyles.container}>
       <CampusPilotHeader />
       <CampusToggle campus={campus} toggleCampus={toggleCampus} />
 
       <View style={globalStyles.mapContainer}>
+        <Button onPress={(placeID = "ChIJV6iQyGsayUwR6gbBRRU9FIg")} />
         <View style={styles.infoBoxOverMap}>
           <OutdoorPOI_info />
         </View>
