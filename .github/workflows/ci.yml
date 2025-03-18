@@ -4,13 +4,16 @@ on:
   push:
     branches:
       - main
-      - Marc # Run on push to the 'Marc' branch
+      - backend
+      - frontend
   pull_request:
     branches:
-      - main # Run on pull request to the main branch
+      - main
+      - backend
+      - frontend
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
 
     services:
@@ -54,8 +57,8 @@ jobs:
 
       - name: Install Frontend Dependencies
         run: |
-          cd frontend # Navigate to the frontend directory
-          npm install # Install frontend dependencies for React Native (directly on the CI runner)
+          cd frontend
+          npm install
 
       - name: Run Jest Tests for Frontend
         run: |
@@ -63,5 +66,6 @@ jobs:
           npm test -- --coverage # Run Jest tests for React Native
 
       - name: Run Backend Tests
-        run: docker compose exec web pytest # Run backend tests (optional, if you're using pytest)
-        
+
+        run: docker compose exec web pytest
+

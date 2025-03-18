@@ -4,6 +4,8 @@ psycopg2-binary==2.9.10
 sqlparse==0.5.3
 pytest
 pytest-django
+pytest-cov
 django-cors-headers
 jsonschema
 django-rest-framework
+networkx

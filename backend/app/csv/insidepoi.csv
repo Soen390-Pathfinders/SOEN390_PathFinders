@@ -1,0 +1,5 @@
+floor,description,amenities,is_accessible,x_coor,y_coor
+H-5,Hosts software classes,WATER_FOUNTAIN|VENDING_MACHINE,True,10,20
+H-5,,BAR,False,15,15
+H-5,,BAR|LIBRARY,True,5,10
+H-5,,BAR|EXIT,True,20,20
