@@ -5,7 +5,7 @@ import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { CampusToggle } from "../components/ui/CampusToggle";
-import OutdoorPOI_info from "../components/ui/outdoorPOI_info";
+import OutdoorPOI_info from "../components/ui/OutdoorPOI_info";
 import MapView, {
   Marker,
   PROVIDER_DEFAULT,
@@ -64,17 +64,12 @@ export default function OutdoorPointsOfInterests() {
 
 const styles = StyleSheet.create({
   infoBoxOverMap: {
-    position: "absolute", // Take the box out of normal flow
-    top: 50, // Position from the top
-    left: 20, // Position from the left
-    width: 200, // Set your desired width
-    height: 100, // Set your desired height
-    backgroundColor: "white", // Or any color you want
-    borderRadius: 10, // Optional: rounded corners
-    padding: 15, // Optional: inner spacing
-    zIndex: 1, // Ensures the box appears above the map
-    elevation: 3, // For Android shadow
-    shadowColor: "#000", // For iOS shadow
+    position: "absolute", // Make sure the box is on top of the map
+    top: 100,
+    left: 20,
+    zIndex: 1,
+    elevation: 3,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,

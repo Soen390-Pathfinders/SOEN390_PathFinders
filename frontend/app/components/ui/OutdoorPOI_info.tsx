@@ -13,13 +13,10 @@ export default function OutdoorPOI_info() {
 }
 const styles = StyleSheet.create({
   infoBoxContainer: {
-    position: "absolute", // Take the box out of normal flow
-    top: 50, // Position from the top
-    left: 20, // Position from the left
-    width: 200, // Set your desired width
-    height: 100, // Set your desired height
-    backgroundColor: "white", // Or any color you want
-    borderRadius: 10, // Optional: rounded corners
-    padding: 15, // Optional: inner spacing
+    width: 200,
+    height: 100,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 15,
   },
 });
