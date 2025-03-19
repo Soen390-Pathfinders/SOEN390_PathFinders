@@ -21,7 +21,7 @@ const getApiUrl = () => {
     return `http://${host}:8000/api`;
   } else {
     // Fallback (or production URL)
-    return "http://YOUR_PRODUCTION_URL/api";
+    return "http://YOUR_PRODUCTION_URL/api"; //Add your computer's IP here if using your phone
   }
 };
 
