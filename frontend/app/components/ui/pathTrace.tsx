@@ -26,7 +26,7 @@ export default function PathTrace() {
 
   //The path will be updated every time the json file is modified
   useEffect(() => {
-    PathAPI.shortestPathToRoom("H-521", "H-524").then((response) => {
+    PathAPI.shortestPathToRoom("H-521", "H-539").then((response) => {
       setNodePath(response.path);
     }); // Load JSON on component mount
   }, [pathNodes]);
