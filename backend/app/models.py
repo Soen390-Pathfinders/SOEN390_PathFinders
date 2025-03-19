@@ -68,8 +68,8 @@ class InsidePOI(models.Model):
     description = models.TextField(blank=True, null=True)
     is_accessible = models.BooleanField(default=False)
     amenities = models.ManyToManyField(AmenityType, related_name="amenities", blank=True)
-    x_coor = models.IntegerField();
-    y_coor = models.IntegerField();
+    x_coor = models.FloatField();
+    y_coor = models.FloatField();
 
 
 

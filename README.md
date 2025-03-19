@@ -83,6 +83,24 @@ npm start
 
 The final step should launch the app on a mobile device emulator.
 
+
+### Step 4: Connection from Frontend to Backend
+Assuming Windows OS:
+1. Open your command prompt and type ipconfig, take note of your Wireless LAN IPv4 Address (Should look something like 192.168.xxx.xxx)
+2. Modify /frontend/api/api.js variable API_BASE_URL from "http://localhost:8000/api" to "http://{YOUR_IPv4_ADDRESS}:8000/api", something like "http://192.168.0.126:8000/api"
+3. Modify /backend/backend/settings.py variable ALLOWED_HOSTS = [] to ALLOWED_HOSTS = ["*"]
+4. Rebuild docker container if one is already active (Docker compose down -v  /// Docker compose up --build)
+
+At this point it should work if you are using mobile data, if you are using WIFI:
+
+5. Open Windows Defender Firewall
+6. Click advanced settings on the left
+7. Click inbound rules tab on the left
+8. Click New rule on the right
+9. Choose TCP --> Specific local ports : 8000 --> Allow --> Next --> Name it whatever you want (I named it SOEN390DockerConnection)
+
+
+
 ---
 
 ## Team Roles
