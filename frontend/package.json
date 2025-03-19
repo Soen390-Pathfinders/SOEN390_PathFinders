@@ -16,14 +16,18 @@
     "collectCoverage": true,
     "coverageReporters": [
       "lcov",
-
       "html"
     ],
     "collectCoverageFrom": [
-    "app/**/*.{js,jsx,ts,tsx}",  
-    "!app/**/*.d.ts"             
-  ]
-
+      "app/**/*.{js,jsx,ts,tsx}",
+      "!app/**/*.d.ts",
+      "!app/**/styles.{js,ts,tsx}",
+      "!app/**/constants.{js,ts,tsx}",
+      "!app/**/index.{js,ts,tsx}",
+      "!app/data/**",
+      "!app/**/types.{js,ts,tsx}",
+      "!app/assets/**"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
@@ -35,7 +39,7 @@
     "@react-navigation/drawer": "^7.1.1",
     "@react-navigation/native": "^7.0.14",
     "axios": "^1.7.9",
-    "expo": "^52.0.28",
+    "expo": "^52.0.38",
     "expo-blur": "~14.0.3",
     "expo-calendar": "~14.0.6",
     "expo-constants": "~17.0.7",
@@ -75,6 +79,7 @@
     "@playwright/test": "^1.50.1",
     "@react-native-community/cli": "latest",
     "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^13.0.1",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",

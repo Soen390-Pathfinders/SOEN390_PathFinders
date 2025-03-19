@@ -27,37 +27,6 @@ class RoomTypeSerializer(serializers.ModelSerializer):
         model = RoomType
         fields = ['id', 'name']
 
-class RoomSerializer(serializers.ModelSerializer):
-    floor = serializers.SlugRelatedField(queryset=Floor.objects.all(), slug_field="code")
-     # Accept a list of room type names
-    type = serializers.ListField(
-        child=serializers.CharField(), 
-        write_only=True
-    )
-    location = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id", allow_null=True, required=False)
-
-    def to_internal_value(self, data):
-        # Convert room types from a string format (CSV) to a list
-        if isinstance(data.get('type'), str):
-            data['type'] = data['type'].split('|')  # Split by '|'
-        
-        return super().to_internal_value(data)
-
-    # Modify the save method to handle names and convert them to RoomType objects
-    def create(self, validated_data):
-        room_type_names = validated_data.pop('type')  # Get the names
-        room = Room.objects.create(**validated_data)
-
-        # Look up RoomTypes by name and associate them with the room
-        for name in room_type_names:
-            room_type = RoomType.objects.get(name=name)
-            room.type.add(room_type)
-
-        return room
-    class Meta:
-        model = Room
-        fields = '__all__'  # Or specify fields explicitly
-
 
 class AmenityTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -67,22 +36,25 @@ class AmenityTypeSerializer(serializers.ModelSerializer):
 
 class InsidePOISerializer(serializers.ModelSerializer):
     floor = serializers.SlugRelatedField(queryset=Floor.objects.all(), slug_field="code")
-     # Accept a list of room type names
+    # For write operations
     amenities = serializers.ListField(
         child=serializers.CharField(), 
-        write_only=True
+        write_only=True,
+        required=False
     )
+    # Custom field to return just the names as a list
+    amenity_names = serializers.SerializerMethodField(read_only=True)
+    
+    def get_amenity_names(self, obj):
+        return [amenity.name for amenity in obj.amenities.all()]
     
     def to_internal_value(self, data):
-        # Convert amenities from a string format (CSV) to a list
         if isinstance(data.get('amenities'), str):
-            data['amenities'] = data['amenities'].split('|')  # Split by '|'
-        
+            data['amenities'] = data['amenities'].split('|')
         return super().to_internal_value(data)
 
-
     def create(self, validated_data):
-        amenity_type_names = validated_data.pop('amenities')  # Get the names
+        amenity_type_names = validated_data.pop('amenities', [])
         insidepoi = InsidePOI.objects.create(**validated_data)
 
         for name in amenity_type_names:
@@ -90,10 +62,84 @@ class InsidePOISerializer(serializers.ModelSerializer):
             insidepoi.amenities.add(amenity_type)
 
         return insidepoi
+        
+    def update(self, instance, validated_data):
+        if 'amenities' in validated_data:
+            amenity_names = validated_data.pop('amenities')
+            instance.amenities.clear()
+            for name in amenity_names:
+                amenity = AmenityType.objects.get(name=name)
+                instance.amenities.add(amenity)
+                
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+            
+        instance.save()
+        return instance
+        
     class Meta:
         model = InsidePOI
-        fields = '__all__'  # Or specify fields explicitly
+        fields = ['id', 'floor', 'description', 'is_accessible',
+                  'amenities', 'amenity_names', 'x_coor', 'y_coor']
 
+class RoomSerializer(serializers.ModelSerializer):
+    floor = serializers.SlugRelatedField(queryset=Floor.objects.all(), slug_field="code")
+    # For write operations
+    type = serializers.ListField(
+        child=serializers.CharField(), 
+        write_only=True,
+        required=False
+    )
+    # Custom field to return just the names as a list
+    room_types = serializers.SerializerMethodField(read_only=True)
+    
+    # Use a nested serializer for read operations (location)
+    location_data = InsidePOISerializer(source='location', read_only=True)
+    # Keep the original field for write operations
+    location = serializers.SlugRelatedField(
+        queryset=InsidePOI.objects.all(), 
+        slug_field="id", 
+        allow_null=True, 
+        required=False,
+        write_only=True
+    )
+    
+    def get_room_types(self, obj):
+        return [room_type.name for room_type in obj.type.all()]
+
+    def to_internal_value(self, data):
+        if isinstance(data.get('type'), str):
+            data['type'] = data['type'].split('|')
+        return super().to_internal_value(data)
+
+    def create(self, validated_data):
+        room_type_names = validated_data.pop('type', [])
+        room = Room.objects.create(**validated_data)
+
+        for name in room_type_names:
+            room_type = RoomType.objects.get(name=name)
+            room.type.add(room_type)
+
+        return room
+        
+    def update(self, instance, validated_data):
+        if 'type' in validated_data:
+            room_type_names = validated_data.pop('type')
+            instance.type.clear()
+            for name in room_type_names:
+                room_type = RoomType.objects.get(name=name)
+                instance.type.add(room_type)
+        
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        
+        instance.save()
+        return instance
+
+    class Meta:
+        model = Room
+        fields = ['id', 'number', 'floor', 'code', 'capacity', 'type', 
+                  'room_types', 'location', 'location_data']
 
 class EdgeSerializer(serializers.ModelSerializer):
     node1 = serializers.SlugRelatedField(queryset=InsidePOI.objects.all(), slug_field="id")
@@ -102,3 +148,5 @@ class EdgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Edge
         fields = '__all__'
+
+

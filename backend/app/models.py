@@ -66,9 +66,10 @@ class InsidePOI(models.Model):
     id = models.AutoField(primary_key=True)
     floor = models.ForeignKey(Floor, on_delete=models.CASCADE, default=1)
     description = models.TextField(blank=True, null=True)
+    is_accessible = models.BooleanField(default=False)
     amenities = models.ManyToManyField(AmenityType, related_name="amenities", blank=True)
-    x_coor = models.IntegerField();
-    y_coor = models.IntegerField();
+    x_coor = models.FloatField();
+    y_coor = models.FloatField();
 
 
 
@@ -84,7 +85,6 @@ class Room(models.Model):
     floor= models.ForeignKey('Floor', on_delete=models.CASCADE, default=1)
     code = models.CharField(max_length=20, unique=True, blank=True)
     capacity = models.PositiveIntegerField(null=True)
-    is_wheelchair_accessible = models.BooleanField(default=False)
     type = models.ManyToManyField(RoomType, related_name="rooms")
     location = models.ForeignKey(InsidePOI, on_delete=models.SET_DEFAULT, blank=True, default=1)
 
