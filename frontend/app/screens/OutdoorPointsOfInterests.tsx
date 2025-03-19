@@ -47,10 +47,9 @@ export default function OutdoorPointsOfInterests() {
   const [isInfoBoxVisible, setInfoBoxVisibility] = useState(false);
 
   // Use the hook
-  const { place, placeInfo, error, isLoading, fetchPlaceInfo } =
-    useFetchGooglePlacesInfo({
-      placeID: outdoorPlaceID,
-    });
+  const { place, placeInfo, error, fetchPlaceInfo } = useFetchGooglePlacesInfo({
+    placeID: outdoorPlaceID,
+  });
   // Show component when place changes
   useEffect(() => {
     if (placeInfo) {
@@ -73,7 +72,7 @@ export default function OutdoorPointsOfInterests() {
           title="Manually fecth the place"
           onPress={() => {
             //  fetchPlaceDetails(place);//
-            fetchPlaceInfo("ChIJV6iQyGsayUwR6gbBRRU9FIg"); //
+            fetchPlaceInfo("ChIJKw8YUWoayUwRcBXZvsJ8Zww"); //
           }}
         />
         {isInfoBoxVisible && (

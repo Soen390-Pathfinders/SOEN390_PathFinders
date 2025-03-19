@@ -13,11 +13,10 @@ const useFetchGooglePlacesInfo = ({ placeID }) => {
   const[placeInfo, setPlaceInfo] = useState(null);
   // Error handling
   const [error, setError] =  useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+
 
  // Update place whenever placeID changes in the hook call
  useEffect(() => {
-    console.log("placeID changed to:", placeID);
     setPlace(placeID);
   }, [placeID]);
 
@@ -25,10 +24,6 @@ const useFetchGooglePlacesInfo = ({ placeID }) => {
 const fetchPlaceInfo = useCallback(async (placeToFetch) => {
     //fall back to the state if there were no argument
     const placeIdToUse = placeToFetch || place;
-
-
-    console.log("Starting to fetch details for:", placeIdToUse);
-    setIsLoading(true);
     setError(null);    
     // The fields to be fetched from google place API
     const fields = [
@@ -54,7 +49,6 @@ const fetchPlaceInfo = useCallback(async (placeToFetch) => {
         );
         
         const data = await response.json();
-        console.log("API response received:", data);
         
         if (data.error_message) {
           throw new Error(data.error_message);
@@ -71,9 +65,7 @@ const fetchPlaceInfo = useCallback(async (placeToFetch) => {
         console.error("Error in fetch:", err);
         setError(`Failed to fetch place details: ${err.message}`);
         return null;
-      } finally {
-        setIsLoading(false);
-      }
+      } 
     }, [place]);
   
 // Call fetchPlaceInfo whenever place changes
@@ -83,8 +75,10 @@ useEffect(() => {
     }
   }, [place, fetchPlaceInfo]);
 
-   //cleanup and utility functions
-   const clearError = useCallback(() => setError(null), []);
+    //reset the error
+    const clearError = useCallback(() => setError(null), []);
+
+   //reset everything
    const clearPlace = useCallback(() => {
      setPlace(null);
      setPlaceInfo(null);
@@ -96,7 +90,6 @@ useEffect(() => {
     place,
     placeInfo,
     error,
-    isLoading,
     //functions
     fetchPlaceInfo,
     clearError,

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import React from "react";
 
 export default function OutdoorPOI_info({ info }) {
@@ -28,12 +28,19 @@ export default function OutdoorPOI_info({ info }) {
       <Text>Distance:</Text>
       <Text>userRatings: {rating} </Text>
       <Text>Open Now:{open_now ? "Yes" : "No"} </Text>
+      {/* Add alert when place is currently closed */}
+      {open_now === false || open_now === "no" ? (
+        <Text style={{ color: "red", fontWeight: "bold", marginTop: 10 }}>
+          This point of interest is currently closed
+        </Text>
+      ) : null}
       <Text>Open Hours: </Text>
       <Text>Hours:</Text>
-
-      {(weekday_text || []).map((day, index) => (
-        <Text key={index}>{day}</Text>
-      ))}
+      {weekday_text && weekday_text.length > 0 ? (
+        weekday_text.map((day, index) => <Text key={index}>{day}</Text>)
+      ) : (
+        <Text>Operating hours not available</Text>
+      )}
     </View>
   );
 }
