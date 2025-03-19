@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 
 export const API_BASE_URL = Platform.select({
   ios: "http://localhost:8000/api",
-  android: "http://10.0.2.2:8000/api",
+  android: "http://10.0.2.2:8000/api", // or put your own computer's IP if you can't use an emulator
 });
 
 const api = axios.create({
