@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import React, { useState } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
@@ -14,10 +21,14 @@ export default function NavigateYourSpace() {
     <View style={globalStyles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Navigate Your Space</Text>
-        
+
         {/* Start location input */}
         <View style={styles.inputContainer}>
-          <MaterialIcons name="my-location" size={24} color="rgba(145, 35, 55, 0.99)" />
+          <MaterialIcons
+            name="my-location"
+            size={24}
+            color="rgba(145, 35, 55, 0.99)"
+          />
           <TextInput
             style={styles.input}
             placeholder="Start location (e.g., H-920)"
@@ -26,10 +37,14 @@ export default function NavigateYourSpace() {
             placeholderTextColor="#999"
           />
         </View>
-        
+
         {/* Destination input */}
         <View style={styles.inputContainer}>
-          <MaterialIcons name="location-on" size={24} color="rgba(145, 35, 55, 0.99)" />
+          <MaterialIcons
+            name="location-on"
+            size={24}
+            color="rgba(145, 35, 55, 0.99)"
+          />
           <TextInput
             style={styles.input}
             placeholder="Destination (e.g., H-945)"
@@ -38,14 +53,20 @@ export default function NavigateYourSpace() {
             placeholderTextColor="#999"
           />
         </View>
-        
-        {/* Get directions button */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Get directions</Text>
-        </TouchableOpacity>
+        <View>
+          {/* Get directions button */}
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Get directions</Text>
+          </TouchableOpacity>
+        </View>
 
-        {/* Placeholder for map */}
-        <View style={styles.mapPlaceholder} />
+        {/* Image at the center of the screen*/}
+        <View style={styles.visual}>
+          <Image
+            source={require("../../assets/images/navigation.png")}
+            style={{ width: "100%", height: "100%" }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -99,10 +120,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  mapPlaceholder: {
+  visual: {
     width: 250,
     height: 180,
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
+    marginTop: 20,
   },
 });

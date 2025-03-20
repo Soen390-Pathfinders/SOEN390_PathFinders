@@ -2,6 +2,7 @@ import axios from "axios";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 
+
 // Get the appropriate URL based on where the app is running
 const getApiUrl = () => {
   const debuggerHost =
@@ -26,6 +27,7 @@ const getApiUrl = () => {
 };
 
 export const API_BASE_URL = getApiUrl();
+
 
 const api = axios.create({
   baseURL: API_BASE_URL,
