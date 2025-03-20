@@ -54,10 +54,6 @@ export default function Floorplan() {
     console.log("Animation ended:", finished);
   };
 
-
-  fetch('http://10.0.0.202:8000/api/', { method: 'GET' })
-  .then(response => console.log('Connection test:', response.status))
-  .catch(err => console.error('Connection test failed:', err));
   //Fetching all the amenities on the floor
   useEffect(() => {
     const loadAmenities = async () => {
@@ -117,7 +113,7 @@ export default function Floorplan() {
       >
         <View style={styles.svgContainer}>
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            {/* <PathTrace />  */}
+            <PathTrace />
           </Svg>
         </View>
         <View style={styles.floorplanContainer}>
@@ -128,11 +124,11 @@ export default function Floorplan() {
             transition={1000}
             resizeMode="cover" // Ensures the image covers the container
           ></Image>
-          {amenities.map((amenity, index) => ( // Remove one set of curly braces
+          {amenities.map((amenity, index) => (
             <Icon
               key={index}
-              name={iconMap[amenity.types[0]] || "place"} // Use the first type for the icon
-              size={24}
+              name={iconMap[amenity.types[0]]} // Use the first type for the icon
+              size={40}
               color="blue"
               style={{ position: "absolute", left: amenity.x_coor, top: amenity.y_coor }}
             />
