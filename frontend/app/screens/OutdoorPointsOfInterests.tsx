@@ -8,6 +8,7 @@ import { CampusToggle } from "../components/ui/CampusToggle";
 import OutdoorPOI_info from "../components/ui/OutdoorPOI_info";
 import useFetchGooglePlacesInfo from "../hooks/useFetchGooglePlaceInfo";
 import { Ionicons } from "@expo/vector-icons";
+import FilterPOI from "../components/ui/FilterPOI";
 import MapView, {
   Marker,
   PROVIDER_DEFAULT,
