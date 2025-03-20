@@ -1,4 +1,4 @@
-#issue 60
+#issue 62
 ppId: host.exp.exponent
 ---
 - tapOn: "Show navigation menu"
