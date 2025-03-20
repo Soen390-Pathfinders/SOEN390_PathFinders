@@ -1,10 +1,18 @@
-import React from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
-import { LocationProvider, useLocation } from '../app/components/context/userLocationContext';
+/**
+ * @jest-environment jsdom
+ */
+import React from "react";
+import { renderHook, act } from "@testing-library/react";
+import {
+  LocationProvider,
+  useLocation,
+} from "../app/components/context/userLocationContext";
 
-describe('userLocationContext', () => {
-  it('provides default user location', () => {
-    const wrapper = ({ children }) => <LocationProvider>{children}</LocationProvider>;
+describe("userLocationContext", () => {
+  it("provides default user location", () => {
+    const wrapper = ({ children }) => (
+      <LocationProvider>{children}</LocationProvider>
+    );
 
     const { result } = renderHook(() => useLocation(), { wrapper });
 
@@ -14,8 +22,10 @@ describe('userLocationContext', () => {
     });
   });
 
-  it('updates user location when updateUserLocation is called', () => {
-    const wrapper = ({ children }) => <LocationProvider>{children}</LocationProvider>;
+  it("updates user location when updateUserLocation is called", () => {
+    const wrapper = ({ children }) => (
+      <LocationProvider>{children}</LocationProvider>
+    );
 
     const { result } = renderHook(() => useLocation(), { wrapper });
 
@@ -29,8 +39,15 @@ describe('userLocationContext', () => {
     });
   });
 
-  it('throws error if used outside LocationProvider', () => {
-    const { result } = renderHook(() => useLocation());
-    expect(result.error).toEqual(Error('useLocation must be used within a LocationProvider'));
+  it("throws error if used outside LocationProvider", () => {
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    expect(() => {
+      renderHook(() => useLocation());
+    }).toThrow("useLocation must be used within a LocationProvider");
+
+    consoleErrorSpy.mockRestore();
   });
 });
