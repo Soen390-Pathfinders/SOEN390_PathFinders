@@ -23,6 +23,7 @@ import IndoorDirections from "./screens/IndoorDirections";
 import IndoorMap from "./screens/IndoorMap";
 import FindRoom from "./screens/FindRoom";
 import NavigateYourSpace from "./screens/NavigateYourSpace";
+import OutdoorPointsOfInterests from "./screens/OutdoorPointsOfInterests";
 
 export default function RootLayout() {
   /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
@@ -98,11 +99,11 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="(screens)/loginScreen"
-              component={loginScreem}
+              name="(screens)/NextClassInfo"
+              component={NextClassInfo}
               options={{
                 drawerLabel: "Directions to next class",
-                title: "direction to next class",
+                title: "Direction to next class",
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}
@@ -154,6 +155,20 @@ export default function RootLayout() {
               options={{
                 drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Navigate Your Space",
+              }}
+            />
+            <Drawer.Screen
+              name="(screens)/OutdoorPointsOfInterest"
+              component={OutdoorPointsOfInterests}
+              options={{
+                drawerLabel: "Points of interests",
+                title: "Points of interests",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/point-of-interest.png")}
+                  />
+                ),
               }}
             />
           </Drawer.Navigator>

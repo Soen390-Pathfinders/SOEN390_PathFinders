@@ -104,18 +104,28 @@ describe("ConcordiaShuttleTimes rendering", () => {
 
 //This snapshot was removed because the date needs to be mocked or it will fail everytime -- we will rely less on snapshots form now on
 //Add snapshot for Integration testing - making sure that nothing changes the rendering of the component in the future
-//describe("ConcordiaShuttleTimes", () => {
-//test("renders the shuttle departure times screen correctly", () => {
-//const { getByText } = render(<ConcordiaShuttleTimes />);
 
-// Check if some text or element is rendered to ensure the component renders
-//expect(getByText("Bus Shuttle Departure Times")).toBeTruthy();
-// });
+describe("ConcordiaShuttleTimes", () => {
+  beforeEach(() => {
+    // Mock the date so the snapshot always compares the same text
+    const mockDate = new Date(2025, 3, 14, 17, 0, 0); // 2025-04-14 17:00:00
+    jest.spyOn(global, "Date").mockImplementation(() => mockDate);
+  });
 
-// test("matches snapshot", () => {
-//  const { toJSON } = render(<ConcordiaShuttleTimes />);
+  test("renders the shuttle departure times screen correctly", () => {
+    const { getByText } = render(<ConcordiaShuttleTimes />);
 
-// // Create and compare snapshot
-//  expect(toJSON()).toMatchSnapshot();
-//});
-//});
+    // Check if some text or element is rendered to ensure the component renders
+    expect(getByText("Bus Shuttle Departure Times")).toBeTruthy();
+  });
+  test("matches snapshot", () => {
+    const { toJSON } = render(<ConcordiaShuttleTimes />);
+
+    // // Create and compare snapshot
+    expect(toJSON()).toMatchSnapshot();
+  });
+  afterEach(() => {
+    // restore the date
+    jest.restoreAllMocks();
+  });
+});

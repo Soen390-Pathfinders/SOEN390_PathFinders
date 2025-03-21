@@ -27,8 +27,8 @@ jobs:
 
       #Install the react native dependencies
       - name: Install dependencies
-        #run: cd frontend && npm install   # this has been changed for now because of the react hook dependency problem
-        run: npm install --save-dev @testing-library/react-hooks --legacy-peer-deps
+        run: cd frontend && npm install
+
 
       #Run the Jest tests
       - name: Run Jest tests
