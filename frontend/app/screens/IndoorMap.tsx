@@ -27,6 +27,7 @@ export default function IndoorMap({ route }) {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   header: { height: "20%" },
   myImagecontainer: {
