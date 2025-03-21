@@ -19,6 +19,8 @@ export default function OutdoorPointsOfInterests() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [campus, setCampus] = useState("SGW"); // Default to SGW
+  const [activeFilter, setActiveFilter] = useState(null);
+
 
   const toggleCampus = (selectedCampus) => {
     setCampus(selectedCampus);
@@ -42,13 +44,14 @@ export default function OutdoorPointsOfInterests() {
       description: "Concordia University SGW Campus",
     },
   };
+  
 
   //Do not reference the placeID with this. The state of the placeID reference is inside the useFetchGooglePlacEInfo hook
   const [outdoorPlaceID, setoutdoorPlaceID] = useState<string | null>(null);
   const [isInfoBoxVisible, setInfoBoxVisibility] = useState(false);
 
   // Use the hook
-  const { place, placeInfo, error, fetchPlaceInfo } = useFetchGooglePlacesInfo({
+  const { place, placeInfo, error, fetchPlaceInfo, filteredPlaces, fetchPlacesByCategories } = useFetchGooglePlacesInfo({
     placeID: outdoorPlaceID,
   });
   // Show component when place changes
@@ -62,20 +65,21 @@ export default function OutdoorPointsOfInterests() {
   const closeInfoBox = () => {
     setInfoBoxVisibility(false);
   };
+  const handleFilterPress = (filters) => {
+    setActiveFilter(filters);
+      // Call the new function from our hook to fetch places by category
+      fetchPlacesByCategories(filters, campusCoordinates[campus]);
+    };
+  const handleMarkerPress = (placeId) => {
+    setoutdoorPlaceID(placeId);
+    fetchPlaceInfo(placeId);
+  };
 
   return (
     <View style={globalStyles.container}>
       <CampusPilotHeader />
       <CampusToggle campus={campus} toggleCampus={toggleCampus} />
-
       <View style={globalStyles.mapContainer}>
-        <Button
-          title="Manually fecth the place"
-          onPress={() => {
-            //  fetchPlaceDetails(place);//
-            fetchPlaceInfo("ChIJKw8YUWoayUwRcBXZvsJ8Zww"); //
-          }}
-        />
         {isInfoBoxVisible && (
           <View style={styles.infoBoxOverMap}>
             <View style={styles.infoBoxCloseButton}>
@@ -93,7 +97,21 @@ export default function OutdoorPointsOfInterests() {
           style={{ flex: 1 }}
           initialRegion={campusCoordinates[campus]}
           region={campusCoordinates[campus]}
-        ></MapView>
+        >
+        {filteredPlaces.map((place, index) => (
+            <Marker
+              key={place.place_id || index}
+              coordinate={{
+                latitude: place.geometry.location.lat,
+                longitude: place.geometry.location.lng
+              }}
+              title={place.name}
+              description={place.filter}
+              onPress={() => handleMarkerPress(place.place_id)}
+            />
+          ))}
+        </MapView>
+      <FilterPOI onFilterPress={handleFilterPress} />
       </View>
     </View>
   );
