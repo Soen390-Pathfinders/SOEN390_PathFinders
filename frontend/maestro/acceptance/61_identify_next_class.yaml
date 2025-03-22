@@ -1,6 +1,6 @@
-#issue 61
 ppId: host.exp.exponent
 ---
 - tapOn: "Show navigation menu"
 - tapOn: "Directions to next class"
-- assertVisible: "Calendar"
+- tapOn: "DIRECTIONS TO NEXT CLASS"
+- tapOn: "OK"

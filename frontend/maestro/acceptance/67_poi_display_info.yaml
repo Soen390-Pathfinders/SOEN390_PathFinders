@@ -1,0 +1,11 @@
+ppId: host.exp.exponent
+---
+- tapOn: "Show navigation menu"
+- tapOn: "Points of interests"
+- tapOn: "Loyola"
+- tapOn: "SGW"
+- tapOn: "MANUALLY FECTH THE PLACE"
+- assertVisible: "Open Hours: "
+- assertVisible: "Monday: 9:00 AM – 5:00 PM"
+- tapOn:
+    point: "72%,50%"
