@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
-import React from "react";
+import { View, StyleSheet } from "react-native";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";

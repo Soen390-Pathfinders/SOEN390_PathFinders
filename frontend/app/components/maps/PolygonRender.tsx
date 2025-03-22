@@ -8,10 +8,6 @@ import buildingAsDestination from "./BuildingAsDestination";
 
 export default function PolygonRender({ setBuildingLocation }) {
   const { userLocation } = useLocation(); // Get user Location
-  /*const userLocation = {
-    latitude: 45.49745011599649,
-    longitude: -73.57908244723633,
-  };*/ // For testing purposes
 
   return (
     <View>
