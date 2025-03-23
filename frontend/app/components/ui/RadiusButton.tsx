@@ -33,9 +33,9 @@ const RadiusSlider: React.FC<RadiusSliderProps> = ({
         value={radius}
         onValueChange={handleValueChange} // Real-time updates
         onSlidingComplete={handleSlidingComplete} // Final update
-        minimumTrackTintColor="#1fb28a"
-        maximumTrackTintColor="#d3d3d3"
-        thumbTintColor="#1fb28a"
+        minimumTrackTintColor="#0072A8"
+        maximumTrackTintColor="#0072A8"
+        thumbTintColor="#0072A8"
       />
     </View>
   );
@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
     container: {
       padding: 20,
       marginVertical: 10,
-      backgroundColor: '#f5f5f5',
+      backgroundColor: '#F8F8F8',
       borderRadius: 8,
     },
     slider: {
         width: "100%",
-        height: 40,
+        height: 10,
       },
   text: {
     fontSize: 16,
