@@ -1,11 +1,12 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
 
-export default function Floorplan() {
+export default function Floorplan({path}) {
+
   const zoomableRef = useRef(null);
   const [scale, setScale] = useState(1);
   // Default to H5 initially, but this will be updated by the PathTrace component
@@ -15,9 +16,12 @@ export default function Floorplan() {
   // State to track next floor in path
   const [nextFloorInPath, setNextFloorInPath] = useState(null);
 
-  const onZoom = (zoomType) => {
-    console.log("Zoom event triggered:", zoomType);
-  };
+  const [currentImageWidth, setCurrentImageWidth] = useState();
+  const [currentImageHeight, setCurrentImageHeight] = useState();
+  const [pathTracePath, setPathTracePath] = useState();
+  useEffect(() => {
+    setPathTracePath(path);
+  })
 
   const onAnimationEnd = (finished) => {
     console.log("Animation ended:", finished);
@@ -114,20 +118,24 @@ export default function Floorplan() {
             <PathTrace 
               currentFloor={currentFloor} 
               onFloorChangeRequired={handleFloorChangeRequired}
-              floorChangeConfirmed={floorChangeConfirmed}
+              floorChangeConfirmed={floorChangeConfirmed} 
               setFloorChangeConfirmed={setFloorChangeConfirmed}
               onInitialFloorDetected={handleInitialFloorDetected}
+              path={pathTracePath}
             />
           </Svg>
         </View>
+        {/* <View style= {{backgroundImage:'url(${getFloorplanImage})'}}>
+
+        </View> */}
         <View style={styles.floorplanContainer}>
-          <Image
-            style={styles.image}
-            source={getFloorplanImage()} 
-            contentFit="contain"
-            transition={250}
-            resizeMode="cover"
-          ></Image>
+            <Image
+              style={styles.image}
+              source={getFloorplanImage()} 
+              contentFit="contain"
+              transition={250}
+              resizeMode="contain"
+            ></Image>     
         </View>
         
         {/* Floor change banner */}
@@ -204,8 +212,11 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    position: 'absolute',
+
     width: "100%",
     height: "100%",
+    transform:[{scaleY:1.2}]
   },
   svgContainer: {
     height: "100%",
@@ -214,14 +225,22 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     zIndex: 4,
+    
   },
+  floorplanInnerContainer: {
+    zIndex:4,
+  }
+  ,
+
   floorplanContainer: {
+    
     height: "100%",
     width: "100%",
     position: "absolute",
     left: 0,
     top: 0,
     zIndex: 2,
+    aspectRatio:1
   },
   bannerContainer: {
     position: 'absolute',

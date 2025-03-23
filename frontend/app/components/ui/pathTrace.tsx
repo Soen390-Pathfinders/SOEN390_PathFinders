@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useEffect, useState } from "react";
 import LineFactory from "@/app/hooks/lineFactory";
-import { Circle } from "react-native-svg";
+import { Circle, Line } from "react-native-svg";
 import { PathAPI } from "@/api/api";
+
 
 // Define the type for each node object
 type PathNode = {
@@ -21,7 +22,8 @@ export default function PathTrace({
   onFloorChangeRequired, 
   floorChangeConfirmed,
   setFloorChangeConfirmed,
-  onInitialFloorDetected = undefined
+  onInitialFloorDetected = undefined,
+  path
 }) {
   // State for path nodes and current floor's nodes
   const [allPathNodes, setAllPathNodes] = useState<PathNode[]>([]);
@@ -33,13 +35,13 @@ export default function PathTrace({
   // Load path data from API when component mounts
   useEffect(() => {
     // Use API to get path data - you can change these room numbers as needed
-    PathAPI.shortestPathToRoom("H-651", "H-857").then((response) => {
-      if (response.path && response.path.length > 0) {
+    if(path) {
+      if (path.path && path.path.length > 0) {
         // Set the path nodes
-        setAllPathNodes(response.path);
+        setAllPathNodes(path.path);
         
         // Detect the starting floor from the first node
-        const startNode = response.path[0];
+        const startNode = path.path[0];
         const floorNumber = startNode.floor.replace('H-', '');
         const startingFloor = `H${floorNumber}`;
         
@@ -48,9 +50,7 @@ export default function PathTrace({
           onInitialFloorDetected(startingFloor);
         }
       }
-    }).catch(error => {
-      console.error("Error loading path data:", error);
-    });
+    }
 
     // SINGLE FLOOR PATH: H-521 to H-539 (same floor)
     // PathAPI.shortestPathToRoom("H-521", "H-539").then((response) => {
@@ -69,7 +69,7 @@ export default function PathTrace({
 
     // Reset floor change confirmation
     setFloorChangeConfirmed(false);
-  }, []); // Empty dependency array means this runs once on mount
+  }, ); // Empty dependency array means this runs once on mount
 
   // Update current floor nodes when floor or all nodes change
   useEffect(() => {
@@ -122,6 +122,16 @@ export default function PathTrace({
 
   return (
     <View>
+      {/* <Line
+      x1={0}
+        y1={0}
+        x2={100}
+        y2={100}
+        stroke="green"
+        strokeLinejoin="miter"
+        strokeWidth="0.5">
+
+      </Line> */}
       {/* Draw path nodes for current floor */}
       {currentFloorNodes.map((node, index) => {
         return (

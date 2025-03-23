@@ -30,8 +30,9 @@ export default function NavigateYourSpace() {
   const [destination, setDestination] = useState("");
   const handleGetDirection = () => {
     PathAPI.shortestPathToRoom(startLocation, destination).then((response) => {
-      console.log(response);  
-      navigation.navigate("(screens)/IndoorMap");
+      navigation.navigate("(screens)/IndoorMap" , response);
+      console.log("Sending from NavigateYourSpace")
+      console.log(response)
     })
   };
 
