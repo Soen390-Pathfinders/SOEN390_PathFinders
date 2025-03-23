@@ -14,13 +14,14 @@ import MapView, {
   PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
+import RadiusSlider from "../components/ui/RadiusButton";
 
 export default function OutdoorPointsOfInterests() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [campus, setCampus] = useState("SGW"); // Default to SGW
   const [activeFilter, setActiveFilter] = useState(null);
-
+  const [searchRadius, setSearchRadius] = useState(1000); // Default to 1km
 
   const toggleCampus = (selectedCampus) => {
     setCampus(selectedCampus);
@@ -53,6 +54,7 @@ export default function OutdoorPointsOfInterests() {
   // Use the hook
   const { place, placeInfo, error, fetchPlaceInfo, filteredPlaces, fetchPlacesByCategories } = useFetchGooglePlacesInfo({
     placeID: outdoorPlaceID,
+    searchRadius,
   });
   // Show component when place changes
   useEffect(() => {
@@ -74,12 +76,22 @@ export default function OutdoorPointsOfInterests() {
     setoutdoorPlaceID(placeId);
     fetchPlaceInfo(placeId);
   };
+  
+  const handleRadiusChange = (radius: number) => {
+    setSearchRadius(radius);
+    if (activeFilter) {
+      fetchPlacesByCategories(activeFilter, campusCoordinates[campus]);
+    }
+  };
+  const handleRadiusChangeComplete = (radius: number) => {
+  };
 
   return (
     <View style={globalStyles.container}>
       <CampusPilotHeader />
       <CampusToggle campus={campus} toggleCampus={toggleCampus} />
-      <View style={globalStyles.mapContainer}>
+      
+            <View style={globalStyles.mapContainer}>
         {isInfoBoxVisible && (
           <View style={styles.infoBoxOverMap}>
             <View style={styles.infoBoxCloseButton}>
@@ -90,6 +102,10 @@ export default function OutdoorPointsOfInterests() {
             <OutdoorPOI_info info={placeInfo} />
           </View>
         )}
+        <RadiusSlider
+        onRadiusChange={handleRadiusChange} // Real-time updates
+        onRadiusChangeComplete={handleRadiusChangeComplete} // Final update
+      />
 
         <MapView
           showsUserLocation={true}
