@@ -34,7 +34,7 @@ export default function PathTrace({
 
   // Load path data from API when component mounts
   useEffect(() => {
-    // Use API to get path data - you can change these room numbers as needed
+    //Path rendered with prop, component to be refreshed every time when rendered
     if(path) {
       if (path.path && path.path.length > 0) {
         // Set the path nodes
@@ -51,22 +51,6 @@ export default function PathTrace({
         }
       }
     }
-
-    // SINGLE FLOOR PATH: H-521 to H-539 (same floor)
-    // PathAPI.shortestPathToRoom("H-521", "H-539").then((response) => {
-    //   if (response.path && response.path.length > 0) {
-    //     setAllPathNodes(response.path);
-    //     const startNode = response.path[0];
-    //     const floorNumber = startNode.floor.replace('H-', '');
-    //     const startingFloor = `H${floorNumber}`;
-    //     if (onInitialFloorDetected && typeof onInitialFloorDetected === 'function') {
-    //       onInitialFloorDetected(startingFloor);
-    //     }
-    //   }
-    // }).catch(error => {
-    //   console.error("Error loading path data:", error);
-    // });
-
     // Reset floor change confirmation
     setFloorChangeConfirmed(false);
   }, ); // Empty dependency array means this runs once on mount
@@ -122,16 +106,7 @@ export default function PathTrace({
 
   return (
     <View>
-      {/* <Line
-      x1={0}
-        y1={0}
-        x2={100}
-        y2={100}
-        stroke="green"
-        strokeLinejoin="miter"
-        strokeWidth="0.5">
 
-      </Line> */}
       {/* Draw path nodes for current floor */}
       {currentFloorNodes.map((node, index) => {
         return (
