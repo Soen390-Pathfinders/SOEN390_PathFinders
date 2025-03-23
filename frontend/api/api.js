@@ -10,6 +10,7 @@ const getApiUrl = () => {
     Constants.manifest?.debuggerHost ||
     Constants.manifest2?.extra?.expoGo?.debuggerHost;
 
+
   if (Platform.OS === "ios" && debuggerHost) {
     // Running on iOS simulator
     return "http://localhost:8000/api";
@@ -22,7 +23,7 @@ const getApiUrl = () => {
     return `http://${host}:8000/api`;
   } else {
     // Fallback (or production URL)
-    return "http://192.168.0.200:8000/api"; //Add your computer's IP here if using your phone
+    return "http://YOUR_PRODUCTION_URL:8000/api"; //Add your computer's IP here if using your phone
   }
 };
 
