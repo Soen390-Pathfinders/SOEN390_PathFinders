@@ -4,22 +4,16 @@ import Slider from "@react-native-community/slider";
 
 interface RadiusSliderProps {
   onRadiusChange: (radius: number) => void; // Called while sliding
-  onRadiusChangeComplete: (radius: number) => void; // Called when sliding is complete
 }
 
 const RadiusSlider: React.FC<RadiusSliderProps> = ({
   onRadiusChange,
-  onRadiusChangeComplete,
 }) => {
   const [radius, setRadius] = useState(1000); // Default to 1km
 
   const handleValueChange = (value: number) => {
     setRadius(value);
     onRadiusChange(value); // Update radius in real-time
-  };
-
-  const handleSlidingComplete = (value: number) => {
-    onRadiusChangeComplete(value); // Final update when sliding is done
   };
 
   return (
@@ -32,7 +26,6 @@ const RadiusSlider: React.FC<RadiusSliderProps> = ({
         step={100}
         value={radius}
         onValueChange={handleValueChange} // Real-time updates
-        onSlidingComplete={handleSlidingComplete} // Final update
         minimumTrackTintColor="#0072A8"
         maximumTrackTintColor="#0072A8"
         thumbTintColor="#0072A8"

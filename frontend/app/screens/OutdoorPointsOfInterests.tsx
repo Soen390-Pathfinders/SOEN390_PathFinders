@@ -83,8 +83,6 @@ export default function OutdoorPointsOfInterests() {
       fetchPlacesByCategories(activeFilter, campusCoordinates[campus]);
     }
   };
-  const handleRadiusChangeComplete = (radius: number) => {
-  };
 
   return (
     <View style={globalStyles.container}>
@@ -104,7 +102,6 @@ export default function OutdoorPointsOfInterests() {
         )}
         <RadiusSlider
         onRadiusChange={handleRadiusChange} // Real-time updates
-        onRadiusChangeComplete={handleRadiusChangeComplete} // Final update
       />
 
         <MapView
