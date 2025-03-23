@@ -11,8 +11,19 @@ import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { PathAPI } from "@/api/api";
+import { useNavigation } from "expo-router";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
+type RootDrawerParamList = {
+  "(screens)/FindRoom": undefined;
+  "(screens)/NavigateYourSpace": undefined;
+  "(screens)/IndoorMap": undefined;
+};
+
+type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 export default function NavigateYourSpace() {
+
+  const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [startLocation, setStartLocation] = useState("");
@@ -20,6 +31,7 @@ export default function NavigateYourSpace() {
   const handleGetDirection = () => {
     PathAPI.shortestPathToRoom(startLocation, destination).then((response) => {
       console.log(response);  
+      navigation.navigate("(screens)/IndoorMap");
     })
   };
 

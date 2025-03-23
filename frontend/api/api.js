@@ -10,9 +10,6 @@ const getApiUrl = () => {
     Constants.manifest?.debuggerHost ||
     Constants.manifest2?.extra?.expoGo?.debuggerHost;
 
-    //Delete this
-  return "http://192.168.0.200:8000/api";
-  
   if (Platform.OS === "ios" && debuggerHost) {
     // Running on iOS simulator
     return "http://localhost:8000/api";
