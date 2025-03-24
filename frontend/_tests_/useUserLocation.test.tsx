@@ -1,9 +1,14 @@
-import { renderHook, act } from '@testing-library/react-hooks';
-import useUserLocation from '../app/hooks/useUserLocation';
+/**
+ * @jest-environment jsdom
+ */
+import { renderHook, act } from "@testing-library/react";
+import useUserLocation from "../app/hooks/useUserLocation";
 
 // Mock expo-location
-jest.mock('expo-location', () => ({
-  requestForegroundPermissionsAsync: jest.fn(() => Promise.resolve({ status: 'granted' })),
+jest.mock("expo-location", () => ({
+  requestForegroundPermissionsAsync: jest.fn(() =>
+    Promise.resolve({ status: "granted" })
+  ),
   getCurrentPositionAsync: jest.fn(() =>
     Promise.resolve({
       coords: { latitude: 45.5, longitude: -73.6 },
@@ -14,19 +19,19 @@ jest.mock('expo-location', () => ({
 // Mock useLocation context
 const mockUpdateUserLocation = jest.fn();
 
-jest.mock('../app/components/context/userLocationContext', () => ({
+jest.mock("../app/components/context/userLocationContext", () => ({
   useLocation: jest.fn(() => ({
     updateUserLocation: mockUpdateUserLocation,
     userLocation: { latitude: 0, longitude: 0 },
   })),
 }));
 
-describe('useUserLocation hook', () => {
+describe("useUserLocation hook", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('requests location permission and updates user location', async () => {
+  it("requests location permission and updates user location", async () => {
     await act(async () => {
       renderHook(() => useUserLocation());
       // Wait enough time to allow initial location fetch
@@ -34,21 +39,23 @@ describe('useUserLocation hook', () => {
     });
 
     // Permission requested
-    expect(require('expo-location').requestForegroundPermissionsAsync).toHaveBeenCalled();
+    expect(
+      require("expo-location").requestForegroundPermissionsAsync
+    ).toHaveBeenCalled();
 
     // Location fetched and updateUserLocation called
-    expect(require('expo-location').getCurrentPositionAsync).toHaveBeenCalled();
+    expect(require("expo-location").getCurrentPositionAsync).toHaveBeenCalled();
     expect(mockUpdateUserLocation).toHaveBeenCalledWith(45.5, -73.6);
   });
 
-  it('setLocation function updates location', async () => {
+  it("setLocation function updates location", async () => {
     const { result } = renderHook(() => useUserLocation());
 
     await act(async () => {
       await result.current.setLocation();
     });
 
-    expect(require('expo-location').getCurrentPositionAsync).toHaveBeenCalled();
+    expect(require("expo-location").getCurrentPositionAsync).toHaveBeenCalled();
     expect(mockUpdateUserLocation).toHaveBeenCalledWith(45.5, -73.6);
   });
 });

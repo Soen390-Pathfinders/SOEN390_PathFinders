@@ -2,12 +2,14 @@ import axios from "axios";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 
+
 // Get the appropriate URL based on where the app is running
 const getApiUrl = () => {
   const debuggerHost =
     Constants.expoConfig?.hostUri ||
     Constants.manifest?.debuggerHost ||
     Constants.manifest2?.extra?.expoGo?.debuggerHost;
+
 
   if (Platform.OS === "ios" && debuggerHost) {
     // Running on iOS simulator
@@ -21,11 +23,12 @@ const getApiUrl = () => {
     return `http://${host}:8000/api`;
   } else {
     // Fallback (or production URL)
-    return "http://YOUR_PRODUCTION_URL/api"; //Add your computer's IP here if using your phone
+    return "http://YOUR_PRODUCTION_URL:8000/api"; //Add your computer's IP here if using your phone
   }
 };
 
 export const API_BASE_URL = getApiUrl();
+
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -82,6 +85,7 @@ export const FloorAPI = {
 };
 
 export const RoomAPI = {
+  test: () => console.log(getApiUrl()),
   getAll: () => handleRequest(() => api.get("/room/all")),
   get: (roomCode) => handleRequest(() => api.get(`/room/get?code=${roomCode}`)),
   create: (roomData) => handleRequest(() => api.post("/room/add", roomData)),
