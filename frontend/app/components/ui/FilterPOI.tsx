@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
 
 const FilterPOI = ({ onFilterPress }) => {
   const filters = ["Coffee", "Restaurants", "Parks", "Bakeries", "Pharmacies","Bars","Ice Cream","Dessert Shops","Juice Bars"];
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
 
   // Toggle filter selection
@@ -19,7 +19,7 @@ const FilterPOI = ({ onFilterPress }) => {
   // Apply filters and close modal
   const handleApplyFilters = () => {
     onFilterPress(selectedFilters);
-    setModalVisible(false);
+    setIsModalVisible(false);
   };
 
   return (
@@ -27,7 +27,7 @@ const FilterPOI = ({ onFilterPress }) => {
       {/* Main Filter Button */}
       <TouchableOpacity
         style={styles.filterButton}
-        onPress={() => setModalVisible(true)}
+        onPress={() => setIsModalVisible(true)}
       >
         <MaterialIcons name="filter-list" size={28} color="white" />
       </TouchableOpacity>
@@ -37,7 +37,7 @@ const FilterPOI = ({ onFilterPress }) => {
         visible={isModalVisible}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setIsModalVisible(false)}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -75,7 +75,7 @@ const FilterPOI = ({ onFilterPress }) => {
             {/* Close Button */}
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
+              onPress={() => setIsModalVisible(false)}
             >
               <Text style={styles.closeButtonText}>Close</Text>
             </TouchableOpacity>
