@@ -1,15 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import OutdoorMap from "../maps/OutdoorMap";
-import useTheme from "@/app/hooks/useTheme";
-import { getStyles } from "@/app/styles";
 import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
-import CampusPilotHeader from "./CampusPilotHeader";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useLocation } from "../context/userLocationContext";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import useDirectionLogic from "@/app/hooks/useDirectionLogic";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function DirectionFields({
   startLocation,
@@ -25,10 +18,9 @@ export default function DirectionFields({
   duration,
   setToBuildingLocation,
 }) {
-
   useEffect(() => {
-    console.log("destination updated")
-    console.log(destination)
+    console.log("destination updated");
+    console.log(destination);
     if (destination && destinationRef.current) {
       destinationRef.current.setAddressText(destination);
     }
@@ -90,7 +82,7 @@ export default function DirectionFields({
           }}
         />
 
-        {/* GO Button instead of the current location button */}
+        {/* Go Button instead of the current location button */}
         <TouchableOpacity onPress={onGoPress} style={styles.goButton}>
           <Text style={styles.goButtonText}>GO</Text>
         </TouchableOpacity>

@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
@@ -8,7 +9,6 @@ import PathTrace from "../ui/pathTrace";
 export default function Floorplan({path}) {
 
   const zoomableRef = useRef(null);
-  const [scale, setScale] = useState(1);
   // Default to H5 initially, but this will be updated by the PathTrace component
   const [currentFloor, setCurrentFloor] = useState("H5");
   // State to track if floor change was confirmed
@@ -29,7 +29,7 @@ export default function Floorplan({path}) {
 
   // Function to get the appropriate floor plan image based on current floor
   const getFloorplanImage = () => {
-    switch(currentFloor) {
+    switch (currentFloor) {
       case "H1":
         return require("../../../assets/floorplans/H1.png");
       case "H4":
@@ -49,7 +49,7 @@ export default function Floorplan({path}) {
 
   // All available floors
   const floors = ["H1", "H4", "H5", "H6", "H8", "H9"];
-  
+
   // Handle floor change requested by PathTrace component
   const handleFloorChangeRequired = (newFloor) => {
     setNextFloorInPath(newFloor);
@@ -65,7 +65,7 @@ export default function Floorplan({path}) {
     // Reset the next floor after handling
     setNextFloorInPath(null);
   };
-  
+
   // Handle initial floor detection from PathTrace
   const handleInitialFloorDetected = (floorName) => {
     setCurrentFloor(floorName);
@@ -75,26 +75,34 @@ export default function Floorplan({path}) {
     <View style={styles.container}>
       {/* Floor selector */}
       <View style={styles.floorSelectorContainer}>
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false} 
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.floorScroller}
           snapToAlignment="center"
         >
           {floors.map((floor) => (
-            <TouchableOpacity 
+            <TouchableOpacity
               key={floor}
-              style={[styles.floorButton, currentFloor === floor && styles.selectedFloor]} 
+              style={[
+                styles.floorButton,
+                currentFloor === floor && styles.selectedFloor,
+              ]}
               onPress={() => setCurrentFloor(floor)}
             >
-              <Text style={[styles.floorButtonText, currentFloor === floor && styles.selectedFloorText]}>
+              <Text
+                style={[
+                  styles.floorButtonText,
+                  currentFloor === floor && styles.selectedFloorText,
+                ]}
+              >
                 {floor}
               </Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
-      
+
       <Zoomable
         ref={zoomableRef}
         minScale={1}
@@ -115,8 +123,8 @@ export default function Floorplan({path}) {
       >
         <View style={styles.svgContainer}>
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            <PathTrace 
-              currentFloor={currentFloor} 
+            <PathTrace
+              currentFloor={currentFloor}
               onFloorChangeRequired={handleFloorChangeRequired}
               floorChangeConfirmed={floorChangeConfirmed} 
               setFloorChangeConfirmed={setFloorChangeConfirmed}
@@ -129,6 +137,7 @@ export default function Floorplan({path}) {
 
         </View> */}
         <View style={styles.floorplanContainer}>
+
             <Image
               style={styles.image}
               source={getFloorplanImage()} 
@@ -137,7 +146,7 @@ export default function Floorplan({path}) {
               resizeMode="contain"
             ></Image>     
         </View>
-        
+
         {/* Floor change banner */}
         {nextFloorInPath && (
           <View style={styles.bannerContainer}>
@@ -145,7 +154,7 @@ export default function Floorplan({path}) {
               <Text style={styles.bannerText}>
                 Continue to floor {nextFloorInPath}?
               </Text>
-              
+
               <View style={styles.bannerButtons}>
                 <TouchableOpacity
                   style={[styles.button, styles.buttonNo]}
@@ -153,7 +162,7 @@ export default function Floorplan({path}) {
                 >
                   <Text style={styles.buttonText}>No</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                   style={[styles.button, styles.buttonYes]}
                   onPress={() => handleFloorChangeConfirmation(true)}
@@ -243,50 +252,50 @@ const styles = StyleSheet.create({
     aspectRatio:1
   },
   bannerContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 0,
     right: 0,
     zIndex: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   banner: {
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
     borderRadius: 8,
     padding: 12,
-    width: '80%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   bannerText: {
-    color: '#333',
+    color: "#333",
     flex: 1,
     fontSize: 14,
     marginRight: 10,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   bannerButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   button: {
     padding: 8,
     borderRadius: 4,
     marginLeft: 6,
     minWidth: 60,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonYes: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
   },
   buttonNo: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: "#e74c3c",
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 12,
-  }
+  },
 });

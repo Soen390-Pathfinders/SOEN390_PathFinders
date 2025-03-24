@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { StyleSheet } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
-  withDelay
+  withDelay,
 } from "react-native-reanimated";
-import { LinearGradient } from "expo-linear-gradient"; 
-
+import { LinearGradient } from "expo-linear-gradient";
 
 const LoadingScreen = ({ onFinish }) => {
   const logoScale = useSharedValue(1);
@@ -16,11 +15,11 @@ const LoadingScreen = ({ onFinish }) => {
   const footerOpacity = useSharedValue(0);
 
   useEffect(() => {
-    logoScale.value = withTiming(0.5, { duration: 2000 }); 
+    logoScale.value = withTiming(0.5, { duration: 2000 });
     titleOpacity.value = withDelay(1500, withTiming(1, { duration: 1000 }));
     subtitleOpacity.value = withDelay(2000, withTiming(1, { duration: 1000 }));
     footerOpacity.value = withDelay(2500, withTiming(1, { duration: 1000 }));
-    
+
     setTimeout(() => {
       onFinish();
     }, 4000);
@@ -43,10 +42,7 @@ const LoadingScreen = ({ onFinish }) => {
   }));
 
   return (
-    <LinearGradient
-      colors={["#082D7B", "#28A7B0"]} 
-      style={styles.container}
-    >
+    <LinearGradient colors={["#082D7B", "#28A7B0"]} style={styles.container}>
       <Animated.Image
         source={require("../../assets/images/logo.png")}
         style={[styles.logo, logoStyle]}
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 300,
     height: 300,
-    marginTop: -200, 
+    marginTop: -200,
   },
   title: {
     marginTop: -60,

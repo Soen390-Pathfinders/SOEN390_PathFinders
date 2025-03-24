@@ -1,7 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import React from "react";
-import { useContext } from "react";
-import ThemeContext from "../context/ThemeContext";
+import { View, TouchableOpacity, Image } from "react-native";
 import { getStyles } from "../../styles";
 import useTheme from "../../hooks/useTheme";
 
