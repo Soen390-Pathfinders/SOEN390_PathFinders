@@ -26,6 +26,7 @@ const FilterPOI = ({ onFilterPress }) => {
     <View style={styles.container}>
       {/* Main Filter Button */}
       <TouchableOpacity
+        accessibilityRole="button"
         style={styles.filterButton}
         onPress={() => setModalVisible(true)}
       >

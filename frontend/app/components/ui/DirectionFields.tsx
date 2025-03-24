@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import OutdoorMap from "../maps/OutdoorMap";
-import useTheme from "@/app/hooks/useTheme";
-import { getStyles } from "@/app/styles";
-import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
-import CampusPilotHeader from "./CampusPilotHeader";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { useLocation } from "../context/userLocationContext";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import useDirectionLogic from "@/app/hooks/useDirectionLogic";
+import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
+import { useLocation } from "../context/userLocationContext";
 
 export default function DirectionFields({
   startLocation,
@@ -25,10 +25,7 @@ export default function DirectionFields({
   duration,
   setToBuildingLocation,
 }) {
-
   useEffect(() => {
-    console.log("destination updated")
-    console.log(destination)
     if (destination && destinationRef.current) {
       destinationRef.current.setAddressText(destination);
     }
@@ -36,8 +33,8 @@ export default function DirectionFields({
 
   return (
     <View style={{ zIndex: 5 }}>
+      {/* Start Location Input */}
       <View style={styles.inputWithLocationContainer}>
-        {/* Start Location with Current Location Icon */}
         <GooglePlacesAutocomplete
           ref={startLocationRef}
           styles={{
@@ -47,10 +44,8 @@ export default function DirectionFields({
           }}
           placeholder="Start Location"
           onPress={(data, details = null) => {
-            const latLng = `${details.geometry.location.lat.toFixed(
-              6
-            )}, ${details.geometry.location.lng.toFixed(6)}`;
-            setStartLocation(latLng); // Store as string
+            const latLng = `${details.geometry.location.lat.toFixed(6)}, ${details.geometry.location.lng.toFixed(6)}`;
+            setStartLocation(latLng);
           }}
           fetchDetails={true}
           query={{
@@ -59,16 +54,19 @@ export default function DirectionFields({
           }}
         />
 
-        {/* Current Location Button for Start */}
+        {/* Current Location Button */}
         <TouchableOpacity
           onPress={() => setToCurrentLocation("start")}
           style={styles.locationButton}
+          accessibilityRole="button"
+          testID="current-location-button"
         >
           <MaterialIcons name="my-location" size={36} color="#007BFF" />
         </TouchableOpacity>
       </View>
+
+      {/* Destination Input */}
       <View style={styles.inputWithLocationContainer}>
-        {/* Destination with GO Button */}
         <GooglePlacesAutocomplete
           ref={destinationRef}
           styles={{
@@ -78,10 +76,8 @@ export default function DirectionFields({
           }}
           placeholder="Select Destination"
           onPress={(data, details = null) => {
-            const latLng = `${details.geometry.location.lat.toFixed(
-              6
-            )}, ${details.geometry.location.lng.toFixed(6)}`;
-            setDestination(latLng); // Store as string
+            const latLng = `${details.geometry.location.lat.toFixed(6)}, ${details.geometry.location.lng.toFixed(6)}`;
+            setDestination(latLng);
           }}
           fetchDetails={true}
           query={{
@@ -90,21 +86,26 @@ export default function DirectionFields({
           }}
         />
 
-        {/* GO Button instead of the current location button */}
-        <TouchableOpacity onPress={onGoPress} style={styles.goButton}>
+        {/* GO Button */}
+        <TouchableOpacity
+          onPress={onGoPress}
+          style={styles.goButton}
+          accessibilityRole="button"
+        >
           <Text style={styles.goButtonText}>GO</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Transportation Mode Selection */}
+      {/* Transportation Mode Buttons */}
       <View style={styles.transportModeContainer}>
-        {/* Walking Mode */}
+        {/* Walking */}
         <TouchableOpacity
+          onPress={() => setTravelMode("WALKING")}
           style={[
             styles.iconButton,
             travelMode === "WALKING" && styles.iconButtonSelected,
           ]}
-          onPress={() => setTravelMode("WALKING")}
+          accessibilityRole="button"
         >
           <View style={styles.iconContainer}>
             <MaterialIcons
@@ -112,19 +113,20 @@ export default function DirectionFields({
               size={24}
               color={travelMode === "WALKING" ? "#fff" : "#007BFF"}
             />
-            {duration !== null && travelMode === "WALKING" ? (
+            {duration !== null && travelMode === "WALKING" && (
               <Text style={styles.duration}>{Math.round(duration)} min</Text>
-            ) : null}
+            )}
           </View>
         </TouchableOpacity>
 
-        {/* Driving Mode */}
+        {/* Driving */}
         <TouchableOpacity
+          onPress={() => setTravelMode("DRIVING")}
           style={[
             styles.iconButton,
             travelMode === "DRIVING" && styles.iconButtonSelected,
           ]}
-          onPress={() => setTravelMode("DRIVING")}
+          accessibilityRole="button"
         >
           <View style={styles.iconContainer}>
             <MaterialIcons
@@ -132,19 +134,20 @@ export default function DirectionFields({
               size={24}
               color={travelMode === "DRIVING" ? "#fff" : "#007BFF"}
             />
-            {duration !== null && travelMode === "DRIVING" ? (
+            {duration !== null && travelMode === "DRIVING" && (
               <Text style={styles.duration}>{Math.round(duration)} min</Text>
-            ) : null}
+            )}
           </View>
         </TouchableOpacity>
 
-        {/* Transit Mode */}
+        {/* Transit */}
         <TouchableOpacity
+          onPress={() => setTravelMode("TRANSIT")}
           style={[
             styles.iconButton,
             travelMode === "TRANSIT" && styles.iconButtonSelected,
           ]}
-          onPress={() => setTravelMode("TRANSIT")}
+          accessibilityRole="button"
         >
           <View style={styles.iconContainer}>
             <MaterialIcons
@@ -152,15 +155,16 @@ export default function DirectionFields({
               size={24}
               color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"}
             />
-            {duration !== null && travelMode === "TRANSIT" ? (
+            {duration !== null && travelMode === "TRANSIT" && (
               <Text style={styles.duration}>{Math.round(duration)} min</Text>
-            ) : null}
+            )}
           </View>
         </TouchableOpacity>
       </View>
     </View>
   );
 }
+
 // Styles
 const styles = StyleSheet.create({
   googleBarWithButton: {
@@ -183,16 +187,6 @@ const styles = StyleSheet.create({
   locationButton: {
     padding: 10,
   },
-  iconContainer: {
-    flexDirection: "row", // Icon and text side by side
-    alignItems: "center", // Align vertically
-  },
-  duration: {
-    marginLeft: 8, // Add spacing between icon and text
-    color: "#fff",
-    fontSize: 16,
-    paddingRight: 5,
-  },
   goButton: {
     backgroundColor: "#007BFF",
     padding: 10,
@@ -206,7 +200,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  /* Transport Mode Styles */
   transportModeContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
@@ -224,5 +217,15 @@ const styles = StyleSheet.create({
   },
   iconButtonSelected: {
     backgroundColor: "#007BFF",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  duration: {
+    marginLeft: 8,
+    color: "#fff",
+    fontSize: 16,
+    paddingRight: 5,
   },
 });

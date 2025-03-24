@@ -39,7 +39,9 @@ export default function FloorplanRoom({ nodeInfo }) {
 
       // Add a delay to zoom on the room after the component has rendered
       setTimeout(() => {
+        if (zoomableRef.current?.zoom) { //added a guard to avoid a crash on the edge cases.. behavior stayed the same
         zoomableRef.current.zoom(2, 2, 5);
+        }
       }, 800);
     }
   }, [nodeInfo]);
