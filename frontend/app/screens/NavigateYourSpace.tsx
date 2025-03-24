@@ -10,12 +10,31 @@ import React, { useState } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { MaterialIcons } from "@expo/vector-icons";
+import { PathAPI } from "@/api/api";
+import { useNavigation } from "expo-router";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
+type RootDrawerParamList = {
+  "(screens)/FindRoom": undefined;
+  "(screens)/NavigateYourSpace": undefined;
+  "(screens)/IndoorMap": undefined;
+};
+
+type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 export default function NavigateYourSpace() {
+
+  const navigation = useNavigation<NavigationProp>();
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [startLocation, setStartLocation] = useState("");
   const [destination, setDestination] = useState("");
+  const handleGetDirection = () => {
+    PathAPI.shortestPathToRoom(startLocation, destination).then((response) => {
+      navigation.navigate("(screens)/IndoorMap" , response);
+      console.log("Sending from NavigateYourSpace")
+      console.log(response)
+    })
+  };
 
   return (
     <View style={globalStyles.container}>
@@ -55,7 +74,7 @@ export default function NavigateYourSpace() {
         </View>
         <View>
           {/* Get directions button */}
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleGetDirection}>
             <Text style={styles.buttonText}>Get directions</Text>
           </TouchableOpacity>
         </View>

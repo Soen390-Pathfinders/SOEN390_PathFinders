@@ -5,7 +5,7 @@ import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
  * Custom hook for interacting with Google Places API
  * @param {string} The google placeID we want information about
  */
-const useFetchGooglePlacesInfo = ({ placeID }) => {
+const useFetchGooglePlacesInfo = ({ placeID, searchRadius}) => {
   
   //set the place
  const[place, setPlace] =  useState(placeID);
@@ -13,7 +13,7 @@ const useFetchGooglePlacesInfo = ({ placeID }) => {
   const[placeInfo, setPlaceInfo] = useState(null);
   // Error handling
   const [error, setError] =  useState<string | null>(null);
-
+  const [filteredPlaces, setFilteredPlaces] = useState([]);
 
  // Update place whenever placeID changes in the hook call
  useEffect(() => {
@@ -85,15 +85,73 @@ useEffect(() => {
      setError(null);
    }, []);
 
+  //Convert filter names to Google Places API types
+   const getGooglePlacesType = (filter) => {
+     const typeMap = {
+       "Coffee": "cafe",
+       "Restaurants": "restaurant",
+       "Parks": "park",
+       "Bakeries": "bakery",
+       "Pharmacies": "pharmacy",
+       "Bars": "bar",
+       "Ice Cream": "ice_cream_parlor",
+       "Dessert Shops": "dessert_shop",
+       "Juice Bars": "juice_bar"
+     };
+     return typeMap[filter] || filter.toLowerCase().replace(" ", "_");
+   };
+
+   // Fetch places based on selected filters
+   const fetchPlacesByCategories = useCallback(async (filters, location) => {
+     if (!filters || filters.length === 0) {
+       setFilteredPlaces([]);
+       return [];
+     }
+
+     try {
+       const places = [];
+       // Process each filter sequentially
+       for (const filter of filters) {
+         const type = getGooglePlacesType(filter);
+
+         const response = await fetch(
+           `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${searchRadius}&type=${type}&key=${GOOGLE_MAPS_APIKEY}`
+         );
+
+         const data = await response.json();
+
+         if (data.results) {
+           // Add each place to our array with a filter property
+           data.results.forEach(place => {
+             places.push({
+               ...place,
+               filter: filter // Store which filter found this place
+             });
+           });
+         }
+       }
+
+       // Update state with all the places we found
+       setFilteredPlaces(places);
+       return places;
+     } catch (err) {
+       console.error("Error fetching filtered places:", err);
+       setError(`Failed to fetch filtered places: ${err.message}`);
+       return [];
+     }
+   }, [searchRadius]);
+
    return {
-    //state
-    place,
-    placeInfo,
-    error,
-    //functions
-    fetchPlaceInfo,
-    clearError,
-    clearPlace
-  };
-};
+     // Existing state and functions
+     place,
+     placeInfo,
+     error,
+     fetchPlaceInfo,
+     clearError,
+     clearPlace,
+     // New state and functions for filtering
+     filteredPlaces,
+     fetchPlacesByCategories
+   };
+ };
 export default useFetchGooglePlacesInfo;

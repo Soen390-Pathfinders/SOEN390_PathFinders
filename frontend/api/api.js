@@ -10,6 +10,7 @@ const getApiUrl = () => {
     Constants.manifest?.debuggerHost ||
     Constants.manifest2?.extra?.expoGo?.debuggerHost;
 
+
   if (Platform.OS === "ios" && debuggerHost) {
     // Running on iOS simulator
     return "http://localhost:8000/api";
@@ -22,7 +23,7 @@ const getApiUrl = () => {
     return `http://${host}:8000/api`;
   } else {
     // Fallback (or production URL)
-    return "http://YOUR_PRODUCTION_URL/api"; //Add your computer's IP here if using your phone
+    return "http://YOUR_PRODUCTION_URL:8000/api"; //Add your computer's IP here if using your phone
   }
 };
 
@@ -84,6 +85,7 @@ export const FloorAPI = {
 };
 
 export const RoomAPI = {
+  test: () => console.log(getApiUrl()),
   getAll: () => handleRequest(() => api.get("/room/all")),
   get: (roomCode) => handleRequest(() => api.get(`/room/get?code=${roomCode}`)),
   create: (roomData) => handleRequest(() => api.post("/room/add", roomData)),
