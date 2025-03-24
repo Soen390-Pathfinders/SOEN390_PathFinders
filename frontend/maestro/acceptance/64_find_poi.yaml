@@ -1,0 +1,8 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu"
+- tapOn: "Points of interests"
+- tapOn: "Loyola"
+- tapOn: "SGW"
+- tapOn: "MANUALLY FECTH THE PLACE"
+# to be finished
