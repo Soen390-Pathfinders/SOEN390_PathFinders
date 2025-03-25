@@ -1,8 +1,6 @@
-#issue #59
 appId: host.exp.exponent
 ---
-- tapOn:
-    point: "50%,46%"
+- tapOn: "Show navigation menu"
 - tapOn: "Start Location"
 - inputText: "Hall Building"
 - tapOn: "H Building Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"

@@ -1,6 +1,5 @@
 //searchBar component -- Not yet completed and added to a any page.
-import { View, Text, TextInput, StyleSheet } from "react-native";
-import React from "react";
+import { View, TextInput } from "react-native";
 import useTheme from "@/app/hooks/useTheme";
 import { getStyles } from "@/app/styles";
 

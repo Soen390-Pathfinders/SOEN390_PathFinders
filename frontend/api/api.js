@@ -15,6 +15,7 @@ export const API_BASE_URL = Platform.select({
   default: "http://10.0.0.123:8000/api",
 });
 
+
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
@@ -70,6 +71,7 @@ export const FloorAPI = {
 };
 
 export const RoomAPI = {
+  test: () => console.log(getApiUrl()),
   getAll: () => handleRequest(() => api.get("/room/all")),
   get: (roomCode) => handleRequest(() => api.get(`/room/get?code=${roomCode}`)),
   create: (roomData) => handleRequest(() => api.post("/room/add", roomData)),

@@ -26,13 +26,19 @@
       "!app/**/index.{js,ts,tsx}",
       "!app/data/**",
       "!app/**/types.{js,ts,tsx}",
-      "!app/assets/**"
+      "!app/assets/**",
+      "!app/(tabs)/**",
+      "!app/components/maps/building_outlines.tsx",
+      "!app/components/maps/concordiaBuildings.ts",
+      "!**/node_modules/**",
+      "!**/tests/**"
     ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
     "@likashefqet/react-native-image-zoom": "^4.3.0",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/slider": "^4.5.6",
     "@react-native-vector-icons/common": "^11.0.0",
     "@react-native/codegen": "^0.77.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -78,8 +84,9 @@
     "@babel/core": "^7.25.2",
     "@playwright/test": "^1.50.1",
     "@react-native-community/cli": "latest",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-native": "^5.4.3",
-    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/react": "^16.2.0",
     "@testing-library/react-native": "^13.0.1",
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
