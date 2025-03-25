@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+
+import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
@@ -16,13 +17,13 @@ type RootDrawerParamList = {
 };
 type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 
-export default function Floorplan() {
+export default function Floorplan({path}) {
 
   const navigation = useNavigation<NavigationProp>(); // Drawer navigation
   
 
+
   const zoomableRef = useRef(null);
-  const [scale, setScale] = useState(1);
   // Default to H5 initially, but this will be updated by the PathTrace component
   const [currentFloor, setCurrentFloor] = useState("H5");
   // State to track if floor change was confirmed
@@ -35,9 +36,12 @@ export default function Floorplan() {
   const [outdoorDestination, setOutdoorDestination] = useState(null);
 
 
-  const onZoom = (zoomType) => {
-    console.log("Zoom event triggered:", zoomType);
-  };
+  const [currentImageWidth, setCurrentImageWidth] = useState();
+  const [currentImageHeight, setCurrentImageHeight] = useState();
+  const [pathTracePath, setPathTracePath] = useState();
+  useEffect(() => {
+    setPathTracePath(path);
+  })
 
   const onAnimationEnd = (finished) => {
     console.log("Animation ended:", finished);
@@ -45,7 +49,7 @@ export default function Floorplan() {
 
   // Function to get the appropriate floor plan image based on current floor
   const getFloorplanImage = () => {
-    switch(currentFloor) {
+    switch (currentFloor) {
       case "H1":
         return require("../../../assets/floorplans/H1.png");
       case "H4":
@@ -65,7 +69,7 @@ export default function Floorplan() {
 
   // All available floors
   const floors = ["H1", "H4", "H5", "H6", "H8", "H9"];
-  
+
   // Handle floor change requested by PathTrace component
   const handleFloorChangeRequired = (newFloor) => {
     setNextFloorInPath(newFloor);
@@ -81,7 +85,7 @@ export default function Floorplan() {
     // Reset the next floor after handling
     setNextFloorInPath(null);
   };
-  
+
   // Handle initial floor detection from PathTrace
   const handleInitialFloorDetected = (floorName) => {
     setCurrentFloor(floorName);
@@ -91,26 +95,34 @@ export default function Floorplan() {
     <View style={styles.container}>
       {/* Floor selector */}
       <View style={styles.floorSelectorContainer}>
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false} 
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.floorScroller}
           snapToAlignment="center"
         >
           {floors.map((floor) => (
-            <TouchableOpacity 
+            <TouchableOpacity
               key={floor}
-              style={[styles.floorButton, currentFloor === floor && styles.selectedFloor]} 
+              style={[
+                styles.floorButton,
+                currentFloor === floor && styles.selectedFloor,
+              ]}
               onPress={() => setCurrentFloor(floor)}
             >
-              <Text style={[styles.floorButtonText, currentFloor === floor && styles.selectedFloorText]}>
+              <Text
+                style={[
+                  styles.floorButtonText,
+                  currentFloor === floor && styles.selectedFloorText,
+                ]}
+              >
                 {floor}
               </Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
-      
+
       <Zoomable
         ref={zoomableRef}
         minScale={1}
@@ -131,10 +143,10 @@ export default function Floorplan() {
       >
         <View style={styles.svgContainer}>
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            <PathTrace 
-              currentFloor={currentFloor} 
+            <PathTrace
+              currentFloor={currentFloor}
               onFloorChangeRequired={handleFloorChangeRequired}
-              floorChangeConfirmed={floorChangeConfirmed}
+              floorChangeConfirmed={floorChangeConfirmed} 
               setFloorChangeConfirmed={setFloorChangeConfirmed}
               onInitialFloorDetected={handleInitialFloorDetected}
               onDetectedCrossBuildingPath={(isCrossBuilding, destinationCoordinate) => {
@@ -144,19 +156,24 @@ export default function Floorplan() {
                   setShowExitPrompt(true);
                 }
               }}
+              path={pathTracePath}
             />
           </Svg>
         </View>
+        {/* <View style= {{backgroundImage:'url(${getFloorplanImage})'}}>
+
+        </View> */}
         <View style={styles.floorplanContainer}>
-          <Image
-            style={styles.image}
-            source={getFloorplanImage()} 
-            contentFit="contain"
-            transition={250}
-            resizeMode="cover"
-          ></Image>
+
+            <Image
+              style={styles.image}
+              source={getFloorplanImage()} 
+              contentFit="contain"
+              transition={250}
+              resizeMode="contain"
+            ></Image>     
         </View>
-        
+
         {/* Floor change banner */}
         {nextFloorInPath && (
           <View style={styles.bannerContainer}>
@@ -164,7 +181,7 @@ export default function Floorplan() {
               <Text style={styles.bannerText}>
                 Continue to floor {nextFloorInPath}?
               </Text>
-              
+
               <View style={styles.bannerButtons}>
                 <TouchableOpacity
                   style={[styles.button, styles.buttonNo]}
@@ -172,7 +189,7 @@ export default function Floorplan() {
                 >
                   <Text style={styles.buttonText}>No</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                   style={[styles.button, styles.buttonYes]}
                   onPress={() => handleFloorChangeConfirmation(true)}
@@ -266,8 +283,11 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    position: 'absolute',
+
     width: "100%",
     height: "100%",
+    transform:[{scaleY:1.2}]
   },
   svgContainer: {
     height: "100%",
@@ -276,60 +296,68 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     zIndex: 4,
+    
   },
+  floorplanInnerContainer: {
+    zIndex:4,
+  }
+  ,
+
   floorplanContainer: {
+    
     height: "100%",
     width: "100%",
     position: "absolute",
     left: 0,
     top: 0,
     zIndex: 2,
+    aspectRatio:1
   },
   bannerContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 0,
     right: 0,
     zIndex: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   banner: {
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
     borderRadius: 8,
     padding: 12,
-    width: '80%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   bannerText: {
-    color: '#333',
+    color: "#333",
     flex: 1,
     fontSize: 14,
     marginRight: 10,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   bannerButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   button: {
     padding: 8,
     borderRadius: 4,
     marginLeft: 6,
     minWidth: 60,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonYes: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
   },
   buttonNo: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: "#e74c3c",
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 12,
-  }
+  },
 });

@@ -1,7 +1,5 @@
-#issue #58
 appId: host.exp.exponent
 ---
-- tapOn:
-    point: "6%,9%" 
+- tapOn: "Show navigation menu"
 - tapOn: "Concordia Shuttle"
 - assertVisible: "BUS SHUTTLE DEPARTURE TIMES"   

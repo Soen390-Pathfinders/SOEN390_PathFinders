@@ -1,0 +1,21 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu"
+- tapOn: "Points of interests"
+- tapOn:
+    point: "10%,94%"
+- tapOn: "Coffee"
+- tapOn: "Apply"
+- tapOn: "Eggspectation - Maisonneuve"
+- assertVisible: "Name : Eggspectation - Maisonneuve"
+- assertVisible: "Monday: 7:00 AM – 3:00 PM"
+- tapOn:
+    point: "72%,50%"
+- tapOn:
+    point: "10%,94%"
+- tapOn: "Restaurants"
+- tapOn: "Parks"
+- tapOn: "Apply"
+- tapOn: "Restaurant Boustan"
+- tapOn:
+    point: "72%,50%"

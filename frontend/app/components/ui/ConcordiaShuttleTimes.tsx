@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { loyolaSchedule, sgwSchedule } from "../../data/shuttleSchedules";
 
 //takes the time as String and returns a number of minutes
@@ -83,69 +83,69 @@ export default function ConcordiaShuttleTimes() {
         <Text style={styles.headerText}>SGW CAMPUS</Text>
       </View>
 
-      {[...Array(Math.max(departures.loyola.length, departures.sgw.length))].map(
-        (_, index) => {
-          const loyTime = departures.loyola[index];
-          const sgwTime = departures.sgw[index];
-          const loyMinutesAway = loyTime
-            ? timeToMinutes(loyTime) - currentTime
-            : null;
-          const sgwMinutesAway = sgwTime
-            ? timeToMinutes(sgwTime) - currentTime
-            : null;
+      {[
+        ...Array(Math.max(departures.loyola.length, departures.sgw.length)),
+      ].map((_, index) => {
+        const loyTime = departures.loyola[index];
+        const sgwTime = departures.sgw[index];
+        const loyMinutesAway = loyTime
+          ? timeToMinutes(loyTime) - currentTime
+          : null;
+        const sgwMinutesAway = sgwTime
+          ? timeToMinutes(sgwTime) - currentTime
+          : null;
 
-          return (
-            <View key={index} style={styles.row}>
-              <View style={styles.column}>
-                {loyTime && (
-                  <Text style={styles.timeText}>
-                    {loyTime}
-                    <Text
-                      style={[
-                        styles.statusText,
-                        loyMinutesAway === 0
-                          ? styles.departingStatus
-                          : loyMinutesAway < 0
-                          ? styles.departedStatus
-                          : styles.awayStatus,
-                      ]}
-                    >
-                      {loyMinutesAway === 0
-                        ? "  ⏳ Departing..."
+        return (
+          <View key={index} style={styles.row}>
+            <View style={styles.column}>
+              {loyTime && (
+                <Text style={styles.timeText}>
+                  {loyTime}
+                  <Text
+                    style={[
+                      styles.statusText,
+                      loyMinutesAway === 0
+                        ? styles.departingStatus
                         : loyMinutesAway < 0
-                        ? "  ✓ Departed"
-                        : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
-                    </Text>
+                        ? styles.departedStatus
+                        : styles.awayStatus,
+                    ]}
+                  >
+                    {loyMinutesAway === 0
+                      ? "  ⏳ Departing..."
+                      : loyMinutesAway < 0
+                      ? "  ✓ Departed"
+                      : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
                   </Text>
-                )}
-              </View>
-              <View style={styles.column}>
-                {sgwTime && (
-                  <Text style={styles.timeText}>
-                    {sgwTime}
-                    <Text
-                      style={[
-                        styles.statusText,
-                        sgwMinutesAway === 0
-                          ? styles.departingStatus
-                          : sgwMinutesAway < 0
-                          ? styles.departedStatus
-                          : styles.awayStatus,
-                      ]}
-                    >
-                      {sgwMinutesAway === 0
-                        ? "  ⏳ Departing..."
-                        : sgwMinutesAway < 0
-                        ? "  ✓ Departed"
-                        : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
-                    </Text>
-                  </Text>
-                )}
-              </View>
+                </Text>
+              )}
             </View>
-          );
-        }
-      )}
+            <View style={styles.column}>
+              {sgwTime && (
+                <Text style={styles.timeText}>
+                  {sgwTime}
+                  <Text
+                    style={[
+                      styles.statusText,
+                      sgwMinutesAway === 0
+                        ? styles.departingStatus
+                        : sgwMinutesAway < 0
+                        ? styles.departedStatus
+                        : styles.awayStatus,
+                    ]}
+                  >
+                    {sgwMinutesAway === 0
+                      ? "  ⏳ Departing..."
+                      : sgwMinutesAway < 0
+                      ? "  ✓ Departed"
+                      : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
+                  </Text>
+                </Text>
+              )}
+            </View>
+          </View>
+        );
+      })}
     </View>
   );
 }
