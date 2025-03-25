@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, Text, Button, Alert, FlatList, TouchableOpacity, Modal, StyleSheet 
+import {
+  View,
+  Text,
+  Button,
+  Alert,
+  FlatList,
+  TouchableOpacity,
+  Modal,
+  StyleSheet,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import * as CalendarAPI from "expo-calendar";
@@ -33,6 +40,7 @@ export default function NextClassInfo() {
   // Request permission to access the user's calendar
   const getPermissions = async () => {
     const { status } = await CalendarAPI.requestCalendarPermissionsAsync();
+
     if (status === "granted") {
       fetchGoogleCalendars(); // If permission is granted, fetch calendars
     } else {
@@ -43,9 +51,12 @@ export default function NextClassInfo() {
   // Fetch Google Calendars associated with the user's account
   const fetchGoogleCalendars = async () => {
     try {
-      const allCalendars = await CalendarAPI.getCalendarsAsync(CalendarAPI.EntityTypes.EVENT);
-      const googleCalendars = allCalendars.filter(cal => cal.source.type === "com.google");
-
+      const allCalendars = await CalendarAPI.getCalendarsAsync(
+        CalendarAPI.EntityTypes.EVENT
+      );
+      const googleCalendars = allCalendars.filter(
+        (cal) => cal.source.type === "com.google"
+      );
       if (googleCalendars.length === 0) {
         Alert.alert("No Google Calendar found!");
       } else {
@@ -88,7 +99,7 @@ export default function NextClassInfo() {
   // Handle day press on the calendar
   const handleDayPress = (day) => {
     const date = day.dateString;
-    const eventsOnDate = allEvents.filter(event => {
+    const eventsOnDate = allEvents.filter((event) => {
       const eventDate = new Date(event.startDate).toISOString().split("T")[0];
       return eventDate === date;
     });
@@ -123,7 +134,9 @@ export default function NextClassInfo() {
   // Get the next upcoming class from the event list
   const getNextClass = () => {
     const now = new Date();
-    const upcomingEvents = allEvents.filter(event => new Date(event.startDate) > now);
+    const upcomingEvents = allEvents.filter(
+      (event) => new Date(event.startDate) > now
+    );
 
     if (upcomingEvents.length === 0) {
       Alert.alert("No Upcoming Classes", "There are no upcoming events.");
@@ -141,13 +154,15 @@ export default function NextClassInfo() {
 
     Alert.alert(
       "Next Class Details",
-      `Title: ${nextEvent.title}\nTime: ${new Date(nextEvent.startDate).toLocaleString()}\nLocation: ${nextEvent.location}`,
+      `Title: ${nextEvent.title}\nTime: ${new Date(
+        nextEvent.startDate
+      ).toLocaleString()}\nLocation: ${nextEvent.location}`,
       [
         {
           text: "Get Directions",
           onPress: () => {
             navigation.navigate("OutdoorDirections", {
-              customStartLocation: 'start',
+              customStartLocation: "start",
               customDestination: nextEvent.location,
             });
           },
@@ -158,11 +173,50 @@ export default function NextClassInfo() {
 
   return (
     <View style={styles.container}>
-      <Button title="Switch Calendar" onPress={() => setCalendarModalVisible(true)} />
-      <Button title="Refresh Events" onPress={() => fetchEvents(selectedCalendarId)} />
+      <Button
+        title="Switch Calendar"
+        onPress={() => setCalendarModalVisible(true)}
+      />
+      <Button
+        title="Refresh Events"
+        onPress={() => fetchEvents(selectedCalendarId)}
+      />
+      {/* Calendar Selection Modal */}
+      <Modal
+        visible={calendarModalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setCalendarModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Select Calendar</Text>
+            <FlatList
+              data={calendars}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.calendarItem}
+                  onPress={() => handleCalendarSelection(item)}
+                >
+                  <Text>{item.title}</Text>
+                </TouchableOpacity>
+              )}
+            />
+            <Button
+              title="Cancel"
+              onPress={() => setCalendarModalVisible(false)}
+            />
+          </View>
+        </View>
+      </Modal>
 
       <Text style={styles.header}>Calendar:</Text>
-      <Calendar markedDates={markedDates} markingType="dot" onDayPress={handleDayPress} />
+      <Calendar
+        markedDates={markedDates}
+        markingType="dot"
+        onDayPress={handleDayPress}
+      />
 
       <Button title="Directions to Next Class" onPress={getNextClass} />
     </View>
@@ -177,5 +231,27 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     marginVertical: 10,
+  }, // Add to your styles
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    margin: 20,
+    padding: 20,
+    borderRadius: 10,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  calendarItem: {
+    padding: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
   },
 });
