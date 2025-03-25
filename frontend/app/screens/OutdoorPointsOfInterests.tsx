@@ -15,6 +15,7 @@ import MapView, {
   PROVIDER_GOOGLE,
 } from "react-native-maps";
 import RadiusSlider from "../components/ui/RadiusButton";
+import useUserLocation from "../hooks/useUserLocation";
 
 export default function OutdoorPointsOfInterests() {
   const { theme } = useTheme();
