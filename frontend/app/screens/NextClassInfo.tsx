@@ -184,29 +184,60 @@ export default function NextClassInfo() {
       {/* Calendar Selection Modal */}
       <Modal
         visible={calendarModalVisible}
-        transparent={true}
         animationType="slide"
-        onRequestClose={() => setCalendarModalVisible(false)}
+        transparent={true}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Select Calendar</Text>
+            <Text style={styles.modalHeader}>Select a Google Calendar:</Text>
+
             <FlatList
               data={calendars}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <TouchableOpacity
-                  style={styles.calendarItem}
+                  style={styles.listItem}
                   onPress={() => handleCalendarSelection(item)}
                 >
                   <Text>{item.title}</Text>
                 </TouchableOpacity>
               )}
             />
+
             <Button
-              title="Cancel"
+              title="Close"
               onPress={() => setCalendarModalVisible(false)}
             />
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={eventModalVisible}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalHeader}>Events on this day:</Text>
+
+            <FlatList
+              data={selectedEvents}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View style={styles.eventItem}>
+                  <Text style={styles.eventTitle}>{item.title}</Text>
+
+                  <Text>{new Date(item.startDate).toLocaleString()}</Text>
+
+                  <Text>
+                    Location: {item.location || "No location specified"}
+                  </Text>
+                </View>
+              )}
+            />
+
+            <Button title="Close" onPress={() => setEventModalVisible(false)} />
           </View>
         </View>
       </Modal>
@@ -234,24 +265,37 @@ const styles = StyleSheet.create({
   }, // Add to your styles
   modalContainer: {
     flex: 1,
-    justifyContent: "center",
     backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    padding: 20,
   },
+
   modalContent: {
     backgroundColor: "white",
-    margin: 20,
-    padding: 20,
     borderRadius: 10,
-    elevation: 5,
+    padding: 20,
   },
-  modalTitle: {
+
+  modalHeader: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 15,
+    marginBottom: 10,
   },
-  calendarItem: {
+
+  listItem: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: "#ddd",
+  },
+
+  eventItem: {
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+  },
+
+  eventTitle: {
+    fontWeight: "bold",
   },
 });
