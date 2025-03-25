@@ -4,8 +4,23 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
+import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+
+
+type RootDrawerParamList = {
+  OutdoorDirections: {
+    customStartLocation: string;
+    customDestination: string;
+  };
+};
+type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 
 export default function Floorplan() {
+
+  const navigation = useNavigation<NavigationProp>(); // Drawer navigation
+  
+
   const zoomableRef = useRef(null);
   const [scale, setScale] = useState(1);
   // Default to H5 initially, but this will be updated by the PathTrace component
@@ -14,6 +29,11 @@ export default function Floorplan() {
   const [floorChangeConfirmed, setFloorChangeConfirmed] = useState(false);
   // State to track next floor in path
   const [nextFloorInPath, setNextFloorInPath] = useState(null);
+  // Whether to show the "Have you exited?" banner
+  const [showExitPrompt, setShowExitPrompt] = useState(false);
+  // Coordinates or label for outdoor destination (set when path is cross-building)
+  const [outdoorDestination, setOutdoorDestination] = useState(null);
+
 
   const onZoom = (zoomType) => {
     console.log("Zoom event triggered:", zoomType);
@@ -117,6 +137,13 @@ export default function Floorplan() {
               floorChangeConfirmed={floorChangeConfirmed}
               setFloorChangeConfirmed={setFloorChangeConfirmed}
               onInitialFloorDetected={handleInitialFloorDetected}
+              onDetectedCrossBuildingPath={(isCrossBuilding, destinationCoordinate) => {
+                if (isCrossBuilding) {
+                  // Store destination and show the "exit building" banner
+                  setOutdoorDestination(destinationCoordinate);
+                  setShowExitPrompt(true);
+                }
+              }}
             />
           </Svg>
         </View>
@@ -156,6 +183,41 @@ export default function Floorplan() {
             </View>
           </View>
         )}
+
+        {showExitPrompt && (
+          <View style={styles.bannerContainer}>
+            <View style={styles.banner}>
+              <Text style={styles.bannerText}>
+                Have you exited the building?
+              </Text>
+              <View style={styles.bannerButtons}>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonNo]}
+                  onPress={() => setShowExitPrompt(false)} // Just hide banner
+                >
+                  <Text style={styles.buttonText}>No</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonYes]}
+                  onPress={() => {
+                    setShowExitPrompt(false); // Hide banner
+                    // Navigate to outdoor directions with the dynamic coordinates
+                    
+                    navigation.navigate("OutdoorDirections", {
+                      customStartLocation: "start",
+                      customDestination: outdoorDestination,
+                    });
+                    
+                  }}
+                >
+                  <Text style={styles.buttonText}>Yes</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        )}
+
       </Zoomable>
     </View>
   );

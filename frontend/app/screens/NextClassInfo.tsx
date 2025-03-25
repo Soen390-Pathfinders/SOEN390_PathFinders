@@ -10,7 +10,10 @@ import { DrawerNavigationProp } from "@react-navigation/drawer";
 // Define Drawer Navigation Type
 // This specifies the available routes for navigation
 type RootDrawerParamList = {
-  OutdoorDirections: undefined;
+  OutdoorDirections: {
+    customStartLocation: string;
+    customDestination: string;
+  };
 };
 type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 

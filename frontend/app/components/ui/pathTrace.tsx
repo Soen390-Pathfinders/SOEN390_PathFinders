@@ -21,7 +21,8 @@ export default function PathTrace({
   onFloorChangeRequired, 
   floorChangeConfirmed,
   setFloorChangeConfirmed,
-  onInitialFloorDetected = undefined
+  onInitialFloorDetected = undefined,
+  onDetectedCrossBuildingPath = undefined
 }) {
   // State for path nodes and current floor's nodes
   const [allPathNodes, setAllPathNodes] = useState<PathNode[]>([]);
@@ -29,6 +30,13 @@ export default function PathTrace({
   
   // Detect when there's a next floor in the path
   const [nextFloorInPath, setNextFloorInPath] = useState<string | null>(null);
+
+  const getBuildingFromFloor = (floorStr: string): string => {
+    // Match alphanumerics at the beginning (e.g., H, C, S2, LB)
+    const match = floorStr.match(/^[A-Za-z0-9]+/);
+    return match ? match[0] : "";
+  };
+
 
   // Load path data from API when component mounts
   useEffect(() => {
@@ -40,6 +48,7 @@ export default function PathTrace({
         
         // Detect the starting floor from the first node
         const startNode = response.path[0];
+        const endNode = response.path[response.path.length - 1];
         const floorNumber = startNode.floor.replace('H-', '');
         const startingFloor = `H${floorNumber}`;
         
@@ -47,6 +56,23 @@ export default function PathTrace({
         if (onInitialFloorDetected && typeof onInitialFloorDetected === 'function') {
           onInitialFloorDetected(startingFloor);
         }
+
+        const startBuilding = getBuildingFromFloor(startNode.floor);
+        const endBuilding = getBuildingFromFloor(endNode.floor);
+        console.log("buildings")
+        console.log(startBuilding)
+        console.log(endBuilding)
+
+        const isCrossBuilding = startBuilding !== endBuilding;
+        if (onDetectedCrossBuildingPath && typeof onDetectedCrossBuildingPath === 'function') {
+          if (onDetectedCrossBuildingPath) {
+            const destination = "H-857"; // MUST USE THE SAME DESTINATION AS WHEN CALLING shortestPathToRoom
+            //THEN BACKEND CAN MAP THE ROOM TO ITS COORDINATE LOCATION
+            const map_to_coordinate = "45.4582,-73.6405" //<-THIS SHOULD BE CHANGED TO AN API CALL THAT MAPS TO COORDINATE
+            onDetectedCrossBuildingPath(true, map_to_coordinate); 
+          }
+        }
+
       }
     }).catch(error => {
       console.error("Error loading path data:", error);
