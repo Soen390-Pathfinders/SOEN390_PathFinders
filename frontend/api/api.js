@@ -2,30 +2,18 @@ import axios from "axios";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 
-// Get the appropriate URL based on where the app is running
-const getApiUrl = () => {
-  const debuggerHost =
-    Constants.expoConfig?.hostUri ||
-    Constants.manifest?.debuggerHost ||
-    Constants.manifest2?.extra?.expoGo?.debuggerHost;
+/*
+export const API_BASE_URL = Platform.select({
+  ios: "http://localhost:8000/api",
+  android: "http://10.0.2.2:8000/api",
+});
+*/
 
-  if (Platform.OS === "ios" && debuggerHost) {
-    // Running on iOS simulator
-    return "http://localhost:8000/api";
-  } else if (Platform.OS === "android" && debuggerHost) {
-    // Running on Android emulator
-    return "http://10.0.2.2:8000/api";
-  } else if (debuggerHost) {
-    // Running on physical device - extract IP from debuggerHost
-    const host = debuggerHost.split(":")[0];
-    return `http://${host}:8000/api`;
-  } else {
-    // Fallback (or production URL)
-    return "http://YOUR_PRODUCTION_URL/api"; //Add your computer's IP here if using your phone
-  }
-};
-
-export const API_BASE_URL = getApiUrl();
+export const API_BASE_URL = Platform.select({
+  ios: "http://10.0.0.123:8000/api",
+  android: "http://10.0.0.123:8000/api",
+  default: "http://10.0.0.123:8000/api",
+});
 
 const api = axios.create({
   baseURL: API_BASE_URL,
