@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, Alert, StyleSheet } from "react-native";
+import { 
+  View, Text, Button, Alert, FlatList, TouchableOpacity, Modal, StyleSheet 
+} from "react-native";
 import { Calendar } from "react-native-calendars";
 import * as CalendarAPI from "expo-calendar";
 import { useNavigation } from "@react-navigation/native";
@@ -41,12 +43,8 @@ export default function NextClassInfo() {
   // Fetch Google Calendars associated with the user's account
   const fetchGoogleCalendars = async () => {
     try {
-      const allCalendars = await CalendarAPI.getCalendarsAsync(
-        CalendarAPI.EntityTypes.EVENT
-      );
-      const googleCalendars = allCalendars.filter(
-        (cal) => cal.source.type === "com.google"
-      );
+      const allCalendars = await CalendarAPI.getCalendarsAsync(CalendarAPI.EntityTypes.EVENT);
+      const googleCalendars = allCalendars.filter(cal => cal.source.type === "com.google");
 
       if (googleCalendars.length === 0) {
         Alert.alert("No Google Calendar found!");
@@ -90,7 +88,7 @@ export default function NextClassInfo() {
   // Handle day press on the calendar
   const handleDayPress = (day) => {
     const date = day.dateString;
-    const eventsOnDate = allEvents.filter((event) => {
+    const eventsOnDate = allEvents.filter(event => {
       const eventDate = new Date(event.startDate).toISOString().split("T")[0];
       return eventDate === date;
     });
@@ -125,9 +123,7 @@ export default function NextClassInfo() {
   // Get the next upcoming class from the event list
   const getNextClass = () => {
     const now = new Date();
-    const upcomingEvents = allEvents.filter(
-      (event) => new Date(event.startDate) > now
-    );
+    const upcomingEvents = allEvents.filter(event => new Date(event.startDate) > now);
 
     if (upcomingEvents.length === 0) {
       Alert.alert("No Upcoming Classes", "There are no upcoming events.");
@@ -145,15 +141,13 @@ export default function NextClassInfo() {
 
     Alert.alert(
       "Next Class Details",
-      `Title: ${nextEvent.title}\nTime: ${new Date(
-        nextEvent.startDate
-      ).toLocaleString()}\nLocation: ${nextEvent.location}`,
+      `Title: ${nextEvent.title}\nTime: ${new Date(nextEvent.startDate).toLocaleString()}\nLocation: ${nextEvent.location}`,
       [
         {
           text: "Get Directions",
           onPress: () => {
             navigation.navigate("OutdoorDirections", {
-              customStartLocation: "start",
+              customStartLocation: 'start',
               customDestination: nextEvent.location,
             });
           },
@@ -164,21 +158,11 @@ export default function NextClassInfo() {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Switch Calendar"
-        onPress={() => setCalendarModalVisible(true)}
-      />
-      <Button
-        title="Refresh Events"
-        onPress={() => fetchEvents(selectedCalendarId)}
-      />
+      <Button title="Switch Calendar" onPress={() => setCalendarModalVisible(true)} />
+      <Button title="Refresh Events" onPress={() => fetchEvents(selectedCalendarId)} />
 
       <Text style={styles.header}>Calendar:</Text>
-      <Calendar
-        markedDates={markedDates}
-        markingType="dot"
-        onDayPress={handleDayPress}
-      />
+      <Calendar markedDates={markedDates} markingType="dot" onDayPress={handleDayPress} />
 
       <Button title="Directions to Next Class" onPress={getNextClass} />
     </View>
