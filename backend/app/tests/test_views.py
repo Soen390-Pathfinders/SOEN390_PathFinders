@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType
+from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType, Edge
 
 @pytest.fixture
 def api_client():
@@ -126,7 +126,25 @@ def test_delete_campus(api_client, create_campus): #works
     response = api_client.delete(url, data=payload, format="json")
 
     assert response.status_code == 200
-    assert not Campus.objects.filter(code="GAS").exists() 
+    assert not Campus.objects.filter(code="GAS").exists()
+
+@pytest.mark.django_db
+def test_modify_campus(api_client, create_campus):
+    url = reverse("modify_campus")
+    payload = {
+        "code": "B",
+        "name": "Campus B Modified"
+    }
+
+    response = api_client.put(url, data=payload, format="json")
+
+    assert response.status_code == 200
+    assert response.json()["name"] == "Campus B Modified" 
+
+@pytest.mark.django_db
+def test_modify_campus_invalid(api_client): #works
+    response = api_client.put(reverse("modify_campus"), {"code": "Z", "name": "Campus Z"})
+    assert response.status_code == 404
 
 @pytest.fixture
 def floor(db, building):
@@ -374,3 +392,16 @@ def test_modify_insidepoi(api_client, inside_poi): #failed
     response = api_client.put(url, data=payload, format="json")
     assert response.status_code == 200
     assert response.json()['x_coor'] == 777
+
+@pytest.fixture
+def edge(db, floor):
+    node1 = InsidePOI.objects.create(floor=floor, x_coor=1.0, y_coor=2.0)
+    node2 = InsidePOI.objects.create(floor=floor, x_coor=4.0, y_coor=6.0)
+    edge = Edge.objects.create(node1=node1, node2=node2)
+    return edge
+
+@pytest.mark.django_db
+def test_get_all_edges(api_client, edge):
+    response = api_client.get(reverse("get_all_edges"))
+    assert response.status_code == 200
+    assert len(response.data) == 1 
