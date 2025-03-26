@@ -1,3 +1,12 @@
+---
+name: Bug template
+about: Bug reporting template for issue tracker
+title: BUG - "bug title"
+labels: Bug
+assignees: ''
+
+---
+
 # :bug:  Bug Title
 
 ## Describe the bug
