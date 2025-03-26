@@ -1,6 +1,18 @@
 import axios from "axios";
+import { Platform } from "react-native";
+import Constants from "expo-constants";
 
-export const API_BASE_URL = "http://localhost:8000/api";
+const LOCAL_IP = "192.168.18.3"; // CHANGE THIS to your machine’s IP
+
+// Check if the app is running on a simulator/emulator
+const isEmulator = false; //Change to false if using your physical device
+
+export const API_BASE_URL = isEmulator
+  ? Platform.select({
+      ios: "http://localhost:8000/api", // iOS Simulator
+      android: "http://10.0.2.2:8000/api", // Android Emulator
+    })
+  : `http://${LOCAL_IP}:8000/api`; // Physical devices
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -57,6 +69,7 @@ export const FloorAPI = {
 };
 
 export const RoomAPI = {
+  test: () => console.log(getApiUrl()),
   getAll: () => handleRequest(() => api.get("/room/all")),
   get: (roomCode) => handleRequest(() => api.get(`/room/get?code=${roomCode}`)),
   create: (roomData) => handleRequest(() => api.post("/room/add", roomData)),

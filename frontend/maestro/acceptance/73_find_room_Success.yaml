@@ -1,0 +1,12 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu" 
+- tapOn: "Indoor Directions"
+- tapOn: "Find a room"
+- tapOn: "H-920"
+- inputText: "H-5218"
+- tapOn: "Find the room"
+- assertVisible:
+    id: "roomMap"
+
+
