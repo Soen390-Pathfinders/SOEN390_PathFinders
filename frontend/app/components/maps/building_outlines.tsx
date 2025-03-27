@@ -1,5 +1,3 @@
-/*const buildingcolor = "rgba(255, 0, 0, 0.97)"; */
-
 const outlines = [
   {
     id: 1,

@@ -1,5 +1,4 @@
-import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react-native";
+import { render, screen } from "@testing-library/react-native";
 import ConcordiaShuttleTimes from "@/app/components/ui/ConcordiaShuttleTimes";
 import {
   timeToMinutes,

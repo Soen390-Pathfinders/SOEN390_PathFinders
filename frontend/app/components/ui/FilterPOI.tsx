@@ -3,7 +3,17 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
 
 const FilterPOI = ({ onFilterPress }) => {
-  const filters = ["Coffee", "Restaurants", "Parks", "Bakeries", "Pharmacies","Bars","Ice Cream","Dessert Shops","Juice Bars"];
+  const filters = [
+    "Coffee",
+    "Restaurants",
+    "Parks",
+    "Bakeries",
+    "Pharmacies",
+    "Bars",
+    "Ice Cream",
+    "Dessert Shops",
+    "Juice Bars",
+  ];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
 
@@ -27,6 +37,7 @@ const FilterPOI = ({ onFilterPress }) => {
       {/* Main Filter Button */}
       <TouchableOpacity
         style={styles.filterButton}
+        testID="hamburger_menu_button"
         onPress={() => setIsModalVisible(true)}
       >
         <MaterialIcons name="filter-list" size={28} color="white" />
@@ -49,14 +60,16 @@ const FilterPOI = ({ onFilterPress }) => {
                 key={filter}
                 style={[
                   styles.filterOption,
-                  selectedFilters.includes(filter) && styles.selectedFilterOption,
+                  selectedFilters.includes(filter) &&
+                    styles.selectedFilterOption,
                 ]}
                 onPress={() => toggleFilter(filter)}
               >
                 <Text
                   style={[
                     styles.filterOptionText,
-                    selectedFilters.includes(filter) && styles.selectedFilterOptionText,
+                    selectedFilters.includes(filter) &&
+                      styles.selectedFilterOptionText,
                   ]}
                 >
                   {filter}
