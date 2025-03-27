@@ -64,30 +64,43 @@ export default function OutdoorPOI_info({ info, onDirectionPress, placeId }) {
 
   return (
     <View style={styles.infoBoxContainer}>
-      <Text>Name : {name}</Text>
-      <Text>
-        Distance:
-        {location && userLocation
-          ? getDistance(
-              { latitude: location.lat, longitude: location.lng },
-              { latitude, longitude }
-            ) + " m"
-          : "Calculating..."}
-      </Text>
+      <Text style={styles.infoTitle}>{name}</Text>
 
-      <Text>userRatings: {rating} </Text>
-      <Text>Open Now:{open_now ? "Yes" : "No"} </Text>
-      {/* Add alert when place is currently closed */}
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Distance:</Text>
+        <Text style={styles.infoValue}>
+          {location && userLocation
+            ? getDistance(
+                { latitude: location.lat, longitude: location.lng },
+                { latitude, longitude }
+              ) + " m"
+            : "Calculating..."}
+        </Text>
+      </View>
+
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Rating:</Text>
+        <Text style={styles.infoValue}>
+          {rating ? rating + " ★" : "No ratings"}
+        </Text>
+      </View>
+
+      <View style={styles.infoRow}>
+        <Text style={styles.infoLabel}>Status:</Text>
+        <Text style={styles.infoValue}>{open_now ? "Open now" : "Closed"}</Text>
+      </View>
+
+      {/* Alert when place is currently closed */}
       {open_now === false || open_now === "no" ? (
-        <Text style={{ color: "red", fontWeight: "bold", marginTop: 10 }}>
+        <Text style={styles.warningText}>
           This point of interest is currently closed
         </Text>
       ) : null}
+
       <View style={styles.infoButton_container}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            console.log("direciton pressed");
             onDirectionPress(placeId);
           }}
         >
@@ -103,15 +116,27 @@ export default function OutdoorPOI_info({ info, onDirectionPress, placeId }) {
           <Text style={styles.buttonText}>Schedule</Text>
         </TouchableOpacity>
       </View>
+
       {/*Collapsible hours */}
       <Animated.View style={[collapsableStyle, { overflow: "hidden" }]}>
-        <View style={{ position: "absolute" }} onLayout={onLayout}>
-          <Text>Open Hours: </Text>
-          {weekday_text && weekday_text.length > 0 ? (
-            weekday_text.map((day, index) => <Text key={index}>{day}</Text>)
-          ) : (
-            <Text>Operating hours not available</Text>
-          )}
+        <View
+          style={{ position: "absolute", width: "100%" }}
+          onLayout={onLayout}
+        >
+          <View style={styles.hoursContainer}>
+            <Text style={styles.hoursTitle}>Open Hours:</Text>
+            {weekday_text && weekday_text.length > 0 ? (
+              weekday_text.map((day, index) => (
+                <Text key={index} style={styles.hoursText}>
+                  {day}
+                </Text>
+              ))
+            ) : (
+              <Text style={styles.hoursText}>
+                Operating hours not available
+              </Text>
+            )}
+          </View>
         </View>
       </Animated.View>
     </View>
@@ -119,17 +144,53 @@ export default function OutdoorPOI_info({ info, onDirectionPress, placeId }) {
 }
 const styles = StyleSheet.create({
   infoBoxContainer: {
-    marginTop: 20,
-    marginBottom: 20,
-    // width: 300,
-    // height: 400,
+    marginLeft: 70,
+    marginVertical: 10,
     backgroundColor: "white",
-    borderRadius: 10,
-    padding: 15,
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
+  },
+  infoTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 6,
+    color: "#333333",
+  },
+  infoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+  infoLabel: {
+    fontWeight: "600",
+    marginRight: 5,
+    color: "#555555",
+    fontSize: 13,
+  },
+  infoValue: {
+    color: "#333333",
+    fontSize: 13,
+  },
+  warningText: {
+    color: "#D8000C",
+    fontWeight: "600",
+    marginTop: 6,
+    backgroundColor: "#FFBABA",
+    padding: 5,
+    borderRadius: 6,
+    textAlign: "center",
+    fontSize: 12,
   },
   infoButton_container: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 8,
+    marginBottom: 8,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -141,14 +202,35 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 6,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
     borderRadius: 8,
-    gap: 8,
+    gap: 6,
+    elevation: 1,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
   },
   buttonText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "600",
   },
-  collapsibleHours: {},
+  hoursContainer: {
+    backgroundColor: "#f7f7f7",
+    borderRadius: 6,
+    padding: 8,
+    marginTop: 3,
+  },
+  hoursTitle: {
+    fontWeight: "600",
+    marginBottom: 3,
+    color: "#555555",
+    fontSize: 13,
+  },
+  hoursText: {
+    marginBottom: 2,
+    color: "#555555",
+    fontSize: 12,
+  },
 });

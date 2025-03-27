@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
   infoBoxCloseButton: {
     position: "absolute", // Make sure the box is on top of the map
     top: 15,
-    left: 250,
+    right: 10,
     zIndex: 2,
     margin: 10,
     padding: 5,
