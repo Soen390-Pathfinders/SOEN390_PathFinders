@@ -4,7 +4,41 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
+import FilterButton from "./Filter";
 import { FloorAPI } from "../../../api/api";
+
+const iconMap = {
+  "Water Fountain": "water_drop",
+  "Vending Machine": "storefront",
+  "Cafe": "local_cafe",
+  "Bar": "local_bar",
+  "Study Area": "school",
+  "Charging Station": "electric_car",
+  "Elevator": "elevator",
+  "Stairs": "stairs",
+  "Printer": "print",
+  "Wifi": "wifi",
+  "Locker": "lock",
+  "Lounge": "weekend",
+  "Cafeteria": "local_dining",
+  "Library": "library_books",
+  "ATM": "atm",
+  "Bicycle Rack": "directions_bike",
+  "Handical Accessible": "accessible",
+  "Parking Spot": "local_parking",
+  "Post Box": "mail",
+  "Security Desk": "security",
+  "Trash Can": "delete",
+  "Recycling Bin": "recycling",
+  "Coffee Machine": "local_cafe",
+  "Shower": "shower",
+  "First Aid Kit": "medication",
+  "Power Outlets": "power",
+  "Rest Area": "beach_access",
+  "Lost and Found": "find_in_page",
+  "Exit": "exit_to_app"
+};
+
 
 export default function Floorplan({path}) {
 
@@ -20,6 +54,10 @@ export default function Floorplan({path}) {
   const [currentImageWidth, setCurrentImageWidth] = useState();
   const [currentImageHeight, setCurrentImageHeight] = useState();
   const [pathTracePath, setPathTracePath] = useState();
+
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [amenities, setAmenities] = useState([]);
+
   useEffect(() => {
     setPathTracePath(path);
   })
