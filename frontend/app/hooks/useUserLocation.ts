@@ -38,7 +38,7 @@ const useUserLocation = () => {
     // Set up interval to fetch location every 5 seconds
     const intervalId = setInterval(() => {
       getUserLocation();
-    }, 2000); // update the user location every 2 seconds
+    }, 3000); // update the user location every 3 seconds
 
 
     return () => {

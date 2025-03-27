@@ -13,8 +13,11 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import useUserLocation from "@/app/hooks/useUserLocation";
+import getDistance from "geolib/es/getPreciseDistance";
+import { useLocation } from "../context/userLocationContext";
 
-export default function OutdoorPOI_info({ info }) {
+export default function OutdoorPOI_info({ info, onDirectionPress, placeId }) {
   //Deconstrcut the information from google Place API
   const {
     name,
@@ -34,6 +37,10 @@ export default function OutdoorPOI_info({ info }) {
   const { open_now, periods, weekday_text } = opening_hours || {};
   const { location, viewport } = geometry || {};
   const { lat, lng } = location || {};
+  const { userLocation, setLocation } = useUserLocation();
+  const {
+    userLocation: { latitude, longitude },
+  } = useUserLocation();
 
   //For the height of the collapsioble
   const [height, setHeight] = useState(0);
@@ -58,7 +65,16 @@ export default function OutdoorPOI_info({ info }) {
   return (
     <View style={styles.infoBoxContainer}>
       <Text>Name : {name}</Text>
-      <Text>Distance:</Text>
+      <Text>
+        Distance:
+        {location && userLocation
+          ? getDistance(
+              { latitude: location.lat, longitude: location.lng },
+              { latitude, longitude }
+            ) + " m"
+          : "Calculating..."}
+      </Text>
+
       <Text>userRatings: {rating} </Text>
       <Text>Open Now:{open_now ? "Yes" : "No"} </Text>
       {/* Add alert when place is currently closed */}
@@ -70,7 +86,10 @@ export default function OutdoorPOI_info({ info }) {
       <View style={styles.infoButton_container}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => console.log("direction pressed")}
+          onPress={() => {
+            console.log("direciton pressed");
+            onDirectionPress(placeId);
+          }}
         >
           <Icon name="directions" size={24} color="#FFFFFF" />
           <Text style={styles.buttonText}>Directions</Text>

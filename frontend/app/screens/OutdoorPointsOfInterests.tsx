@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
@@ -7,6 +7,7 @@ import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { CampusToggle } from "../components/ui/CampusToggle";
 import OutdoorPOI_info from "../components/ui/OutdoorPOI_info";
 import useFetchGooglePlacesInfo from "../hooks/useFetchGooglePlaceInfo";
+import { GOOGLE_MAPS_APIKEY } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
 import FilterPOI from "../components/ui/FilterPOI";
 import MapView, {
@@ -14,15 +15,20 @@ import MapView, {
   PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
+import MapViewDirections from "react-native-maps-directions";
 import RadiusSlider from "../components/ui/RadiusButton";
 import useUserLocation from "../hooks/useUserLocation";
 
 export default function OutdoorPointsOfInterests() {
+  const mapRef = React.useRef(null);
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [campus, setCampus] = useState("SGW"); // Default to SGW
   const [activeFilter, setActiveFilter] = useState(null);
   const [searchRadius, setSearchRadius] = useState(1000); // Default to 1km
+  const { userLocation, setLocation } = useUserLocation(); // to set the poi around the puser
+  const [distance, setDistance] = useState(null);
+  const [destination, setDestination] = useState(null);
 
   const toggleCampus = (selectedCampus) => {
     setCampus(selectedCampus);
@@ -59,10 +65,7 @@ export default function OutdoorPointsOfInterests() {
     fetchPlaceInfo,
     filteredPlaces,
     fetchPlacesByCategories,
-  } = useFetchGooglePlacesInfo({
-    placeID: outdoorPlaceID,
-    searchRadius,
-  });
+  } = useFetchGooglePlacesInfo({ placeID: outdoorPlaceID, searchRadius });
   // Show component when place changes
   useEffect(() => {
     if (placeInfo) {
@@ -77,18 +80,29 @@ export default function OutdoorPointsOfInterests() {
   const handleFilterPress = (filters) => {
     setActiveFilter(filters);
     // Call the new function from our hook to fetch places by category
-    fetchPlacesByCategories(filters, campusCoordinates[campus]);
+    fetchPlacesByCategories(filters, userLocation); // set to user location
+    // fetchPlacesByCategories(filters, campusCoordinates[campus]);
   };
   const handleMarkerPress = (placeId) => {
     setoutdoorPlaceID(placeId);
-    fetchPlaceInfo(placeId);
+    //API call will be made automatically from the hook
   };
 
   const handleRadiusChange = (radius: number) => {
     setSearchRadius(radius);
     if (activeFilter) {
-      fetchPlacesByCategories(activeFilter, campusCoordinates[campus]);
+      //  fetchPlacesByCategories(activeFilter, campusCoordinates[campus]);
+      fetchPlacesByCategories(activeFilter, userLocation);
     }
+  };
+
+  const handleDirectionPress = (place) => {
+    console.log("Setting the direciton to go to", place);
+    closeInfoBox();
+    setDestination(place);
+  };
+  const resetDestination = () => {
+    setDestination(null);
   };
 
   return (
@@ -104,7 +118,11 @@ export default function OutdoorPointsOfInterests() {
                 <Ionicons name="close" size={24} color="white" />
               </TouchableOpacity>
             </View>
-            <OutdoorPOI_info info={placeInfo} />
+            <OutdoorPOI_info
+              info={placeInfo}
+              onDirectionPress={handleDirectionPress}
+              placeId={place}
+            />
           </View>
         )}
         <RadiusSlider
@@ -112,6 +130,7 @@ export default function OutdoorPointsOfInterests() {
         />
 
         <MapView
+          ref={mapRef}
           showsUserLocation={true}
           provider={PROVIDER_DEFAULT}
           style={{ flex: 1 }}
@@ -130,8 +149,31 @@ export default function OutdoorPointsOfInterests() {
               onPress={() => handleMarkerPress(place.place_id)}
             />
           ))}
+
+          {userLocation && destination && (
+            <MapViewDirections
+              origin={userLocation}
+              destination={`place_id:${destination}`}
+              apikey={GOOGLE_MAPS_APIKEY}
+              mode={"WALKING"}
+              strokeWidth={7}
+              strokeColor="blue"
+              onError={(errorMessage) => {
+                console.log("Directions error: ", errorMessage);
+              }}
+            />
+          )}
         </MapView>
-        <FilterPOI onFilterPress={handleFilterPress} />
+        <View style={styles.buttonsOverMap}>
+          <FilterPOI onFilterPress={handleFilterPress} />
+          {destination && (
+            <View style={styles.resetDestinationButton}>
+              <TouchableOpacity onPress={resetDestination}>
+                <Text style={{ color: "#FFFFFF" }}>Reset Destination</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -158,5 +200,23 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "rgba(145, 35, 55, 0.99)",
     borderRadius: 50,
+  },
+  buttonsOverMap: {
+    position: "absolute", // Make sure the button is on top of the map
+    bottom: 20,
+    left: 20,
+    zIndex: 2,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: 10,
+    padding: 5,
+    borderRadius: 50,
+  },
+  resetDestinationButton: {
+    backgroundColor: "#0072a8",
+    padding: 10,
+    color: "white",
+    borderRadius: 10,
   },
 });
