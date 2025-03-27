@@ -67,6 +67,7 @@ export default function OutdoorMap({
         showsUserLocation={true}
         initialRegion={CampusCoordinates[campus]}
         region={CampusCoordinates[campus]}
+        testID="map"
       >
         <PolygonRender setBuildingLocation={setBuildingLocation} />
         {renderBuildingMarkers()}

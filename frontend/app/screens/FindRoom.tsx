@@ -12,7 +12,8 @@ import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
-import { RoomAPI } from "@/api/api";
+import { RoomAPI } from "../../api/api.js"; 
+
 import useRoomCodeValidation from "../hooks/useRoomCodeValidation";
 
 // Define the navigation type for Typescript
