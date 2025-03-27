@@ -1,43 +1,43 @@
-
 import React, { useRef, useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
 import FilterButton from "./Filter";
 import { FloorAPI } from "../../../api/api";
 
 const iconMap = {
-  "Water Fountain": "water_drop",
-  "Vending Machine": "storefront",
-  "Cafe": "local_cafe",
-  "Bar": "local_bar",
-  "Study Area": "school",
-  "Charging Station": "electric_car",
-  "Elevator": "elevator",
-  "Stairs": "stairs",
-  "Printer": "print",
-  "Wifi": "wifi",
-  "Locker": "lock",
-  "Lounge": "weekend",
-  "Cafeteria": "local_dining",
-  "Library": "library_books",
+  "WATER_FOUNTAIN": "opacity",
+  "VENDING_MACHINE": "storefront",
+  "CAFE": "local_cafe",
+  "BAR": "local_bar",
+  "STUDY_AREA": "school",
+  "CHARGING_STATION": "electric_car",
+  "ELEVATOR": "elevator",
+  "STAIRS": "stairs",
+  "PRINTER": "print",
+  "WIFI": "wifi",
+  "LOCKER": "lock",
+  "LOUNGE": "weekend",
+  "CAFETERIA": "local_dining",
+  "LIBRARY": "library_books",
   "ATM": "atm",
-  "Bicycle Rack": "directions_bike",
-  "Handical Accessible": "accessible",
-  "Parking Spot": "local_parking",
-  "Post Box": "mail",
-  "Security Desk": "security",
-  "Trash Can": "delete",
-  "Recycling Bin": "recycling",
-  "Coffee Machine": "local_cafe",
-  "Shower": "shower",
-  "First Aid Kit": "medication",
-  "Power Outlets": "power",
-  "Rest Area": "beach_access",
-  "Lost and Found": "find_in_page",
-  "Exit": "exit_to_app"
+  "BICYCLE_RACK": "directions_bike",
+  "HANDICAP_ACCESSIBLE": "accessible",
+  "PARKING_SPOT": "local_parking",
+  "POST_BOX": "mail",
+  "SECURITY_DESK": "security",
+  "TRASH_CAN": "delete",
+  "RECYCLING_BIN": "recycling",
+  "COFFEE_MACHINE": "local_cafe",
+  "SHOWER": "shower",
+  "FIRST_AID_KIT": "medication",
+  "POWER_OUTLETS": "power",
+  "REST_AREA": "beach_access",
+  "LOST_AND_FOUND": "find_in_page",
+  "EXIT": "exit_to_app"
 };
 
 
@@ -71,18 +71,21 @@ export default function Floorplan({path}) {
     const loadAmenities = async () => {
       if (selectedFilters.length > 0) {
         try {
-          const data = await FloorAPI.getAmenities("H-5");
+          const data = await FloorAPI.getAmenities("H-4");
+          console.log("API Response:", data);
           const flattenedAmenities = Object.entries(data).flatMap(([type, locations]) =>
             (locations as any[]).map((loc) => ({
               ...loc,
               types: loc.amenity_names, // Use the amenity_names array from the response
             }))
           );
-
+            console.log("Selected amenities:", selectedFilters);
+          console.log("flattened Amenities:", flattenedAmenities);
           // Filter amenities to only include those that match the selected filters
           const filteredAmenities = flattenedAmenities.filter((amenity) =>
             amenity.types.some((type) => selectedFilters.includes(type))
           );
+          console.log("Filtered Amenities:", filteredAmenities);
           setAmenities(filteredAmenities);
         } catch (error) {
           console.error("Error loading amenities:", error);
@@ -201,6 +204,28 @@ export default function Floorplan({path}) {
               onInitialFloorDetected={handleInitialFloorDetected}
               path={pathTracePath}
             />
+            {/* Render amenities icons */}
+                {amenities.map((amenity, index) => (
+                  <Text
+                    key={index}
+                    x={amenity.x}
+                    y={amenity.y}
+                    fontSize="6"
+                    fill="black"
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
+                  >
+                    {iconMap[amenity.types[0]] ? (
+                      <MaterialIcons
+                        name={iconMap[amenity.types[0]]}
+                        size={20}
+                        color="blue"
+                      />
+                    ) : (
+                      "❓"
+                    )}
+                  </Text>
+                ))}
           </Svg>
         </View>
         {/* <View style= {{backgroundImage:'url(${getFloorplanImage})'}}>
