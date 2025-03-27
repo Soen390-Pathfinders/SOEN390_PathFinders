@@ -1,7 +1,7 @@
 //Root layout and
 //  top navigation drawer(For the hamburger menu)
 import "react-native-get-random-values";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Image, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 /*Imports for drawer navigation*/
@@ -17,7 +17,6 @@ import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/l
 /*Imports to handle user location*/
 import { LocationProvider } from "./components/context/userLocationContext"; //for the current user's location
 import useUserLocation from "./hooks/useUserLocation";
-import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 import IndoorDirections from "./screens/IndoorDirections";
 import IndoorMap from "./screens/IndoorMap";
@@ -26,7 +25,6 @@ import NavigateYourSpace from "./screens/NavigateYourSpace";
 import OutdoorPointsOfInterests from "./screens/OutdoorPointsOfInterests";
 
 export default function RootLayout() {
-  /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
   const [isLoading, setIsLoading] = useState(true);
 
   /*Loading screen logic*/ //TODO : Can this logic be moved to custom hook ?

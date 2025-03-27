@@ -1,15 +1,12 @@
+
 import React, { useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-} from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
 import { useLocation } from "../context/userLocationContext";
+import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
+
 
 export default function DirectionFields({
   startLocation,
@@ -26,6 +23,10 @@ export default function DirectionFields({
   setToBuildingLocation,
 }) {
   useEffect(() => {
+
+    console.log("destination updated");
+    console.log(destination);
+
     if (destination && destinationRef.current) {
       destinationRef.current.setAddressText(destination);
     }
@@ -86,12 +87,14 @@ export default function DirectionFields({
           }}
         />
 
+
         {/* GO Button */}
         <TouchableOpacity
           onPress={onGoPress}
           style={styles.goButton}
           accessibilityRole="button"
         >
+
           <Text style={styles.goButtonText}>GO</Text>
         </TouchableOpacity>
       </View>

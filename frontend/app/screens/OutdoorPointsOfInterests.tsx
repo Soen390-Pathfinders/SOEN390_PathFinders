@@ -14,13 +14,14 @@ import MapView, {
   PROVIDER_DEFAULT,
   PROVIDER_GOOGLE,
 } from "react-native-maps";
+import RadiusSlider from "../components/ui/RadiusButton";
 
 export default function OutdoorPointsOfInterests() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [campus, setCampus] = useState("SGW"); // Default to SGW
   const [activeFilter, setActiveFilter] = useState(null);
-
+  const [searchRadius, setSearchRadius] = useState(1000); // Default to 1km
 
   const toggleCampus = (selectedCampus) => {
     setCampus(selectedCampus);
@@ -44,15 +45,22 @@ export default function OutdoorPointsOfInterests() {
       description: "Concordia University SGW Campus",
     },
   };
-  
 
   //Do not reference the placeID with this. The state of the placeID reference is inside the useFetchGooglePlacEInfo hook
   const [outdoorPlaceID, setoutdoorPlaceID] = useState<string | null>(null);
   const [isInfoBoxVisible, setInfoBoxVisibility] = useState(false);
 
   // Use the hook
-  const { place, placeInfo, error, fetchPlaceInfo, filteredPlaces, fetchPlacesByCategories } = useFetchGooglePlacesInfo({
+  const {
+    place,
+    placeInfo,
+    error,
+    fetchPlaceInfo,
+    filteredPlaces,
+    fetchPlacesByCategories,
+  } = useFetchGooglePlacesInfo({
     placeID: outdoorPlaceID,
+    searchRadius,
   });
   // Show component when place changes
   useEffect(() => {
@@ -67,18 +75,26 @@ export default function OutdoorPointsOfInterests() {
   };
   const handleFilterPress = (filters) => {
     setActiveFilter(filters);
-      // Call the new function from our hook to fetch places by category
-      fetchPlacesByCategories(filters, campusCoordinates[campus]);
-    };
+    // Call the new function from our hook to fetch places by category
+    fetchPlacesByCategories(filters, campusCoordinates[campus]);
+  };
   const handleMarkerPress = (placeId) => {
     setoutdoorPlaceID(placeId);
     fetchPlaceInfo(placeId);
+  };
+
+  const handleRadiusChange = (radius: number) => {
+    setSearchRadius(radius);
+    if (activeFilter) {
+      fetchPlacesByCategories(activeFilter, campusCoordinates[campus]);
+    }
   };
 
   return (
     <View style={globalStyles.container}>
       <CampusPilotHeader />
       <CampusToggle campus={campus} toggleCampus={toggleCampus} />
+
       <View style={globalStyles.mapContainer}>
         {isInfoBoxVisible && (
           <View style={styles.infoBoxOverMap}>
@@ -90,6 +106,9 @@ export default function OutdoorPointsOfInterests() {
             <OutdoorPOI_info info={placeInfo} />
           </View>
         )}
+        <RadiusSlider
+          onRadiusChange={handleRadiusChange} // Real-time updates
+        />
 
         <MapView
           showsUserLocation={true}
@@ -98,12 +117,12 @@ export default function OutdoorPointsOfInterests() {
           initialRegion={campusCoordinates[campus]}
           region={campusCoordinates[campus]}
         >
-        {filteredPlaces.map((place, index) => (
+          {filteredPlaces.map((place, index) => (
             <Marker
               key={place.place_id || index}
               coordinate={{
                 latitude: place.geometry.location.lat,
-                longitude: place.geometry.location.lng
+                longitude: place.geometry.location.lng,
               }}
               title={place.name}
               description={place.filter}
@@ -111,7 +130,7 @@ export default function OutdoorPointsOfInterests() {
             />
           ))}
         </MapView>
-      <FilterPOI onFilterPress={handleFilterPress} />
+        <FilterPOI onFilterPress={handleFilterPress} />
       </View>
     </View>
   );

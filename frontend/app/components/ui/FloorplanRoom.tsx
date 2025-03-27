@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Svg, { Circle, Line } from "react-native-svg";
+import { useRef, useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import Svg, { Circle } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 
@@ -29,8 +29,6 @@ export default function FloorplanRoom({ nodeInfo }) {
   const onAnimationEnd = (finished) => {
     console.log("Animation ended2:", finished);
   };
-
-  const [loading, setLoading] = useState(true);
 
   // Zoom in on the room when component mounts
   useEffect(() => {
@@ -75,10 +73,10 @@ export default function FloorplanRoom({ nodeInfo }) {
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
             {nodeInfo?.location_data && (
               <Circle
-                // cx={x_coor}  //TODO: Uncomment these line when backend return the right coordinates
-                // cy={y_coor}
-                cx="12"
-                cy="72"
+                cx={x_coor}
+                cy={y_coor}
+                //cx="12"
+                //cy="72"
                 r="7"
                 stroke="black"
                 strokeWidth="0.2"
