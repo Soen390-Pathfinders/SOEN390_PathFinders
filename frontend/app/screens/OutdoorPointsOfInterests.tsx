@@ -27,7 +27,7 @@ export default function OutdoorPointsOfInterests() {
   const [activeFilter, setActiveFilter] = useState(null);
   const [searchRadius, setSearchRadius] = useState(1000); // Default to 1km
   const { userLocation, setLocation } = useUserLocation(); // to set the poi around the puser
-  const [distance, setDistance] = useState(null);
+  const [duration, setDuration] = useState(null);
   const [destination, setDestination] = useState(null);
 
   const toggleCampus = (selectedCampus) => {
@@ -97,7 +97,6 @@ export default function OutdoorPointsOfInterests() {
   };
 
   const handleDirectionPress = (place) => {
-    console.log("Setting the direciton to go to", place);
     closeInfoBox();
     setDestination(place);
   };
@@ -149,7 +148,7 @@ export default function OutdoorPointsOfInterests() {
               onPress={() => handleMarkerPress(place.place_id)}
             />
           ))}
-
+          {/*Show direciton if the destionation and user location are set*/}
           {userLocation && destination && (
             <MapViewDirections
               origin={userLocation}
@@ -158,6 +157,9 @@ export default function OutdoorPointsOfInterests() {
               mode={"WALKING"}
               strokeWidth={7}
               strokeColor="blue"
+              onReady={(result) => {
+                setDuration(result.duration);
+              }}
               onError={(errorMessage) => {
                 console.log("Directions error: ", errorMessage);
               }}
@@ -171,6 +173,15 @@ export default function OutdoorPointsOfInterests() {
               <TouchableOpacity onPress={resetDestination}>
                 <Text style={{ color: "#FFFFFF" }}>Reset Destination</Text>
               </TouchableOpacity>
+            </View>
+          )}
+          {/*//TODO: refactor this into one view and one conditional statement
+          // The Buttons for reset Destionation and time do not show if there is no path*/}
+          {destination && (
+            <View style={styles.durationText}>
+              <Text style={{ color: "#ffffff" }}>
+                {Math.round(duration)} min
+              </Text>
             </View>
           )}
         </View>
@@ -212,6 +223,17 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 5,
     borderRadius: 50,
+  },
+  durationText: {
+    //position: "absolute",
+    zIndex: 4,
+    // top: 100,
+    // left: 10,
+    backgroundColor: "#0072a8",
+    padding: 10,
+    margin: 10,
+    color: "white",
+    borderRadius: 10,
   },
   resetDestinationButton: {
     backgroundColor: "#0072a8",
