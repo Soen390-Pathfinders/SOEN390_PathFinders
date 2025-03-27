@@ -6,16 +6,29 @@ import Floorplan from "../components/ui/Floorplan";
 import FloorplanRoom from "../components/ui/FloorplanRoom";
 import { useEffect, useState } from "react";
 
+// Define the type for nodeInfo
+type PathData = {
+  path?: any[];
+  distance?: number;
+  _timestamp?: number;
+  [key: string]: any;
+};
 
 export default function IndoorMap({ route }) {
-  // const { roomOrPath, nodeInfo } = route.params || {}; // Get nodeInfo from route.params
-  const [nodeInfo, setNodeInfo] = useState();
-  const [roomOrPath, setRoomOrPath] = useState(); //Not particularly sure what this does but when i remove it it breaks -Mathieu
+  const [nodeInfo, setNodeInfo] = useState<PathData>();
+  const [roomOrPath, setRoomOrPath] = useState();
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
+  
   useEffect(() => {
-    setNodeInfo(route.params)
-  }, )
+    if (route.params) {
+      // Set node info with a unique key to force re-render
+      setNodeInfo({
+        ...route.params,
+        _timestamp: new Date().getTime() // Add timestamp to ensure React detects the change
+      });
+    }
+  }, [route.params]);
 
   return (
     <View style={globalStyles.container}>
@@ -27,7 +40,10 @@ export default function IndoorMap({ route }) {
         {roomOrPath === "room" ? (
           <FloorplanRoom nodeInfo={nodeInfo} />
         ) : (
-          <Floorplan path = {nodeInfo}/>
+          <Floorplan 
+            path={nodeInfo} 
+            key={nodeInfo ? String(nodeInfo._timestamp) : 'default'} 
+          />
         )}
       </View>
     </View>
