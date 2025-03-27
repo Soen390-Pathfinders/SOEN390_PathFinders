@@ -51,25 +51,28 @@ export default function PathTrace({
     
     // Check if this is a new path
     const isNewPath = pathIdRef.current !== JSON.stringify(path);
-    if (isNewPath) {
-      // Store path signature
-      pathIdRef.current = JSON.stringify(path);
-      // Reset floor detection flag
-      initialFloorDetectedRef.current = false;
-    }
     
     // Process path data if it exists
     if (path.path && path.path.length > 0) {
       setAllPathNodes(path.path);
       
-      // Only detect initial floor for new paths and if not manually changed
-      if (!initialFloorDetectedRef.current && !manualFloorChange && onInitialFloorDetected) {
-        const startNode = path.path[0];
-        const floorNumber = startNode.floor.replace('H-', '');
-        const startingFloor = `H${floorNumber}`;
+      // For new paths, always detect and set initial floor
+      if (isNewPath) {
+        // Store path signature
+        pathIdRef.current = JSON.stringify(path);
+        // Reset floor detection flag
+        initialFloorDetectedRef.current = false;
         
-        onInitialFloorDetected(startingFloor);
-        initialFloorDetectedRef.current = true;
+        // Force initial floor detection for every new path
+        if (!manualFloorChange && onInitialFloorDetected) {
+          const startNode = path.path[0];
+          if (startNode && startNode.floor) {
+            const floorNumber = startNode.floor.replace('H-', '');
+            const startingFloor = `H${floorNumber}`;
+            onInitialFloorDetected(startingFloor);
+            initialFloorDetectedRef.current = true;
+          }
+        }
       }
     }
   }, [path, manualFloorChange, onInitialFloorDetected]);
