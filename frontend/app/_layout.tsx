@@ -7,7 +7,6 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 /*Imports for drawer navigation*/
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawerContent from "./drawer/CustomDrawerContent";
-const Drawer = createDrawerNavigator();
 import CampusMap from "./screens/CampusMap";
 import OutdoorDirections from "./screens/OutdoorDirections";
 import ConcordiaShuttle from "./screens/ConcordiaShuttle";
@@ -23,6 +22,23 @@ import IndoorMap from "./screens/IndoorMap";
 import FindRoom from "./screens/FindRoom";
 import NavigateYourSpace from "./screens/NavigateYourSpace";
 import OutdoorPointsOfInterests from "./screens/OutdoorPointsOfInterests";
+
+export type DrawerParamList = {
+  "(screens)/IndoorMap": {
+    path?: any;
+    nodeInfo?: any;
+    roomOrPath: string;
+  };
+  "(screens)/CampusMap": undefined;
+  OutdoorDirections: undefined;
+  "(screens)/NextClassInfo": undefined;
+  "(screens)/ConcordiaShuttle": undefined;
+  "(screens)/IndoorDirections": undefined;
+  "(screens)/FindRoom": undefined;
+  "(screens)/NavigateYourSpace": undefined;
+  "(screens)/OutdoorPointsOfInterest": undefined;
+};
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export default function RootLayout() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,20 +70,6 @@ export default function RootLayout() {
             }}
             drawerContent={CustomDrawerContent}
           >
-            <Drawer.Screen
-              name="(screens)/IndoorMap"
-              component={IndoorMap}
-              options={{
-                drawerLabel: "Dev Indoor Map",
-                title: "IndoorMap",
-                drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/map.png")}
-                  />
-                ),
-              }}
-            />
             <Drawer.Screen
               name="(screens)/CampusMap"
               component={CampusMap}
@@ -146,7 +148,21 @@ export default function RootLayout() {
                 title: "Find Room",
               }}
             />
-
+            <Drawer.Screen
+              name="(screens)/IndoorMap"
+              component={IndoorMap}
+              options={{
+                drawerLabel: "Indoor Map",
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
+                title: "IndoorMap",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/map.png")}
+                  />
+                ),
+              }}
+            />
             <Drawer.Screen
               name="(screens)/NavigateYourSpace"
               component={NavigateYourSpace}

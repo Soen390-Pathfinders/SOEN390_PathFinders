@@ -13,27 +13,23 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { PathAPI } from "@/api/api";
 import { useNavigation } from "expo-router";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { DrawerParamList } from "../_layout";
 
-type RootDrawerParamList = {
-  "(screens)/FindRoom": undefined;
-  "(screens)/NavigateYourSpace": undefined;
-  "(screens)/IndoorMap": undefined;
-};
-
-type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 export default function NavigateYourSpace() {
-
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [startLocation, setStartLocation] = useState("");
   const [destination, setDestination] = useState("");
   const handleGetDirection = () => {
     PathAPI.shortestPathToRoom(startLocation, destination).then((response) => {
-      navigation.navigate("(screens)/IndoorMap" , response);
-      console.log("Sending from NavigateYourSpace")
-      console.log(response)
-    })
+      navigation.navigate("(screens)/IndoorMap", {
+        path: response,
+        nodeInfo: null,
+        roomOrPath: "path",
+      });
+      console.log("Sending from NavigateYourSpace");
+    });
   };
 
   return (

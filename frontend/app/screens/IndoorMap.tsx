@@ -6,16 +6,26 @@ import Floorplan from "../components/ui/Floorplan";
 import FloorplanRoom from "../components/ui/FloorplanRoom";
 import { useEffect, useState } from "react";
 
-
 export default function IndoorMap({ route }) {
-  // const { roomOrPath, nodeInfo } = route.params || {}; // Get nodeInfo from route.params
-  const [nodeInfo, setNodeInfo] = useState();
-  const [roomOrPath, setRoomOrPath] = useState(); //Not particularly sure what this does but when i remove it it breaks -Mathieu
+  const {
+    path,
+    nodeInfo: routeNodeInfo,
+    roomOrPath: routeRoomOrPath,
+  } = route?.params || {};
+  const [nodeInfo, setNodeInfo] = useState(routeNodeInfo);
+  const [roomOrPath, setRoomOrPath] = useState(routeRoomOrPath);
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   useEffect(() => {
-    setNodeInfo(route.params)
-  }, )
+    if (route?.params) {
+      if (route.params.nodeInfo !== undefined) {
+        setNodeInfo(route.params.nodeInfo);
+      }
+      if (route.params.roomOrPath !== undefined) {
+        setRoomOrPath(route.params.roomOrPath);
+      }
+    }
+  }, [route?.params]);
 
   return (
     <View style={globalStyles.container}>
@@ -27,7 +37,7 @@ export default function IndoorMap({ route }) {
         {roomOrPath === "room" ? (
           <FloorplanRoom nodeInfo={nodeInfo} />
         ) : (
-          <Floorplan path = {nodeInfo}/>
+          <Floorplan path={path} />
         )}
       </View>
     </View>
