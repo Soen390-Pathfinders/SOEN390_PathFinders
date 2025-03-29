@@ -28,7 +28,6 @@ export default function NavigateYourSpace() {
         nodeInfo: null,
         roomOrPath: "path",
       });
-      console.log("Sending from NavigateYourSpace");
     });
   };
 
