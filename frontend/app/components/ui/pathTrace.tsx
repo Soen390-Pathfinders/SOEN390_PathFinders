@@ -1,10 +1,8 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LineFactory from "@/app/hooks/lineFactory";
-import { Circle, Line } from "react-native-svg";
-import { PathAPI } from "@/api/api";
-
+import { Circle } from "react-native-svg";
 
 // Define the type for each node object
 type PathNode = {
@@ -24,7 +22,9 @@ export default function PathTrace({
   setFloorChangeConfirmed,
   onInitialFloorDetected = undefined,
   onDetectedCrossBuildingPath = undefined,
-  path
+  path,
+  manualFloorChange = false
+
 }) {
   // State for path nodes and current floor's nodes
   const [allPathNodes, setAllPathNodes] = useState<PathNode[]>([]);
@@ -32,6 +32,12 @@ export default function PathTrace({
   
   // Detect when there's a next floor in the path
   const [nextFloorInPath, setNextFloorInPath] = useState<string | null>(null);
+  
+  // Track if initial floor detection has happened for this path
+  const initialFloorDetectedRef = useRef(false);
+  
+  // Track the current path ID to detect changes
+  const pathIdRef = useRef(null);
 
   const getBuildingFromFloor = (floorStr: string): string => {
     // Match alphanumerics at the beginning (e.g., H, C, S2, LB)
@@ -41,12 +47,33 @@ export default function PathTrace({
 
 
   // Load path data from API when component mounts
+
+  // Reset state when path changes
+
   useEffect(() => {
-    //Path rendered with prop, component to be refreshed every time when rendered
-    if(path) {
-      if (path.path && path.path.length > 0) {
-        // Set the path nodes
-        setAllPathNodes(path.path);
+    // If there's no path, clear everything
+    if (!path) {
+      setAllPathNodes([]);
+      setCurrentFloorNodes([]);
+      setNextFloorInPath(null);
+      initialFloorDetectedRef.current = false;
+      pathIdRef.current = null;
+      return;
+    }
+    
+    // Check if this is a new path
+    const isNewPath = pathIdRef.current !== JSON.stringify(path);
+    
+    // Process path data if it exists
+    if (path.path && path.path.length > 0) {
+      setAllPathNodes(path.path);
+      
+      // For new paths, always detect and set initial floor
+      if (isNewPath) {
+        // Store path signature
+        pathIdRef.current = JSON.stringify(path);
+        // Reset floor detection flag
+        initialFloorDetectedRef.current = false;
         
         // Detect the starting floor from the first node
         
@@ -59,6 +86,19 @@ export default function PathTrace({
         // Only call onInitialFloorDetected if it exists
         if (onInitialFloorDetected && typeof onInitialFloorDetected === 'function') {
           onInitialFloorDetected(startingFloor);
+        }
+        
+
+        // Force initial floor detection for every new path
+        if (!manualFloorChange && onInitialFloorDetected) {
+  
+          if (startNode && startNode.floor) {
+            const floorNumber = startNode.floor.replace('H-', '');
+            const startingFloor = `H${floorNumber}`;
+            onInitialFloorDetected(startingFloor);
+            initialFloorDetectedRef.current = true;
+          }
+
         }
 
         const startBuilding = getBuildingFromFloor(startNode.floor);
@@ -79,53 +119,55 @@ export default function PathTrace({
 
       }
     }
-    // Reset floor change confirmation
-    setFloorChangeConfirmed(false);
-  }, ); // Empty dependency array means this runs once on mount
+  }, [path, manualFloorChange, onInitialFloorDetected]);
 
-  // Update current floor nodes when floor or all nodes change
+  // Update current floor nodes whenever relevant state changes
   useEffect(() => {
     if (allPathNodes.length > 0 && currentFloor) {
-      // Filter nodes for the current floor
       const floorFormat = `H-${currentFloor.substring(1)}`;
+      
       const nodesForCurrentFloor = allPathNodes.filter(node => node.floor === floorFormat);
       setCurrentFloorNodes(nodesForCurrentFloor);
       
-      // Check if the path continues to another floor
-      const floorIndices = allPathNodes.map((node, index) => 
-        ({ floor: node.floor, index })
-      );
-      
-      const currentFloorIndices = floorIndices.filter(item => item.floor === floorFormat);
-      
-      if (currentFloorIndices.length > 0) {
-        const lastNodeIndexOnCurrentFloor = Math.max(...currentFloorIndices.map(item => item.index));
-        
-        // If there are nodes after the last node of the current floor
-        if (lastNodeIndexOnCurrentFloor < allPathNodes.length - 1) {
-          const nextFloorNode = allPathNodes[lastNodeIndexOnCurrentFloor + 1];
-          const nextFloor = nextFloorNode.floor.replace('H-', 'H');
-          
-          // Only trigger floor change request if we have nodes on current floor 
-          // and not already confirmed a change
-          if (nodesForCurrentFloor.length > 0 && !floorChangeConfirmed) {
-            onFloorChangeRequired(nextFloor);
-            setNextFloorInPath(nextFloor);
-          }
-        } else {
-          setNextFloorInPath(null);
-        }
+      // Don't check for next floor if manual change was made
+      if (!manualFloorChange) {
+        checkForFloorChange(floorFormat, nodesForCurrentFloor);
+      } else {
+        setNextFloorInPath(null);
       }
     } else {
-      // Clear current floor nodes if we don't have data yet or no current floor
       setCurrentFloorNodes([]);
     }
+  }, [allPathNodes, currentFloor, floorChangeConfirmed, manualFloorChange]);
+  
+  // Helper function to check if path continues to another floor
+  const checkForFloorChange = (floorFormat, nodesForCurrentFloor) => {
+    // Check if the path continues to another floor
+    const floorIndices = allPathNodes.map((node, index) => 
+      ({ floor: node.floor, index })
+    );
     
-    // Reset floor change confirmation when floor changes
-    if (currentFloor !== `H${nextFloorInPath?.substring(1)}`) {
-      setFloorChangeConfirmed(false);
+    const currentFloorIndices = floorIndices.filter(item => item.floor === floorFormat);
+    
+    if (currentFloorIndices.length > 0) {
+      const lastNodeIndexOnCurrentFloor = Math.max(...currentFloorIndices.map(item => item.index));
+      
+      // If there are nodes after the last node of the current floor
+      if (lastNodeIndexOnCurrentFloor < allPathNodes.length - 1) {
+        const nextFloorNode = allPathNodes[lastNodeIndexOnCurrentFloor + 1];
+        const nextFloor = nextFloorNode.floor.replace('H-', 'H');
+        
+        // Only trigger floor change request if we have nodes on current floor
+        // and not already confirmed a change
+        if (nodesForCurrentFloor.length > 0 && !floorChangeConfirmed) {
+          onFloorChangeRequired(nextFloor);
+          setNextFloorInPath(nextFloor);
+        }
+      } else {
+        setNextFloorInPath(null);
+      }
     }
-  }, [allPathNodes, currentFloor, floorChangeConfirmed]);
+  };
 
   // If we have no nodes for the current floor, don't render anything
   if (currentFloorNodes.length === 0) {
@@ -134,7 +176,6 @@ export default function PathTrace({
 
   return (
     <View>
-
       {/* Draw path nodes for current floor */}
       {currentFloorNodes.map((node, index) => {
         return (
@@ -168,48 +209,3 @@ export default function PathTrace({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  bannerContainer: {
-    position: 'absolute',
-    top: 10,
-    left: 10,
-    right: 10,
-    width: '80%',
-    alignSelf: 'center',
-    zIndex: 10,
-  },
-  banner: {
-    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-    borderRadius: 8,
-    padding: 12,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  bannerText: {
-    color: 'white',
-    flex: 1,
-    fontSize: 14,
-    marginRight: 10,
-  },
-  bannerButtons: {
-    flexDirection: 'row',
-  },
-  button: {
-    padding: 8,
-    borderRadius: 4,
-    marginLeft: 6,
-  },
-  buttonYes: {
-    backgroundColor: '#3498db',
-  },
-  buttonNo: {
-    backgroundColor: '#e74c3c',
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 12,
-  }
-});
