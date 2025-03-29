@@ -1,11 +1,8 @@
 //Campus Map Screen
-import { StyleSheet, Text, View, TextInput, Image } from "react-native";
+import { View } from "react-native";
 import OutdoorMap from "../components/maps/OutdoorMap";
-import AppLogo from "../components/ui/AppLogo";
-import { ThemeProvider } from "../components/context/ThemeContext";
-import ThemeToggle from "../components/ui/ThemeToggle";
 import useTheme from "../hooks/useTheme";
-import React, { useState } from 'react';
+import { useState } from "react";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { CampusToggle } from "../components/ui/CampusToggle";
@@ -31,7 +28,7 @@ export default function CampusMap() {
 
       {/*Campus Map*/}
       <View style={styles.mapContainer}>
-        <OutdoorMap campus = {campus}/>
+        <OutdoorMap campus={campus} />
       </View>
     </View>
   );
