@@ -2,6 +2,7 @@ import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
 from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType, Edge
+import networkx as nx
 
 @pytest.fixture
 def api_client():
@@ -281,6 +282,20 @@ def test_modify_floor_invalid(api_client): #works
     response = api_client.put(reverse("modify_floor"), {"id": 9999, "name": "Floor 3"})
     assert response.status_code == 404
 
+@pytest.mark.django_db
+def test_get_floor_amenities(api_client, floor, amenities):
+    poi = InsidePOI.objects.create(
+        floor=floor,
+        x_coor=100,
+        y_coor=200
+    )
+    poi.amenities.add(amenities)
+
+    url = reverse("get_floor_amenities") + f"?code={floor.code}"
+    response = api_client.get(url)
+
+    assert response.status_code == 200
+
 @pytest.fixture
 def room_type(db):
     return RoomType.objects.create(name="Room Type 1")
@@ -496,3 +511,74 @@ def test_get_all_edges(api_client, edge):
     response = api_client.get(reverse("get_all_edges"))
     assert response.status_code == 200
     assert len(response.data) == 1 
+
+@pytest.fixture
+def pathfinding_data(db):
+    campus = Campus.objects.create(name="Test Campus", code="TC")
+    
+    building = Building.objects.create(name="Test Building", code="TB", campus=campus)
+    
+    floor = Floor.objects.create(number=1, building=building)
+    
+    poi1 = InsidePOI.objects.create(floor=floor, x_coor=0, y_coor=0)
+    poi2 = InsidePOI.objects.create(floor=floor, x_coor=10, y_coor=0, is_accessible=True)
+    poi3 = InsidePOI.objects.create(floor=floor, x_coor=10, y_coor=10, is_accessible=True)
+    poi4 = InsidePOI.objects.create(floor=floor, x_coor=0, y_coor=10)
+    
+    Edge.objects.create(node1=poi1, node2=poi2, distance=10)  # Non-accessible only
+    Edge.objects.create(node1=poi2, node2=poi3, distance=10)  # Accessible
+    Edge.objects.create(node1=poi3, node2=poi4, distance=10)  # Non-accessible only
+    
+    room1 = Room.objects.create(number="101", floor=floor, location=poi1)
+    room2 = Room.objects.create(number="102", floor=floor, location=poi3)
+    
+    amenity = AmenityType.objects.create(name="Restroom")
+    poi2.amenities.add(amenity)
+    
+    return {
+        'campus': campus,
+        'building': building,
+        'floor': floor,
+        'pois': [poi1, poi2, poi3, poi4],
+        'rooms': [room1, room2],
+        'amenity': amenity
+    }
+
+@pytest.mark.django_db
+def test_get_shortest_path_between_rooms(api_client, pathfinding_data):
+    room1, room2 = pathfinding_data['rooms']
+
+    response = api_client.post(
+        reverse("get_shortest_path_between_rooms"),
+        {"room1": room1.code, "room2": room2.code},
+        format="json"
+    )
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_get_shortest_path_to_amenity(api_client, pathfinding_data):  
+    room1 = pathfinding_data['rooms'][0]
+    amenity = pathfinding_data['amenity']
+
+    response = api_client.post(
+        reverse("get_shortest_path_to_amenity"),
+        {"room1": room1.code, "amenity": amenity.name},  
+        format="json"
+    )
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_get_shortest_path_to_poi(api_client, pathfinding_data): 
+    room1 = pathfinding_data['rooms'][0]
+    poi2 = pathfinding_data['pois'][1] 
+
+    response = api_client.post(
+        reverse("get_shortest_path_to_poi"),
+        {
+            "room1": room1.code, 
+            "location_id": poi2.id,
+            "accessible": False  # Explicitly set accessibility
+        },
+        format="json"
+    )
+    assert response.status_code == 200
