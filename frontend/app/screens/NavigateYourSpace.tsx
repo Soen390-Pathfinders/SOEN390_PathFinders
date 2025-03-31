@@ -95,8 +95,6 @@ export default function NavigateYourSpace() {
         nodeInfo: null,
         roomOrPath: "path"
           });
-          console.log("Sending from NavigateYourSpace (Amenity Path)");
-          console.log(response);
         })
         .catch(error => {
           alert(`Error finding path to ${destination}: ${error.message}`);
@@ -110,8 +108,6 @@ export default function NavigateYourSpace() {
         nodeInfo: null,
         roomOrPath: "path",
           });
-          console.log("Sending from NavigateYourSpace (Room Path)");
-          console.log(response);
         })
         .catch(error => {
           alert(`Error finding path to ${destination}: ${error.message}`);
