@@ -11,17 +11,10 @@ import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { RoomAPI } from "@/api/api";
 import useRoomCodeValidation from "../hooks/useRoomCodeValidation";
-
-// Define the navigation type for Typescript
-type RootDrawerParamList = {
-  "(screens)/IndoorMap": {
-    roomOrPath: string;
-  };
-};
-type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
+import { DrawerParamList } from "../_layout";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
 // Function to validate code room*/
 export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
@@ -42,9 +35,10 @@ export const getRoomInfo = async (roomCode) => {
 
 //navigate to the indoor map screen
 export const helperNavigateToIndoorMap = (navigation, nodeInfo) => {
-  navigation.navigate("(screens)/IndoorMap", {
-    roomOrPath: "room",
+  (navigation.navigate as any)("(screens)/IndoorMap", {
+    path: null,
     nodeInfo: nodeInfo,
+    roomOrPath: "room",
   });
 };
 
@@ -52,7 +46,7 @@ export default function FindRoom() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [searchQuery, setSearchQuery] = useState(""); //state of the search query
-  const navigation = useNavigation<NavigationProp>(); //navigaiton hook
+  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
   const { validateRoomCode } = useRoomCodeValidation(); // hook to validate the code
 
   {
