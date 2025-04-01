@@ -6,7 +6,7 @@ import Floorplan from "../components/ui/Floorplan";
 import FloorplanRoom from "../components/ui/FloorplanRoom";
 import { useEffect, useState } from "react";
 
-// Define the type for nodeInfo
+// Define the type for path
 type PathData = {
   path?: any[];
   distance?: number;
@@ -15,20 +15,34 @@ type PathData = {
 };
 
 export default function IndoorMap({ route }) {
-  const [nodeInfo, setNodeInfo] = useState<PathData>();
-  const [roomOrPath, setRoomOrPath] = useState();
+  const {
+    path,
+    nodeInfo: routeNodeInfo,
+    roomOrPath: routeRoomOrPath,
+  } = route?.params || {};
+  const [nodeInfo, setNodeInfo] = useState(routeNodeInfo);
+  const [pathInfo, setPathInfo] = useState<PathData>();
+  const [roomOrPath, setRoomOrPath] = useState(routeRoomOrPath);
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
-  
+
   useEffect(() => {
-    if (route.params) {
-      // Set node info with a unique key to force re-render
-      setNodeInfo({
+    if (route?.params) {
+      // Update nodeInfo and roomOrPath if they exist
+      if (route.params.nodeInfo !== undefined) {
+        setNodeInfo(route.params.nodeInfo);
+      }
+      if (route.params.roomOrPath !== undefined) {
+        setRoomOrPath(route.params.roomOrPath);
+      }
+
+      // Set pathInfo with timestamp to force re-render
+      setPathInfo({
         ...route.params,
-        _timestamp: new Date().getTime() // Add timestamp to ensure React detects the change
+        _timestamp: new Date().getTime(), // Add timestamp to ensure React detects the change
       });
     }
-  }, [route.params]);
+  }, [route?.params]);
 
   return (
     <View style={globalStyles.container}>
@@ -40,9 +54,9 @@ export default function IndoorMap({ route }) {
         {roomOrPath === "room" ? (
           <FloorplanRoom nodeInfo={nodeInfo} />
         ) : (
-          <Floorplan 
-            path={nodeInfo} 
-            key={nodeInfo ? String(nodeInfo._timestamp) : 'default'} 
+          <Floorplan
+            path={path}
+            key={pathInfo ? String(pathInfo._timestamp) : "default"}
           />
         )}
       </View>
