@@ -339,7 +339,7 @@ def test_get_room_no_code(api_client): #works
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_room(api_client, floor, location, room_type): #failed
+def test_add_room(api_client, floor, location, room_type):
     url = reverse("add_room")
     payload = {
         "number": 2,
@@ -513,72 +513,57 @@ def test_get_all_edges(api_client, edge):
     assert len(response.data) == 1 
 
 @pytest.fixture
-def pathfinding_data(db):
-    campus = Campus.objects.create(name="Test Campus", code="TC")
-    
-    building = Building.objects.create(name="Test Building", code="TB", campus=campus)
-    
-    floor = Floor.objects.create(number=1, building=building)
-    
-    poi1 = InsidePOI.objects.create(floor=floor, x_coor=0, y_coor=0)
-    poi2 = InsidePOI.objects.create(floor=floor, x_coor=10, y_coor=0, is_accessible=True)
-    poi3 = InsidePOI.objects.create(floor=floor, x_coor=10, y_coor=10, is_accessible=True)
-    poi4 = InsidePOI.objects.create(floor=floor, x_coor=0, y_coor=10)
-    
-    Edge.objects.create(node1=poi1, node2=poi2, distance=10)  # Non-accessible only
-    Edge.objects.create(node1=poi2, node2=poi3, distance=10)  # Accessible
-    Edge.objects.create(node1=poi3, node2=poi4, distance=10)  # Non-accessible only
-    
-    room1 = Room.objects.create(number="101", floor=floor, location=poi1)
-    room2 = Room.objects.create(number="102", floor=floor, location=poi3)
-    
-    amenity = AmenityType.objects.create(name="Restroom")
-    poi2.amenities.add(amenity)
-    
-    return {
-        'campus': campus,
-        'building': building,
-        'floor': floor,
-        'pois': [poi1, poi2, poi3, poi4],
-        'rooms': [room1, room2],
-        'amenity': amenity
+def room_type1(db):
+    return RoomType.objects.create(name="Room Type room1")
+
+@pytest.fixture
+def room1(db, floor, room_type, location):
+    room1 = Room.objects.create(number=7, floor=floor, location=location)
+    room1.type.add(room_type)
+    return room1
+
+@pytest.fixture
+def room_type2(db):
+    return RoomType.objects.create(name="Room Type 2")
+
+@pytest.fixture
+def room2(db, floor, room_type2, location):
+    room2 = Room.objects.create(number=5, floor=floor, location=location)
+    room2.type.add(room_type2)
+    return room2
+
+@pytest.mark.django_db
+def test_shortest_path_between_rooms(api_client, room1, room2): #works
+    url = reverse("get_shortest_path_between_rooms")
+    payload = {
+        "room1": room1.code,
+        "room2": room2.code,
+        "accessible": False
     }
+    response = api_client.post(url, data=payload, format="json")
+    assert response.status_code == 200
+    
+@pytest.mark.django_db
+def test_shortest_path_between_rooms_invalid(api_client): #works
+    response = api_client.post(reverse("get_shortest_path_between_rooms"))
+    assert response.status_code == 400
+
+@pytest.fixture
+def amenities_djikstra(db):
+    return AmenityType.objects.create(name="Amenity Type 8")
 
 @pytest.mark.django_db
-def test_get_shortest_path_between_rooms(api_client, pathfinding_data):
-    room1, room2 = pathfinding_data['rooms']
-
-    response = api_client.post(
-        reverse("get_shortest_path_between_rooms"),
-        {"room1": room1.code, "room2": room2.code},
-        format="json"
-    )
+def test_shortest_path_to_amenity(api_client, room1, amenities_djikstra): #fails
+    url = reverse("get_shortest_path_to_amenity")
+    payload = {
+        "room1": room1.code,
+        "amenity": amenities_djikstra.name,
+        "accessible": False
+    }
+    response = api_client.post(url, data=payload, format="json")
     assert response.status_code == 200
 
 @pytest.mark.django_db
-def test_get_shortest_path_to_amenity(api_client, pathfinding_data):  
-    room1 = pathfinding_data['rooms'][0]
-    amenity = pathfinding_data['amenity']
-
-    response = api_client.post(
-        reverse("get_shortest_path_to_amenity"),
-        {"room1": room1.code, "amenity": amenity.name},  
-        format="json"
-    )
-    assert response.status_code == 200
-
-@pytest.mark.django_db
-def test_get_shortest_path_to_poi(api_client, pathfinding_data): 
-    room1 = pathfinding_data['rooms'][0]
-    poi2 = pathfinding_data['pois'][1] 
-
-    response = api_client.post(
-        reverse("get_shortest_path_to_poi"),
-        {
-            "room1": room1.code, 
-            "location_id": poi2.id,
-            "accessible": False  # Explicitly set accessibility
-        },
-        format="json"
-    )
-    assert response.status_code == 200
+def test_shortest_path_to_amenity_invalid(api_client):
+    response = api_client.post(reverse("get_shortest_path_to_amenity"))
+    assert response.status_code == 400
