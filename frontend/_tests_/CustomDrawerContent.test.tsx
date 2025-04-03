@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from 'expo-router'; // Import NavigationContainer from expo-router
 import CustomDrawerContent from '../app/drawer/CustomDrawerContent';
 
 // Mock Drawer Components
@@ -18,7 +18,11 @@ describe('CustomDrawerContent', () => {
   const testNavigation = { dispatch: mockDispatch };
 
   const renderWithNavigation = (ui: React.ReactElement) =>
-    render(<NavigationContainer>{ui}</NavigationContainer>);
+    render(
+      <NavigationContainer>
+        {ui}
+      </NavigationContainer>
+    );
 
   it('renders correctly', () => {
     const { getByText } = renderWithNavigation(
