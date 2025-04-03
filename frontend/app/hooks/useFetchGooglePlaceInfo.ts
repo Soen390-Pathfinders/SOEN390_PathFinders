@@ -110,6 +110,7 @@ useEffect(() => {
 
      try {
        const places = [];
+       const seenPlaceIds = new Set();  // holds all the places that have been added to the map
        // Process each filter sequentially
        for (const filter of filters) {
          const type = getGooglePlacesType(filter);
@@ -123,10 +124,14 @@ useEffect(() => {
          if (data.results) {
            // Add each place to our array with a filter property
            data.results.forEach(place => {
+
+            if (!seenPlaceIds.has(place.place_id)) {
+              seenPlaceIds.add(place.place_id); //adds the POI to the set that will be checke dot rpevent duplicates
              places.push({
                ...place,
                filter: filter // Store which filter found this place
              });
+            }
            });
          }
        }
