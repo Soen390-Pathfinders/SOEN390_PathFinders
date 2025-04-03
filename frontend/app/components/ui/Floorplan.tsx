@@ -173,6 +173,7 @@ export default function Floorplan({path}) {
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
             <PathTrace
               currentFloor={currentFloor}
+              currentBuilding={currentFloor[0]}
               onFloorChangeRequired={handleFloorChangeRequired}
               floorChangeConfirmed={floorChangeConfirmed}
               setFloorChangeConfirmed={setFloorChangeConfirmed}
