@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import CustomDrawerContent from '../app/drawer/CustomDrawerContent';
 
 // Mock Drawer Components
@@ -8,6 +9,7 @@ jest.mock('@react-navigation/drawer', () => ({
   DrawerItemList: () => <></>,
 }));
 
+// Mock vector icon and AppLogo
 jest.mock('@expo/vector-icons/Fontisto', () => 'Fontisto');
 jest.mock('../app/components/ui/AppLogo', () => () => <></>);
 
@@ -15,8 +17,11 @@ describe('CustomDrawerContent', () => {
   const mockDispatch = jest.fn();
   const testNavigation = { dispatch: mockDispatch };
 
+  const renderWithNavigation = (ui: React.ReactElement) =>
+    render(<NavigationContainer>{ui}</NavigationContainer>);
+
   it('renders correctly', () => {
-    const { getByText } = render(
+    const { getByText } = renderWithNavigation(
       <CustomDrawerContent
         testNavigation={testNavigation}
         state={{}}
@@ -28,7 +33,7 @@ describe('CustomDrawerContent', () => {
   });
 
   it('calls closeDrawer on button press', () => {
-    const { getByRole } = render(
+    const { getByRole } = renderWithNavigation(
       <CustomDrawerContent
         testNavigation={testNavigation}
         state={{}}
