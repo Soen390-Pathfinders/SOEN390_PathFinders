@@ -59,7 +59,7 @@ jobs:
         run: sleep 10 # Wait for services to be ready
 
       - name: Run Migrations
-        run: docker compose exec web python manage.py migrate
+        run: docker compose run migrate
 
       - name: Install Frontend Dependencies
         run: |
