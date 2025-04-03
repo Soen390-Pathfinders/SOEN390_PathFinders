@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Campus Navigation CI Pipeline
 
 on:
   push:
@@ -15,6 +15,9 @@ on:
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
+
+    env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
 
     services:
       postgres:
@@ -47,7 +50,9 @@ jobs:
         run: docker compose build
 
       - name: Start Docker Compose
-        run: docker compose up -d
+        run: |
+          echo "DJANGO_SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
+          docker compose up -d
 
       - name: Wait for Services
         run: sleep 10 # Wait for services to be ready
@@ -62,10 +67,8 @@ jobs:
 
       - name: Run Jest Tests for Frontend
         run: |
-          cd frontend # Navigate to the frontend directory
-          npm test -- --coverage # Run Jest tests for React Native
+          cd frontend
+          npm test -- --coverage
 
       - name: Run Backend Tests
-
         run: docker compose exec web pytest
-
