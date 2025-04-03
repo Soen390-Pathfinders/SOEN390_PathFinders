@@ -6,6 +6,8 @@ import django.db.models.deletion
 import django.utils.timezone
 from django.db import migrations, models
 
+# SonarQube fix: Define a constant instead of duplicating the literal
+INSIDE_POI_MODEL = "app.insidepoi"
 
 class Migration(migrations.Migration):
 
@@ -148,7 +150,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="edges_from",
-                        to="app.insidepoi",
+                        to=INSIDE_POI_MODEL,
                     ),
                 ),
                 (
@@ -156,7 +158,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="edges_to",
-                        to="app.insidepoi",
+                        to=INSIDE_POI_MODEL,
                     ),
                 ),
             ],
@@ -182,7 +184,7 @@ class Migration(migrations.Migration):
                         blank=True,
                         default=1,
                         on_delete=django.db.models.deletion.SET_DEFAULT,
-                        to="app.insidepoi",
+                        to=INSIDE_POI_MODEL,
                     ),
                 ),
                 (
