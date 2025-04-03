@@ -10,7 +10,9 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import AppLogo from "../components/ui/AppLogo";
 
 export default function CustomDrawerContent(props: any) {
-  const navigation = props.testNavigation || useNavigation();
+  // ✅ Always call React Hooks unconditionally at the top level
+  const defaultNavigation = useNavigation();
+  const navigation = props.testNavigation ?? defaultNavigation;
 
   const closeDrawer = () => {
     navigation.dispatch(DrawerActions.closeDrawer());
