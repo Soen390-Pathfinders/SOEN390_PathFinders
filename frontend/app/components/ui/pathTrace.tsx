@@ -81,11 +81,18 @@ export default function PathTrace({
 
         if (onDetectedCrossBuildingPath && typeof onDetectedCrossBuildingPath === 'function') {
           if (isCrossBuilding) {
-            let map_to_coordinate = null;
+            let destination_coordinate = null;
+            let start_coordinate = null;
             if (endBuilding === 'H') {
-              map_to_coordinate = "45.4582,-73.6405";
+              destination_coordinate = "45.49745,-73.57894";
             }
-            onDetectedCrossBuildingPath(true, map_to_coordinate);
+            if (endBuilding === "SP"){
+              destination_coordinate = "45.4582,-73.6405"
+            }
+            
+            console.log("t1")
+            console.log(destination_coordinate)
+            onDetectedCrossBuildingPath(true, destination_coordinate);
           }
         }
       }

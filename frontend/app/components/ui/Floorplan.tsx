@@ -13,6 +13,8 @@ type RootDrawerParamList = {
   OutdoorDirections: {
     customStartLocation: string;
     customDestination: string;
+    showPrompt: boolean,
+    path
   };
 };
 type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
@@ -78,6 +80,8 @@ export default function Floorplan({path}) {
         return require("../../../assets/floorplans/H8.jpg");
       case "H9":
         return require("../../../assets/floorplans/H9.jpg");
+      case "SP-1":
+        return require("../../../assets/floorplans/SP1.png")
       default:
         return require("../../../assets/floorplans/H5.jpg");
     }
@@ -254,6 +258,8 @@ export default function Floorplan({path}) {
                     navigation.navigate("OutdoorDirections", {
                       customStartLocation: "start",
                       customDestination: outdoorDestination,
+                      showPrompt: showExitPrompt,
+                      path: path
                     });
                     
                   }}
