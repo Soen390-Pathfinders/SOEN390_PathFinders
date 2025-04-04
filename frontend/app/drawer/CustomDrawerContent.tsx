@@ -5,7 +5,7 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
-import { useNavigation } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AppLogo from "../components/ui/AppLogo";
 
