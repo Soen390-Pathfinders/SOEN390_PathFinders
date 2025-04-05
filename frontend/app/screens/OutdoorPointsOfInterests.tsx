@@ -149,7 +149,7 @@ export default function OutdoorPointsOfInterests() {
     </View>
   );
 }
-
+//sstyle for the info box
 const styles = StyleSheet.create({
   infoBoxOverMap: {
     position: "absolute",
@@ -168,4 +168,4 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(145, 35, 55, 0.99)",
     borderRadius: 50,
   },
-});
+});  
