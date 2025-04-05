@@ -41,3 +41,4 @@ export const useLocation = () => {
   }
   return context;
 };
+export default useLocation;

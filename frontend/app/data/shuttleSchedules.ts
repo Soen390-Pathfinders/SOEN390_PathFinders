@@ -34,6 +34,7 @@ export const loyolaSchedule = [
   "18:15",
 ];
 
+
 export const sgwSchedule = [
   "9:30",
   "9:45",
@@ -69,3 +70,9 @@ export const sgwSchedule = [
   "18:15",
   "18:30",
 ]; 
+
+
+export const shuttleSchedules = {
+  loyola: loyolaSchedule,
+  sgw: sgwSchedule,
+};

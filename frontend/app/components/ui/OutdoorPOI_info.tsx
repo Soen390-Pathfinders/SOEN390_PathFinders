@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Alert,
   TouchableOpacity,
   LayoutChangeEvent,
 } from "react-native";
@@ -15,7 +14,6 @@ import Animated, {
 import Icon from "react-native-vector-icons/MaterialIcons";
 import useUserLocation from "@/app/hooks/useUserLocation";
 import getDistance from "geolib/es/getPreciseDistance";
-import { useLocation } from "../context/userLocationContext";
 
 export default function OutdoorPOI_info({ info, onDirectionPress, placeId }) {
   //Deconstrcut the information from google Place API
@@ -34,7 +32,7 @@ export default function OutdoorPOI_info({ info, onDirectionPress, placeId }) {
     geometry,
   } = info || {};
 
-  const { open_now, periods, weekday_text } = opening_hours || {};
+  const { open_now, weekday_text } = opening_hours || {};
   const { location, viewport } = geometry || {};
   const { lat, lng } = location || {};
   const { userLocation, setLocation } = useUserLocation();

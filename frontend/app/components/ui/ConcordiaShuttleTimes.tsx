@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 import { loyolaSchedule, sgwSchedule } from "../../data/shuttleSchedules";
+import ShuttleTimesDisplay from "../ui/ShuttleTimesDisplay.tsx";
 
 //takes the time as String and returns a number of minutes
 export const timeToMinutes = (time: string): number => {
@@ -26,6 +27,7 @@ export const getCurrentTimeInMinutes = (): number => {
     new Date().toLocaleTimeString("en-US", { hour12: false })
   );
 };
+
 //Format time for display
 export const formatTime = (minutes: number): string => {
   const hours =
@@ -38,6 +40,7 @@ export const formatTime = (minutes: number): string => {
       : Math.floor(minutes % 60);
   return `${hours}:${mins.toString().padStart(2, "0")}`;
 };
+
 //getnextDepartures filters out the next 3 departures from the list of departure for both campus
 export const getNextDepartures = (currentMinutes: number) => {
   const upcomingLoyola = loyolaSchedule
@@ -64,12 +67,13 @@ export default function ConcordiaShuttleTimes() {
   //updates current time and departures every minute
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentTime((prev) => prev + 1);
-      setDepartures(getNextDepartures(currentTime));
+      const newCurrentTime = getCurrentTimeInMinutes();
+      setCurrentTime(newCurrentTime);
+      setDepartures(getNextDepartures(newCurrentTime));
     }, 60000);
 
     return () => clearInterval(interval);
-  }, [currentTime]);
+  }, []);
 
   return (
     <View style={styles.timecontainer}>
@@ -97,52 +101,14 @@ export default function ConcordiaShuttleTimes() {
 
         return (
           <View key={index} style={styles.row}>
-            <View style={styles.column}>
-              {loyTime && (
-                <Text style={styles.timeText}>
-                  {loyTime}
-                  <Text
-                    style={[
-                      styles.statusText,
-                      loyMinutesAway === 0
-                        ? styles.departingStatus
-                        : loyMinutesAway < 0
-                        ? styles.departedStatus
-                        : styles.awayStatus,
-                    ]}
-                  >
-                    {loyMinutesAway === 0
-                      ? "  ⏳ Departing..."
-                      : loyMinutesAway < 0
-                      ? "  ✓ Departed"
-                      : `  🚌 in ${Math.max(0, Math.ceil(loyMinutesAway))} min`}
-                  </Text>
-                </Text>
-              )}
-            </View>
-            <View style={styles.column}>
-              {sgwTime && (
-                <Text style={styles.timeText}>
-                  {sgwTime}
-                  <Text
-                    style={[
-                      styles.statusText,
-                      sgwMinutesAway === 0
-                        ? styles.departingStatus
-                        : sgwMinutesAway < 0
-                        ? styles.departedStatus
-                        : styles.awayStatus,
-                    ]}
-                  >
-                    {sgwMinutesAway === 0
-                      ? "  ⏳ Departing..."
-                      : sgwMinutesAway < 0
-                      ? "  ✓ Departed"
-                      : `  🚌 in ${Math.max(0, Math.ceil(sgwMinutesAway))} min`}
-                  </Text>
-                </Text>
-              )}
-            </View>
+            <ShuttleTimesDisplay
+              campusTime={loyTime}
+              minutesAway={loyMinutesAway}
+            />
+            <ShuttleTimesDisplay
+              campusTime={sgwTime}
+              minutesAway={sgwMinutesAway}
+            />
           </View>
         );
       })}
