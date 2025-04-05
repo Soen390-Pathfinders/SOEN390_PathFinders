@@ -1,0 +1,7 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu"
+- tapOn: "Directions to next class"
+- tapOn: "SWITCH CALENDAR"
+- tapOn: "My Classes"
+- tapOn: "OK"

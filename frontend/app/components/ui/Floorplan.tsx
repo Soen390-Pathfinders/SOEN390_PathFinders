@@ -1,35 +1,62 @@
 import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
+import {
+  floors,
+  floorplanImages,
+  defaultFloor,
+} from "@/app/data/floorplanData";
 
-export default function Floorplan({path}) {
-
+export default function Floorplan({ path }) {
   const zoomableRef = useRef(null);
-  const [scale, setScale] = useState(1);
-  // Default to H5 initially, but this will be updated by the PathTrace component
-  const [currentFloor, setCurrentFloor] = useState("H5");
+  // Use imported default floor
+  const [currentFloor, setCurrentFloor] = useState(defaultFloor);
   // State to track if floor change was confirmed
   const [floorChangeConfirmed, setFloorChangeConfirmed] = useState(false);
   // State to track next floor in path
   const [nextFloorInPath, setNextFloorInPath] = useState(null);
+  // State to track if the floor was manually changed by the user
+  const [manualFloorChange, setManualFloorChange] = useState(false);
 
-  const [currentImageWidth, setCurrentImageWidth] = useState();
-  const [currentImageHeight, setCurrentImageHeight] = useState();
-  const [pathTracePath, setPathTracePath] = useState();
+  // Create a ref to store previous path value to detect changes
+  const prevPathRef = useRef(null);
+
+  // When new path data arrives, reset states
   useEffect(() => {
-    setPathTracePath(path);
-  })
+    // Only run this if path has changed
+    if (path && path !== prevPathRef.current) {
+      // Store new path in ref
+      prevPathRef.current = path;
+
+      // When a new path is loaded, explicitly reset states
+      setManualFloorChange(false);
+      setFloorChangeConfirmed(false);
+      setNextFloorInPath(null);
+
+      // Don't reset currentFloor here - that will happen via onInitialFloorDetected
+    }
+  }, [path]);
+
+  const onZoom = (zoomType) => {
+    // Zoom handling
+  };
 
   const onAnimationEnd = (finished) => {
-    console.log("Animation ended:", finished);
+    // Animation ended handling
   };
 
   // Function to get the appropriate floor plan image based on current floor
   const getFloorplanImage = () => {
-    switch(currentFloor) {
+    switch (currentFloor) {
       case "H1":
         return require("../../../assets/floorplans/H1.png");
       case "H4":
@@ -49,10 +76,13 @@ export default function Floorplan({path}) {
 
   // All available floors
   const floors = ["H1", "H4", "H5", "H6", "H8", "H9"];
-  
+
   // Handle floor change requested by PathTrace component
   const handleFloorChangeRequired = (newFloor) => {
-    setNextFloorInPath(newFloor);
+    // Only show the prompt if the floor wasn't manually changed
+    if (!manualFloorChange) {
+      setNextFloorInPath(newFloor);
+    }
   };
 
   // Handle confirmation of floor change
@@ -64,37 +94,60 @@ export default function Floorplan({path}) {
     }
     // Reset the next floor after handling
     setNextFloorInPath(null);
+    // Always reset manual floor change after a confirmation (whether yes or no)
+    setManualFloorChange(false);
   };
-  
+
   // Handle initial floor detection from PathTrace
   const handleInitialFloorDetected = (floorName) => {
-    setCurrentFloor(floorName);
+    // Only update the floor if it wasn't manually changed
+    if (!manualFloorChange) {
+      setCurrentFloor(floorName);
+    }
+  };
+
+  // Handle manual floor change from buttons
+  const handleManualFloorChange = (floor) => {
+    // Force update the floor regardless of any other state
+    setCurrentFloor(floor);
+    setManualFloorChange(true);
+    setNextFloorInPath(null);
+    setFloorChangeConfirmed(false);
   };
 
   return (
     <View style={styles.container}>
       {/* Floor selector */}
       <View style={styles.floorSelectorContainer}>
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false} 
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.floorScroller}
           snapToAlignment="center"
         >
           {floors.map((floor) => (
-            <TouchableOpacity 
+            <TouchableOpacity
               key={floor}
-              style={[styles.floorButton, currentFloor === floor && styles.selectedFloor]} 
-              onPress={() => setCurrentFloor(floor)}
+              style={[
+                styles.floorButton,
+                currentFloor === floor && styles.selectedFloor,
+              ]}
+              onPress={() => handleManualFloorChange(floor)}
+              activeOpacity={0.6}
             >
-              <Text style={[styles.floorButtonText, currentFloor === floor && styles.selectedFloorText]}>
+              <Text
+                style={[
+                  styles.floorButtonText,
+                  currentFloor === floor && styles.selectedFloorText,
+                ]}
+              >
                 {floor}
               </Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
       </View>
-      
+
       <Zoomable
         ref={zoomableRef}
         minScale={1}
@@ -102,42 +155,35 @@ export default function Floorplan({path}) {
         doubleTapScale={3}
         isSingleTapEnabled
         isDoubleTapEnabled
-        onDoubleTap={(zoomType) => {
-          onZoom(zoomType);
-        }}
-        onProgrammaticZoom={(zoomType) => {
-          onZoom(zoomType);
-        }}
+        onDoubleTap={onZoom}
+        onProgrammaticZoom={onZoom}
         style={styles.zoomableContainer}
-        onResetAnimationEnd={(finished, values) => {
-          onAnimationEnd(finished);
-        }}
+        onResetAnimationEnd={onAnimationEnd}
       >
         <View style={styles.svgContainer}>
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
-            <PathTrace 
-              currentFloor={currentFloor} 
+            <PathTrace
+              currentFloor={currentFloor}
               onFloorChangeRequired={handleFloorChangeRequired}
-              floorChangeConfirmed={floorChangeConfirmed} 
+              floorChangeConfirmed={floorChangeConfirmed}
               setFloorChangeConfirmed={setFloorChangeConfirmed}
               onInitialFloorDetected={handleInitialFloorDetected}
-              path={pathTracePath}
+              path={path}
+              manualFloorChange={manualFloorChange}
             />
           </Svg>
         </View>
-        {/* <View style= {{backgroundImage:'url(${getFloorplanImage})'}}>
 
-        </View> */}
         <View style={styles.floorplanContainer}>
-            <Image
-              style={styles.image}
-              source={getFloorplanImage()} 
-              contentFit="contain"
-              transition={250}
-              resizeMode="contain"
-            ></Image>     
+          <Image
+            style={styles.image}
+            source={getFloorplanImage()}
+            contentFit="contain"
+            transition={250}
+            resizeMode="contain"
+          />
         </View>
-        
+
         {/* Floor change banner */}
         {nextFloorInPath && (
           <View style={styles.bannerContainer}>
@@ -145,7 +191,7 @@ export default function Floorplan({path}) {
               <Text style={styles.bannerText}>
                 Continue to floor {nextFloorInPath}?
               </Text>
-              
+
               <View style={styles.bannerButtons}>
                 <TouchableOpacity
                   style={[styles.button, styles.buttonNo]}
@@ -153,7 +199,7 @@ export default function Floorplan({path}) {
                 >
                   <Text style={styles.buttonText}>No</Text>
                 </TouchableOpacity>
-                
+
                 <TouchableOpacity
                   style={[styles.button, styles.buttonYes]}
                   onPress={() => handleFloorChangeConfirmation(true)}
@@ -180,6 +226,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
+    zIndex: 100, // Ensure this is always on top
   },
   floorScroller: {
     paddingHorizontal: 5,
@@ -212,11 +259,10 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    position: 'absolute',
-
+    position: "absolute",
     width: "100%",
     height: "100%",
-    transform:[{scaleY:1.2}]
+    transform: [{ scaleY: 1.2 }],
   },
   svgContainer: {
     height: "100%",
@@ -225,68 +271,61 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     zIndex: 4,
-    
   },
-  floorplanInnerContainer: {
-    zIndex:4,
-  }
-  ,
-
   floorplanContainer: {
-    
     height: "100%",
     width: "100%",
     position: "absolute",
     left: 0,
     top: 0,
     zIndex: 2,
-    aspectRatio:1
+    aspectRatio: 1,
   },
   bannerContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 0,
     right: 0,
     zIndex: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   banner: {
-    backgroundColor: 'rgba(255, 255, 255, 0.85)',
+    backgroundColor: "rgba(255, 255, 255, 0.85)",
     borderRadius: 8,
     padding: 12,
-    width: '80%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    width: "80%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderColor: "rgba(0, 0, 0, 0.1)",
   },
   bannerText: {
-    color: '#333',
+    color: "#333",
     flex: 1,
     fontSize: 14,
     marginRight: 10,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   bannerButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   button: {
     padding: 8,
     borderRadius: 4,
     marginLeft: 6,
     minWidth: 60,
-    alignItems: 'center',
+    alignItems: "center",
   },
   buttonYes: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
   },
   buttonNo: {
-    backgroundColor: '#e74c3c',
+    backgroundColor: "#e74c3c",
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
     fontSize: 12,
-  }
+  },
 });

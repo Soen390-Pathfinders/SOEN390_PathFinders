@@ -1,7 +1,6 @@
 //App logo component
 //Renders the Campus Pilot logo
-import { View, Text, Image, StyleSheet } from "react-native";
-import React from "react";
+import { View, Image, StyleSheet } from "react-native";
 import useTheme from "../../hooks/useTheme";
 
 export default function AppLogo() {

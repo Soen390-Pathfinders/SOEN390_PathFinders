@@ -5,7 +5,7 @@ import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
  * Custom hook for interacting with Google Places API
  * @param {string} The google placeID we want information about
  */
-const useFetchGooglePlacesInfo = ({ placeID }) => {
+const useFetchGooglePlacesInfo = ({ placeID, searchRadius}) => {
   
   //set the place
  const[place, setPlace] =  useState(placeID);
@@ -14,7 +14,6 @@ const useFetchGooglePlacesInfo = ({ placeID }) => {
   // Error handling
   const [error, setError] =  useState<string | null>(null);
   const [filteredPlaces, setFilteredPlaces] = useState([]);
-
 
  // Update place whenever placeID changes in the hook call
  useEffect(() => {
@@ -111,13 +110,13 @@ useEffect(() => {
 
      try {
        const places = [];
+       const seenPlaceIds = new Set();  // holds all the places that have been added to the map
        // Process each filter sequentially
        for (const filter of filters) {
          const type = getGooglePlacesType(filter);
-         const radius = 1000; // 1km radius around campus
 
          const response = await fetch(
-           `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${radius}&type=${type}&key=${GOOGLE_MAPS_APIKEY}`
+           `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${location.latitude},${location.longitude}&radius=${searchRadius}&type=${type}&key=${GOOGLE_MAPS_APIKEY}`
          );
 
          const data = await response.json();
@@ -125,10 +124,14 @@ useEffect(() => {
          if (data.results) {
            // Add each place to our array with a filter property
            data.results.forEach(place => {
+
+            if (!seenPlaceIds.has(place.place_id)) {
+              seenPlaceIds.add(place.place_id); //adds the POI to the set that will be checke dot rpevent duplicates
              places.push({
                ...place,
                filter: filter // Store which filter found this place
              });
+            }
            });
          }
        }
@@ -141,7 +144,7 @@ useEffect(() => {
        setError(`Failed to fetch filtered places: ${err.message}`);
        return [];
      }
-   }, []);
+   }, [searchRadius]);
 
    return {
      // Existing state and functions

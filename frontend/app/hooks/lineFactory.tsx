@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import { Line, Circle } from "react-native-svg";
+import { Line } from "react-native-svg";
 
 export default function LineFactory({ node1, node2 }) {
   return (

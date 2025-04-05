@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import Svg, { Circle, Line } from "react-native-svg";
+import { useRef, useState, useEffect } from "react";
+import { View, StyleSheet } from "react-native";
+import Svg, { Circle } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 
@@ -23,14 +23,31 @@ export default function FloorplanRoom({ nodeInfo }) {
   const [scale, setScale] = useState(initialScale);
 
   const onZoom = (zoomType) => {
-    console.log("Zoom event triggered:", zoomType);
+    // console.log("Zoom event triggered:", zoomType);
   };
 
   const onAnimationEnd = (finished) => {
-    console.log("Animation ended2:", finished);
+    // console.log("Animation ended2:", finished);
   };
-
-  const [loading, setLoading] = useState(true);
+  // Function to get the appropriate floor plan image based on current floor
+  const getFloorplanImage = () => {
+    switch (locationFloor) {
+      case "H-1":
+        return require("../../../assets/floorplans/H1.png");
+      case "H-4":
+        return require("../../../assets/floorplans/H4.jpg");
+      case "H-5":
+        return require("../../../assets/floorplans/H5.jpg");
+      case "H-6":
+        return require("../../../assets/floorplans/H6.jpg");
+      case "H-8":
+        return require("../../../assets/floorplans/H8.jpg");
+      case "H-9":
+        return require("../../../assets/floorplans/H9.jpg");
+      default:
+        return require("../../../assets/floorplans/H5.jpg");
+    }
+  };
 
   // Zoom in on the room when component mounts
   useEffect(() => {
@@ -73,10 +90,10 @@ export default function FloorplanRoom({ nodeInfo }) {
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
             {nodeInfo?.location_data && (
               <Circle
-                // cx={x_coor}  //TODO: Uncomment these line when backend return the right coordinates
-                // cy={y_coor}
-                cx="12"
-                cy="72"
+                cx={x_coor}
+                cy={y_coor}
+                //cx="12"
+                //cy="72"
                 r="7"
                 stroke="black"
                 strokeWidth="0.2"
@@ -89,7 +106,7 @@ export default function FloorplanRoom({ nodeInfo }) {
         <View style={styles.floorplanContainer}>
           <Image
             style={styles.image}
-            source={require("../../../assets/floorplans/H5.jpg")} //5fth floor of Hall buildign was used
+            source={getFloorplanImage()}
             contentFit="contain" // entire image is contained
             transition={1000}
             resizeMode="cover" // Ensures the image covers the container
