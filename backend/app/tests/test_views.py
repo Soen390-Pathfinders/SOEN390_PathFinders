@@ -567,3 +567,42 @@ def test_shortest_path_to_amenity(api_client, room1, amenities_djikstra): #fails
 def test_shortest_path_to_amenity_invalid(api_client):
     response = api_client.post(reverse("get_shortest_path_to_amenity"))
     assert response.status_code == 400
+
+@pytest.fixture
+def poi1(db, floor, amenities_djikstra):
+    poi1 = InsidePOI.objects.create(
+        floor = floor,
+        x_coor = 300,
+        y_coor = 250
+    )
+    if not isinstance(amenities_djikstra, (list, tuple)):  
+        amenities_djikstra = [amenities_djikstra]
+
+    poi1.amenities.set(amenities_djikstra)
+    return poi1
+
+@pytest.fixture
+def room_type_poi(db):
+    return RoomType.objects.create(name="Room Type room_poi")
+
+@pytest.fixture
+def room_poi(db, poi1, floor, room_type_poi):
+    room_poi = Room.objects.create(number=7, floor=floor, location=poi1)
+    room_poi.type.add(room_type_poi)
+    return room_poi
+
+@pytest.mark.django_db
+def test_shortest_path_to_poi(api_client, room_poi, poi1):
+    url = reverse("get_shortest_path_to_poi")
+    payload = {
+        "room1": room_poi.code,
+        "poi": poi1.id,
+        "accessible": False
+    }
+    response = api_client.post(url, data=payload, format="json")
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_shortest_path_to_poi_invalid(api_client):
+    response = api_client.post(reverse("get_shortest_path_to_poi"))
+    assert response.status_code == 400
