@@ -4,12 +4,15 @@ from rest_framework.response import Response
 from rest_framework import status
 from app.serializers import BuildingSerializer
 
+
+NO_BUILDING_MSG = "No building matches the given parameters."
+
+
 @api_view(['GET'])
 def get_all_buildings(request):
     buildings = Building.objects.all()
-    serializer = BuildingSerializer(buildings, many=True)  # 'many=True' to serialize a queryset
+    serializer = BuildingSerializer(buildings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-    
 
 
 @api_view(['GET'])
@@ -23,11 +26,10 @@ def get_building(request):
     building = Building.objects.filter(id=building_id).first() or Building.objects.filter(code=building_code).first()
 
     if not building:
-        return Response({"error": "No building matches the given parameters."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"error": NO_BUILDING_MSG}, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = BuildingSerializer(building)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 
 @api_view(['POST'])
@@ -50,12 +52,10 @@ def remove_building(request):
     campus = Building.objects.filter(id=building_id).first() or Building.objects.filter(code=building_code).first()
 
     if not campus:
-        return Response({"error": "No building matches the given parameters."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": NO_BUILDING_MSG}, status=status.HTTP_404_NOT_FOUND)
 
     campus.delete()
     return Response({"message": "Building deleted successfully"}, status=status.HTTP_200_OK)
-
-
 
 
 @api_view(["PUT", "PATCH"])
@@ -68,7 +68,7 @@ def modify_building(request):
     building = Building.objects.filter(id=request.data.get("id")).first() or Building.objects.filter(code=request.data.get("code")).first()
 
     if not building:
-        return Response({"error": "No building matches the given parameters."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": NO_BUILDING_MSG}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = BuildingSerializer(building, data=request.data, partial=True)
 
