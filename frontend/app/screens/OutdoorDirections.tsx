@@ -63,8 +63,7 @@ export default function OutdoorDirections({ route }) {
           destination={submittedDestination}
           travelMode={travelMode}
           onDurationChange={setDuration}
-          setBuildingLocation={setBuildingLocation}
-        />
+          setBuildingLocation={setBuildingLocation} campus={undefined}        />
       </View>
     </View>
   );
