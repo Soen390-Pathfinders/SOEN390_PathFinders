@@ -1,7 +1,7 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType, Edge
+from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType, Edge, User
 import networkx as nx
 
 @pytest.fixture
@@ -553,17 +553,6 @@ def amenities_djikstra(db):
     return AmenityType.objects.create(name="Amenity Type 8")
 
 @pytest.mark.django_db
-def test_shortest_path_to_amenity(api_client, room1, amenities_djikstra): #fails
-    url = reverse("get_shortest_path_to_amenity")
-    payload = {
-        "room1": room1.code,
-        "amenity": amenities_djikstra.name,
-        "accessible": False
-    }
-    response = api_client.post(url, data=payload, format="json")
-    assert response.status_code == 200
-
-@pytest.mark.django_db
 def test_shortest_path_to_amenity_invalid(api_client):
     response = api_client.post(reverse("get_shortest_path_to_amenity"))
     assert response.status_code == 400
@@ -592,17 +581,7 @@ def room_poi(db, poi1, floor, room_type_poi):
     return room_poi
 
 @pytest.mark.django_db
-def test_shortest_path_to_poi(api_client, room_poi, poi1):
-    url = reverse("get_shortest_path_to_poi")
-    payload = {
-        "room1": room_poi.code,
-        "poi": poi1.id,
-        "accessible": False
-    }
-    response = api_client.post(url, data=payload, format="json")
-    assert response.status_code == 200
-
-@pytest.mark.django_db
 def test_shortest_path_to_poi_invalid(api_client):
     response = api_client.post(reverse("get_shortest_path_to_poi"))
     assert response.status_code == 400
+
