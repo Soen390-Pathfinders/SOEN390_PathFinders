@@ -66,7 +66,6 @@ export default function NavigateYourSpace() {
   };
 
   const handleGetDirection = () => {
-    console.log(accessibilityNeed);
     if (!startLocation) {
       alert("Please enter a start location");
       return;
@@ -116,7 +115,6 @@ export default function NavigateYourSpace() {
           });
         })
         .catch((error) => {
-          console.error("Full error object:", error);
           alert(`Error finding path to ${destination}: ${error.message}`);
         });
     }
