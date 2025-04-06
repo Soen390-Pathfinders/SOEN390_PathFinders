@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,39 +16,45 @@ import useRoomCodeValidation from "../hooks/useRoomCodeValidation";
 import { DrawerParamList } from "../_layout";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 
-// Type for props
+// Types
 type FindRoomProps = {
   navigation?: DrawerNavigationProp<DrawerParamList>;
 };
 
-// Function to validate code room
+//  Helper: validate room code
 export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
-  const validationResult = validateRoomCode(roomCode);
-  return validationResult;
+  return validateRoomCode(roomCode);
 };
 
-// Fetch the room node information using the API
+//  Helper: get room info from API
 export const getRoomInfo = async (roomCode) => {
   try {
-    const nodeInfo = await RoomAPI.get(roomCode);
-    return nodeInfo;
+    return await RoomAPI.get(roomCode);
   } catch (error) {
     console.error("Failed to fetch room information:", error);
   }
 };
 
-// Navigate to the indoor map screen
-export const helperNavigateToIndoorMap = (navigation, nodeInfo) => {
+//  Helper: navigate to IndoorMap screen
+export const helperNavigateToIndoorMap = (
+  navigation: DrawerNavigationProp<DrawerParamList>,
+  nodeInfo: any
+) => {
   (navigation.navigate as any)("(screens)/IndoorMap", {
     path: null,
-    nodeInfo: nodeInfo,
+    nodeInfo,
     roomOrPath: "room",
   });
 };
 
 export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
   const fallbackNavigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-  const navigation = useMemo(() => navFromProps ?? fallbackNavigation, [navFromProps, fallbackNavigation]);
+
+  //  Always call useNavigation at top level — no conditional hooks
+  const navigation = useMemo(
+    () => navFromProps ?? fallbackNavigation,
+    [navFromProps, fallbackNavigation]
+  );
 
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
@@ -64,8 +70,7 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
     }
 
     const nodeInfo = await getRoomInfo(roomCode);
-
-    if (nodeInfo === undefined) {
+    if (!nodeInfo) {
       alert("Room not found. Please check the room number and try again.");
       return;
     }
@@ -78,7 +83,6 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find a Room</Text>
 
-        {/* Search bar */}
         <View style={styles.searchContainer}>
           <Ionicons
             name="search"
@@ -100,7 +104,6 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
           )}
         </View>
 
-        {/* Image */}
         <View style={styles.visual}>
           <Image
             source={require("../../assets/images/search.png")}
@@ -108,7 +111,6 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
           />
         </View>
 
-        {/* Button */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
@@ -163,14 +165,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
     marginTop: 20,
-  },
-  visualIcon: {
-    width: "50%",
-    height: "50%",
-    color: "rgba(145, 35, 55, 0.99)",
-    alignContent: "center",
-    justifyContent: "center",
-    borderRadius: 10,
   },
   button: {
     backgroundColor: "rgba(145, 35, 55, 0.99)",
