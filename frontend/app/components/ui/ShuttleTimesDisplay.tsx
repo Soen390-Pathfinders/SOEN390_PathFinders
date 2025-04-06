@@ -1,4 +1,4 @@
-// ShuttleTimeRow.tsx
+// ShuttleTimeDisplay.tsx
 import { View, Text, StyleSheet } from "react-native";
 
 type ShuttleTimeProps = {
@@ -6,28 +6,40 @@ type ShuttleTimeProps = {
   minutesAway: number | null;
 };
 
+const getStatusInfo = (minutesAway: number | null) => {
+  if (minutesAway === null) return { text: "", style: {} };
+
+  if (minutesAway === 0) {
+    return {
+      text: "⏳ Departing...",
+      style: styles.departingStatus,
+    };
+  }
+
+  if (minutesAway < 0) {
+    return {
+      text: "✓ Departed",
+      style: styles.departedStatus,
+    };
+  }
+
+  return {
+    text: `🚌 in ${Math.max(0, Math.ceil(minutesAway))} min`,
+    style: styles.awayStatus,
+  };
+};
+
 const ShuttleTimeDisplay = ({ campusTime, minutesAway }: ShuttleTimeProps) => {
   if (!campusTime) return <View style={styles.column} />;
+
+  const statusInfo = getStatusInfo(minutesAway);
 
   return (
     <View style={styles.column}>
       <Text style={styles.timeText}>
         {campusTime}
-        <Text
-          style={[
-            styles.statusText,
-            minutesAway === 0
-              ? styles.departingStatus
-              : minutesAway < 0
-              ? styles.departedStatus
-              : styles.awayStatus,
-          ]}
-        >
-          {minutesAway === 0
-            ? "  ⏳ Departing..."
-            : minutesAway < 0
-            ? "  ✓ Departed"
-            : `  🚌 in ${Math.max(0, Math.ceil(minutesAway))} min`}
+        <Text style={[styles.statusText, statusInfo.style]}>
+          {statusInfo.text && `  ${statusInfo.text}`}
         </Text>
       </Text>
     </View>
