@@ -1,0 +1,12 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu"
+- tapOn: "Outdoor Directions"
+- tapOn:
+    point: 20%,46%
+- tapOn:
+    point: "50%,46%"
+- tapOn:
+    point: "80%,46%"
+- tapOn:
+    point: 20%,46%

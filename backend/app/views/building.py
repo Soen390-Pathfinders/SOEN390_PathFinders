@@ -1,32 +1,79 @@
-from ..models import *
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.core import serializers
-import json
+from ..models import Building
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from app.serializers import BuildingSerializer
 
-def building_list(request):
-    pass
 
-def building_get(request, name):
-    building = get_object_or_404(Building, name=name)
-    building_data = serializers.serialize("json", [building])
-    return JsonResponse(building_data, safe=False)
+NO_BUILDING_MSG = "No building matches the given parameters."
 
-def building_create(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-        except json.JSONDecodeError:
-            return JsonResponse({"error" : "invalid json data"}, status=400)
-        
-    else:
-        return JsonResponse({"error" : "only post requests allowed for create_building"}, status=405)
+
+@api_view(['GET'])
+def get_all_buildings(request):
+    buildings = Building.objects.all()
+    serializer = BuildingSerializer(buildings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def get_building(request):
+    building_id = request.GET.get("id")
+    building_code = request.GET.get("code")
     
-def building_delete(request, building_name):
-    pass
+    if not building_id and not building_code:
+        return Response({"error": "Provide either 'id' or 'code' to retrieve a building"}, status=status.HTTP_400_BAD_REQUEST)
 
-def building_update(request, building_name):
-    pass
+    building = Building.objects.filter(id=building_id).first() or Building.objects.filter(code=building_code).first()
 
-def building_get_coordinates(request, building_name):
-    pass
+    if not building:
+        return Response({"error": NO_BUILDING_MSG}, status=status.HTTP_400_BAD_REQUEST)
+
+    serializer = BuildingSerializer(building)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def add_building(request):
+    serializer = BuildingSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': 'Building created successfully', 'building_id': serializer.instance.id}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+def remove_building(request):
+    building_id = request.data.get("id")
+    building_code = request.data.get("code")
+
+    if not building_id and not building_code:
+        return Response({"error": "Provide either 'id' or 'code' to delete a building."}, status=status.HTTP_400_BAD_REQUEST)
+
+    campus = Building.objects.filter(id=building_id).first() or Building.objects.filter(code=building_code).first()
+
+    if not campus:
+        return Response({"error": NO_BUILDING_MSG}, status=status.HTTP_404_NOT_FOUND)
+
+    campus.delete()
+    return Response({"message": "Building deleted successfully"}, status=status.HTTP_200_OK)
+
+
+@api_view(["PUT", "PATCH"])
+def modify_building(request):
+    identifier = request.data.get("id") or request.data.get("code")
+
+    if not identifier:
+        return Response({"error": "Must provide either 'id' or 'code'."}, status=status.HTTP_400_BAD_REQUEST)
+
+    building = Building.objects.filter(id=request.data.get("id")).first() or Building.objects.filter(code=request.data.get("code")).first()
+
+    if not building:
+        return Response({"error": NO_BUILDING_MSG}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = BuildingSerializer(building, data=request.data, partial=True)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

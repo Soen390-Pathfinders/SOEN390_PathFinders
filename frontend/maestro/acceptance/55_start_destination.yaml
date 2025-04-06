@@ -1,0 +1,9 @@
+appId: host.exp.exponent
+---
+- tapOn: "Start Location"
+- inputText: "Hall Building"
+- tapOn: "H Building Concordia University, Boulevard De Maisonneuve Ouest, Montreal, QC, Canada"
+- tapOn: "LB Building"
+- tapOn: "LB Building"
+- tapOn: "YES"
+- tapOn: "GO"

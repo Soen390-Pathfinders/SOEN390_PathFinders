@@ -1,4 +1,5 @@
-# Concordia Campus Navigation App -- version 0.0.1 [![.github/workflows/ci.yml](https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025/actions/workflows/ci.yml/badge.svg)](https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025/actions/workflows/ci.yml)
+# Concordia Campus Navigation App -- version 0.0.1 [![.github/workflows/ci.yml](https://github.com/Soen390-Pathfinders/SOEN390_PathFinders/actions/workflows/ci.yml/badge.svg)](https://github.com/Soen390-Pathfinders/SOEN390_PathFinders/actions/workflows/ci.yml)
+
 ## Project Overview
 
 The **Concordia Campus Guide** is a mobile application designed to help Concordia's students, faculty, and visitors navigate through campus buildings and rooms efficiently. Inspired by Google Maps, this app provides a user-friendly interface for locating your current position on campus and finding the shortest path to any desired location.
@@ -27,26 +28,78 @@ This project aims to simplify campus navigation, reduce confusion for newcomers,
 ## Installation
 
 ### Prerequisites
+
 Before you can run the project, make sure you have installed **Docker**, PostgreSQL and all required dependencies
 
-### Step 1: Clone the Repository 
+### Step 1: Clone the Repository
+
 You can use the following command to clone the repo:
+
 ```bash
-git clone https://github.com/Pathfinders-Soen-390/SOEN390-Project-winter2025.git
+git clone https://github.com/Soen390-Pathfinders/SOEN390_PathFinders.git
 ```
 
-### Step 2: Run the Backend 
+### Step 2: Run the Backend
+
+#### Step 2.1: Windows Setup
+
+If you are using Windows, you first need to follow the instructions provided in this 👉 [trello card](https://trello.com/c/wga7XPGq/12-bug-3-pytest-fail-due-to-docker).
+
+#### Step 2.2: Building the Docker Container
+
 Once Docker is launched on your device, type the following command in the project's root directory:
+
 ```bash
 docker compose up --build
 ```
 
+#### Step 2.3: Navigate to the Backend Container
+
+Inside the Docker application, click on the backend_container and then navigate to the Exec tab.
+
+#### Step 2.4: Intialize the Database
+
+Now, write the `python manage.py migrate` command to create the tables in the database.
+Then, write the `python manage.py initialize` command to populate the database.
+(Note: Currently the information available might be limited)
+
+#### Step 2.5: Clear the database
+
+If you want to clear the database, write in the project's root directory:
+
+```bash
+docker compose down -v
+```
+
+and then start from the beginning of step 2 to build the database.
+
 ### Step 3: Start the Frontend
+
 Navigate to the frontend folder and type the following command:
+
 ```bash
 npm start
 ```
+
 The final step should launch the app on a mobile device emulator.
+
+
+### Step 4: Connection from Frontend to Backend
+Assuming Windows OS:
+1. Open your command prompt and type ipconfig, take note of your Wireless LAN IPv4 Address (Should look something like 192.168.xxx.xxx)
+2. Modify /frontend/api/api.js variable API_BASE_URL from "http://localhost:8000/api" to "http://{YOUR_IPv4_ADDRESS}:8000/api", something like "http://192.168.0.126:8000/api"
+3. Modify /backend/backend/settings.py variable ALLOWED_HOSTS = [] to ALLOWED_HOSTS = ["*"]
+4. Rebuild docker container if one is already active (Docker compose down -v  /// Docker compose up --build)
+
+At this point it should work if you are using mobile data, if you are using WIFI:
+
+5. Open Windows Defender Firewall
+6. Click advanced settings on the left
+7. Click inbound rules tab on the left
+8. Click New rule on the right
+9. Choose TCP --> Specific local ports : 8000 --> Allow --> Next --> Name it whatever you want (I named it SOEN390DockerConnection)
+
+
 
 ---
 

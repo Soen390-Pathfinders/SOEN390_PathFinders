@@ -1,13 +1,12 @@
 //Root layout and
 //  top navigation drawer(For the hamburger menu)
 import "react-native-get-random-values";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Image, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 /*Imports for drawer navigation*/
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawerContent from "./drawer/CustomDrawerContent";
-const Drawer = createDrawerNavigator();
 import CampusMap from "./screens/CampusMap";
 import OutdoorDirections from "./screens/OutdoorDirections";
 import ConcordiaShuttle from "./screens/ConcordiaShuttle";
@@ -17,16 +16,31 @@ import { ThemeProvider } from "./components/context/ThemeContext"; // for dark/l
 /*Imports to handle user location*/
 import { LocationProvider } from "./components/context/userLocationContext"; //for the current user's location
 import useUserLocation from "./hooks/useUserLocation";
-import loginScreem from "./screens/loginScreem";
 import NextClassInfo from "./screens/NextClassInfo";
 import IndoorDirections from "./screens/IndoorDirections";
 import IndoorMap from "./screens/IndoorMap";
 import FindRoom from "./screens/FindRoom";
 import NavigateYourSpace from "./screens/NavigateYourSpace";
+import OutdoorPointsOfInterests from "./screens/OutdoorPointsOfInterests";
 
+export type DrawerParamList = {
+  "(screens)/IndoorMap": {
+    path?: any;
+    nodeInfo?: any;
+    roomOrPath: string;
+  };
+  "(screens)/CampusMap": undefined;
+  OutdoorDirections: undefined;
+  "(screens)/NextClassInfo": undefined;
+  "(screens)/ConcordiaShuttle": undefined;
+  "(screens)/IndoorDirections": undefined;
+  "(screens)/FindRoom": undefined;
+  "(screens)/NavigateYourSpace": undefined;
+  "(screens)/OutdoorPointsOfInterest": undefined;
+};
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export default function RootLayout() {
-  /* const styles = getStyles(theme); // Get styles based on theme*/ //TODO: Change the theme color for the drawer
   const [isLoading, setIsLoading] = useState(true);
 
   /*Loading screen logic*/ //TODO : Can this logic be moved to custom hook ?
@@ -57,20 +71,6 @@ export default function RootLayout() {
             drawerContent={CustomDrawerContent}
           >
             <Drawer.Screen
-              name="(screens)/IndoorMap"
-              component={IndoorMap}
-              options={{
-                drawerLabel: "Dev Indoor Map",
-                title: "IndoorMap",
-                drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/map.png")}
-                  />
-                ),
-              }}
-            />
-            <Drawer.Screen
               name="(screens)/CampusMap"
               component={CampusMap}
               options={{
@@ -85,7 +85,7 @@ export default function RootLayout() {
               }}
             />
             <Drawer.Screen
-              name="index"
+              name="OutdoorDirections"
               component={OutdoorDirections}
               options={{
                 drawerLabel: "Outdoor Directions",
@@ -102,22 +102,8 @@ export default function RootLayout() {
               name="(screens)/NextClassInfo"
               component={NextClassInfo}
               options={{
-                drawerLabel: "NextClassInfo",
-                title: "NextClassInfo drawer for dev",
-                drawerIcon: () => (
-                  <Image
-                    style={styles.navLogo}
-                    source={require("../assets/images/class.png")}
-                  />
-                ),
-              }}
-            />
-            <Drawer.Screen
-              name="(screens)/loginScreen"
-              component={loginScreem}
-              options={{
                 drawerLabel: "Directions to next class",
-                title: "direction to next class",
+                title: "Direction to next class",
                 drawerIcon: () => (
                   <Image
                     style={styles.navLogo}
@@ -158,17 +144,45 @@ export default function RootLayout() {
               name="(screens)/FindRoom"
               component={FindRoom}
               options={{
-                drawerItemStyle: { height: 0 },  // This hides it from the drawer
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Find Room",
               }}
             />
-            
+            <Drawer.Screen
+              name="(screens)/IndoorMap"
+              component={IndoorMap}
+              options={{
+                drawerLabel: "Indoor Map",
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
+                title: "IndoorMap",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/map.png")}
+                  />
+                ),
+              }}
+            />
             <Drawer.Screen
               name="(screens)/NavigateYourSpace"
               component={NavigateYourSpace}
               options={{
-                drawerItemStyle: { height: 0 },  // This hides it from the drawer
+                drawerItemStyle: { height: 0 }, // This hides it from the drawer
                 title: "Navigate Your Space",
+              }}
+            />
+            <Drawer.Screen
+              name="(screens)/OutdoorPointsOfInterest"
+              component={OutdoorPointsOfInterests}
+              options={{
+                drawerLabel: "Points of interests",
+                title: "Points of interests",
+                drawerIcon: () => (
+                  <Image
+                    style={styles.navLogo}
+                    source={require("../assets/images/point-of-interest.png")}
+                  />
+                ),
               }}
             />
           </Drawer.Navigator>

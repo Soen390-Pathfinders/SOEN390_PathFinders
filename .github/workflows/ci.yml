@@ -1,17 +1,23 @@
-name: CI Pipeline
+name: Campus Navigation CI Pipeline
 
 on:
   push:
     branches:
       - main
-      - Marc # Run on push to the 'Marc' branch
+      - backend
+      - frontend
   pull_request:
     branches:
-      - main # Run on pull request to the main branch
+      - main
+      - backend
+      - frontend
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
+
+    env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
 
     services:
       postgres:
@@ -44,24 +50,26 @@ jobs:
         run: docker compose build
 
       - name: Start Docker Compose
-        run: docker compose up -d
+        run: |
+          docker compose up -d
+        env:
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
 
       - name: Wait for Services
         run: sleep 10 # Wait for services to be ready
 
       - name: Run Migrations
-        run: docker compose exec web python manage.py migrate
+        run: docker compose run migrate
 
       - name: Install Frontend Dependencies
         run: |
-          cd frontend # Navigate to the frontend directory
-          npm install # Install frontend dependencies for React Native (directly on the CI runner)
+          cd frontend
+          npm install
 
       - name: Run Jest Tests for Frontend
         run: |
-          cd frontend # Navigate to the frontend directory
-          npm test -- --coverage # Run Jest tests for React Native
+          cd frontend
+          npm test -- --coverage
 
       - name: Run Backend Tests
-        run: docker compose exec web pytest # Run backend tests (optional, if you're using pytest)
-        
+        run: docker compose exec web pytest

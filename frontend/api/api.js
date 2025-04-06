@@ -1,6 +1,18 @@
 import axios from "axios";
+import { Platform } from "react-native";
+import Constants from "expo-constants";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:8000";
+const LOCAL_IP = "YOUR_IP"; // CHANGE THIS to your machine’s IP
+
+// Check if the app is running on a simulator/emulator
+const isEmulator = false; //Change to false if using your physical device
+
+export const API_BASE_URL = isEmulator
+  ? Platform.select({
+      ios: "http://localhost:8000/api", // iOS Simulator
+      android: "http://10.0.2.2:8000/api", // Android Emulator
+    })
+  : `http://${LOCAL_IP}:8000/api`; // Physical devices
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -8,7 +20,6 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
-
 
 const handleRequest = async (requestFunc) => {
   try {
@@ -20,59 +31,87 @@ const handleRequest = async (requestFunc) => {
   }
 };
 
-
 export const BuildingAPI = {
-    getAll: () => handleRequest(() => api.get("/building_get/")),
-    get: (buildingName) => handleRequest(() => api.get(`/building_get/${buildingName}/`)),
-    create: (buildingData) => handleRequest(() => api.post("/building_create/", buildingData)),
-    update: (buildingName, updatedData) =>
-      handleRequest(() => api.put(`/building_update/${buildingName}/`, updatedData)),
-    delete: (buildingName) => handleRequest(() => api.delete(`/building_delete/${buildingName}/`)),
-  };
-  
+  getAll: () => handleRequest(() => api.get("/building/all")),
+  get: (buildingCode) =>
+    handleRequest(() => api.get(`/building/get?code=${buildingCode}`)),
+  create: (buildingData) =>
+    handleRequest(() => api.post("/building/add", buildingData)),
+  update: (buildingData) =>
+    handleRequest(() => api.put("/building/modify", buildingData)),
+  delete: (buildingData) =>
+    handleRequest(() => api.delete("/building/remove", buildingData)),
+};
 
+export const CampusAPI = {
+  getAll: () => handleRequest(() => api.get("/campus/all")),
+  get: (campusCode) =>
+    handleRequest(() => api.get(`/campus/get?code=${campusCode}`)),
+  create: (campusData) =>
+    handleRequest(() => api.post("/campus/add", campusData)),
+  update: (campusData) =>
+    handleRequest(() => api.put(`/campus/modify`, campusData)),
+  delete: (campusData) =>
+    handleRequest(() => api.delete(`/campus/remove`, campusData)),
+};
 
-  export const CampusAPI = {
-    getAll: () => handleRequest(() => api.get("/campus/")),
-    get: (campusId) => handleRequest(() => api.get(`/campus/${campusId}/`)),
-    create: (campusData) => handleRequest(() => api.post("/campus_create/", campusData)),
-    update: (campusId, updatedData) =>
-      handleRequest(() => api.put(`/campus_update/${campusId}/`, updatedData)),
-    delete: (campusId) => handleRequest(() => api.delete(`/campus_delete/${campusId}/`)),
-  };
-  
+export const FloorAPI = {
+  getAll: () => handleRequest(() => api.get("/floor/all")),
+  get: (floorCode) =>
+    handleRequest(() => api.get(`/floor/get?code=${floorCode}`)),
+  getAmenities: (floorCode) =>
+    handleRequest(() => api.get(`/floor/amenities?code=${floorCode}`)),
+  create: (floorData) => handleRequest(() => api.post("/floor/add", floorData)),
+  update: (floorData) =>
+    handleRequest(() => api.put(`/floor/modify`, floorData)),
+  delete: (floorData) =>
+    handleRequest(() => api.delete(`/floor/remove`, floorData)),
+};
 
+export const RoomAPI = {
+  test: () => console.log(getApiUrl()),
+  getAll: () => handleRequest(() => api.get("/room/all")),
+  get: (roomCode) => handleRequest(() => api.get(`/room/get?code=${roomCode}`)),
+  create: (roomData) => handleRequest(() => api.post("/room/add", roomData)),
+  update: (roomData) => handleRequest(() => api.put(`/room/modify`, roomData)),
+  delete: (roomData) =>
+    handleRequest(() => api.delete(`/room/remove`, roomData)),
+};
 
-  export const FloorAPI = {
-    getAll: () => handleRequest(() => api.get("/floor/")),
-    get: (floorId) => handleRequest(() => api.get(`/floor/${floorId}/`)),
-    create: (floorData) => handleRequest(() => api.post("/floor/create/", floorData)),
-    update: (floorId, updatedData) =>
-      handleRequest(() => api.put(`/floor/${floorId}/update/`, updatedData)),
-    delete: (floorId) => handleRequest(() => api.delete(`/floor/${floorId}/delete/`)),
-  };
-  
+export const POIAPI = {
+  getAll: () => handleRequest(() => api.get("/poi/inside/all")),
+  get: (poiId) => handleRequest(() => api.get(`/poi/inside/get?id=${poiId}`)),
+  create: (poiData) =>
+    handleRequest(() => api.post("/poi/inside/add", poiData)),
+  update: (poiData) =>
+    handleRequest(() => api.put(`/poi/inside/modify`, poiData)),
+  delete: (poiData) =>
+    handleRequest(() => api.delete(`/poi/inside/remove`, poiData)),
+};
 
-
-  export const RoomAPI = {
-    getAll: () => handleRequest(() => api.get("/room/")),
-    get: (roomId) => handleRequest(() => api.get(`/room/${roomId}/`)),
-    create: (roomData) => handleRequest(() => api.post("/room/create/", roomData)),
-    update: (roomId, updatedData) =>
-      handleRequest(() => api.put(`/room/${roomId}/update/`, updatedData)),
-    delete: (roomId) => handleRequest(() => api.delete(`/room/${roomId}/delete/`)),
-  };
-  
-
-
-  export const POIAPI = {
-    getAll: () => handleRequest(() => api.get("/pointOfInterest/")),
-    get: (poiId) => handleRequest(() => api.get(`/pointOfInterest/${poiId}/`)),
-    create: (poiData) => handleRequest(() => api.post("/pointOfInterest_create/", poiData)),
-    update: (poiId, updatedData) =>
-      handleRequest(() => api.put(`/pointOfInterest_update/${poiId}/`, updatedData)),
-    delete: (poiId) => handleRequest(() => api.delete(`/pointOfInterest_delete/${poiId}/`)),
-  };
-  
-  export default api;
-  
+export const PathAPI = {
+  shortestPathToRoom: (start_room, destination_room, has_disability) =>
+    handleRequest(() =>
+      api.post("/path/rooms", {
+        room1: start_room,
+        room2: destination_room,
+        accessible: has_disability,
+      })
+    ),
+  shortestPathToAmenity: (start_room, amenity_name, has_disability) =>
+    handleRequest(() =>
+      api.post("/path/amenity", {
+        room1: start_room,
+        amenity: amenity_name,
+        accessible: has_disability,
+      })
+    ),
+  shortestPathToPOI: (start_room, poi_id, has_disability) =>
+    handleRequest(() =>
+      api.post("/path/poi", {
+        room1: start_room,
+        location_id: poi_id,
+        accessible: has_disability,
+      })
+    ),
+};

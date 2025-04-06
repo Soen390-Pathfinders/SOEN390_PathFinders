@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   db:
     image: postgres:15
@@ -11,17 +13,30 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  migrate:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://admin:password@db:5432/campus_db
+      DJANGO_SETTINGS_MODULE: backend.settings
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+    command: >
+      sh -c "./wait-for-it.sh db:5432 -- python manage.py migrate"
+
   web:
     build: .
     container_name: backend_container
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgres://admin:password@db:5432/campus_db
-      - DJANGO_SETTINGS_MODULE=backend.settings
+      DATABASE_URL: postgres://admin:password@db:5432/campus_db
+      DJANGO_SETTINGS_MODULE: backend.settings
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+    command: >
+      sh -c "./wait-for-it.sh db:5432 -- python manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
-    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 volumes:
   postgres_data:

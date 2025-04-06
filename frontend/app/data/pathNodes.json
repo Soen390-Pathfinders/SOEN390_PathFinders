@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "floor": "H-5",
+    "description": "Hosts software classes",
+    "is_accessible": true,
+    "x_coor": 10,
+    "y_coor": 20,
+    "amenity_names": []
+  },
+  {
+    "id": 2,
+    "floor": "H-5",
+    "description": null,
+    "is_accessible": true,
+    "x_coor": 15,
+    "y_coor": 15,
+    "amenity_names": []
+  },
+  {
+    "id": 4,
+    "floor": "H-5",
+    "description": null,
+    "is_accessible": true,
+    "x_coor": 20,
+    "y_coor": 20,
+    "amenity_names": []
+  },
+  {
+    "id": 5,
+    "floor": "H-5",
+    "description": null,
+    "is_accessible": true,
+    "x_coor": 34,
+    "y_coor": 76,
+    "amenity_names": []
+  },
+  {
+    "id": 7,
+    "floor": "H-5",
+    "description": null,
+    "is_accessible": true,
+    "x_coor": 36,
+    "y_coor": 20,
+    "amenity_names": []
+  }
+]

@@ -1,0 +1,8 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu"  
+- tapOn: "Campus Map"
+- tapOn: "LB Building"
+- assertVisible: "LB Building"  
+- tapOn: "LC Building"
+- assertVisible: "LC Building"  

@@ -1,28 +1,37 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
+const CampusButton = ({ label, isActive, onPress }) => (
+  <TouchableOpacity
+    style={[
+      styles.campusButton,
+      isActive ? styles.activeButton : styles.inactiveButton,
+    ]}
+    onPress={onPress}
+  >
+    <Text style={styles.buttonText}>{label}</Text>
+  </TouchableOpacity>
+);
 
 export const CampusToggle = ({ campus, toggleCampus }) => {
-  
-    return (
+  const campuses = [
+    { key: "SGW", label: "SGW" },
+    { key: "LOY", label: "Loyola" },
+  ];
+
+  return (
     <View style={styles.buttonContainer}>
-      <TouchableOpacity
-        style={[
-          styles.campusButton,
-          campus === "SGW" ? styles.activeButton : styles.inactiveButton,
-        ]}
-        onPress={() => toggleCampus("SGW")}
-      >
-        <Text style={styles.buttonText}>SGW</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[
-          styles.campusButton,
-          campus === "LOY" ? styles.activeButton : styles.inactiveButton,
-        ]}
-        onPress={() => toggleCampus("LOY")}
-      >
-        <Text style={styles.buttonText}>Loyola</Text>
-      </TouchableOpacity>
+      {campuses.map(
+        (
+          { key, label } //use of .map() to generate buttons
+        ) => (
+          <CampusButton
+            key={key}
+            label={label}
+            isActive={campus === key}
+            onPress={() => toggleCampus(key)}
+          />
+        )
+      )}
     </View>
   );
 };

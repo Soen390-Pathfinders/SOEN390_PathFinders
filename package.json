@@ -1,5 +1,6 @@
 {
   "dependencies": {
+
     "@jest/globals": "^29.7.0",
     "@testing-library/react-native": "^13.2.0",
     "@types/react-native": "^0.73.0",
@@ -12,6 +13,12 @@
     "react-test-renderer": "^19.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14"
+    "@types/jest": "^29.5.14",
+
+    "expo-calendar": "^14.0.6",
+    "expo-constants": "^17.0.5",
+    "expo-permissions": "^14.4.0",
+    "react-native-dotenv": "^3.4.11"
+
   }
 }
