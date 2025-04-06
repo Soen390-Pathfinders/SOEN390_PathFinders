@@ -14,18 +14,12 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { PathAPI } from "@/api/api";
 import { useNavigation } from "expo-router";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { DrawerParamList } from "../_layout";
 import { amenityTypes, amenityDisplayNames } from "../data/amenityData";
 
-type RootDrawerParamList = {
-  "(screens)/FindRoom": undefined;
-  "(screens)/NavigateYourSpace": undefined;
-  "(screens)/IndoorMap": undefined;
-};
 
-type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 export default function NavigateYourSpace() {
-
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [startLocation, setStartLocation] = useState("");
@@ -68,6 +62,8 @@ export default function NavigateYourSpace() {
   };
 
   const handleGetDirection = () => {
+
+
     if (!startLocation) {
       alert("Please enter a start location");
       return;
@@ -94,9 +90,11 @@ export default function NavigateYourSpace() {
       // Now use the correctly formatted amenity code
       PathAPI.shortestPathToAmenity(startLocation, amenityCode)
         .then((response) => {
-          navigation.navigate("(screens)/IndoorMap", response);
-          console.log("Sending from NavigateYourSpace (Amenity Path)");
-          console.log(response);
+          navigation.navigate("(screens)/IndoorMap",          
+       {path: response,
+        nodeInfo: null,
+        roomOrPath: "path"
+          });
         })
         .catch(error => {
           alert(`Error finding path to ${destination}: ${error.message}`);
@@ -105,14 +103,17 @@ export default function NavigateYourSpace() {
       
       PathAPI.shortestPathToRoom(startLocation, destination)
         .then((response) => {
-          navigation.navigate("(screens)/IndoorMap", response);
-          console.log("Sending from NavigateYourSpace (Room Path)");
-          console.log(response);
+          navigation.navigate("(screens)/IndoorMap", {
+          path: response,
+        nodeInfo: null,
+        roomOrPath: "path",
+          });
         })
         .catch(error => {
           alert(`Error finding path to ${destination}: ${error.message}`);
         });
     }
+
   };
 
   return (

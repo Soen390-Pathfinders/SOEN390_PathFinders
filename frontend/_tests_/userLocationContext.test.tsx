@@ -1,53 +1,63 @@
-/**
- * @jest-environment jsdom
- */
+
 import React from "react";
-import { renderHook, act } from "@testing-library/react";
-import {
-  LocationProvider,
-  useLocation,
-} from "../app/components/context/userLocationContext";
+import { render, fireEvent } from "@testing-library/react-native";
+import { Text, Button } from "react-native";
+import { LocationProvider, useLocation } from "../app/components/context/userLocationContext";
 
-describe("userLocationContext", () => {
-  it("provides default user location", () => {
-    const wrapper = ({ children }) => (
-      <LocationProvider>{children}</LocationProvider>
+
+const TestComponent: React.FC = () => {
+  const { userLocation, updateUserLocation } = useLocation();
+  return (
+    <>
+      <Text testID="locationText">
+        {`${userLocation.latitude}, ${userLocation.longitude}`}
+      </Text>
+      <Button
+        testID="updateButton"
+        title="Update Location"
+        onPress={() => updateUserLocation(10, 20)}
+      />
+    </>
+  );
+};
+
+
+describe("LocationContext", () => {
+  it("provides the initial location to its children", () => {
+
+    const { getByTestId } = render(
+      <LocationProvider>
+        <TestComponent />
+      </LocationProvider>
     );
 
-    const { result } = renderHook(() => useLocation(), { wrapper });
-
-    expect(result.current.userLocation).toEqual({
-      latitude: -73.57907171854552,
-      longitude: 45.49749147752672,
-    });
+    expect(getByTestId("locationText").props.children).toEqual(
+      "-73.57907171854552, 45.49749147752672"
+    );
   });
 
-  it("updates user location when updateUserLocation is called", () => {
-    const wrapper = ({ children }) => (
-      <LocationProvider>{children}</LocationProvider>
+  it("updates the location when updateUserLocation is called", () => {
+    const { getByTestId } = render(
+      <LocationProvider>
+        <TestComponent />
+      </LocationProvider>
     );
 
-    const { result } = renderHook(() => useLocation(), { wrapper });
 
-    act(() => {
-      result.current.updateUserLocation(50, 60);
-    });
-
-    expect(result.current.userLocation).toEqual({
-      latitude: 50,
-      longitude: 60,
-    });
+    fireEvent.press(getByTestId("updateButton"));
+    expect(getByTestId("locationText").props.children).toEqual("10, 20");
   });
 
-  it("throws error if used outside LocationProvider", () => {
-    const consoleErrorSpy = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
+  it("throws an error when useLocation is used outside a LocationProvider", () => {
 
-    expect(() => {
-      renderHook(() => useLocation());
-    }).toThrow("useLocation must be used within a LocationProvider");
+    const ComponentUsingHook: React.FC = () => {
 
-    consoleErrorSpy.mockRestore();
+      useLocation();
+      return <Text>Should not render</Text>;
+    };
+
+    expect(() => render(<ComponentUsingHook />)).toThrow(
+      "useLocation must be used within a LocationProvider"
+    );
   });
 });

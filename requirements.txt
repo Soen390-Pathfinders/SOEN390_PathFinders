@@ -9,3 +9,4 @@ django-cors-headers
 jsonschema
 django-rest-framework
 networkx
+python-dotenv

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, render, act } from "@testing-library/react";
 import useDirectionLogic from "../app/hooks/useDirectionLogic";
 
 // Mock useLocation
@@ -74,5 +74,71 @@ describe("useDirectionLogic hook", () => {
     });
 
     expect(result.current.destination).toBe("45.500000, -73.600000");
+  });
+
+  test("buildng location is null", () => {
+    // Mock console.error to monitor output
+    const consoleErrorSpy = jest
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
+    // Use renderHook instead of render + component
+    const { result } = renderHook(() => useDirectionLogic());
+
+    // Call the method with null building location
+    act(() => {
+      result.current.setToBuildingLocation(null, null);
+    });
+
+    // Verify console.error was called with the expected message
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Building location is not available."
+    );
+
+    // Restore console error
+    consoleErrorSpy.mockRestore();
+  });
+  it("correctly sets start location state", () => {
+    // Render the hook normally
+    const { result } = renderHook(() => useDirectionLogic());
+
+    // Mock building location
+    const buildingLocation = {
+      latitude: 45.123456789,
+      longitude: -73.987654321,
+    };
+
+    // Expected formatted text
+    const expectedText = "45.123457, -73.987654";
+
+    // Call the function
+    act(() => {
+      result.current.setToBuildingLocation("start", buildingLocation);
+    });
+
+    // Just check that the state was updated correctly
+    expect(result.current.startLocation).toBe(expectedText);
+  });
+
+  it("correctly sets destination location state", () => {
+    // Render the hook normally
+    const { result } = renderHook(() => useDirectionLogic());
+
+    // Mock building location
+    const buildingLocation = {
+      latitude: 46.555555555,
+      longitude: -74.666666666,
+    };
+
+    // Expected formatted text
+    const expectedText = "46.555556, -74.666667";
+
+    // Call the function
+    act(() => {
+      result.current.setToBuildingLocation("destination", buildingLocation);
+    });
+
+    // the state was updated correctly
+    expect(result.current.destination).toBe(expectedText);
   });
 });

@@ -2,7 +2,11 @@ import axios from "axios";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 
+<<<<<<< HEAD
 const LOCAL_IP = "192.168.2.28"; // CHANGE THIS to your machine’s IP
+=======
+const LOCAL_IP = "YOUR_IP"; // CHANGE THIS to your machine’s IP
+>>>>>>> 3dc247145e6b0d9484760182270a076e97e018e8
 
 // Check if the app is running on a simulator/emulator
 const isEmulator = true; //Change to false if using your physical device

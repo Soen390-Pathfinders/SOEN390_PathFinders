@@ -1,9 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
+
 import { floors, floorplanImages, defaultFloor } from "@/app/data/floorplanData";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
@@ -22,7 +29,7 @@ type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 export default function Floorplan({path}) {
 
   const navigation = useNavigation<NavigationProp>(); // Drawer navigation
-  
+
   const zoomableRef = useRef(null);
   // Use imported default floor
   const [currentFloor, setCurrentFloor] = useState(defaultFloor);
@@ -40,19 +47,19 @@ export default function Floorplan({path}) {
 
   // Create a ref to store previous path value to detect changes
   const prevPathRef = useRef(null);
-  
+
   // When new path data arrives, reset states
   useEffect(() => {
     // Only run this if path has changed
     if (path && path !== prevPathRef.current) {
       // Store new path in ref
       prevPathRef.current = path;
-      
+
       // When a new path is loaded, explicitly reset states
       setManualFloorChange(false);
       setFloorChangeConfirmed(false);
       setNextFloorInPath(null);
-      
+
       // Don't reset currentFloor here - that will happen via onInitialFloorDetected
     }
   }, [path]);
@@ -198,11 +205,11 @@ export default function Floorplan({path}) {
             />
           </Svg>
         </View>
-        
+
         <View style={styles.floorplanContainer}>
           <Image
             style={styles.image}
-            source={getFloorplanImage()} 
+            source={getFloorplanImage()}
             contentFit="contain"
             transition={250}
             resizeMode="contain"
@@ -314,10 +321,10 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     width: "100%",
     height: "100%",
-    transform:[{scaleY:1.2}]
+    transform: [{ scaleY: 1.2 }],
   },
   svgContainer: {
     height: "100%",
@@ -334,7 +341,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     zIndex: 2,
-    aspectRatio:1
+    aspectRatio: 1,
   },
   bannerContainer: {
     position: "absolute",

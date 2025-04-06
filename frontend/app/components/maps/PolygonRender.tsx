@@ -9,6 +9,12 @@ import buildingAsDestination from "./BuildingAsDestination";
 export default function PolygonRender({ setBuildingLocation }) {
   const { userLocation } = useLocation(); // Get user Location
 
+    /*const userLocation = {
+    latitude: 45.49745011599649,
+    longitude: -73.57908244723633,
+  };*/ // For testing purposes
+
+
   return (
     <View>
       {outlines.map((outline) => {
@@ -44,9 +50,11 @@ export default function PolygonRender({ setBuildingLocation }) {
               buildingAsDestination((result) => {
                 if (result) {
                   const center = geolib.getCenter(outline.coordinates); // Get the center of the polygon
-                  const { latitude, longitude } = center;
-                  const coordresult = { latitude, longitude };
-                  if (coordresult) {
+                  
+                  // Check if center is null before trying to access its properties
+                  if (center) {
+                    const { latitude, longitude } = center;
+                    const coordresult = { latitude, longitude };
                     console.log("Setting submitted destination:", coordresult); // Log the value
                     setBuildingLocation(coordresult);
                   } else {
@@ -63,3 +71,4 @@ export default function PolygonRender({ setBuildingLocation }) {
     </View>
   );
 }
+
