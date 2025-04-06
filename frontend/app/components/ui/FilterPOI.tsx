@@ -54,6 +54,7 @@ const FilterPOI = ({ onFilterPress }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        testID="open-filter-button"
         style={styles.filterButton}
         onPress={() => setIsModalVisible(true)}
       >
@@ -73,6 +74,7 @@ const FilterPOI = ({ onFilterPress }) => {
             {filters.map((filter) => (
               <TouchableOpacity
                 key={filter}
+                testID={`filter-${filter}`}
                 style={[
                   styles.filterOption,
                   selectedFilters.includes(filter) && styles.selectedFilterOption,
@@ -98,10 +100,10 @@ const FilterPOI = ({ onFilterPress }) => {
               {ratingOptions.map((option) => (
                 <TouchableOpacity
                   key={option.key}
+                  testID={`rating-${option.key}`}
                   style={[
                     styles.filterOption,
-                    selectedRatingKey === option.key &&
-                      styles.selectedFilterOption,
+                    selectedRatingKey === option.key && styles.selectedFilterOption,
                   ]}
                   onPress={() => handleRatingSelect(option)}
                 >
@@ -119,6 +121,7 @@ const FilterPOI = ({ onFilterPress }) => {
             </View>
 
             <TouchableOpacity
+              testID="apply-button"
               style={styles.applyButton}
               onPress={handleApplyFilters}
             >
@@ -126,6 +129,7 @@ const FilterPOI = ({ onFilterPress }) => {
             </TouchableOpacity>
 
             <TouchableOpacity
+              testID="close-button"
               style={styles.closeButton}
               onPress={() => setIsModalVisible(false)}
             >

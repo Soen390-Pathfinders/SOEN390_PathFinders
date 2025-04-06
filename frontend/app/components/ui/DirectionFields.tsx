@@ -52,6 +52,43 @@ export default function DirectionFields({
         />
 
         {/* Current Location Button for Start */}
+
+        <TouchableOpacity
+  onPress={() => setToCurrentLocation("start")}
+  style={styles.locationButton}
+  testID="CurrentLocationButton"
+>
+  <MaterialIcons name="my-location" size={36} color="#007BFF" />
+</TouchableOpacity>
+
+<TouchableOpacity onPress={onGoPress} style={styles.goButton} testID="GoButton">
+  <Text style={styles.goButtonText}>GO</Text>
+</TouchableOpacity>
+
+<TouchableOpacity
+  testID="WalkButton"
+  style={[styles.iconButton, travelMode === "WALKING" && styles.iconButtonSelected]}
+  onPress={() => setTravelMode("WALKING")}
+>
+  ...
+</TouchableOpacity>
+
+<TouchableOpacity
+  testID="DriveButton"
+  style={[styles.iconButton, travelMode === "DRIVING" && styles.iconButtonSelected]}
+  onPress={() => setTravelMode("DRIVING")}
+>
+  ...
+</TouchableOpacity>
+
+<TouchableOpacity
+  testID="TransitButton"
+  style={[styles.iconButton, travelMode === "TRANSIT" && styles.iconButtonSelected]}
+  onPress={() => setTravelMode("TRANSIT")}
+>
+  ...
+</TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => setToCurrentLocation("start")}
           style={styles.locationButton}

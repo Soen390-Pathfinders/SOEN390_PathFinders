@@ -50,7 +50,7 @@ describe('IndoorMap', () => {
   });
 
   it('renders without crashing', () => {
-    const { root } = render(<IndoorMap />);
+    const { root } = render(<IndoorMap route={undefined} />);
     expect(root).toBeTruthy();
   });
   
@@ -59,7 +59,7 @@ describe('IndoorMap', () => {
     const mockHeader = jest.fn().mockReturnValue(null);
     HeaderModule.default = mockHeader;
     
-    render(<IndoorMap />);
+    render(<IndoorMap route={undefined} />);
     
     expect(mockHeader).toHaveBeenCalled();
   });
@@ -69,20 +69,20 @@ describe('IndoorMap', () => {
     const mockFloorplan = jest.fn().mockReturnValue(null);
     FloorplanModule.default = mockFloorplan;
     
-    render(<IndoorMap />);
+    render(<IndoorMap route={undefined} />);
     
     expect(mockFloorplan).toHaveBeenCalled();
   });
   
   it('applies correct theme from useTheme hook', () => {
-    render(<IndoorMap />);
+    render(<IndoorMap route={undefined} />);
     
 
     expect(lastThemePassedToGetStyles).toBe('light');
   });
   
   it('applies custom styles to header and image container', () => {
-    render(<IndoorMap />);
+    render(<IndoorMap route={undefined} />);
 
     const localStyles = StyleSheet.create({
       header: { height: "20%" },
