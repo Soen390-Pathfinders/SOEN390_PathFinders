@@ -104,7 +104,7 @@ export default function OutdoorDirections({ route }) {
           destination={submittedDestination}
           travelMode={travelMode}
           onDurationChange={setDuration}
-          setBuildingLocation={setBuildingLocation}
+          setBuildingLocation={setBuildingLocation} campus={undefined} 
         />
         {showPrompt && (
                   <View style={styles.bannerContainer}>
@@ -130,6 +130,7 @@ export default function OutdoorDirections({ route }) {
                     </View>
                   </View>
                 )}
+
       </View>
     </View>
   );

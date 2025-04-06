@@ -1,7 +1,8 @@
 import pytest
 from django.urls import reverse
 from rest_framework.test import APIClient
-from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType
+from app.models import Building, Campus, Floor, Room, InsidePOI, RoomType, AmenityType, Edge, User
+import networkx as nx
 
 @pytest.fixture
 def api_client():
@@ -27,6 +28,10 @@ def test_get_building_by_code(api_client, building): #works
     response = api_client.get(url)
     assert response.status_code == 200
     assert response.data["code"] == "B1"
+
+def test_get_building_no_code(api_client): #works
+    response = api_client.get(reverse("get_building"))
+    assert response.status_code == 400
 
 @pytest.mark.django_db
 def test_get_building_invalid(api_client): #works
@@ -64,6 +69,11 @@ def test_remove_building_invalid(api_client): #works
     assert response.status_code == 404
 
 @pytest.mark.django_db
+def test_remove_building_no_code(api_client): #works
+    response = api_client.delete(reverse('remove_building'))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
 def test_modify_building(api_client, building): #works
     url = reverse("modify_building")
     payload = {
@@ -79,7 +89,12 @@ def test_modify_building(api_client, building): #works
 @pytest.mark.django_db
 def test_modify_building_invalid(api_client): #works
     response = api_client.put(reverse("modify_building"), {"id": 9999, "name": "Building 3"})
-    assert response.status_code == 404 
+    assert response.status_code == 404
+
+@pytest.mark.django_db
+def test_modify_building_no_code(api_client):
+    response = api_client.put(reverse("modify_building"))
+    assert response.status_code == 400 
 
 @pytest.fixture
 def create_campus(db):
@@ -106,6 +121,16 @@ def test_get_campus_by_code(api_client, create_campus): #works
     assert response.json()["code"] == "A"
 
 @pytest.mark.django_db
+def test_get_campus_invalid(api_client): #works
+    response = api_client.get(reverse("get_campus"), {"code": "Z"})
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_get_campus_no_code(api_client): #works
+    response = api_client.get(reverse("get_campus"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
 def test_add_campus(api_client): #works
     url = reverse("add_campus")  # Ensure you have this route defined
     payload = {
@@ -119,6 +144,11 @@ def test_add_campus(api_client): #works
     assert Campus.objects.filter(code="NEW").exists()
 
 @pytest.mark.django_db
+def test_add_campus_invalid(api_client): #works
+    response = api_client.post(reverse("add_campus"), {})
+    assert response.status_code == 400
+
+@pytest.mark.django_db
 def test_delete_campus(api_client, create_campus): #works
     url = reverse("remove_campus")
     payload = {"code": "GAS"}
@@ -126,7 +156,35 @@ def test_delete_campus(api_client, create_campus): #works
     response = api_client.delete(url, data=payload, format="json")
 
     assert response.status_code == 200
-    assert not Campus.objects.filter(code="GAS").exists() 
+    assert not Campus.objects.filter(code="GAS").exists()
+
+@pytest.mark.django_db
+def test_delete_campus_invalid(api_client): #works
+    response = api_client.delete(reverse("remove_campus"), {"code": "Z"}, format="json")
+    assert response.status_code == 404
+
+@pytest.mark.django_db
+def test_delete_campus_no_code(api_client): #works
+    response = api_client.delete(reverse("remove_campus"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_modify_campus(api_client, create_campus):
+    url = reverse("modify_campus")
+    payload = {
+        "code": "B",
+        "name": "Campus B Modified"
+    }
+
+    response = api_client.put(url, data=payload, format="json")
+
+    assert response.status_code == 200
+    assert response.json()["name"] == "Campus B Modified" 
+
+@pytest.mark.django_db
+def test_modify_campus_invalid(api_client): #works
+    response = api_client.put(reverse("modify_campus"), {"code": "Z", "name": "Campus Z"})
+    assert response.status_code == 404
 
 @pytest.fixture
 def floor(db, building):
@@ -150,11 +208,24 @@ def test_get_floor_by_code(api_client, floor): #works
 @pytest.mark.django_db
 def test_get_floor_invalid(api_client): #works
     response = api_client.get(reverse("get_floor"), {"id": 9999})
-
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_floor(api_client, floor, campus): #failed
+def test_get_floor_no_code(api_client):
+    response = api_client.get(reverse("get_floor"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_get_floor_amenities_invalid(api_client):
+    response = api_client.get(reverse("get_floor_amenities"), {"id": 9999})
+    assert response.status_code == 400
+
+def test_get_floor_amenities_no_code(api_client):
+    response = api_client.get(reverse("get_floor_amenities"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_add_floor(api_client, floor, campus):
     building = Building.objects.create(name="Building 4", code="B4", campus=campus)
     url = reverse("add_floor")
     payload = {
@@ -188,7 +259,12 @@ def test_remove_floor_invalid(api_client): #works
     assert response.status_code == 404
 
 @pytest.mark.django_db
-def test_modify_floor(api_client, floor, campus): #failed
+def test_remove_floor_no_code(api_client): 
+    response = api_client.delete(reverse("remove_floor"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_modify_floor(api_client, floor, campus):
     url = reverse("modify_floor")
     payload = {
         "id": floor.id,
@@ -205,6 +281,20 @@ def test_modify_floor(api_client, floor, campus): #failed
 def test_modify_floor_invalid(api_client): #works
     response = api_client.put(reverse("modify_floor"), {"id": 9999, "name": "Floor 3"})
     assert response.status_code == 404
+
+@pytest.mark.django_db
+def test_get_floor_amenities(api_client, floor, amenities):
+    poi = InsidePOI.objects.create(
+        floor=floor,
+        x_coor=100,
+        y_coor=200
+    )
+    poi.amenities.add(amenities)
+
+    url = reverse("get_floor_amenities") + f"?code={floor.code}"
+    response = api_client.get(url)
+
+    assert response.status_code == 200
 
 @pytest.fixture
 def room_type(db):
@@ -241,11 +331,15 @@ def test_get_room_by_code(api_client, room): #works
 @pytest.mark.django_db
 def test_get_room_invalid(api_client): #works
     response = api_client.get(reverse("get_room"), {"id": 9999})
-
     assert response.status_code == 400
 
 @pytest.mark.django_db
-def test_add_room(api_client, floor, location, room_type): #failed
+def test_get_room_no_code(api_client): #works
+    response = api_client.get(reverse("get_room"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_add_room(api_client, floor, location, room_type):
     url = reverse("add_room")
     payload = {
         "number": 2,
@@ -280,6 +374,11 @@ def test_remove_room_invalid(api_client):
     assert response.status_code == 404
 
 @pytest.mark.django_db
+def test_remove_room_no_code(api_client): #works
+    response = api_client.delete(reverse("remove_room"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
 def test_modify_room(api_client, room): #Failed
     url = reverse("modify_room")
     payload = {
@@ -297,6 +396,11 @@ def test_modify_room(api_client, room): #Failed
 def test_modify_room_invalid(api_client): #works
     response = api_client.put(reverse("modify_room"), {"id": 9999, "name": "Room 3"})
     assert response.status_code == 404
+
+@pytest.mark.django_db
+def test_modify_room_no_code(api_client): #works
+    response = api_client.put(reverse("modify_room"))
+    assert response.status_code == 400
 
 @pytest.fixture
 def amenities(db):
@@ -335,6 +439,11 @@ def test_get_insidepoi_invalid_id(api_client): #works
     assert response.status_code == 400
 
 @pytest.mark.django_db
+def test_get_insidepoi_no_id(api_client):
+    response = api_client.get(reverse("get_insidepoi"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
 def test_add_insidepoi(api_client, floor, amenities): #failed
     url = reverse("add_insidepoi")
     payload = {
@@ -365,6 +474,11 @@ def test_remove_insidepoi_invalid(api_client): #works
     assert response.status_code == 404
 
 @pytest.mark.django_db
+def test_remove_insidepoi_no_id(api_client):
+    response = api_client.delete(reverse("remove_insidepoi"))
+    assert response.status_code == 400
+
+@pytest.mark.django_db
 def test_modify_insidepoi(api_client, inside_poi): #failed
     url = reverse("modify_insidepoi")
     payload = {
@@ -374,3 +488,100 @@ def test_modify_insidepoi(api_client, inside_poi): #failed
     response = api_client.put(url, data=payload, format="json")
     assert response.status_code == 200
     assert response.json()['x_coor'] == 777
+
+@pytest.mark.django_db
+def test_modify_insidepoi_invalid(api_client):
+    response = api_client.put(reverse("modify_insidepoi"), {"id": 999, "x_coor": 777})
+    assert response.status_code == 404
+
+@pytest.mark.django_db
+def test_modify_insidepoi_no_id(api_client):
+    response = api_client.put(reverse("modify_insidepoi"))
+    assert response.status_code == 400
+
+@pytest.fixture
+def edge(db, floor):
+    node1 = InsidePOI.objects.create(floor=floor, x_coor=1.0, y_coor=2.0)
+    node2 = InsidePOI.objects.create(floor=floor, x_coor=4.0, y_coor=6.0)
+    edge = Edge.objects.create(node1=node1, node2=node2)
+    return edge
+
+@pytest.mark.django_db
+def test_get_all_edges(api_client, edge):
+    response = api_client.get(reverse("get_all_edges"))
+    assert response.status_code == 200
+    assert len(response.data) == 1 
+
+@pytest.fixture
+def room_type1(db):
+    return RoomType.objects.create(name="Room Type room1")
+
+@pytest.fixture
+def room1(db, floor, room_type, location):
+    room1 = Room.objects.create(number=7, floor=floor, location=location)
+    room1.type.add(room_type)
+    return room1
+
+@pytest.fixture
+def room_type2(db):
+    return RoomType.objects.create(name="Room Type 2")
+
+@pytest.fixture
+def room2(db, floor, room_type2, location):
+    room2 = Room.objects.create(number=5, floor=floor, location=location)
+    room2.type.add(room_type2)
+    return room2
+
+@pytest.mark.django_db
+def test_shortest_path_between_rooms(api_client, room1, room2): #works
+    url = reverse("get_shortest_path_between_rooms")
+    payload = {
+        "room1": room1.code,
+        "room2": room2.code,
+        "accessible": False
+    }
+    response = api_client.post(url, data=payload, format="json")
+    assert response.status_code == 200
+    
+@pytest.mark.django_db
+def test_shortest_path_between_rooms_invalid(api_client): #works
+    response = api_client.post(reverse("get_shortest_path_between_rooms"))
+    assert response.status_code == 400
+
+@pytest.fixture
+def amenities_djikstra(db):
+    return AmenityType.objects.create(name="Amenity Type 8")
+
+@pytest.mark.django_db
+def test_shortest_path_to_amenity_invalid(api_client):
+    response = api_client.post(reverse("get_shortest_path_to_amenity"))
+    assert response.status_code == 400
+
+@pytest.fixture
+def poi1(db, floor, amenities_djikstra):
+    poi1 = InsidePOI.objects.create(
+        floor = floor,
+        x_coor = 300,
+        y_coor = 250
+    )
+    if not isinstance(amenities_djikstra, (list, tuple)):  
+        amenities_djikstra = [amenities_djikstra]
+
+    poi1.amenities.set(amenities_djikstra)
+    return poi1
+
+@pytest.fixture
+def room_type_poi(db):
+    return RoomType.objects.create(name="Room Type room_poi")
+
+@pytest.fixture
+def room_poi(db, poi1, floor, room_type_poi):
+    room_poi = Room.objects.create(number=7, floor=floor, location=poi1)
+    room_poi.type.add(room_type_poi)
+    return room_poi
+
+@pytest.mark.django_db
+def test_shortest_path_to_poi_invalid(api_client):
+    response = api_client.post(reverse("get_shortest_path_to_poi"))
+    assert response.status_code == 400
+

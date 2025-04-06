@@ -1,14 +1,26 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import DirectionFields from '../app/components/ui/DirectionFields';
 
-// Mock heavy dependencies
+// Mock GooglePlacesAutocomplete
 jest.mock('react-native-google-places-autocomplete', () => {
   const React = require('react');
   const { TextInput } = require('react-native');
   return {
     GooglePlacesAutocomplete: React.forwardRef((props, ref) => (
-      <TextInput ref={ref} testID={props.placeholder} />
+      <TextInput
+        ref={ref}
+        testID={props.placeholder}
+        onChangeText={(text) => props.onPress?.({ description: text }, {
+          geometry: {
+            location: { lat: 1.23, lng: 4.56 },
+          },
+        })}
+      />
     )),
   };
 });
@@ -31,12 +43,6 @@ jest.mock('expo-font', () => ({
   loadAsync: jest.fn(),
 }));
 
-// Suppress console logs & warnings:
-beforeEach(() => {
-  jest.spyOn(console, 'log').mockImplementation(() => {});
-  jest.spyOn(console, 'error').mockImplementation(() => {});
-});
-
 describe('DirectionFields Component', () => {
   const defaultProps = {
     startLocation: '',
@@ -49,38 +55,52 @@ describe('DirectionFields Component', () => {
     travelMode: 'WALKING',
     setTravelMode: jest.fn(),
     setToCurrentLocation: jest.fn(),
-    duration: 10,
+    duration: 15,
     setToBuildingLocation: jest.fn(),
   };
 
-  it('renders start and destination fields', async () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('renders input fields', () => {
     const { getByTestId } = render(<DirectionFields {...defaultProps} />);
     expect(getByTestId('Start Location')).toBeTruthy();
     expect(getByTestId('Select Destination')).toBeTruthy();
   });
 
-  it('calls onGoPress when GO button is pressed', async () => {
-    const { getByText } = render(<DirectionFields {...defaultProps} />);
-    await act(async () => {
-      fireEvent.press(getByText('GO'));
-    });
+  it('calls onGoPress when GO is pressed', async () => {
+    const { getByTestId } = render(<DirectionFields {...defaultProps} />);
+    await act(() => fireEvent.press(getByTestId('GoButton')));
     expect(defaultProps.onGoPress).toHaveBeenCalled();
   });
-
-  it('calls setToCurrentLocation when location button pressed', async () => {
-    const { getByText } = render(<DirectionFields {...defaultProps} />);
-    await act(async () => {
-      const goButton = getByText('GO');
-      fireEvent.press(goButton); // No testID on icon buttons → test via GO
-    });
-    expect(defaultProps.onGoPress).toHaveBeenCalled();
+  
+  it('calls setToCurrentLocation when current location icon pressed', () => {
+    const { getByTestId } = render(<DirectionFields {...defaultProps} />);
+    fireEvent.press(getByTestId('CurrentLocationButton'));
+    expect(defaultProps.setToCurrentLocation).toHaveBeenCalledWith('start');
   });
-
-  it('changes travel mode on button press', async () => {
-    const { getByText } = render(<DirectionFields {...defaultProps} />);
-    await act(async () => {
-      fireEvent.press(getByText('GO')); // Proxy trigger
-    });
-    expect(defaultProps.onGoPress).toHaveBeenCalled();
+  
+  it('sets walking mode when walking button pressed', () => {
+    const { getByTestId } = render(<DirectionFields {...defaultProps} />);
+    fireEvent.press(getByTestId('WalkButton'));
+    expect(defaultProps.setTravelMode).toHaveBeenCalledWith('WALKING');
   });
-});
+  
+  it('sets driving mode when driving button pressed', () => {
+    const { getByTestId } = render(
+      <DirectionFields {...defaultProps} travelMode="DRIVING" />
+    );
+    fireEvent.press(getByTestId('DriveButton'));
+    expect(defaultProps.setTravelMode).toHaveBeenCalledWith('DRIVING');
+  });
+  
+  it('sets transit mode when transit button pressed', () => {
+    const { getByTestId } = render(
+      <DirectionFields {...defaultProps} travelMode="TRANSIT" />
+    );
+    fireEvent.press(getByTestId('TransitButton'));
+    expect(defaultProps.setTravelMode).toHaveBeenCalledWith('TRANSIT');
+    });
+  
+  });
