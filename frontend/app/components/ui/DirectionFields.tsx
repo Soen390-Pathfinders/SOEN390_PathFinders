@@ -56,7 +56,7 @@ export default function DirectionFields({
           onPress={() => setToCurrentLocation("start")}
           style={styles.locationButton}
         >
-          <MaterialIcons name="my-location" size={36} color="#007BFF" />
+          <MaterialIcons name="my-location" size={36} color="#912338" />
         </TouchableOpacity>
       </View>
       <View style={styles.inputWithLocationContainer}>
@@ -102,7 +102,7 @@ export default function DirectionFields({
             <MaterialIcons
               name="directions-walk"
               size={24}
-              color={travelMode === "WALKING" ? "#fff" : "#007BFF"}
+              color={travelMode === "WALKING" ? "#fff" : "#0072a8"}
             />
             {duration !== null && travelMode === "WALKING" ? (
               <Text style={styles.duration}>{Math.round(duration)} min</Text>
@@ -122,7 +122,7 @@ export default function DirectionFields({
             <MaterialIcons
               name="directions-car"
               size={24}
-              color={travelMode === "DRIVING" ? "#fff" : "#007BFF"}
+              color={travelMode === "DRIVING" ? "#fff" : "#0072a8"}
             />
             {duration !== null && travelMode === "DRIVING" ? (
               <Text style={styles.duration}>{Math.round(duration)} min</Text>
@@ -142,7 +142,7 @@ export default function DirectionFields({
             <MaterialIcons
               name="directions-transit"
               size={24}
-              color={travelMode === "TRANSIT" ? "#fff" : "#007BFF"}
+              color={travelMode === "TRANSIT" ? "#fff" : "#0072a8"}
             />
             {duration !== null && travelMode === "TRANSIT" ? (
               <Text style={styles.duration}>{Math.round(duration)} min</Text>
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   goButton: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "#912338",
     padding: 10,
     borderRadius: 10,
     marginLeft: 10,
@@ -211,10 +211,10 @@ const styles = StyleSheet.create({
     padding: 3,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#007BFF",
+    borderColor: "#0072a8",
     marginHorizontal: 20,
   },
   iconButtonSelected: {
-    backgroundColor: "#007BFF",
+    backgroundColor: "#0072a8",
   },
 });
