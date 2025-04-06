@@ -13,6 +13,7 @@ import { Calendar } from "react-native-calendars";
 import * as CalendarAPI from "expo-calendar";
 import { useNavigation } from "@react-navigation/native";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { MaterialIcons } from "@expo/vector-icons";
 
 // Define Drawer Navigation Type
 // This specifies the available routes for navigation
@@ -159,7 +160,7 @@ export default function NextClassInfo() {
       ).toLocaleString()}\nLocation: ${nextEvent.location}`,
       [
         {
-          text: "Get Directions",
+          text: "Click here to Get Directions",
           onPress: () => {
             navigation.navigate("OutdoorDirections", {
               customStartLocation: "start",
@@ -173,14 +174,22 @@ export default function NextClassInfo() {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="Switch Calendar"
+      <TouchableOpacity
+        style={styles.button}
         onPress={() => setCalendarModalVisible(true)}
-      />
-      <Button
-        title="Refresh Events"
-        onPress={() => fetchEvents(selectedCalendarId)}
-      />
+      >
+        <Text style={styles.buttonText}>Chose Calendar</Text>
+      </TouchableOpacity>
+
+      <View style={{ marginTop: 20 }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => fetchEvents(selectedCalendarId)}
+        >
+          <Text style={styles.buttonText}>Refresh Events</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Calendar Selection Modal */}
       <Modal
         visible={calendarModalVisible}
@@ -203,11 +212,13 @@ export default function NextClassInfo() {
                 </TouchableOpacity>
               )}
             />
-
-            <Button
-              title="Close"
-              onPress={() => setCalendarModalVisible(false)}
-            />
+            <View style={{ margin: 10 }}>
+              <Button
+                title="Close"
+                color="#912338"
+                onPress={() => setCalendarModalVisible(false)}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -236,8 +247,13 @@ export default function NextClassInfo() {
                 </View>
               )}
             />
-
-            <Button title="Close" onPress={() => setEventModalVisible(false)} />
+            <View style={{ marginTop: 20 }}>
+              <Button
+                color="#912338"
+                title="Close"
+                onPress={() => setEventModalVisible(false)}
+              />
+            </View>
           </View>
         </View>
       </Modal>
@@ -248,8 +264,12 @@ export default function NextClassInfo() {
         markingType="dot"
         onDayPress={handleDayPress}
       />
-
-      <Button title="Directions to Next Class" onPress={getNextClass} />
+      <View style={{ marginTop: 20 }}>
+        <TouchableOpacity style={styles.button} onPress={getNextClass}>
+          <MaterialIcons name="directions" size={24} color="white" />
+          <Text style={styles.buttonText}>Get Directions to Next Class</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -297,5 +317,20 @@ const styles = StyleSheet.create({
 
   eventTitle: {
     fontWeight: "bold",
+  },
+  button: {
+    backgroundColor: "#912338",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 8,
   },
 });

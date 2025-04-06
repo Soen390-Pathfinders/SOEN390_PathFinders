@@ -147,8 +147,6 @@ export default function OutdoorPointsOfInterests() {
 
         <RadiusSlider onRadiusChange={handleRadiusChange} />
 
-        
-
         <MapView
           showsUserLocation
           provider={PROVIDER_DEFAULT}
@@ -186,9 +184,9 @@ export default function OutdoorPointsOfInterests() {
             />
           )}
         </MapView>
-
-        <FilterPOI onFilterPress={handleFilterPress} />
-
+        <View style={{ position: "absolute", bottom: 30, left: 20 }}>
+          <FilterPOI onFilterPress={handleFilterPress} />
+        </View>
         {destination && (
           <View style={styles.bottomOverlay}>
             <TouchableOpacity
@@ -249,4 +247,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
- 
