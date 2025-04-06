@@ -4,7 +4,13 @@
 import { renderHook, act } from "@testing-library/react";
 import useUserLocation from "../app/hooks/useUserLocation";
 
-// Mock expo-location
+// 🧩 MOCK FloorplanRoom to avoid crashing from ref.current.zoom
+jest.mock("../app/components/ui/FloorplanRoom", () => ({
+  __esModule: true,
+  default: () => null,
+}));
+
+// ✅ MOCK expo-location
 jest.mock("expo-location", () => ({
   requestForegroundPermissionsAsync: jest.fn(() =>
     Promise.resolve({ status: "granted" })
@@ -16,7 +22,7 @@ jest.mock("expo-location", () => ({
   ),
 }));
 
-// Mock useLocation context
+// ✅ MOCK useLocation context
 const mockUpdateUserLocation = jest.fn();
 
 jest.mock("../app/components/context/userLocationContext", () => ({
@@ -34,16 +40,13 @@ describe("useUserLocation hook", () => {
   it("requests location permission and updates user location", async () => {
     await act(async () => {
       renderHook(() => useUserLocation());
-      // Wait enough time to allow initial location fetch
       await new Promise((res) => setTimeout(res, 10));
     });
 
-    // Permission requested
     expect(
       require("expo-location").requestForegroundPermissionsAsync
     ).toHaveBeenCalled();
 
-    // Location fetched and updateUserLocation called
     expect(require("expo-location").getCurrentPositionAsync).toHaveBeenCalled();
     expect(mockUpdateUserLocation).toHaveBeenCalledWith(45.5, -73.6);
   });

@@ -42,12 +42,13 @@ export const helperNavigateToIndoorMap = (navigation, nodeInfo) => {
   });
 };
 
-export default function FindRoom() {
+export default function FindRoom({ navigation: navFromProps }) {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
   const [searchQuery, setSearchQuery] = useState(""); //state of the search query
-  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
+  //const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
   const { validateRoomCode } = useRoomCodeValidation(); // hook to validate the code
+  const navigation = navFromProps || useNavigation();
 
   {
     /* Function to change the screen and return the backend information on the node*/
