@@ -49,28 +49,47 @@ describe("NavigateYourSpace", () => {
 
   it("shows alert when destination is empty", () => {
     const { getByText, getByPlaceholderText } = render(<NavigateYourSpace />);
-    fireEvent.changeText(getByPlaceholderText("Start location (e.g., H-920)"), "H-920");
+    fireEvent.changeText(
+      getByPlaceholderText("Start location (e.g., H-920)"),
+      "H-920"
+    );
     fireEvent.press(getByText("Get directions"));
     expect(global.alert).toHaveBeenCalledWith("Please enter a destination");
   });
 
   it("calls API for room path when valid input given", async () => {
     const { getByText, getByPlaceholderText } = render(<NavigateYourSpace />);
-    fireEvent.changeText(getByPlaceholderText("Start location (e.g., H-920)"), "H-920");
-    fireEvent.changeText(getByPlaceholderText("Destination (room or amenity)"), "H-1001");
+    fireEvent.changeText(
+      getByPlaceholderText("Start location (e.g., H-920)"),
+      "H-920"
+    );
+    fireEvent.changeText(
+      getByPlaceholderText("Destination (room or amenity)"),
+      "H-1001"
+    );
     fireEvent.press(getByText("Get directions"));
 
     await new Promise((r) => setTimeout(r, 0)); // wait for async
-    expect(require("../api/api").PathAPI.shortestPathToRoom).toHaveBeenCalledWith("H-920", "H-1001");
+    expect(
+      require("../api/api").PathAPI.shortestPathToRoom
+    ).toHaveBeenCalledWith("H-920", "H-1001", false);
   });
 
   it("calls API for amenity when matched", async () => {
     const { getByText, getByPlaceholderText } = render(<NavigateYourSpace />);
-    fireEvent.changeText(getByPlaceholderText("Start location (e.g., H-920)"), "H-920");
-    fireEvent.changeText(getByPlaceholderText("Destination (room or amenity)"), "Water Fountain");
+    fireEvent.changeText(
+      getByPlaceholderText("Start location (e.g., H-920)"),
+      "H-920"
+    );
+    fireEvent.changeText(
+      getByPlaceholderText("Destination (room or amenity)"),
+      "Water Fountain"
+    );
     fireEvent.press(getByText("Get directions"));
 
     await new Promise((r) => setTimeout(r, 0)); // wait for async
-    expect(require("../api/api").PathAPI.shortestPathToAmenity).toHaveBeenCalled();
+    expect(
+      require("../api/api").PathAPI.shortestPathToAmenity
+    ).toHaveBeenCalled();
   });
 });
