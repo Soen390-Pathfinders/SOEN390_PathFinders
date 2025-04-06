@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,17 +16,18 @@ import useRoomCodeValidation from "../hooks/useRoomCodeValidation";
 import { DrawerParamList } from "../_layout";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 
+// Type for props
 type FindRoomProps = {
   navigation?: DrawerNavigationProp<DrawerParamList>;
 };
 
-// Function to validate room code
+// Function to validate code room
 export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
   const validationResult = validateRoomCode(roomCode);
-  return validationResult; // Returns { isValid, errorMessage }
+  return validationResult;
 };
 
-// Fetch room node info
+// Fetch the room node information using the API
 export const getRoomInfo = async (roomCode) => {
   try {
     const nodeInfo = await RoomAPI.get(roomCode);
@@ -36,18 +37,18 @@ export const getRoomInfo = async (roomCode) => {
   }
 };
 
-// Navigate to Indoor Map
+// Navigate to the indoor map screen
 export const helperNavigateToIndoorMap = (navigation, nodeInfo) => {
   (navigation.navigate as any)("(screens)/IndoorMap", {
     path: null,
-    nodeInfo,
+    nodeInfo: nodeInfo,
     roomOrPath: "room",
   });
 };
 
 export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
   const fallbackNavigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-  const navigation = navFromProps ?? fallbackNavigation;
+  const navigation = useMemo(() => navFromProps ?? fallbackNavigation, [navFromProps, fallbackNavigation]);
 
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
@@ -77,6 +78,7 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find a Room</Text>
 
+        {/* Search bar */}
         <View style={styles.searchContainer}>
           <Ionicons
             name="search"
@@ -98,6 +100,7 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
           )}
         </View>
 
+        {/* Image */}
         <View style={styles.visual}>
           <Image
             source={require("../../assets/images/search.png")}
@@ -105,6 +108,7 @@ export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
           />
         </View>
 
+        {/* Button */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
