@@ -1,5 +1,7 @@
+import React from 'react';
 import { render } from '@testing-library/react-native';
 import Floorplan from '../app/components/ui/Floorplan';
+import { NavigationContainer } from '@react-navigation/native';
 
 // Fix: require React inside mock factory
 jest.mock('@likashefqet/react-native-image-zoom', () => {
@@ -19,7 +21,14 @@ jest.mock('../app/components/ui/pathTrace', () => () => <></>);
 
 describe('Floorplan Component', () => {
   it('renders correctly without crashing', () => {
-    const { toJSON } = render(<Floorplan />);
+    const dummyPath = []; // Optional: adjust as needed for your component
+
+    const { toJSON } = render(
+      <NavigationContainer>
+        <Floorplan path={dummyPath} />
+      </NavigationContainer>
+    );
+
     expect(toJSON()).toBeTruthy(); // Basic render check
   });
 });
