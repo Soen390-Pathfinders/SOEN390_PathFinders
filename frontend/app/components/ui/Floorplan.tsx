@@ -80,7 +80,7 @@ export default function Floorplan({path}) {
         return require("../../../assets/floorplans/H8.jpg");
       case "H9":
         return require("../../../assets/floorplans/H9.jpg");
-      case "SP-1":
+      case "SP1":
         return require("../../../assets/floorplans/SP1.png")
       default:
         return require("../../../assets/floorplans/H5.jpg");
@@ -188,6 +188,7 @@ export default function Floorplan({path}) {
                   // Store destination and show the "exit building" banner
                   setOutdoorDestination(destinationCoordinate);
                   setShowExitPrompt(true);
+                  
                 }
               }}
             
@@ -242,13 +243,6 @@ export default function Floorplan({path}) {
                 Have you exited the building?
               </Text>
               <View style={styles.bannerButtons}>
-                <TouchableOpacity
-                  style={[styles.button, styles.buttonNo]}
-                  onPress={() => setShowExitPrompt(false)} // Just hide banner
-                >
-                  <Text style={styles.buttonText}>No</Text>
-                </TouchableOpacity>
-
                 <TouchableOpacity
                   style={[styles.button, styles.buttonYes]}
                   onPress={() => {

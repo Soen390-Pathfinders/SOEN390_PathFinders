@@ -45,19 +45,39 @@ export default function OutdoorDirections({ route }) {
       setPrompt(route.params.showPrompt)
     }
     if(route?.params?.path){
-      let t_path = route.params.path;
+      const t_path = route.params.path;
 
-      //Find the first floor that is different from the first element's floor group prefix (e.g., "H")
-      const firstPrefix = t_path.path[0].floor.split("-")[0];
+      if (t_path?.path?.length > 0) {
+        const fullPath = t_path.path;
 
-      const firstDifferentFloor = t_path.path.find(p => !p.floor.startsWith(firstPrefix));
+        const isSPAtStart = fullPath[0].floor.startsWith("SP");
+        const isSPAtEnd = fullPath[fullPath.length - 1].floor.startsWith("SP");
 
-      // Filter the path to only include items from the second building's floor
-      const newPath = t_path.path.filter(p => p.floor === firstDifferentFloor.floor);
+        let newPathArray = [];
 
-      console.log("trimmed path")
-      console.log(newPath)
-      setTrimmedPath(newPath)
+        if (isSPAtStart) {
+          // Remove all SP floors – keep only non-SP parts
+          newPathArray = fullPath.filter(p => !p.floor.startsWith("SP"));
+        } else if (isSPAtEnd) {
+          // Keep only SP floors – discard non-SP parts
+          newPathArray = fullPath.filter(p => p.floor.startsWith("SP"));
+        } else {
+          // Just in case: keep full path as-is
+          newPathArray = [...fullPath];
+        }
+
+        const trimmedPath = {
+          distance: 0, // Optional: recalculate if needed
+          path: newPathArray,
+        };
+
+        console.log("trimmed path");
+        console.log(trimmedPath);
+
+        setTrimmedPath(trimmedPath);
+      }
+
+      
     }
   }, [route.params]); // Only runs when route.params changes
 
@@ -96,12 +116,6 @@ export default function OutdoorDirections({ route }) {
                         Have you reached the destination?
                       </Text>
                       <View style={styles.bannerButtons}>
-                        <TouchableOpacity
-                          style={[styles.button, styles.buttonNo]}
-                          onPress={() => setPrompt(false)} // Just hide banner
-                        >
-                          <Text style={styles.buttonText}>No</Text>
-                        </TouchableOpacity>
         
                         <TouchableOpacity
                           style={[styles.button, styles.buttonYes]}
