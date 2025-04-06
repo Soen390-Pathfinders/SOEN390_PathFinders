@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { View, TouchableOpacity, Text, StyleSheet, Modal } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Modal,
+} from "react-native";
 
 const FilterPOI = ({ onFilterPress }) => {
   const filters = [
@@ -14,10 +20,19 @@ const FilterPOI = ({ onFilterPress }) => {
     "Dessert Shops",
     "Juice Bars",
   ];
+
+  const ratingOptions = [
+    { label: "All", key: "all", range: null },
+    { label: "2–3", key: "2-3", range: [2, 3] },
+    { label: "3–4", key: "3-4", range: [3, 4] },
+    { label: "4+", key: "4plus", range: [4, 5] },
+  ];
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [selectedRatingKey, setSelectedRatingKey] = useState("all");
+  const [selectedRating, setSelectedRating] = useState(null);
 
-  // Toggle filter selection
   const toggleFilter = (filter) => {
     if (selectedFilters.includes(filter)) {
       setSelectedFilters(selectedFilters.filter((f) => f !== filter));
@@ -26,24 +41,25 @@ const FilterPOI = ({ onFilterPress }) => {
     }
   };
 
-  // Apply filters and close modal
+  const handleRatingSelect = (option) => {
+    setSelectedRatingKey(option.key);
+    setSelectedRating(option.range);
+  };
+
   const handleApplyFilters = () => {
-    onFilterPress(selectedFilters);
+    onFilterPress(selectedFilters, selectedRating);
     setIsModalVisible(false);
   };
 
   return (
     <View style={styles.container}>
-      {/* Main Filter Button */}
       <TouchableOpacity
         style={styles.filterButton}
-        testID="hamburger_menu_button"
         onPress={() => setIsModalVisible(true)}
       >
         <MaterialIcons name="filter-list" size={28} color="white" />
       </TouchableOpacity>
 
-      {/* Filter Modal */}
       <Modal
         visible={isModalVisible}
         transparent={true}
@@ -54,14 +70,12 @@ const FilterPOI = ({ onFilterPress }) => {
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select Filters</Text>
 
-            {/* Filter Options */}
             {filters.map((filter) => (
               <TouchableOpacity
                 key={filter}
                 style={[
                   styles.filterOption,
-                  selectedFilters.includes(filter) &&
-                    styles.selectedFilterOption,
+                  selectedFilters.includes(filter) && styles.selectedFilterOption,
                 ]}
                 onPress={() => toggleFilter(filter)}
               >
@@ -77,7 +91,33 @@ const FilterPOI = ({ onFilterPress }) => {
               </TouchableOpacity>
             ))}
 
-            {/* Apply Button */}
+            <Text style={[styles.modalTitle, { marginTop: 20 }]}>
+              Minimum Rating
+            </Text>
+            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+              {ratingOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.key}
+                  style={[
+                    styles.filterOption,
+                    selectedRatingKey === option.key &&
+                      styles.selectedFilterOption,
+                  ]}
+                  onPress={() => handleRatingSelect(option)}
+                >
+                  <Text
+                    style={[
+                      styles.filterOptionText,
+                      selectedRatingKey === option.key &&
+                        styles.selectedFilterOptionText,
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
             <TouchableOpacity
               style={styles.applyButton}
               onPress={handleApplyFilters}
@@ -85,7 +125,6 @@ const FilterPOI = ({ onFilterPress }) => {
               <Text style={styles.applyButtonText}>Apply</Text>
             </TouchableOpacity>
 
-            {/* Close Button */}
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setIsModalVisible(false)}
@@ -100,20 +139,12 @@ const FilterPOI = ({ onFilterPress }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "flex-start",
-    padding: 10,
-  },
+  container: { alignItems: "flex-start", padding: 10 },
   filterButton: {
     paddingVertical: 8,
     paddingHorizontal: 16,
     borderRadius: 30,
     backgroundColor: "#0072A8",
-  },
-  filterButtonText: {
-    color: "#000",
-    fontSize: 14,
-    fontWeight: "500",
   },
   modalOverlay: {
     flex: 1,
@@ -130,7 +161,7 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 10,
     textAlign: "center",
   },
   filterOption: {
@@ -139,6 +170,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#f0f0f0",
     marginBottom: 10,
+    marginRight: 10,
   },
   selectedFilterOption: {
     backgroundColor: "#0072A8",
