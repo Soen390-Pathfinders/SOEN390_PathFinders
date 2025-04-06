@@ -2,10 +2,5 @@ appId: host.exp.exponent
 ---
 - tapOn: "Show navigation menu"
 - tapOn: "Points of interests"
-- tapOn: "Loyola"
-- tapOn: "SGW"
-- tapOn:
-    point: "10%,94%"
-- tapOn: "Coffee"
-- tapOn: "Apply"
-- tapOn: "Eggspectation - Maisonneuve"
+- tapOn: "Secret publik"
+- tapOn: "Directions"
