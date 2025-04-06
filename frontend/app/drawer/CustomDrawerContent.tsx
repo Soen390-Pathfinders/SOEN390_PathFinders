@@ -5,12 +5,14 @@ import {
   DrawerItemList,
 } from "@react-navigation/drawer";
 import { DrawerActions } from "@react-navigation/native";
-import { useNavigation } from "expo-router";
+import { useNavigation } from '@react-navigation/native';
 import Fontisto from "@expo/vector-icons/Fontisto";
 import AppLogo from "../components/ui/AppLogo";
 
 export default function CustomDrawerContent(props: any) {
-  const navigation = props.testNavigation || useNavigation();
+  // ✅ Always call React Hooks unconditionally at the top level
+  const defaultNavigation = useNavigation();
+  const navigation = props.testNavigation ?? defaultNavigation;
 
   const closeDrawer = () => {
     navigation.dispatch(DrawerActions.closeDrawer());

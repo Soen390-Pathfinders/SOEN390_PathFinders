@@ -5,6 +5,8 @@ from rest_framework import status
 from app.serializers import InsidePOISerializer
 import networkx as nx
 
+NO_PATH_MSG = "No path found."
+
 # Create a graph
 G_normal = nx.Graph()
 G_accessible = nx.Graph()
@@ -93,7 +95,7 @@ def get_shortest_path_between_rooms(request):
     node_data_list, total_distance = compute_shortest_path(graph, room1.location.id, room2.location.id)
 
     if not node_data_list:
-        return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": NO_PATH_MSG}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = InsidePOISerializer(node_data_list, many=True)
     return Response({'path': serializer.data, 'distance': total_distance}, status=status.HTTP_200_OK)
@@ -122,7 +124,7 @@ def get_shortest_path_to_amenity(request):
     node_data_list, total_distance = compute_shortest_path_to_amenity(graph, room1.location.id, amenity_name)
 
     if not node_data_list:
-        return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": NO_PATH_MSG}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = InsidePOISerializer(node_data_list, many=True)
     return Response({"path": serializer.data, "distance": total_distance}, status=status.HTTP_200_OK)
@@ -153,7 +155,7 @@ def get_shortest_path_to_poi(request):
     node_data_list, total_distance = compute_shortest_path(graph, room1.location.id, poi.id)
 
     if not node_data_list:
-        return Response({"error": "No path found."}, status=status.HTTP_404_NOT_FOUND)
+        return Response({"error": NO_PATH_MSG}, status=status.HTTP_404_NOT_FOUND)
 
     serializer = InsidePOISerializer(node_data_list, many=True)
     return Response({'path':serializer.data, 'distance':total_distance}, status=status.HTTP_200_OK)

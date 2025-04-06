@@ -63,3 +63,4 @@ export const amenityDisplayNames = {
   "LOST_AND_FOUND": "Lost and Found",
   "EXIT": "Exit"
 }; 
+export default amenityTypes;
