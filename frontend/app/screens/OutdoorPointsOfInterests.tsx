@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import CampusPilotHeader from "../components/ui/CampusPilotHeader";
 import { CampusToggle } from "../components/ui/CampusToggle";
 import OutdoorPOI_info from "../components/ui/OutdoorPOI_info";
 import useFetchGooglePlacesInfo from "../hooks/useFetchGooglePlaceInfo";
+import { GOOGLE_MAPS_APIKEY } from "../constants";
 import { Ionicons } from "@expo/vector-icons";
 import FilterPOI from "../components/ui/FilterPOI";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import RadiusSlider from "../components/ui/RadiusButton";
+import useUserLocation from "../hooks/useUserLocation";
+import MapViewDirections from "react-native-maps-directions";
 
 export default function OutdoorPointsOfInterests() {
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
 
+  const [destination, setDestination] = useState(null);
   const [campus, setCampus] = useState("SGW");
   const [activeFilter, setActiveFilter] = useState([]);
   const [ratingRange, setRatingRange] = useState<[number, number] | null>(null);
   const [searchRadius, setSearchRadius] = useState(500);
   const [outdoorPlaceID, setoutdoorPlaceID] = useState<string | null>(null);
   const [isInfoBoxVisible, setInfoBoxVisibility] = useState(false);
+  const [duration, setDuration] = useState(null);
+  const { userLocation } = useUserLocation();
 
   const campusCoordinates = {
     LOY: {
@@ -89,6 +95,20 @@ export default function OutdoorPointsOfInterests() {
 
   const closeInfoBox = () => setInfoBoxVisibility(false);
 
+  const handleDirectionPress = (placeId) => {
+    if (!placeId) {
+      console.warn("Invalid destination");
+      return;
+    }
+    setDestination(placeId);
+    setInfoBoxVisibility(false);
+  };
+
+  const resetDestination = () => {
+    setDestination(null);
+    setDuration(null);
+  };
+
   const safeMarkers =
     filteredPlaces?.filter((place) => {
       const coords = place?.geometry?.location;
@@ -119,13 +139,15 @@ export default function OutdoorPointsOfInterests() {
             </View>
             <OutdoorPOI_info
               info={placeInfo}
-              onDirectionPress={() => {}}
+              onDirectionPress={handleDirectionPress}
               placeId={place}
             />
           </View>
         )}
 
         <RadiusSlider onRadiusChange={handleRadiusChange} />
+
+        
 
         <MapView
           showsUserLocation
@@ -146,9 +168,42 @@ export default function OutdoorPointsOfInterests() {
               onPress={() => handleMarkerPress(place.place_id)}
             />
           ))}
+
+          {userLocation && destination && (
+            <MapViewDirections
+              origin={userLocation}
+              destination={`place_id:${destination}`}
+              apikey={GOOGLE_MAPS_APIKEY}
+              mode={"WALKING"}
+              strokeWidth={7}
+              strokeColor="blue"
+              onReady={(result) => {
+                setDuration(result.duration);
+              }}
+              onError={(errorMessage) => {
+                console.log("Directions error: ", errorMessage);
+              }}
+            />
+          )}
         </MapView>
 
         <FilterPOI onFilterPress={handleFilterPress} />
+
+        {destination && (
+          <View style={styles.bottomOverlay}>
+            <TouchableOpacity
+              style={styles.resetButton}
+              onPress={resetDestination}
+            >
+              <Text style={{ color: "white" }}>Reset Destination</Text>
+            </TouchableOpacity>
+            {duration && (
+              <Text style={styles.durationText}>
+                ETA: {Math.round(duration)} mins
+              </Text>
+            )}
+          </View>
+        )}
       </View>
     </View>
   );
@@ -172,4 +227,26 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(145, 35, 55, 0.99)",
     borderRadius: 50,
   },
+  bottomOverlay: {
+    position: "absolute",
+    bottom: 20,
+    left: 20,
+    zIndex: 5,
+    flexDirection: "column",
+    gap: 10,
+  },
+  resetButton: {
+    backgroundColor: "#0072A8",
+    padding: 10,
+    borderRadius: 10,
+  },
+  durationText: {
+    marginTop: 0.1,
+    marginBottom: 45,
+    backgroundColor: "#0072A8",
+    padding: 8,
+    borderRadius: 10,
+    color: "white",
+  },
 });
+ 
