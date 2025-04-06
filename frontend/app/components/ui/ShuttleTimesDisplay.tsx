@@ -33,14 +33,17 @@ const ShuttleTimeDisplay = ({ campusTime, minutesAway }: ShuttleTimeProps) => {
   if (!campusTime) return <View style={styles.column} />;
 
   const statusInfo = getStatusInfo(minutesAway);
+  const shouldShowStatus = statusInfo.text.length > 0;
 
   return (
     <View style={styles.column}>
       <Text style={styles.timeText}>
         {campusTime}
-        <Text style={[styles.statusText, statusInfo.style]}>
-          {statusInfo.text && `  ${statusInfo.text}`}
-        </Text>
+        {shouldShowStatus && (
+          <Text style={[styles.statusText, statusInfo.style]}>
+            {`  ${statusInfo.text}`}
+          </Text>
+        )}
       </Text>
     </View>
   );
