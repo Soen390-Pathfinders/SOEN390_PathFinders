@@ -18,7 +18,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 // Define Drawer Navigation Type
 // This specifies the available routes for navigation
 type RootDrawerParamList = {
-  OutdoorDirections: undefined;
+  OutdoorDirections: { customStartLocation: string; customDestination: string };
 };
 type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
 
@@ -86,7 +86,7 @@ export default function NextClassInfo() {
       const formattedEvents = {};
 
       events.forEach((event) => {
-        const date = event.startDate.split("T")[0];
+        const date = typeof event.startDate === "string" ? event.startDate.split("T")[0] : new Date(event.startDate).toISOString().split("T")[0];
         formattedEvents[date] = { marked: true, dotColor: "#808080" };
       });
 
