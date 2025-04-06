@@ -20,6 +20,7 @@
     ],
     "collectCoverageFrom": [
       "app/**/*.{js,jsx,ts,tsx}",
+
       "!app/**/*.d.ts",
       "!app/**/styles.{js,ts,tsx}",
       "!app/**/constants.{js,ts,tsx}",
@@ -32,13 +33,17 @@
       "!app/components/maps/concordiaBuildings.ts",
       "!**/node_modules/**",
       "!**/tests/**"
+
     ]
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.4",
     "@likashefqet/react-native-image-zoom": "^4.3.0",
-    "@react-native-async-storage/async-storage": "1.23.1",
+
+    "@react-native-async-storage/async-storage": "^2.1.2",
+
     "@react-native-community/slider": "^4.5.6",
+
     "@react-native-vector-icons/common": "^11.0.0",
     "@react-native/codegen": "^0.77.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
@@ -87,8 +92,10 @@
     "@react-native-community/cli": "latest",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-native": "^5.4.3",
+
+    "@testing-library/react-native": "^13.2.0",
     "@testing-library/react": "^16.2.0",
-    "@testing-library/react-native": "^13.0.1",
+
     "@types/jest": "^29.5.12",
     "@types/react": "~18.3.12",
     "@types/react-native": "^0.72.8",
@@ -97,8 +104,8 @@
     "jest-expo": "~52.0.3",
     "maestro": "^2.1.1",
     "metro-react-native-babel-preset": "^0.77.0",
-    "react-test-renderer": "18.3.1",
-    "sonarqube-scanner": "^4.2.6",
+    "react-test-renderer": "^18.3.1",
+    "sonarqube-scanner": "^3.5.0",
     "typescript": "^5.3.3"
   },
   "private": true
