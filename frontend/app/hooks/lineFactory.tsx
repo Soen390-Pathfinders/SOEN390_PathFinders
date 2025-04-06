@@ -13,7 +13,7 @@ export default function LineFactory({ node1, node2 }) {
         y2={node2.y_coor}
         stroke="green"
         strokeLinejoin="miter"
-        strokeWidth="0.5"
+        strokeWidth="1"
       />
     </View>
   );

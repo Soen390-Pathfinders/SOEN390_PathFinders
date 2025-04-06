@@ -15,25 +15,25 @@ type PathNode = {
   y_coor: number;
 };
 
-export default function PathTrace({ 
-  currentFloor, 
-  onFloorChangeRequired, 
+export default function PathTrace({
+  currentFloor,
+  onFloorChangeRequired,
   floorChangeConfirmed,
   setFloorChangeConfirmed,
   onInitialFloorDetected = undefined,
   path,
-  manualFloorChange = false
+  manualFloorChange = false,
 }) {
   // State for path nodes and current floor's nodes
   const [allPathNodes, setAllPathNodes] = useState<PathNode[]>([]);
   const [currentFloorNodes, setCurrentFloorNodes] = useState<PathNode[]>([]);
-  
+
   // Detect when there's a next floor in the path
   const [nextFloorInPath, setNextFloorInPath] = useState<string | null>(null);
-  
+
   // Track if initial floor detection has happened for this path
   const initialFloorDetectedRef = useRef(false);
-  
+
   // Track the current path ID to detect changes
   const pathIdRef = useRef(null);
 
@@ -48,26 +48,26 @@ export default function PathTrace({
       pathIdRef.current = null;
       return;
     }
-    
+
     // Check if this is a new path
     const isNewPath = pathIdRef.current !== JSON.stringify(path);
-    
+
     // Process path data if it exists
     if (path.path && path.path.length > 0) {
       setAllPathNodes(path.path);
-      
+
       // For new paths, always detect and set initial floor
       if (isNewPath) {
         // Store path signature
         pathIdRef.current = JSON.stringify(path);
         // Reset floor detection flag
         initialFloorDetectedRef.current = false;
-        
+
         // Force initial floor detection for every new path
         if (!manualFloorChange && onInitialFloorDetected) {
           const startNode = path.path[0];
           if (startNode && startNode.floor) {
-            const floorNumber = startNode.floor.replace('H-', '');
+            const floorNumber = startNode.floor.replace("H-", "");
             const startingFloor = `H${floorNumber}`;
             onInitialFloorDetected(startingFloor);
             initialFloorDetectedRef.current = true;
@@ -81,10 +81,12 @@ export default function PathTrace({
   useEffect(() => {
     if (allPathNodes.length > 0 && currentFloor) {
       const floorFormat = `H-${currentFloor.substring(1)}`;
-      
-      const nodesForCurrentFloor = allPathNodes.filter(node => node.floor === floorFormat);
+
+      const nodesForCurrentFloor = allPathNodes.filter(
+        (node) => node.floor === floorFormat
+      );
       setCurrentFloorNodes(nodesForCurrentFloor);
-      
+
       // Don't check for next floor if manual change was made
       if (!manualFloorChange) {
         checkForFloorChange(floorFormat, nodesForCurrentFloor);
@@ -95,24 +97,29 @@ export default function PathTrace({
       setCurrentFloorNodes([]);
     }
   }, [allPathNodes, currentFloor, floorChangeConfirmed, manualFloorChange]);
-  
+
   // Helper function to check if path continues to another floor
   const checkForFloorChange = (floorFormat, nodesForCurrentFloor) => {
     // Check if the path continues to another floor
-    const floorIndices = allPathNodes.map((node, index) => 
-      ({ floor: node.floor, index })
+    const floorIndices = allPathNodes.map((node, index) => ({
+      floor: node.floor,
+      index,
+    }));
+
+    const currentFloorIndices = floorIndices.filter(
+      (item) => item.floor === floorFormat
     );
-    
-    const currentFloorIndices = floorIndices.filter(item => item.floor === floorFormat);
-    
+
     if (currentFloorIndices.length > 0) {
-      const lastNodeIndexOnCurrentFloor = Math.max(...currentFloorIndices.map(item => item.index));
-      
+      const lastNodeIndexOnCurrentFloor = Math.max(
+        ...currentFloorIndices.map((item) => item.index)
+      );
+
       // If there are nodes after the last node of the current floor
       if (lastNodeIndexOnCurrentFloor < allPathNodes.length - 1) {
         const nextFloorNode = allPathNodes[lastNodeIndexOnCurrentFloor + 1];
-        const nextFloor = nextFloorNode.floor.replace('H-', 'H');
-        
+        const nextFloor = nextFloorNode.floor.replace("H-", "H");
+
         // Only trigger floor change request if we have nodes on current floor
         // and not already confirmed a change
         if (nodesForCurrentFloor.length > 0 && !floorChangeConfirmed) {
@@ -140,7 +147,7 @@ export default function PathTrace({
             <Circle
               cx={node.x_coor}
               cy={node.y_coor}
-              r="0.5"
+              r="1.2"
               fill={
                 index === 0
                   ? "blue"
@@ -150,7 +157,7 @@ export default function PathTrace({
               }
               stroke="none"
             />
-            
+
             {/* Draw line to next node if not the last node */}
             {index === currentFloorNodes.length - 1 || (
               <LineFactory
