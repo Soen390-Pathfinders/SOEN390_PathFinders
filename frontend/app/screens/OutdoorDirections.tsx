@@ -71,9 +71,6 @@ export default function OutdoorDirections({ route }) {
           path: newPathArray,
         };
 
-        console.log("trimmed path");
-        console.log(trimmedPath);
-
         setTrimmedPath(trimmedPath);
       }
 

@@ -89,9 +89,7 @@ export default function PathTrace({
             if (endBuilding === "SP"){
               destination_coordinate = "45.4582,-73.6405"
             }
-            
-            console.log("t1")
-            console.log(destination_coordinate)
+          
             onDetectedCrossBuildingPath(true, destination_coordinate);
           }
         }

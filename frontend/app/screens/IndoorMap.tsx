@@ -21,7 +21,6 @@ export default function IndoorMap({ route }) {
   const globalStyles = getStyles(theme);
   
   useEffect(() => {
-    console.log(route.params)
     if (route.params) {
       // Set node info with a unique key to force re-render
       setNodeInfo({
