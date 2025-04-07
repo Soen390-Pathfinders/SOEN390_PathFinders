@@ -33,7 +33,7 @@ export default function OutdoorDirections({ route }) {
   const [duration, setDuration] = useState(null); // For the trip duration
   const [showPrompt, setPrompt] = useState(false); // Whether to show the "Have you arrived?" banner
   const [trimmedPath, setTrimmedPath] = useState(null); //hold the trimmed path if coming from indoor navigation multi building
-  
+
   useEffect(() => {
     if (route?.params?.customStartLocation) {
       setToCurrentLocation(route.params.customStartLocation);
@@ -41,10 +41,10 @@ export default function OutdoorDirections({ route }) {
     if (route?.params?.customDestination) {
       setDestination(route.params.customDestination);
     }
-    if(route?.params?.showPrompt){
-      setPrompt(route.params.showPrompt)
+    if (route?.params?.showPrompt) {
+      setPrompt(route.params.showPrompt);
     }
-    if(route?.params?.path){
+    if (route?.params?.path) {
       const t_path = route.params.path;
 
       if (t_path?.path?.length > 0) {
@@ -57,24 +57,25 @@ export default function OutdoorDirections({ route }) {
 
         if (isSPAtStart) {
           // Remove all SP floors – keep only non-SP parts
-          newPathArray = fullPath.filter(p => !p.floor.startsWith("SP"));
+          newPathArray = fullPath.filter((p) => !p.floor.startsWith("SP"));
         } else if (isSPAtEnd) {
           // Keep only SP floors – discard non-SP parts
-          newPathArray = fullPath.filter(p => p.floor.startsWith("SP"));
+          newPathArray = fullPath.filter((p) => p.floor.startsWith("SP"));
         } else {
           // Just in case: keep full path as-is
           newPathArray = [...fullPath];
         }
 
         const trimmedPath = {
-          distance: 0, // Optional: recalculate if needed
-          path: newPathArray,
+          ...t_path,
+          path: {
+            ...t_path.path,
+            path: newPathArray,
+          },
         };
 
         setTrimmedPath(trimmedPath);
       }
-
-      
     }
   }, [route.params]); // Only runs when route.params changes
 
@@ -104,33 +105,31 @@ export default function OutdoorDirections({ route }) {
           destination={submittedDestination}
           travelMode={travelMode}
           onDurationChange={setDuration}
-          setBuildingLocation={setBuildingLocation} campus={undefined} 
+          setBuildingLocation={setBuildingLocation}
+          campus={undefined}
         />
         {showPrompt && (
-                  <View style={styles.bannerContainer}>
-                    <View style={styles.banner}>
-                      <Text style={styles.bannerText}>
-                        Have you reached the destination?
-                      </Text>
-                      <View style={styles.bannerButtons}>
-        
-                        <TouchableOpacity
-                          style={[styles.button, styles.buttonYes]}
-                          onPress={() => {
-                            setPrompt(false); // Hide banner
-                            // Navigate to outdoor directions with the dynamic coordinates
-                            
-                            navigation.navigate("(screens)/IndoorMap", trimmedPath);
-                            
-                          }}
-                        >
-                          <Text style={styles.buttonText}>Yes</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                )}
+          <View style={styles.bannerContainer}>
+            <View style={styles.banner}>
+              <Text style={styles.bannerText}>
+                Have you reached the destination?
+              </Text>
+              <View style={styles.bannerButtons}>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonYes]}
+                  onPress={() => {
+                    setPrompt(false); // Hide banner
+                    // Navigate to outdoor directions with the dynamic coordinates
 
+                    navigation.navigate("(screens)/IndoorMap", trimmedPath);
+                  }}
+                >
+                  <Text style={styles.buttonText}>Yes</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        )}
       </View>
     </View>
   );
