@@ -4,9 +4,7 @@ appId: host.exp.exponent
 - tapOn: "Indoor Directions"
 - tapOn: "Find a room"
 - tapOn: "Enter room number (e.g., H-920)"
-- inputText: "H-521"
-- tapOn: "Find the room"
-- assertVisible:
-    id: "roomMap"
-
-
+- inputText: "H-407"
+- tapOn: "Find the room" 
+- tapOn: "Hide Amenities"
+- tapOn: "Show Amenities"

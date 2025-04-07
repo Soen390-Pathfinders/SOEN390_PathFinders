@@ -5,3 +5,7 @@ appId: host.exp.exponent
 - tapOn: "SWITCH CALENDAR"
 - tapOn: "My Classes"
 - tapOn: "OK"
+- tapOn:
+    id: "undefined.day_2025-03-31"
+- assertVisible: "Location: H Building Concordia University, 1455 Blvd. De Maisonneuve Ouest, Montreal, QC H3G 1M8, Canada"
+- tapOn: "CLOSE"

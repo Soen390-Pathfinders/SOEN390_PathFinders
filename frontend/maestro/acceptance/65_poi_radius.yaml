@@ -1,0 +1,8 @@
+appId: host.exp.exponent
+---
+- tapOn: "Show navigation menu" 
+- tapOn: "Points of interests"
+- assertVisible: "Search radius: 500m"
+- tapOn: 
+    point: 60%,42%
+- tapOn: "Search radius: 700m"
