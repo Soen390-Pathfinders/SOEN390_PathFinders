@@ -3,8 +3,8 @@ appId: host.exp.exponent
 - tapOn: "Show navigation menu"  
 - tapOn: "Indoor Directions"
 - tapOn: "Find a room"
-- tapOn: "H-920"
-- inputText: "H-521"
+- tapOn: "Enter room number (e.g., H-920)"
+- inputText: "H-5218"
 - tapOn: "Find the room"
 - assertVisible: "Room not found. Please check the room number and try again."
 

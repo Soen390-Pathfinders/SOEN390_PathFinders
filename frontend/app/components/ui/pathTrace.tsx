@@ -1,6 +1,5 @@
 import { View } from "react-native";
-import React from "react";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import LineFactory from "@/app/hooks/lineFactory";
 import { Circle } from "react-native-svg";
 
@@ -15,31 +14,30 @@ type PathNode = {
   y_coor: number;
 };
 
-export default function PathTrace({ 
-  currentFloor, 
-  onFloorChangeRequired, 
+export default function PathTrace({
+  currentFloor,
+  onFloorChangeRequired,
   floorChangeConfirmed,
   setFloorChangeConfirmed,
+  currentBuilding,
   onInitialFloorDetected = undefined,
+  onDetectedCrossBuildingPath = undefined,
   path,
-  manualFloorChange = false
+  manualFloorChange = false,
 }) {
-  // State for path nodes and current floor's nodes
   const [allPathNodes, setAllPathNodes] = useState<PathNode[]>([]);
   const [currentFloorNodes, setCurrentFloorNodes] = useState<PathNode[]>([]);
-  
-  // Detect when there's a next floor in the path
   const [nextFloorInPath, setNextFloorInPath] = useState<string | null>(null);
-  
-  // Track if initial floor detection has happened for this path
+
   const initialFloorDetectedRef = useRef(false);
-  
-  // Track the current path ID to detect changes
   const pathIdRef = useRef(null);
 
-  // Reset state when path changes
+  const getBuildingFromFloor = (floorStr: string): string => {
+    const match = floorStr.match(/^[A-Za-z0-9]+/);
+    return match ? match[0] : "";
+  };
+
   useEffect(() => {
-    // If there's no path, clear everything
     if (!path) {
       setAllPathNodes([]);
       setCurrentFloorNodes([]);
@@ -48,44 +46,68 @@ export default function PathTrace({
       pathIdRef.current = null;
       return;
     }
-    
-    // Check if this is a new path
+
     const isNewPath = pathIdRef.current !== JSON.stringify(path);
-    
-    // Process path data if it exists
+
     if (path.path && path.path.length > 0) {
       setAllPathNodes(path.path);
-      
-      // For new paths, always detect and set initial floor
+
       if (isNewPath) {
-        // Store path signature
         pathIdRef.current = JSON.stringify(path);
-        // Reset floor detection flag
         initialFloorDetectedRef.current = false;
-        
-        // Force initial floor detection for every new path
+
+        const startNode = path.path[0];
+        const endNode = path.path[path.path.length - 1];
+
+        const floorNumber = startNode.floor.replace(`${getBuildingFromFloor(startNode.floor)}-`, "");
+        const startingFloor = `${getBuildingFromFloor(startNode.floor)}${floorNumber}`;
+
+        if (onInitialFloorDetected && typeof onInitialFloorDetected === 'function') {
+          onInitialFloorDetected(startingFloor);
+        }
+
         if (!manualFloorChange && onInitialFloorDetected) {
-          const startNode = path.path[0];
           if (startNode && startNode.floor) {
-            const floorNumber = startNode.floor.replace('H-', '');
-            const startingFloor = `H${floorNumber}`;
+            const floorNumber = startNode.floor.replace(`${getBuildingFromFloor(startNode.floor)}-`, "");
+            const startingFloor = `${getBuildingFromFloor(startNode.floor)}${floorNumber}`;
             onInitialFloorDetected(startingFloor);
             initialFloorDetectedRef.current = true;
+          }
+        }
+
+        const startBuilding = getBuildingFromFloor(startNode.floor);
+        const endBuilding = getBuildingFromFloor(endNode.floor);
+        const isCrossBuilding = startBuilding !== endBuilding;
+
+        if (onDetectedCrossBuildingPath && typeof onDetectedCrossBuildingPath === 'function') {
+          if (isCrossBuilding) {
+            let destination_coordinate = null;
+            let start_coordinate = null;
+            if (endBuilding === 'H') {
+              destination_coordinate = "45.49745,-73.57894";
+            }
+            if (endBuilding === "SP"){
+              destination_coordinate = "45.4582,-73.6405"
+            }
+          
+            onDetectedCrossBuildingPath(true, destination_coordinate);
           }
         }
       }
     }
   }, [path, manualFloorChange, onInitialFloorDetected]);
 
-  // Update current floor nodes whenever relevant state changes
   useEffect(() => {
-    if (allPathNodes.length > 0 && currentFloor) {
-      const floorFormat = `H-${currentFloor.substring(1)}`;
-      
-      const nodesForCurrentFloor = allPathNodes.filter(node => node.floor === floorFormat);
+    if (allPathNodes.length > 0 && currentFloor && currentBuilding) {
+      const floorFormat = `${currentBuilding}-${currentFloor.substring(1)}`;
+
+      const nodesForCurrentFloor = allPathNodes.filter(node => {
+        const building = getBuildingFromFloor(node.floor);
+        return node.floor === floorFormat && building === currentBuilding;
+      });
+
       setCurrentFloorNodes(nodesForCurrentFloor);
-      
-      // Don't check for next floor if manual change was made
+
       if (!manualFloorChange) {
         checkForFloorChange(floorFormat, nodesForCurrentFloor);
       } else {
@@ -94,27 +116,22 @@ export default function PathTrace({
     } else {
       setCurrentFloorNodes([]);
     }
-  }, [allPathNodes, currentFloor, floorChangeConfirmed, manualFloorChange]);
-  
-  // Helper function to check if path continues to another floor
+  }, [allPathNodes, currentFloor, currentBuilding, floorChangeConfirmed, manualFloorChange]);
+
   const checkForFloorChange = (floorFormat, nodesForCurrentFloor) => {
-    // Check if the path continues to another floor
-    const floorIndices = allPathNodes.map((node, index) => 
-      ({ floor: node.floor, index })
-    );
-    
+    const floorIndices = allPathNodes.map((node, index) => ({ floor: node.floor, index }));
     const currentFloorIndices = floorIndices.filter(item => item.floor === floorFormat);
-    
+
     if (currentFloorIndices.length > 0) {
       const lastNodeIndexOnCurrentFloor = Math.max(...currentFloorIndices.map(item => item.index));
-      
-      // If there are nodes after the last node of the current floor
+
       if (lastNodeIndexOnCurrentFloor < allPathNodes.length - 1) {
         const nextFloorNode = allPathNodes[lastNodeIndexOnCurrentFloor + 1];
-        const nextFloor = nextFloorNode.floor.replace('H-', 'H');
-        
-        // Only trigger floor change request if we have nodes on current floor
-        // and not already confirmed a change
+
+        const nextBuilding = getBuildingFromFloor(nextFloorNode.floor);
+        const nextFloorNumber = nextFloorNode.floor.replace(`${nextBuilding}-`, "");
+        const nextFloor = `${nextBuilding}${nextFloorNumber}`;
+
         if (nodesForCurrentFloor.length > 0 && !floorChangeConfirmed) {
           onFloorChangeRequired(nextFloor);
           setNextFloorInPath(nextFloor);
@@ -125,34 +142,26 @@ export default function PathTrace({
     }
   };
 
-  // If we have no nodes for the current floor, don't render anything
   if (currentFloorNodes.length === 0) {
     return null;
   }
 
   return (
     <View>
-      {/* Draw path nodes for current floor */}
       {currentFloorNodes.map((node, index) => {
         return (
           <View key={index}>
-            {/* Create a circle for each node */}
             <Circle
               cx={node.x_coor}
               cy={node.y_coor}
               r="0.5"
               fill={
-                index === 0
-                  ? "blue"
-                  : index === currentFloorNodes.length - 1
-                  ? "red"
-                  : "green"
+                index === 0 ? "blue" :
+                index === currentFloorNodes.length - 1 ? "red" : "green"
               }
               stroke="none"
             />
-            
-            {/* Draw line to next node if not the last node */}
-            {index === currentFloorNodes.length - 1 || (
+            {index !== currentFloorNodes.length - 1 && (
               <LineFactory
                 key={`line-${index}`}
                 node1={node}

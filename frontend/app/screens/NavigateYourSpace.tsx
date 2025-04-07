@@ -16,7 +16,7 @@ import { useNavigation } from "expo-router";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { DrawerParamList } from "../_layout";
 import { amenityTypes, amenityDisplayNames } from "../data/amenityData";
-
+import ToggleAccessibility from "../components/ui/AccessibilityPathToggle";
 
 export default function NavigateYourSpace() {
   const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
@@ -26,94 +26,98 @@ export default function NavigateYourSpace() {
   const [destination, setDestination] = useState("");
   const [showAmenitySuggestions, setShowAmenitySuggestions] = useState(false);
   const [filteredAmenities, setFilteredAmenities] = useState([]);
+  const [accessibilityNeed, setAccessibilityNeed] = useState<boolean>(false);
 
   const isAmenity = (input) => {
     const normalizedInput = input.trim().toLowerCase();
-    
+
     // Check if input matches a raw amenity type code
-    if (amenityTypes.some(amenity => amenity.toLowerCase() === normalizedInput)) {
+    if (
+      amenityTypes.some((amenity) => amenity.toLowerCase() === normalizedInput)
+    ) {
       return true;
     }
-    
+
     // Check if input matches any display name
     const matchesDisplayName = Object.entries(amenityDisplayNames).some(
       ([code, displayName]) => displayName.toLowerCase() === normalizedInput
     );
-    
+
     return matchesDisplayName;
   };
 
   const filterAmenities = (text) => {
     setDestination(text);
-    
+
     if (text.length > 1) {
-      const filtered = amenityTypes.filter(amenity => 
-        amenityDisplayNames[amenity].toLowerCase().includes(text.toLowerCase()));
+      const filtered = amenityTypes.filter((amenity) =>
+        amenityDisplayNames[amenity].toLowerCase().includes(text.toLowerCase())
+      );
       setFilteredAmenities(filtered);
       setShowAmenitySuggestions(filtered.length > 0);
     } else {
       setShowAmenitySuggestions(false);
     }
   };
-  
+
   const selectAmenity = (amenity) => {
     setDestination(amenityDisplayNames[amenity]);
     setShowAmenitySuggestions(false);
   };
 
   const handleGetDirection = () => {
-
-
     if (!startLocation) {
       alert("Please enter a start location");
       return;
     }
-    
+
     if (!destination) {
       alert("Please enter a destination");
       return;
     }
-    
+
     if (isAmenity(destination)) {
       // Find the correct amenity code regardless of input format
       let amenityCode = destination.trim().toUpperCase();
-      
+
       // If the input is a display name, convert it to the code
       const matchingAmenityEntry = Object.entries(amenityDisplayNames).find(
-        ([code, displayName]) => displayName.toLowerCase() === destination.trim().toLowerCase()
+        ([code, displayName]) =>
+          displayName.toLowerCase() === destination.trim().toLowerCase()
       );
-      
+
       if (matchingAmenityEntry) {
         amenityCode = matchingAmenityEntry[0]; // Use the code (WATER_FOUNTAIN), not the display name
       }
-      
-      // Now use the correctly formatted amenity code
-      PathAPI.shortestPathToAmenity(startLocation, amenityCode)
+
+      PathAPI.shortestPathToAmenity(
+        startLocation,
+        amenityCode,
+        accessibilityNeed
+      )
         .then((response) => {
-          navigation.navigate("(screens)/IndoorMap",          
-       {path: response,
-        nodeInfo: null,
-        roomOrPath: "path"
+          navigation.navigate("(screens)/IndoorMap", {
+            path: response,
+            nodeInfo: null,
+            roomOrPath: "path",
           });
         })
-        .catch(error => {
+        .catch((error) => {
           alert(`Error finding path to ${destination}: ${error.message}`);
         });
     } else {
-      
-      PathAPI.shortestPathToRoom(startLocation, destination)
+      PathAPI.shortestPathToRoom(startLocation, destination, accessibilityNeed)
         .then((response) => {
           navigation.navigate("(screens)/IndoorMap", {
-          path: response,
-        nodeInfo: null,
-        roomOrPath: "path",
+            path: response,
+            nodeInfo: null,
+            roomOrPath: "path",
           });
         })
-        .catch(error => {
+        .catch((error) => {
           alert(`Error finding path to ${destination}: ${error.message}`);
         });
     }
-
   };
 
   return (
@@ -153,7 +157,7 @@ export default function NavigateYourSpace() {
               placeholderTextColor="#999"
             />
           </View>
-          
+
           {/* Amenity suggestions */}
           {showAmenitySuggestions && (
             <View style={styles.suggestionsContainer}>
@@ -161,7 +165,7 @@ export default function NavigateYourSpace() {
                 data={filteredAmenities}
                 keyExtractor={(item) => item}
                 renderItem={({ item }) => (
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     style={styles.suggestionItem}
                     onPress={() => selectAmenity(item)}
                   >
@@ -175,7 +179,11 @@ export default function NavigateYourSpace() {
             </View>
           )}
         </View>
-
+        {/* Accessibility toggle */}
+        <ToggleAccessibility
+          accessibilityNeed={accessibilityNeed}
+          setAccessibilityNeed={setAccessibilityNeed}
+        />
         {/* Get directions button */}
         <TouchableOpacity style={styles.button} onPress={handleGetDirection}>
           <Text style={styles.buttonText}>Get directions</Text>
@@ -249,32 +257,32 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   destinationContainer: {
-    width: '100%',
-    position: 'relative',
+    width: "100%",
+    position: "relative",
     zIndex: 10,
   },
   suggestionsContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 52,
     left: 0,
     right: 0,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     maxHeight: 150,
     zIndex: 20,
   },
   suggestionsList: {
-    width: '100%',
+    width: "100%",
   },
   suggestionItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: "#eee",
   },
   suggestionText: {
     fontSize: 14,
-    color: '#333',
+    color: "#333",
   },
 });

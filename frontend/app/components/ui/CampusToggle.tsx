@@ -39,7 +39,7 @@ export const CampusToggle = ({ campus, toggleCampus }) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     position: "absolute",
-    top: 140,
+    top: 130,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
@@ -51,9 +51,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     width: 100,
     alignItems: "center",
+    backgroundColor: "#912338",
   },
   activeButton: {
-    backgroundColor: "#575757",
+    backgroundColor: "#912338",
   },
   inactiveButton: {
     backgroundColor: "#AAAAAA",
