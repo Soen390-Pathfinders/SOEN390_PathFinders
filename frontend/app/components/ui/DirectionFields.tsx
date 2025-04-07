@@ -1,8 +1,15 @@
-import { useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity, Alert, Text } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import OutdoorMap from "../maps/OutdoorMap";
+import useTheme from "@/app/hooks/useTheme";
+import { getStyles } from "@/app/styles";
 import { GOOGLE_MAPS_APIKEY } from "@/app/constants";
-import { MaterialIcons } from "@expo/vector-icons";
+import CampusPilotHeader from "./CampusPilotHeader";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { useLocation } from "../context/userLocationContext";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import useDirectionLogic from "@/app/hooks/useDirectionLogic";
 
 export default function DirectionFields({
   startLocation,
@@ -52,43 +59,6 @@ export default function DirectionFields({
         />
 
         {/* Current Location Button for Start */}
-
-        <TouchableOpacity
-  onPress={() => setToCurrentLocation("start")}
-  style={styles.locationButton}
-  testID="CurrentLocationButton"
->
-  <MaterialIcons name="my-location" size={36} color="#007BFF" />
-</TouchableOpacity>
-
-<TouchableOpacity onPress={onGoPress} style={styles.goButton} testID="GoButton">
-  <Text style={styles.goButtonText}>GO</Text>
-</TouchableOpacity>
-
-<TouchableOpacity
-  testID="WalkButton"
-  style={[styles.iconButton, travelMode === "WALKING" && styles.iconButtonSelected]}
-  onPress={() => setTravelMode("WALKING")}
->
-  ...
-</TouchableOpacity>
-
-<TouchableOpacity
-  testID="DriveButton"
-  style={[styles.iconButton, travelMode === "DRIVING" && styles.iconButtonSelected]}
-  onPress={() => setTravelMode("DRIVING")}
->
-  ...
-</TouchableOpacity>
-
-<TouchableOpacity
-  testID="TransitButton"
-  style={[styles.iconButton, travelMode === "TRANSIT" && styles.iconButtonSelected]}
-  onPress={() => setTravelMode("TRANSIT")}
->
-  ...
-</TouchableOpacity>
-
         <TouchableOpacity
           onPress={() => setToCurrentLocation("start")}
           style={styles.locationButton}
@@ -119,7 +89,7 @@ export default function DirectionFields({
           }}
         />
 
-        {/* Go Button instead of the current location button */}
+        {/* GO Button instead of the current location button */}
         <TouchableOpacity onPress={onGoPress} style={styles.goButton}>
           <Text style={styles.goButtonText}>GO</Text>
         </TouchableOpacity>
