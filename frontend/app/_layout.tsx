@@ -74,7 +74,7 @@ export default function RootLayout() {
               name="(screens)/CampusMap"
               component={CampusMap}
               options={{
-                drawerLabel: "Campus Map",
+                drawerLabel: "Campus Buildings",
                 title: "Campus Map",
                 drawerIcon: () => (
                   <Image
@@ -102,7 +102,7 @@ export default function RootLayout() {
               name="(screens)/NextClassInfo"
               component={NextClassInfo}
               options={{
-                drawerLabel: "Directions to next class",
+                drawerLabel: "Directions to my next class",
                 title: "Direction to next class",
                 drawerIcon: () => (
                   <Image
@@ -130,7 +130,7 @@ export default function RootLayout() {
               name="(screens)/IndoorDirections"
               component={IndoorDirections}
               options={{
-                drawerLabel: "Indoor Directions",
+                drawerLabel: "Room to Room Directions",
                 title: "Indoor Directions",
                 drawerIcon: () => (
                   <Image
@@ -175,7 +175,7 @@ export default function RootLayout() {
               name="(screens)/OutdoorPointsOfInterest"
               component={OutdoorPointsOfInterests}
               options={{
-                drawerLabel: "Points of interests",
+                drawerLabel: "Campus Food & Fun",
                 title: "Points of interests",
                 drawerIcon: () => (
                   <Image
