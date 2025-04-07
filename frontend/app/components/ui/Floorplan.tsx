@@ -10,13 +10,26 @@ import Svg, { Circle, Line } from "react-native-svg";
 import { Image } from "expo-image";
 import { Zoomable } from "@likashefqet/react-native-image-zoom";
 import PathTrace from "../ui/pathTrace";
-import {
-  floors,
-  floorplanImages,
-  defaultFloor,
-} from "@/app/data/floorplanData";
 
-export default function Floorplan({ path }) {
+import { floors, floorplanImages, defaultFloor } from "@/app/data/floorplanData";
+import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+
+
+type RootDrawerParamList = {
+  OutdoorDirections: {
+    customStartLocation: string;
+    customDestination: string;
+    showPrompt: boolean,
+    path
+  };
+};
+type NavigationProp = DrawerNavigationProp<RootDrawerParamList>;
+
+export default function Floorplan({path}) {
+
+  const navigation = useNavigation<NavigationProp>(); // Drawer navigation
+
   const zoomableRef = useRef(null);
   // Use imported default floor
   const [currentFloor, setCurrentFloor] = useState(defaultFloor);
@@ -24,6 +37,11 @@ export default function Floorplan({ path }) {
   const [floorChangeConfirmed, setFloorChangeConfirmed] = useState(false);
   // State to track next floor in path
   const [nextFloorInPath, setNextFloorInPath] = useState(null);
+  // Whether to show the "Have you exited?" banner
+  const [showExitPrompt, setShowExitPrompt] = useState(false);
+  // Coordinates or label for outdoor destination (set when path is cross-building)
+  const [outdoorDestination, setOutdoorDestination] = useState(null);
+
   // State to track if the floor was manually changed by the user
   const [manualFloorChange, setManualFloorChange] = useState(false);
 
@@ -69,6 +87,8 @@ export default function Floorplan({ path }) {
         return require("../../../assets/floorplans/H8.jpg");
       case "H9":
         return require("../../../assets/floorplans/H9.jpg");
+      case "SP1":
+        return require("../../../assets/floorplans/SP1.png")
       default:
         return require("../../../assets/floorplans/H5.jpg");
     }
@@ -164,12 +184,24 @@ export default function Floorplan({ path }) {
           <Svg height="100%" width="100%" viewBox="0 0 100 100">
             <PathTrace
               currentFloor={currentFloor}
+              currentBuilding={currentFloor[0]}
               onFloorChangeRequired={handleFloorChangeRequired}
               floorChangeConfirmed={floorChangeConfirmed}
               setFloorChangeConfirmed={setFloorChangeConfirmed}
               onInitialFloorDetected={handleInitialFloorDetected}
+
+              onDetectedCrossBuildingPath={(isCrossBuilding, destinationCoordinate) => {
+                if (isCrossBuilding) {
+                  // Store destination and show the "exit building" banner
+                  setOutdoorDestination(destinationCoordinate);
+                  setShowExitPrompt(true);
+                  
+                }
+              }}
+            
               path={path}
               manualFloorChange={manualFloorChange}
+
             />
           </Svg>
         </View>
@@ -210,6 +242,36 @@ export default function Floorplan({ path }) {
             </View>
           </View>
         )}
+
+        {showExitPrompt && (
+          <View style={styles.bannerContainer}>
+            <View style={styles.banner}>
+              <Text style={styles.bannerText}>
+                Have you exited the building?
+              </Text>
+              <View style={styles.bannerButtons}>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonYes]}
+                  onPress={() => {
+                    setShowExitPrompt(false); // Hide banner
+                    // Navigate to outdoor directions with the dynamic coordinates
+                    
+                    navigation.navigate("OutdoorDirections", {
+                      customStartLocation: "start",
+                      customDestination: outdoorDestination,
+                      showPrompt: showExitPrompt,
+                      path: path
+                    });
+                    
+                  }}
+                >
+                  <Text style={styles.buttonText}>Yes</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        )}
+
       </Zoomable>
     </View>
   );

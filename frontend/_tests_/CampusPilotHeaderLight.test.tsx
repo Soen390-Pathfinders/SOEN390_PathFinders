@@ -1,4 +1,5 @@
 import renderer from "react-test-renderer";
+import { jest } from '@jest/globals';
 import CampusPilotHeader from "@/app/components/ui/CampusPilotHeader";
 import { ThemeProvider } from "@/app/components/context/ThemeContext";
 

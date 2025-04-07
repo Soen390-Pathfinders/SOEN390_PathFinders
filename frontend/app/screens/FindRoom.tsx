@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import useTheme from "../hooks/useTheme";
 import { getStyles } from "../styles";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,61 +16,64 @@ import useRoomCodeValidation from "../hooks/useRoomCodeValidation";
 import { DrawerParamList } from "../_layout";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 
-// Function to validate code room*/
-export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
-  const validationResult = validateRoomCode(roomCode);
-  //return a boolean isValid and a string contaiing the error message
-  return validationResult;
+// Types
+type FindRoomProps = {
+  navigation?: DrawerNavigationProp<DrawerParamList>;
 };
 
-//fetch the room node information using the API
+//  Helper: validate room code
+export const helpervalideRoomCode = (validateRoomCode, roomCode) => {
+  return validateRoomCode(roomCode);
+};
+
+//  Helper: get room info from API
 export const getRoomInfo = async (roomCode) => {
   try {
-    const nodeInfo = await RoomAPI.get(roomCode);
-    return nodeInfo;
+    return await RoomAPI.get(roomCode);
   } catch (error) {
     console.error("Failed to fetch room information:", error);
   }
 };
 
-//navigate to the indoor map screen
-export const helperNavigateToIndoorMap = (navigation, nodeInfo) => {
+//  Helper: navigate to IndoorMap screen
+export const helperNavigateToIndoorMap = (
+  navigation: DrawerNavigationProp<DrawerParamList>,
+  nodeInfo: any
+) => {
   (navigation.navigate as any)("(screens)/IndoorMap", {
     path: null,
-    nodeInfo: nodeInfo,
+    nodeInfo,
     roomOrPath: "room",
   });
 };
 
-export default function FindRoom() {
+export default function FindRoom({ navigation: navFromProps }: FindRoomProps) {
+  const fallbackNavigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
+
+  //  Always call useNavigation at top level — no conditional hooks
+  const navigation = useMemo(
+    () => navFromProps ?? fallbackNavigation,
+    [navFromProps, fallbackNavigation]
+  );
+
   const { theme } = useTheme();
   const globalStyles = getStyles(theme);
-  const [searchQuery, setSearchQuery] = useState(""); //state of the search query
-  const navigation = useNavigation<DrawerNavigationProp<DrawerParamList>>();
-  const { validateRoomCode } = useRoomCodeValidation(); // hook to validate the code
+  const [searchQuery, setSearchQuery] = useState("");
+  const { validateRoomCode } = useRoomCodeValidation();
 
-  {
-    /* Function to change the screen and return the backend information on the node*/
-  }
   const findTheRoom = async (roomCode) => {
-    //validate the room code format
     const validationResult = helpervalideRoomCode(validateRoomCode, roomCode);
 
-    //Alert the user if the room code is invalid
     if (!validationResult.isValid) {
       alert(validationResult.errorMessage);
       return;
     }
 
-    //Get the node information
     const nodeInfo = await getRoomInfo(roomCode);
-
-    //Alert user if room is not found
-    if (nodeInfo === undefined) {
+    if (!nodeInfo) {
       alert("Room not found. Please check the room number and try again.");
       return;
     }
-    //navigate to indoor map
 
     helperNavigateToIndoorMap(navigation, nodeInfo);
   };
@@ -79,7 +82,7 @@ export default function FindRoom() {
     <View style={globalStyles.container}>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Find a Room</Text>
-        {/* Search bar */}
+
         <View style={styles.searchContainer}>
           <Ionicons
             name="search"
@@ -100,20 +103,18 @@ export default function FindRoom() {
             </TouchableOpacity>
           )}
         </View>
-        {/* Image at the center of the screen*/}
+
         <View style={styles.visual}>
           <Image
             source={require("../../assets/images/search.png")}
             style={{ width: "100%", height: "100%" }}
           />
         </View>
-        {/* Find a room button */}
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              findTheRoom(searchQuery);
-            }}
+            onPress={() => findTheRoom(searchQuery)}
           >
             <Text style={styles.buttonText}>Find the room</Text>
           </TouchableOpacity>
@@ -164,14 +165,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#f0f0f0",
     borderRadius: 10,
     marginTop: 20,
-  },
-  visualIcon: {
-    width: "50%",
-    height: "50%",
-    color: "rgba(145, 35, 55, 0.99)",
-    alignContent: "center",
-    justifyContent: "center",
-    borderRadius: 10,
   },
   button: {
     backgroundColor: "rgba(145, 35, 55, 0.99)",

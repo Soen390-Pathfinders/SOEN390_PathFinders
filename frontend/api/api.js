@@ -2,10 +2,12 @@ import axios from "axios";
 import { Platform } from "react-native";
 import Constants from "expo-constants";
 
+
 const LOCAL_IP = "YOUR_IP"; // CHANGE THIS to your machine’s IP
 
+
 // Check if the app is running on a simulator/emulator
-const isEmulator = false; //Change to false if using your physical device
+const isEmulator = true; //Change to false if using your physical device
 
 export const API_BASE_URL = isEmulator
   ? Platform.select({

@@ -1,3 +1,8 @@
 appId: host.exp.exponent
 ---
-#needs to be worked on but issue with calendar.
+- tapOn: "Show navigation menu"
+- tapOn: "Directions to next class"
+- tapOn: "DIRECTIONS TO NEXT CLASS"
+- tapOn:
+    id: "android:id/button1"
+- tapOn: "GO"

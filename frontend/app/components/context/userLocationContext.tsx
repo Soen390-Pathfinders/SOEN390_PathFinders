@@ -40,4 +40,7 @@ export const useLocation = () => {
     throw new Error("useLocation must be used within a LocationProvider");
   }
   return context;
+
 };
+export default useLocation;
+
