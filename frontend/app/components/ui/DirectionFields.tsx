@@ -60,6 +60,7 @@ export default function DirectionFields({
 
         {/* Current Location Button for Start */}
         <TouchableOpacity
+          testID="CurrentLocationButton"
           onPress={() => setToCurrentLocation("start")}
           style={styles.locationButton}
         >
@@ -90,7 +91,11 @@ export default function DirectionFields({
         />
 
         {/* GO Button instead of the current location button */}
-        <TouchableOpacity onPress={onGoPress} style={styles.goButton}>
+        <TouchableOpacity
+          onPress={onGoPress}
+          style={styles.goButton}
+          testID="GoButton"
+        >
           <Text style={styles.goButtonText}>GO</Text>
         </TouchableOpacity>
       </View>
@@ -99,6 +104,7 @@ export default function DirectionFields({
       <View style={styles.transportModeContainer}>
         {/* Walking Mode */}
         <TouchableOpacity
+          testID="WalkButton"
           style={[
             styles.iconButton,
             travelMode === "WALKING" && styles.iconButtonSelected,
@@ -119,6 +125,7 @@ export default function DirectionFields({
 
         {/* Driving Mode */}
         <TouchableOpacity
+          testID="DriveButton"
           style={[
             styles.iconButton,
             travelMode === "DRIVING" && styles.iconButtonSelected,
@@ -139,6 +146,7 @@ export default function DirectionFields({
 
         {/* Transit Mode */}
         <TouchableOpacity
+          testID="TransitButton"
           style={[
             styles.iconButton,
             travelMode === "TRANSIT" && styles.iconButtonSelected,
